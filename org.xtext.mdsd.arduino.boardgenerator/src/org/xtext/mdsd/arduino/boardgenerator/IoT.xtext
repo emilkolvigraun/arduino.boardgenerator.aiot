@@ -1,0 +1,9 @@
+grammar org.xtext.mdsd.arduino.boardgenerator.IoT with org.eclipse.xtext.common.Terminals
+
+generate ioT "http://www.xtext.org/mdsd/arduino/boardgenerator/IoT"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
