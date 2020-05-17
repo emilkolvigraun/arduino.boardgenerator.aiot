@@ -26,5 +26,6 @@ Export-Package: org.xtext.mdsd.arduino.boardgenerator,
  org.xtext.mdsd.arduino.boardgenerator.ioT.util,
  org.xtext.mdsd.arduino.boardgenerator.generator,
  org.xtext.mdsd.arduino.boardgenerator.serializer,
- org.xtext.mdsd.arduino.boardgenerator.parser.antlr
+ org.xtext.mdsd.arduino.boardgenerator.parser.antlr,
+ org.xtext.mdsd.arduino.boardgenerator.parser.antlr.lexer
 Import-Package: org.apache.log4j

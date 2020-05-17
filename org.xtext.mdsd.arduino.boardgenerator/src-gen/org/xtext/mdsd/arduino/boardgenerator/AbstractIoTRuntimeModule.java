@@ -44,7 +44,7 @@ import org.eclipse.xtext.validation.ConfigurableIssueCodesProvider;
 import org.xtext.mdsd.arduino.boardgenerator.generator.IoTGenerator;
 import org.xtext.mdsd.arduino.boardgenerator.parser.antlr.IoTAntlrTokenFileProvider;
 import org.xtext.mdsd.arduino.boardgenerator.parser.antlr.IoTParser;
-import org.xtext.mdsd.arduino.boardgenerator.parser.antlr.internal.InternalIoTLexer;
+import org.xtext.mdsd.arduino.boardgenerator.parser.antlr.lexer.InternalIoTLexer;
 import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTScopeProvider;
 import org.xtext.mdsd.arduino.boardgenerator.serializer.IoTSemanticSequencer;
 import org.xtext.mdsd.arduino.boardgenerator.serializer.IoTSyntacticSequencer;

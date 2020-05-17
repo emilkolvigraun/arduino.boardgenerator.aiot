@@ -7,10 +7,203 @@
   <genPackages prefix="IoT" basePackage="org.xtext.mdsd.arduino.boardgenerator" disposableProviderFactory="true"
       fileExtensions="aiot" ecorePackage="IoT.ecore#/">
     <genClasses ecoreClass="IoT.ecore#//Model">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/greetings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/include"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/channel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/abstractBoard"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/board"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//Greeting">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Greeting/name"/>
+    <genClasses ecoreClass="IoT.ecore#//Include">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Include/path"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Channel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Channel/channeltype"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Channel/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Channel/config"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//ChannelType"/>
+    <genClasses ecoreClass="IoT.ecore#//ChannelConfig"/>
+    <genClasses ecoreClass="IoT.ecore#//Wifi">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/ssid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/pass"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Serial">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Serial/baud"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Serial/stop"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//stopChar"/>
+    <genClasses ecoreClass="IoT.ecore#//MqttClient">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/broker"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/client"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/sub"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Board">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Board/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Board/sensors"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//NewBoard">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//NewBoard/version"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//BoardVersion">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BoardVersion/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BoardVersion/model"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//ExtendsBoard">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ExtendsBoard/abstractBoard"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//AbstractBoard">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//AbstractBoard/board"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Sensor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Sensor/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/sensortype"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/vars"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/sampler"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/output"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//SensorType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SensorType/sensor"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//ExternalSensor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ExternalSensor/pins"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//OnboardSensor"/>
+    <genClasses ecoreClass="IoT.ecore#//SensorVariables">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SensorVariables/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorVariables/ids"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Variable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Variable/name"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Sampler"/>
+    <genClasses ecoreClass="IoT.ecore#//Command">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Command/command"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Frequency">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Frequency/frequency"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Frequency/resolution"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Resolution"/>
+    <genClasses ecoreClass="IoT.ecore#//SensorOutput">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorOutput/output"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorOutput/channel"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//DataOutput">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//DataOutput/sensorvar"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//DataOutput/pipeline"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Pipeline">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Pipeline/next"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//TuplePipeline">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//TuplePipeline/expression"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//MapPipeline"/>
+    <genClasses ecoreClass="IoT.ecore#//WindowPipeline"/>
+    <genClasses ecoreClass="IoT.ecore#//ExecutePipeline"/>
+    <genClasses ecoreClass="IoT.ecore#//Expression"/>
+    <genClasses ecoreClass="IoT.ecore#//Reference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Reference/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//StringLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//StringLiteral/str"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//NumberLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//NumberLiteral/numb"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//BooleanLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BooleanLiteral/bool"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//WifiConfig"/>
+    <genClasses ecoreClass="IoT.ecore#//SerialConfig"/>
+    <genClasses ecoreClass="IoT.ecore#//MQTT"/>
+    <genClasses ecoreClass="IoT.ecore#//Char">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Char/name"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Byte">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Byte/name"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Seconds"/>
+    <genClasses ecoreClass="IoT.ecore#//Millis"/>
+    <genClasses ecoreClass="IoT.ecore#//Micros"/>
+    <genClasses ecoreClass="IoT.ecore#//Filter"/>
+    <genClasses ecoreClass="IoT.ecore#//Abs"/>
+    <genClasses ecoreClass="IoT.ecore#//Map">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Map/expression"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Map/output"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Window">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Window/width"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Window/execute"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Reduce"/>
+    <genClasses ecoreClass="IoT.ecore#//Mean"/>
+    <genClasses ecoreClass="IoT.ecore#//Median"/>
+    <genClasses ecoreClass="IoT.ecore#//StDev"/>
+    <genClasses ecoreClass="IoT.ecore#//Min"/>
+    <genClasses ecoreClass="IoT.ecore#//Max"/>
+    <genClasses ecoreClass="IoT.ecore#//Count"/>
+    <genClasses ecoreClass="IoT.ecore#//Conditional">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Conditional/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Conditional/correct"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Conditional/incorrect"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Or">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Or/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Or/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//And">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//And/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//And/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Equal">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Equal/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Equal/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Unequal">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Unequal/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Unequal/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//LessThan">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//LessThan/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//LessThan/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//LessThanEqual">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//LessThanEqual/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//LessThanEqual/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//GreaterThan">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//GreaterThan/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//GreaterThan/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//GreaterThanEqual">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//GreaterThanEqual/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//GreaterThanEqual/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Plus">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Plus/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Plus/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Minus">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Minus/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Minus/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Mul">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Mul/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Mul/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Div">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Div/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Div/right"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Negation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Negation/value"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Exponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Exponent/base"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Exponent/power"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Not">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Not/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

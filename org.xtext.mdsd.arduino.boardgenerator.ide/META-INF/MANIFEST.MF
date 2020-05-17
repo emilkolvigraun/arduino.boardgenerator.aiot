@@ -12,4 +12,5 @@ Require-Bundle: org.xtext.mdsd.arduino.boardgenerator,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr.internal,
- org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr
+ org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr,
+ org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr.lexer

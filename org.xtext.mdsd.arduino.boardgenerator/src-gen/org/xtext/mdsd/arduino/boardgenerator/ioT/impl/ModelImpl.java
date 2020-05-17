@@ -17,7 +17,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Greeting;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
 
@@ -29,7 +32,10 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getGreetings <em>Greetings</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getInclude <em>Include</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getChannel <em>Channel</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getAbstractBoard <em>Abstract Board</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getBoard <em>Board</em>}</li>
  * </ul>
  *
  * @generated
@@ -37,14 +43,44 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model
 {
   /**
-   * The cached value of the '{@link #getGreetings() <em>Greetings</em>}' containment reference list.
+   * The cached value of the '{@link #getInclude() <em>Include</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getGreetings()
+   * @see #getInclude()
    * @generated
    * @ordered
    */
-  protected EList<Greeting> greetings;
+  protected EList<Include> include;
+
+  /**
+   * The cached value of the '{@link #getChannel() <em>Channel</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getChannel()
+   * @generated
+   * @ordered
+   */
+  protected EList<Channel> channel;
+
+  /**
+   * The cached value of the '{@link #getAbstractBoard() <em>Abstract Board</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAbstractBoard()
+   * @generated
+   * @ordered
+   */
+  protected EList<AbstractBoard> abstractBoard;
+
+  /**
+   * The cached value of the '{@link #getBoard() <em>Board</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBoard()
+   * @generated
+   * @ordered
+   */
+  protected EList<Board> board;
 
   /**
    * <!-- begin-user-doc -->
@@ -73,13 +109,58 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
-  public EList<Greeting> getGreetings()
+  public EList<Include> getInclude()
   {
-    if (greetings == null)
+    if (include == null)
     {
-      greetings = new EObjectContainmentEList<Greeting>(Greeting.class, this, IoTPackage.MODEL__GREETINGS);
+      include = new EObjectContainmentEList<Include>(Include.class, this, IoTPackage.MODEL__INCLUDE);
     }
-    return greetings;
+    return include;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<Channel> getChannel()
+  {
+    if (channel == null)
+    {
+      channel = new EObjectContainmentEList<Channel>(Channel.class, this, IoTPackage.MODEL__CHANNEL);
+    }
+    return channel;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<AbstractBoard> getAbstractBoard()
+  {
+    if (abstractBoard == null)
+    {
+      abstractBoard = new EObjectContainmentEList<AbstractBoard>(AbstractBoard.class, this, IoTPackage.MODEL__ABSTRACT_BOARD);
+    }
+    return abstractBoard;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<Board> getBoard()
+  {
+    if (board == null)
+    {
+      board = new EObjectContainmentEList<Board>(Board.class, this, IoTPackage.MODEL__BOARD);
+    }
+    return board;
   }
 
   /**
@@ -92,8 +173,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__GREETINGS:
-        return ((InternalEList<?>)getGreetings()).basicRemove(otherEnd, msgs);
+      case IoTPackage.MODEL__INCLUDE:
+        return ((InternalEList<?>)getInclude()).basicRemove(otherEnd, msgs);
+      case IoTPackage.MODEL__CHANNEL:
+        return ((InternalEList<?>)getChannel()).basicRemove(otherEnd, msgs);
+      case IoTPackage.MODEL__ABSTRACT_BOARD:
+        return ((InternalEList<?>)getAbstractBoard()).basicRemove(otherEnd, msgs);
+      case IoTPackage.MODEL__BOARD:
+        return ((InternalEList<?>)getBoard()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -108,8 +195,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__GREETINGS:
-        return getGreetings();
+      case IoTPackage.MODEL__INCLUDE:
+        return getInclude();
+      case IoTPackage.MODEL__CHANNEL:
+        return getChannel();
+      case IoTPackage.MODEL__ABSTRACT_BOARD:
+        return getAbstractBoard();
+      case IoTPackage.MODEL__BOARD:
+        return getBoard();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -125,9 +218,21 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__GREETINGS:
-        getGreetings().clear();
-        getGreetings().addAll((Collection<? extends Greeting>)newValue);
+      case IoTPackage.MODEL__INCLUDE:
+        getInclude().clear();
+        getInclude().addAll((Collection<? extends Include>)newValue);
+        return;
+      case IoTPackage.MODEL__CHANNEL:
+        getChannel().clear();
+        getChannel().addAll((Collection<? extends Channel>)newValue);
+        return;
+      case IoTPackage.MODEL__ABSTRACT_BOARD:
+        getAbstractBoard().clear();
+        getAbstractBoard().addAll((Collection<? extends AbstractBoard>)newValue);
+        return;
+      case IoTPackage.MODEL__BOARD:
+        getBoard().clear();
+        getBoard().addAll((Collection<? extends Board>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -143,8 +248,17 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__GREETINGS:
-        getGreetings().clear();
+      case IoTPackage.MODEL__INCLUDE:
+        getInclude().clear();
+        return;
+      case IoTPackage.MODEL__CHANNEL:
+        getChannel().clear();
+        return;
+      case IoTPackage.MODEL__ABSTRACT_BOARD:
+        getAbstractBoard().clear();
+        return;
+      case IoTPackage.MODEL__BOARD:
+        getBoard().clear();
         return;
     }
     super.eUnset(featureID);
@@ -160,8 +274,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__GREETINGS:
-        return greetings != null && !greetings.isEmpty();
+      case IoTPackage.MODEL__INCLUDE:
+        return include != null && !include.isEmpty();
+      case IoTPackage.MODEL__CHANNEL:
+        return channel != null && !channel.isEmpty();
+      case IoTPackage.MODEL__ABSTRACT_BOARD:
+        return abstractBoard != null && !abstractBoard.isEmpty();
+      case IoTPackage.MODEL__BOARD:
+        return board != null && !board.isEmpty();
     }
     return super.eIsSet(featureID);
   }

@@ -4,10 +4,16 @@
 package org.xtext.mdsd.arduino.boardgenerator.ui
 
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
+import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration
+import org.xtext.mdsd.arduino.bordgenerator.ui.syntaxColoring.IoTHighlightingConfiguration
 
-/**
+/** 
  * Use this class to register components to be used within the Eclipse IDE.
  */
-@FinalFieldsConstructor
+@FinalFieldsConstructor 
 class IoTUiModule extends AbstractIoTUiModule {
+	
+	def Class<? extends IHighlightingConfiguration> bindIHighlightingConfiguration(){
+		return IoTHighlightingConfiguration;
+	}
 }

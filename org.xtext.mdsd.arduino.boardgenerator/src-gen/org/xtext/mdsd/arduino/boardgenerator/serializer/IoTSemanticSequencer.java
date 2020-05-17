@@ -14,9 +14,64 @@ import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Greeting;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Micros;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Millis;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Not;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.NumberLiteral;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Window;
 import org.xtext.mdsd.arduino.boardgenerator.services.IoTGrammarAccess;
 
 @SuppressWarnings("all")
@@ -33,12 +88,208 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
 		if (epackage == IoTPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
-			case IoTPackage.GREETING:
-				sequence_Greeting(context, (Greeting) semanticObject); 
+			case IoTPackage.ABS:
+				if (rule == grammarAccess.getPipelineRule()) {
+					sequence_Pipeline_TuplePipeline(context, (Abs) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getTuplePipelineRule()) {
+					sequence_TuplePipeline(context, (Abs) semanticObject); 
+					return; 
+				}
+				else break;
+			case IoTPackage.ABSTRACT_BOARD:
+				sequence_AbstractBoard(context, (AbstractBoard) semanticObject); 
+				return; 
+			case IoTPackage.AND:
+				sequence_And(context, (And) semanticObject); 
+				return; 
+			case IoTPackage.BOARD_VERSION:
+				sequence_BoardVersion(context, (BoardVersion) semanticObject); 
+				return; 
+			case IoTPackage.BOOLEAN_LITERAL:
+				sequence_BooleanLiteral(context, (BooleanLiteral) semanticObject); 
+				return; 
+			case IoTPackage.BYTE:
+				sequence_stopChar(context, (org.xtext.mdsd.arduino.boardgenerator.ioT.Byte) semanticObject); 
+				return; 
+			case IoTPackage.CHANNEL:
+				sequence_Channel(context, (Channel) semanticObject); 
+				return; 
+			case IoTPackage.CHAR:
+				sequence_stopChar(context, (Char) semanticObject); 
+				return; 
+			case IoTPackage.COMMAND:
+				sequence_Command(context, (Command) semanticObject); 
+				return; 
+			case IoTPackage.CONDITIONAL:
+				sequence_Conditional(context, (Conditional) semanticObject); 
+				return; 
+			case IoTPackage.COUNT:
+				sequence_ExecutePipeline(context, (Count) semanticObject); 
+				return; 
+			case IoTPackage.DATA_OUTPUT:
+				sequence_DataOutput(context, (DataOutput) semanticObject); 
+				return; 
+			case IoTPackage.DIV:
+				sequence_MulDiv(context, (Div) semanticObject); 
+				return; 
+			case IoTPackage.EQUAL:
+				sequence_Equality(context, (Equal) semanticObject); 
+				return; 
+			case IoTPackage.EXPONENT:
+				sequence_Exponent(context, (Exponent) semanticObject); 
+				return; 
+			case IoTPackage.EXTENDS_BOARD:
+				sequence_ExtendsBoard(context, (ExtendsBoard) semanticObject); 
+				return; 
+			case IoTPackage.EXTERNAL_SENSOR:
+				sequence_ExternalSensor(context, (ExternalSensor) semanticObject); 
+				return; 
+			case IoTPackage.FILTER:
+				if (rule == grammarAccess.getPipelineRule()) {
+					sequence_Pipeline_TuplePipeline(context, (Filter) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getTuplePipelineRule()) {
+					sequence_TuplePipeline(context, (Filter) semanticObject); 
+					return; 
+				}
+				else break;
+			case IoTPackage.FREQUENCY:
+				sequence_Frequency(context, (Frequency) semanticObject); 
+				return; 
+			case IoTPackage.GREATER_THAN:
+				sequence_Comparison(context, (GreaterThan) semanticObject); 
+				return; 
+			case IoTPackage.GREATER_THAN_EQUAL:
+				sequence_Comparison(context, (GreaterThanEqual) semanticObject); 
+				return; 
+			case IoTPackage.INCLUDE:
+				sequence_Include(context, (Include) semanticObject); 
+				return; 
+			case IoTPackage.LESS_THAN:
+				sequence_Comparison(context, (LessThan) semanticObject); 
+				return; 
+			case IoTPackage.LESS_THAN_EQUAL:
+				sequence_Comparison(context, (LessThanEqual) semanticObject); 
+				return; 
+			case IoTPackage.MQTT:
+				sequence_ChannelType(context, (MQTT) semanticObject); 
+				return; 
+			case IoTPackage.MAP:
+				if (rule == grammarAccess.getMapPipelineRule()) {
+					sequence_MapPipeline(context, (Map) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getPipelineRule()) {
+					sequence_MapPipeline_Pipeline(context, (Map) semanticObject); 
+					return; 
+				}
+				else break;
+			case IoTPackage.MAX:
+				sequence_ExecutePipeline(context, (Max) semanticObject); 
+				return; 
+			case IoTPackage.MEAN:
+				sequence_ExecutePipeline(context, (Mean) semanticObject); 
+				return; 
+			case IoTPackage.MEDIAN:
+				sequence_ExecutePipeline(context, (Median) semanticObject); 
+				return; 
+			case IoTPackage.MICROS:
+				sequence_Resolution(context, (Micros) semanticObject); 
+				return; 
+			case IoTPackage.MILLIS:
+				sequence_Resolution(context, (Millis) semanticObject); 
+				return; 
+			case IoTPackage.MIN:
+				sequence_ExecutePipeline(context, (Min) semanticObject); 
+				return; 
+			case IoTPackage.MINUS:
+				sequence_SubAdd(context, (Minus) semanticObject); 
 				return; 
 			case IoTPackage.MODEL:
 				sequence_Model(context, (Model) semanticObject); 
 				return; 
+			case IoTPackage.MQTT_CLIENT:
+				sequence_MqttClient(context, (MqttClient) semanticObject); 
+				return; 
+			case IoTPackage.MUL:
+				sequence_MulDiv(context, (Mul) semanticObject); 
+				return; 
+			case IoTPackage.NEGATION:
+				sequence_Negation(context, (Negation) semanticObject); 
+				return; 
+			case IoTPackage.NEW_BOARD:
+				sequence_NewBoard(context, (NewBoard) semanticObject); 
+				return; 
+			case IoTPackage.NOT:
+				sequence_Not(context, (Not) semanticObject); 
+				return; 
+			case IoTPackage.NUMBER_LITERAL:
+				sequence_NumberLiteral(context, (NumberLiteral) semanticObject); 
+				return; 
+			case IoTPackage.ONBOARD_SENSOR:
+				sequence_OnboardSensor(context, (OnboardSensor) semanticObject); 
+				return; 
+			case IoTPackage.OR:
+				sequence_Or(context, (Or) semanticObject); 
+				return; 
+			case IoTPackage.PLUS:
+				sequence_SubAdd(context, (Plus) semanticObject); 
+				return; 
+			case IoTPackage.REDUCE:
+				sequence_ExecutePipeline(context, (Reduce) semanticObject); 
+				return; 
+			case IoTPackage.REFERENCE:
+				sequence_Reference(context, (Reference) semanticObject); 
+				return; 
+			case IoTPackage.SECONDS:
+				sequence_Resolution(context, (Seconds) semanticObject); 
+				return; 
+			case IoTPackage.SENSOR:
+				sequence_Sensor(context, (Sensor) semanticObject); 
+				return; 
+			case IoTPackage.SENSOR_OUTPUT:
+				sequence_SensorOutput(context, (SensorOutput) semanticObject); 
+				return; 
+			case IoTPackage.SENSOR_VARIABLES:
+				sequence_SensorVariables(context, (SensorVariables) semanticObject); 
+				return; 
+			case IoTPackage.SERIAL:
+				sequence_Serial(context, (Serial) semanticObject); 
+				return; 
+			case IoTPackage.SERIAL_CONFIG:
+				sequence_ChannelType(context, (SerialConfig) semanticObject); 
+				return; 
+			case IoTPackage.ST_DEV:
+				sequence_ExecutePipeline(context, (StDev) semanticObject); 
+				return; 
+			case IoTPackage.STRING_LITERAL:
+				sequence_StringLiteral(context, (StringLiteral) semanticObject); 
+				return; 
+			case IoTPackage.UNEQUAL:
+				sequence_Equality(context, (Unequal) semanticObject); 
+				return; 
+			case IoTPackage.VARIABLE:
+				sequence_Variable(context, (Variable) semanticObject); 
+				return; 
+			case IoTPackage.WIFI:
+				sequence_Wifi(context, (Wifi) semanticObject); 
+				return; 
+			case IoTPackage.WIFI_CONFIG:
+				sequence_ChannelType(context, (WifiConfig) semanticObject); 
+				return; 
+			case IoTPackage.WINDOW:
+				if (rule == grammarAccess.getPipelineRule()) {
+					sequence_Pipeline_WindowPipeline(context, (Window) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getWindowPipelineRule()) {
+					sequence_WindowPipeline(context, (Window) semanticObject); 
+					return; 
+				}
+				else break;
 			}
 		if (errorAcceptor != null)
 			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
@@ -46,19 +297,757 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     Greeting returns Greeting
+	 *     AbstractBoard returns AbstractBoard
 	 *
 	 * Constraint:
-	 *     name=ID
+	 *     board=NewBoard
 	 */
-	protected void sequence_Greeting(ISerializationContext context, Greeting semanticObject) {
+	protected void sequence_AbstractBoard(ISerializationContext context, AbstractBoard semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.GREETING__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.GREETING__NAME));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.ABSTRACT_BOARD__BOARD) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.ABSTRACT_BOARD__BOARD));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getAbstractBoardAccess().getBoardNewBoardParserRuleCall_2_0(), semanticObject.getBoard());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns And
+	 *     Conditional returns And
+	 *     Conditional.Conditional_1_0 returns And
+	 *     Or returns And
+	 *     Or.Or_1_0 returns And
+	 *     And returns And
+	 *     And.And_1_0 returns And
+	 *     Equality returns And
+	 *     Equality.Equal_1_0_0 returns And
+	 *     Equality.Unequal_1_1_0 returns And
+	 *     Comparison returns And
+	 *     Comparison.LessThan_1_0_0 returns And
+	 *     Comparison.LessThanEqual_1_1_0 returns And
+	 *     Comparison.GreaterThan_1_2_0 returns And
+	 *     Comparison.GreaterThanEqual_1_3_0 returns And
+	 *     SubAdd returns And
+	 *     SubAdd.Plus_1_0_0 returns And
+	 *     SubAdd.Minus_1_1_0 returns And
+	 *     MulDiv returns And
+	 *     MulDiv.Mul_1_0_0 returns And
+	 *     MulDiv.Div_1_1_0 returns And
+	 *     Negation returns And
+	 *     Exponent returns And
+	 *     Exponent.Exponent_1_0 returns And
+	 *     Not returns And
+	 *     Primary returns And
+	 *
+	 * Constraint:
+	 *     (left=And_And_1_0 right=And)
+	 */
+	protected void sequence_And(ISerializationContext context, And semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.AND__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.AND__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.AND__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.AND__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getAndAccess().getAndLeftAction_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getAndAccess().getRightAndParserRuleCall_1_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     BoardVersion returns BoardVersion
+	 *
+	 * Constraint:
+	 *     (type=ID model=ID)
+	 */
+	protected void sequence_BoardVersion(ISerializationContext context, BoardVersion semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.BOARD_VERSION__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.BOARD_VERSION__TYPE));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.BOARD_VERSION__MODEL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.BOARD_VERSION__MODEL));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getBoardVersionAccess().getTypeIDTerminalRuleCall_1_0(), semanticObject.getType());
+		feeder.accept(grammarAccess.getBoardVersionAccess().getModelIDTerminalRuleCall_3_0(), semanticObject.getModel());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns BooleanLiteral
+	 *     Conditional returns BooleanLiteral
+	 *     Conditional.Conditional_1_0 returns BooleanLiteral
+	 *     Or returns BooleanLiteral
+	 *     Or.Or_1_0 returns BooleanLiteral
+	 *     And returns BooleanLiteral
+	 *     And.And_1_0 returns BooleanLiteral
+	 *     Equality returns BooleanLiteral
+	 *     Equality.Equal_1_0_0 returns BooleanLiteral
+	 *     Equality.Unequal_1_1_0 returns BooleanLiteral
+	 *     Comparison returns BooleanLiteral
+	 *     Comparison.LessThan_1_0_0 returns BooleanLiteral
+	 *     Comparison.LessThanEqual_1_1_0 returns BooleanLiteral
+	 *     Comparison.GreaterThan_1_2_0 returns BooleanLiteral
+	 *     Comparison.GreaterThanEqual_1_3_0 returns BooleanLiteral
+	 *     SubAdd returns BooleanLiteral
+	 *     SubAdd.Plus_1_0_0 returns BooleanLiteral
+	 *     SubAdd.Minus_1_1_0 returns BooleanLiteral
+	 *     MulDiv returns BooleanLiteral
+	 *     MulDiv.Mul_1_0_0 returns BooleanLiteral
+	 *     MulDiv.Div_1_1_0 returns BooleanLiteral
+	 *     Negation returns BooleanLiteral
+	 *     Exponent returns BooleanLiteral
+	 *     Exponent.Exponent_1_0 returns BooleanLiteral
+	 *     Not returns BooleanLiteral
+	 *     Primary returns BooleanLiteral
+	 *     BooleanLiteral returns BooleanLiteral
+	 *
+	 * Constraint:
+	 *     bool=BOOLEAN
+	 */
+	protected void sequence_BooleanLiteral(ISerializationContext context, BooleanLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.BOOLEAN_LITERAL__BOOL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.BOOLEAN_LITERAL__BOOL));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getBooleanLiteralAccess().getBoolBOOLEANTerminalRuleCall_0(), semanticObject.isBool());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ChannelType returns MQTT
+	 *
+	 * Constraint:
+	 *     {MQTT}
+	 */
+	protected void sequence_ChannelType(ISerializationContext context, MQTT semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ChannelType returns SerialConfig
+	 *
+	 * Constraint:
+	 *     {SerialConfig}
+	 */
+	protected void sequence_ChannelType(ISerializationContext context, SerialConfig semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ChannelType returns WifiConfig
+	 *
+	 * Constraint:
+	 *     {WifiConfig}
+	 */
+	protected void sequence_ChannelType(ISerializationContext context, WifiConfig semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Channel returns Channel
+	 *
+	 * Constraint:
+	 *     (channeltype=ChannelType name=ID config=ChannelConfig?)
+	 */
+	protected void sequence_Channel(ISerializationContext context, Channel semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Sampler returns Command
+	 *     Command returns Command
+	 *
+	 * Constraint:
+	 *     command=STRING
+	 */
+	protected void sequence_Command(ISerializationContext context, Command semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.COMMAND__COMMAND) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.COMMAND__COMMAND));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getCommandAccess().getCommandSTRINGTerminalRuleCall_1_0(), semanticObject.getCommand());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns GreaterThan
+	 *     Conditional returns GreaterThan
+	 *     Conditional.Conditional_1_0 returns GreaterThan
+	 *     Or returns GreaterThan
+	 *     Or.Or_1_0 returns GreaterThan
+	 *     And returns GreaterThan
+	 *     And.And_1_0 returns GreaterThan
+	 *     Equality returns GreaterThan
+	 *     Equality.Equal_1_0_0 returns GreaterThan
+	 *     Equality.Unequal_1_1_0 returns GreaterThan
+	 *     Comparison returns GreaterThan
+	 *     Comparison.LessThan_1_0_0 returns GreaterThan
+	 *     Comparison.LessThanEqual_1_1_0 returns GreaterThan
+	 *     Comparison.GreaterThan_1_2_0 returns GreaterThan
+	 *     Comparison.GreaterThanEqual_1_3_0 returns GreaterThan
+	 *     SubAdd returns GreaterThan
+	 *     SubAdd.Plus_1_0_0 returns GreaterThan
+	 *     SubAdd.Minus_1_1_0 returns GreaterThan
+	 *     MulDiv returns GreaterThan
+	 *     MulDiv.Mul_1_0_0 returns GreaterThan
+	 *     MulDiv.Div_1_1_0 returns GreaterThan
+	 *     Negation returns GreaterThan
+	 *     Exponent returns GreaterThan
+	 *     Exponent.Exponent_1_0 returns GreaterThan
+	 *     Not returns GreaterThan
+	 *     Primary returns GreaterThan
+	 *
+	 * Constraint:
+	 *     (left=Comparison_GreaterThan_1_2_0 right=SubAdd)
+	 */
+	protected void sequence_Comparison(ISerializationContext context, GreaterThan semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.GREATER_THAN__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.GREATER_THAN__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.GREATER_THAN__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.GREATER_THAN__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getComparisonAccess().getGreaterThanLeftAction_1_2_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getComparisonAccess().getRightSubAddParserRuleCall_1_2_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns GreaterThanEqual
+	 *     Conditional returns GreaterThanEqual
+	 *     Conditional.Conditional_1_0 returns GreaterThanEqual
+	 *     Or returns GreaterThanEqual
+	 *     Or.Or_1_0 returns GreaterThanEqual
+	 *     And returns GreaterThanEqual
+	 *     And.And_1_0 returns GreaterThanEqual
+	 *     Equality returns GreaterThanEqual
+	 *     Equality.Equal_1_0_0 returns GreaterThanEqual
+	 *     Equality.Unequal_1_1_0 returns GreaterThanEqual
+	 *     Comparison returns GreaterThanEqual
+	 *     Comparison.LessThan_1_0_0 returns GreaterThanEqual
+	 *     Comparison.LessThanEqual_1_1_0 returns GreaterThanEqual
+	 *     Comparison.GreaterThan_1_2_0 returns GreaterThanEqual
+	 *     Comparison.GreaterThanEqual_1_3_0 returns GreaterThanEqual
+	 *     SubAdd returns GreaterThanEqual
+	 *     SubAdd.Plus_1_0_0 returns GreaterThanEqual
+	 *     SubAdd.Minus_1_1_0 returns GreaterThanEqual
+	 *     MulDiv returns GreaterThanEqual
+	 *     MulDiv.Mul_1_0_0 returns GreaterThanEqual
+	 *     MulDiv.Div_1_1_0 returns GreaterThanEqual
+	 *     Negation returns GreaterThanEqual
+	 *     Exponent returns GreaterThanEqual
+	 *     Exponent.Exponent_1_0 returns GreaterThanEqual
+	 *     Not returns GreaterThanEqual
+	 *     Primary returns GreaterThanEqual
+	 *
+	 * Constraint:
+	 *     (left=Comparison_GreaterThanEqual_1_3_0 right=SubAdd)
+	 */
+	protected void sequence_Comparison(ISerializationContext context, GreaterThanEqual semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.GREATER_THAN_EQUAL__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.GREATER_THAN_EQUAL__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.GREATER_THAN_EQUAL__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.GREATER_THAN_EQUAL__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getComparisonAccess().getGreaterThanEqualLeftAction_1_3_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getComparisonAccess().getRightSubAddParserRuleCall_1_3_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns LessThan
+	 *     Conditional returns LessThan
+	 *     Conditional.Conditional_1_0 returns LessThan
+	 *     Or returns LessThan
+	 *     Or.Or_1_0 returns LessThan
+	 *     And returns LessThan
+	 *     And.And_1_0 returns LessThan
+	 *     Equality returns LessThan
+	 *     Equality.Equal_1_0_0 returns LessThan
+	 *     Equality.Unequal_1_1_0 returns LessThan
+	 *     Comparison returns LessThan
+	 *     Comparison.LessThan_1_0_0 returns LessThan
+	 *     Comparison.LessThanEqual_1_1_0 returns LessThan
+	 *     Comparison.GreaterThan_1_2_0 returns LessThan
+	 *     Comparison.GreaterThanEqual_1_3_0 returns LessThan
+	 *     SubAdd returns LessThan
+	 *     SubAdd.Plus_1_0_0 returns LessThan
+	 *     SubAdd.Minus_1_1_0 returns LessThan
+	 *     MulDiv returns LessThan
+	 *     MulDiv.Mul_1_0_0 returns LessThan
+	 *     MulDiv.Div_1_1_0 returns LessThan
+	 *     Negation returns LessThan
+	 *     Exponent returns LessThan
+	 *     Exponent.Exponent_1_0 returns LessThan
+	 *     Not returns LessThan
+	 *     Primary returns LessThan
+	 *
+	 * Constraint:
+	 *     (left=Comparison_LessThan_1_0_0 right=SubAdd)
+	 */
+	protected void sequence_Comparison(ISerializationContext context, LessThan semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.LESS_THAN__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.LESS_THAN__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.LESS_THAN__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.LESS_THAN__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getComparisonAccess().getLessThanLeftAction_1_0_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getComparisonAccess().getRightSubAddParserRuleCall_1_0_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns LessThanEqual
+	 *     Conditional returns LessThanEqual
+	 *     Conditional.Conditional_1_0 returns LessThanEqual
+	 *     Or returns LessThanEqual
+	 *     Or.Or_1_0 returns LessThanEqual
+	 *     And returns LessThanEqual
+	 *     And.And_1_0 returns LessThanEqual
+	 *     Equality returns LessThanEqual
+	 *     Equality.Equal_1_0_0 returns LessThanEqual
+	 *     Equality.Unequal_1_1_0 returns LessThanEqual
+	 *     Comparison returns LessThanEqual
+	 *     Comparison.LessThan_1_0_0 returns LessThanEqual
+	 *     Comparison.LessThanEqual_1_1_0 returns LessThanEqual
+	 *     Comparison.GreaterThan_1_2_0 returns LessThanEqual
+	 *     Comparison.GreaterThanEqual_1_3_0 returns LessThanEqual
+	 *     SubAdd returns LessThanEqual
+	 *     SubAdd.Plus_1_0_0 returns LessThanEqual
+	 *     SubAdd.Minus_1_1_0 returns LessThanEqual
+	 *     MulDiv returns LessThanEqual
+	 *     MulDiv.Mul_1_0_0 returns LessThanEqual
+	 *     MulDiv.Div_1_1_0 returns LessThanEqual
+	 *     Negation returns LessThanEqual
+	 *     Exponent returns LessThanEqual
+	 *     Exponent.Exponent_1_0 returns LessThanEqual
+	 *     Not returns LessThanEqual
+	 *     Primary returns LessThanEqual
+	 *
+	 * Constraint:
+	 *     (left=Comparison_LessThanEqual_1_1_0 right=SubAdd)
+	 */
+	protected void sequence_Comparison(ISerializationContext context, LessThanEqual semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.LESS_THAN_EQUAL__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.LESS_THAN_EQUAL__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.LESS_THAN_EQUAL__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.LESS_THAN_EQUAL__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getComparisonAccess().getLessThanEqualLeftAction_1_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getComparisonAccess().getRightSubAddParserRuleCall_1_1_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Conditional
+	 *     Conditional returns Conditional
+	 *     Conditional.Conditional_1_0 returns Conditional
+	 *     Or returns Conditional
+	 *     Or.Or_1_0 returns Conditional
+	 *     And returns Conditional
+	 *     And.And_1_0 returns Conditional
+	 *     Equality returns Conditional
+	 *     Equality.Equal_1_0_0 returns Conditional
+	 *     Equality.Unequal_1_1_0 returns Conditional
+	 *     Comparison returns Conditional
+	 *     Comparison.LessThan_1_0_0 returns Conditional
+	 *     Comparison.LessThanEqual_1_1_0 returns Conditional
+	 *     Comparison.GreaterThan_1_2_0 returns Conditional
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Conditional
+	 *     SubAdd returns Conditional
+	 *     SubAdd.Plus_1_0_0 returns Conditional
+	 *     SubAdd.Minus_1_1_0 returns Conditional
+	 *     MulDiv returns Conditional
+	 *     MulDiv.Mul_1_0_0 returns Conditional
+	 *     MulDiv.Div_1_1_0 returns Conditional
+	 *     Negation returns Conditional
+	 *     Exponent returns Conditional
+	 *     Exponent.Exponent_1_0 returns Conditional
+	 *     Not returns Conditional
+	 *     Primary returns Conditional
+	 *
+	 * Constraint:
+	 *     (condition=Conditional_Conditional_1_0 correct=Conditional incorrect=Conditional)
+	 */
+	protected void sequence_Conditional(ISerializationContext context, Conditional semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.CONDITIONAL__CONDITION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.CONDITIONAL__CONDITION));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.CONDITIONAL__CORRECT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.CONDITIONAL__CORRECT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.CONDITIONAL__INCORRECT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.CONDITIONAL__INCORRECT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getConditionalAccess().getConditionalConditionAction_1_0(), semanticObject.getCondition());
+		feeder.accept(grammarAccess.getConditionalAccess().getCorrectConditionalParserRuleCall_1_2_0(), semanticObject.getCorrect());
+		feeder.accept(grammarAccess.getConditionalAccess().getIncorrectConditionalParserRuleCall_1_4_0(), semanticObject.getIncorrect());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     DataOutput returns DataOutput
+	 *
+	 * Constraint:
+	 *     (sensorvar=[SensorVariables|ID] pipeline=Pipeline?)
+	 */
+	protected void sequence_DataOutput(ISerializationContext context, DataOutput semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Equal
+	 *     Conditional returns Equal
+	 *     Conditional.Conditional_1_0 returns Equal
+	 *     Or returns Equal
+	 *     Or.Or_1_0 returns Equal
+	 *     And returns Equal
+	 *     And.And_1_0 returns Equal
+	 *     Equality returns Equal
+	 *     Equality.Equal_1_0_0 returns Equal
+	 *     Equality.Unequal_1_1_0 returns Equal
+	 *     Comparison returns Equal
+	 *     Comparison.LessThan_1_0_0 returns Equal
+	 *     Comparison.LessThanEqual_1_1_0 returns Equal
+	 *     Comparison.GreaterThan_1_2_0 returns Equal
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Equal
+	 *     SubAdd returns Equal
+	 *     SubAdd.Plus_1_0_0 returns Equal
+	 *     SubAdd.Minus_1_1_0 returns Equal
+	 *     MulDiv returns Equal
+	 *     MulDiv.Mul_1_0_0 returns Equal
+	 *     MulDiv.Div_1_1_0 returns Equal
+	 *     Negation returns Equal
+	 *     Exponent returns Equal
+	 *     Exponent.Exponent_1_0 returns Equal
+	 *     Not returns Equal
+	 *     Primary returns Equal
+	 *
+	 * Constraint:
+	 *     (left=Equality_Equal_1_0_0 right=Comparison)
+	 */
+	protected void sequence_Equality(ISerializationContext context, Equal semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.EQUAL__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.EQUAL__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.EQUAL__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.EQUAL__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getEqualityAccess().getEqualLeftAction_1_0_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getEqualityAccess().getRightComparisonParserRuleCall_1_0_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Unequal
+	 *     Conditional returns Unequal
+	 *     Conditional.Conditional_1_0 returns Unequal
+	 *     Or returns Unequal
+	 *     Or.Or_1_0 returns Unequal
+	 *     And returns Unequal
+	 *     And.And_1_0 returns Unequal
+	 *     Equality returns Unequal
+	 *     Equality.Equal_1_0_0 returns Unequal
+	 *     Equality.Unequal_1_1_0 returns Unequal
+	 *     Comparison returns Unequal
+	 *     Comparison.LessThan_1_0_0 returns Unequal
+	 *     Comparison.LessThanEqual_1_1_0 returns Unequal
+	 *     Comparison.GreaterThan_1_2_0 returns Unequal
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Unequal
+	 *     SubAdd returns Unequal
+	 *     SubAdd.Plus_1_0_0 returns Unequal
+	 *     SubAdd.Minus_1_1_0 returns Unequal
+	 *     MulDiv returns Unequal
+	 *     MulDiv.Mul_1_0_0 returns Unequal
+	 *     MulDiv.Div_1_1_0 returns Unequal
+	 *     Negation returns Unequal
+	 *     Exponent returns Unequal
+	 *     Exponent.Exponent_1_0 returns Unequal
+	 *     Not returns Unequal
+	 *     Primary returns Unequal
+	 *
+	 * Constraint:
+	 *     (left=Equality_Unequal_1_1_0 right=Comparison)
+	 */
+	protected void sequence_Equality(ISerializationContext context, Unequal semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.UNEQUAL__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.UNEQUAL__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.UNEQUAL__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.UNEQUAL__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getEqualityAccess().getUnequalLeftAction_1_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getEqualityAccess().getRightComparisonParserRuleCall_1_1_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ExecutePipeline returns Count
+	 *
+	 * Constraint:
+	 *     {Count}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, Count semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ExecutePipeline returns Max
+	 *
+	 * Constraint:
+	 *     {Max}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, Max semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ExecutePipeline returns Mean
+	 *
+	 * Constraint:
+	 *     {Mean}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, Mean semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ExecutePipeline returns Median
+	 *
+	 * Constraint:
+	 *     {Median}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, Median semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ExecutePipeline returns Min
+	 *
+	 * Constraint:
+	 *     {Min}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, Min semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ExecutePipeline returns Reduce
+	 *
+	 * Constraint:
+	 *     {Reduce}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, Reduce semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ExecutePipeline returns StDev
+	 *
+	 * Constraint:
+	 *     {StDev}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, StDev semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Exponent
+	 *     Conditional returns Exponent
+	 *     Conditional.Conditional_1_0 returns Exponent
+	 *     Or returns Exponent
+	 *     Or.Or_1_0 returns Exponent
+	 *     And returns Exponent
+	 *     And.And_1_0 returns Exponent
+	 *     Equality returns Exponent
+	 *     Equality.Equal_1_0_0 returns Exponent
+	 *     Equality.Unequal_1_1_0 returns Exponent
+	 *     Comparison returns Exponent
+	 *     Comparison.LessThan_1_0_0 returns Exponent
+	 *     Comparison.LessThanEqual_1_1_0 returns Exponent
+	 *     Comparison.GreaterThan_1_2_0 returns Exponent
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Exponent
+	 *     SubAdd returns Exponent
+	 *     SubAdd.Plus_1_0_0 returns Exponent
+	 *     SubAdd.Minus_1_1_0 returns Exponent
+	 *     MulDiv returns Exponent
+	 *     MulDiv.Mul_1_0_0 returns Exponent
+	 *     MulDiv.Div_1_1_0 returns Exponent
+	 *     Negation returns Exponent
+	 *     Exponent returns Exponent
+	 *     Exponent.Exponent_1_0 returns Exponent
+	 *     Not returns Exponent
+	 *     Primary returns Exponent
+	 *
+	 * Constraint:
+	 *     (base=Exponent_Exponent_1_0 power=Negation)
+	 */
+	protected void sequence_Exponent(ISerializationContext context, Exponent semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.EXPONENT__BASE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.EXPONENT__BASE));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.EXPONENT__POWER) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.EXPONENT__POWER));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getExponentAccess().getExponentBaseAction_1_0(), semanticObject.getBase());
+		feeder.accept(grammarAccess.getExponentAccess().getPowerNegationParserRuleCall_1_2_0(), semanticObject.getPower());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Board returns ExtendsBoard
+	 *     ExtendsBoard returns ExtendsBoard
+	 *
+	 * Constraint:
+	 *     (name=ID abstractBoard=ID sensors+=Sensor*)
+	 */
+	protected void sequence_ExtendsBoard(ISerializationContext context, ExtendsBoard semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     SensorType returns ExternalSensor
+	 *     ExternalSensor returns ExternalSensor
+	 *
+	 * Constraint:
+	 *     (sensor=ID pins+=INT pins+=INT*)
+	 */
+	protected void sequence_ExternalSensor(ISerializationContext context, ExternalSensor semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Sampler returns Frequency
+	 *     Frequency returns Frequency
+	 *
+	 * Constraint:
+	 *     (frequency=INT resolution=Resolution)
+	 */
+	protected void sequence_Frequency(ISerializationContext context, Frequency semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.FREQUENCY__FREQUENCY) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.FREQUENCY__FREQUENCY));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.FREQUENCY__RESOLUTION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.FREQUENCY__RESOLUTION));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFrequencyAccess().getFrequencyINTTerminalRuleCall_1_0(), semanticObject.getFrequency());
+		feeder.accept(grammarAccess.getFrequencyAccess().getResolutionResolutionParserRuleCall_2_0(), semanticObject.getResolution());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Include returns Include
+	 *
+	 * Constraint:
+	 *     (path+=ID path+=ID*)
+	 */
+	protected void sequence_Include(ISerializationContext context, Include semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     MapPipeline returns Map
+	 *
+	 * Constraint:
+	 *     (expression=Expression output=Variable)
+	 */
+	protected void sequence_MapPipeline(ISerializationContext context, Map semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MAP__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MAP__EXPRESSION));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MAP__OUTPUT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MAP__OUTPUT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getMapPipelineAccess().getExpressionExpressionParserRuleCall_3_0(), semanticObject.getExpression());
+		feeder.accept(grammarAccess.getMapPipelineAccess().getOutputVariableParserRuleCall_5_0(), semanticObject.getOutput());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Pipeline returns Map
+	 *
+	 * Constraint:
+	 *     (expression=Expression output=Variable next=Pipeline?)
+	 */
+	protected void sequence_MapPipeline_Pipeline(ISerializationContext context, Map semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -67,10 +1056,780 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     greetings+=Greeting+
+	 *     (
+	 *         (include+=Include+ ((channel+=Channel+ board+=Board+) | board+=Board+)) | 
+	 *         (((include+=Include+ channel+=Channel+) | channel+=Channel+)? abstractBoard+=AbstractBoard+ board+=Board+) | 
+	 *         (channel+=Channel+ board+=Board+) | 
+	 *         board+=Board+
+	 *     )?
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ChannelConfig returns MqttClient
+	 *     MqttClient returns MqttClient
+	 *
+	 * Constraint:
+	 *     (broker=STRING client=STRING (sub+=STRING sub+=STRING*)?)
+	 */
+	protected void sequence_MqttClient(ISerializationContext context, MqttClient semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Div
+	 *     Conditional returns Div
+	 *     Conditional.Conditional_1_0 returns Div
+	 *     Or returns Div
+	 *     Or.Or_1_0 returns Div
+	 *     And returns Div
+	 *     And.And_1_0 returns Div
+	 *     Equality returns Div
+	 *     Equality.Equal_1_0_0 returns Div
+	 *     Equality.Unequal_1_1_0 returns Div
+	 *     Comparison returns Div
+	 *     Comparison.LessThan_1_0_0 returns Div
+	 *     Comparison.LessThanEqual_1_1_0 returns Div
+	 *     Comparison.GreaterThan_1_2_0 returns Div
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Div
+	 *     SubAdd returns Div
+	 *     SubAdd.Plus_1_0_0 returns Div
+	 *     SubAdd.Minus_1_1_0 returns Div
+	 *     MulDiv returns Div
+	 *     MulDiv.Mul_1_0_0 returns Div
+	 *     MulDiv.Div_1_1_0 returns Div
+	 *     Negation returns Div
+	 *     Exponent returns Div
+	 *     Exponent.Exponent_1_0 returns Div
+	 *     Not returns Div
+	 *     Primary returns Div
+	 *
+	 * Constraint:
+	 *     (left=MulDiv_Div_1_1_0 right=Negation)
+	 */
+	protected void sequence_MulDiv(ISerializationContext context, Div semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.DIV__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.DIV__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.DIV__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.DIV__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getMulDivAccess().getDivLeftAction_1_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getMulDivAccess().getRightNegationParserRuleCall_1_1_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Mul
+	 *     Conditional returns Mul
+	 *     Conditional.Conditional_1_0 returns Mul
+	 *     Or returns Mul
+	 *     Or.Or_1_0 returns Mul
+	 *     And returns Mul
+	 *     And.And_1_0 returns Mul
+	 *     Equality returns Mul
+	 *     Equality.Equal_1_0_0 returns Mul
+	 *     Equality.Unequal_1_1_0 returns Mul
+	 *     Comparison returns Mul
+	 *     Comparison.LessThan_1_0_0 returns Mul
+	 *     Comparison.LessThanEqual_1_1_0 returns Mul
+	 *     Comparison.GreaterThan_1_2_0 returns Mul
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Mul
+	 *     SubAdd returns Mul
+	 *     SubAdd.Plus_1_0_0 returns Mul
+	 *     SubAdd.Minus_1_1_0 returns Mul
+	 *     MulDiv returns Mul
+	 *     MulDiv.Mul_1_0_0 returns Mul
+	 *     MulDiv.Div_1_1_0 returns Mul
+	 *     Negation returns Mul
+	 *     Exponent returns Mul
+	 *     Exponent.Exponent_1_0 returns Mul
+	 *     Not returns Mul
+	 *     Primary returns Mul
+	 *
+	 * Constraint:
+	 *     (left=MulDiv_Mul_1_0_0 right=Negation)
+	 */
+	protected void sequence_MulDiv(ISerializationContext context, Mul semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MUL__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MUL__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MUL__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MUL__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getMulDivAccess().getMulLeftAction_1_0_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getMulDivAccess().getRightNegationParserRuleCall_1_0_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Negation
+	 *     Conditional returns Negation
+	 *     Conditional.Conditional_1_0 returns Negation
+	 *     Or returns Negation
+	 *     Or.Or_1_0 returns Negation
+	 *     And returns Negation
+	 *     And.And_1_0 returns Negation
+	 *     Equality returns Negation
+	 *     Equality.Equal_1_0_0 returns Negation
+	 *     Equality.Unequal_1_1_0 returns Negation
+	 *     Comparison returns Negation
+	 *     Comparison.LessThan_1_0_0 returns Negation
+	 *     Comparison.LessThanEqual_1_1_0 returns Negation
+	 *     Comparison.GreaterThan_1_2_0 returns Negation
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Negation
+	 *     SubAdd returns Negation
+	 *     SubAdd.Plus_1_0_0 returns Negation
+	 *     SubAdd.Minus_1_1_0 returns Negation
+	 *     MulDiv returns Negation
+	 *     MulDiv.Mul_1_0_0 returns Negation
+	 *     MulDiv.Div_1_1_0 returns Negation
+	 *     Negation returns Negation
+	 *     Exponent returns Negation
+	 *     Exponent.Exponent_1_0 returns Negation
+	 *     Not returns Negation
+	 *     Primary returns Negation
+	 *
+	 * Constraint:
+	 *     value=Exponent
+	 */
+	protected void sequence_Negation(ISerializationContext context, Negation semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.NEGATION__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.NEGATION__VALUE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getNegationAccess().getValueExponentParserRuleCall_0_2_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Board returns NewBoard
+	 *     NewBoard returns NewBoard
+	 *
+	 * Constraint:
+	 *     (name=ID version=BoardVersion sensors+=Sensor+)
+	 */
+	protected void sequence_NewBoard(ISerializationContext context, NewBoard semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Not
+	 *     Conditional returns Not
+	 *     Conditional.Conditional_1_0 returns Not
+	 *     Or returns Not
+	 *     Or.Or_1_0 returns Not
+	 *     And returns Not
+	 *     And.And_1_0 returns Not
+	 *     Equality returns Not
+	 *     Equality.Equal_1_0_0 returns Not
+	 *     Equality.Unequal_1_1_0 returns Not
+	 *     Comparison returns Not
+	 *     Comparison.LessThan_1_0_0 returns Not
+	 *     Comparison.LessThanEqual_1_1_0 returns Not
+	 *     Comparison.GreaterThan_1_2_0 returns Not
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Not
+	 *     SubAdd returns Not
+	 *     SubAdd.Plus_1_0_0 returns Not
+	 *     SubAdd.Minus_1_1_0 returns Not
+	 *     MulDiv returns Not
+	 *     MulDiv.Mul_1_0_0 returns Not
+	 *     MulDiv.Div_1_1_0 returns Not
+	 *     Negation returns Not
+	 *     Exponent returns Not
+	 *     Exponent.Exponent_1_0 returns Not
+	 *     Not returns Not
+	 *     Primary returns Not
+	 *
+	 * Constraint:
+	 *     value=Primary
+	 */
+	protected void sequence_Not(ISerializationContext context, Not semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.NOT__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.NOT__VALUE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getNotAccess().getValuePrimaryParserRuleCall_0_2_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns NumberLiteral
+	 *     Conditional returns NumberLiteral
+	 *     Conditional.Conditional_1_0 returns NumberLiteral
+	 *     Or returns NumberLiteral
+	 *     Or.Or_1_0 returns NumberLiteral
+	 *     And returns NumberLiteral
+	 *     And.And_1_0 returns NumberLiteral
+	 *     Equality returns NumberLiteral
+	 *     Equality.Equal_1_0_0 returns NumberLiteral
+	 *     Equality.Unequal_1_1_0 returns NumberLiteral
+	 *     Comparison returns NumberLiteral
+	 *     Comparison.LessThan_1_0_0 returns NumberLiteral
+	 *     Comparison.LessThanEqual_1_1_0 returns NumberLiteral
+	 *     Comparison.GreaterThan_1_2_0 returns NumberLiteral
+	 *     Comparison.GreaterThanEqual_1_3_0 returns NumberLiteral
+	 *     SubAdd returns NumberLiteral
+	 *     SubAdd.Plus_1_0_0 returns NumberLiteral
+	 *     SubAdd.Minus_1_1_0 returns NumberLiteral
+	 *     MulDiv returns NumberLiteral
+	 *     MulDiv.Mul_1_0_0 returns NumberLiteral
+	 *     MulDiv.Div_1_1_0 returns NumberLiteral
+	 *     Negation returns NumberLiteral
+	 *     Exponent returns NumberLiteral
+	 *     Exponent.Exponent_1_0 returns NumberLiteral
+	 *     Not returns NumberLiteral
+	 *     Primary returns NumberLiteral
+	 *     NumberLiteral returns NumberLiteral
+	 *
+	 * Constraint:
+	 *     numb=NUMBER
+	 */
+	protected void sequence_NumberLiteral(ISerializationContext context, NumberLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.NUMBER_LITERAL__NUMB) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.NUMBER_LITERAL__NUMB));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getNumberLiteralAccess().getNumbNUMBERParserRuleCall_0(), semanticObject.getNumb());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     SensorType returns OnboardSensor
+	 *     OnboardSensor returns OnboardSensor
+	 *
+	 * Constraint:
+	 *     sensor=ID
+	 */
+	protected void sequence_OnboardSensor(ISerializationContext context, OnboardSensor semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SENSOR_TYPE__SENSOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SENSOR_TYPE__SENSOR));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getOnboardSensorAccess().getSensorIDTerminalRuleCall_0(), semanticObject.getSensor());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Or
+	 *     Conditional returns Or
+	 *     Conditional.Conditional_1_0 returns Or
+	 *     Or returns Or
+	 *     Or.Or_1_0 returns Or
+	 *     And returns Or
+	 *     And.And_1_0 returns Or
+	 *     Equality returns Or
+	 *     Equality.Equal_1_0_0 returns Or
+	 *     Equality.Unequal_1_1_0 returns Or
+	 *     Comparison returns Or
+	 *     Comparison.LessThan_1_0_0 returns Or
+	 *     Comparison.LessThanEqual_1_1_0 returns Or
+	 *     Comparison.GreaterThan_1_2_0 returns Or
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Or
+	 *     SubAdd returns Or
+	 *     SubAdd.Plus_1_0_0 returns Or
+	 *     SubAdd.Minus_1_1_0 returns Or
+	 *     MulDiv returns Or
+	 *     MulDiv.Mul_1_0_0 returns Or
+	 *     MulDiv.Div_1_1_0 returns Or
+	 *     Negation returns Or
+	 *     Exponent returns Or
+	 *     Exponent.Exponent_1_0 returns Or
+	 *     Not returns Or
+	 *     Primary returns Or
+	 *
+	 * Constraint:
+	 *     (left=Or_Or_1_0 right=Or)
+	 */
+	protected void sequence_Or(ISerializationContext context, Or semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.OR__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.OR__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.OR__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.OR__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getOrAccess().getOrLeftAction_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getOrAccess().getRightOrParserRuleCall_1_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Pipeline returns Abs
+	 *
+	 * Constraint:
+	 *     (expression=Expression next=Pipeline?)
+	 */
+	protected void sequence_Pipeline_TuplePipeline(ISerializationContext context, Abs semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Pipeline returns Filter
+	 *
+	 * Constraint:
+	 *     (expression=Expression next=Pipeline?)
+	 */
+	protected void sequence_Pipeline_TuplePipeline(ISerializationContext context, Filter semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Pipeline returns Window
+	 *
+	 * Constraint:
+	 *     (width=INT execute=ExecutePipeline next=Pipeline?)
+	 */
+	protected void sequence_Pipeline_WindowPipeline(ISerializationContext context, Window semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Reference
+	 *     Conditional returns Reference
+	 *     Conditional.Conditional_1_0 returns Reference
+	 *     Or returns Reference
+	 *     Or.Or_1_0 returns Reference
+	 *     And returns Reference
+	 *     And.And_1_0 returns Reference
+	 *     Equality returns Reference
+	 *     Equality.Equal_1_0_0 returns Reference
+	 *     Equality.Unequal_1_1_0 returns Reference
+	 *     Comparison returns Reference
+	 *     Comparison.LessThan_1_0_0 returns Reference
+	 *     Comparison.LessThanEqual_1_1_0 returns Reference
+	 *     Comparison.GreaterThan_1_2_0 returns Reference
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Reference
+	 *     SubAdd returns Reference
+	 *     SubAdd.Plus_1_0_0 returns Reference
+	 *     SubAdd.Minus_1_1_0 returns Reference
+	 *     MulDiv returns Reference
+	 *     MulDiv.Mul_1_0_0 returns Reference
+	 *     MulDiv.Div_1_1_0 returns Reference
+	 *     Negation returns Reference
+	 *     Exponent returns Reference
+	 *     Exponent.Exponent_1_0 returns Reference
+	 *     Not returns Reference
+	 *     Primary returns Reference
+	 *     Reference returns Reference
+	 *
+	 * Constraint:
+	 *     ref=ID
+	 */
+	protected void sequence_Reference(ISerializationContext context, Reference semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.REFERENCE__REF) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.REFERENCE__REF));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getReferenceAccess().getRefIDTerminalRuleCall_0(), semanticObject.getRef());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Resolution returns Micros
+	 *
+	 * Constraint:
+	 *     {Micros}
+	 */
+	protected void sequence_Resolution(ISerializationContext context, Micros semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Resolution returns Millis
+	 *
+	 * Constraint:
+	 *     {Millis}
+	 */
+	protected void sequence_Resolution(ISerializationContext context, Millis semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Resolution returns Seconds
+	 *
+	 * Constraint:
+	 *     {Seconds}
+	 */
+	protected void sequence_Resolution(ISerializationContext context, Seconds semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     SensorOutput returns SensorOutput
+	 *
+	 * Constraint:
+	 *     (output=DataOutput channel=[Channel|ID])
+	 */
+	protected void sequence_SensorOutput(ISerializationContext context, SensorOutput semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__OUTPUT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__OUTPUT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__CHANNEL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__CHANNEL));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getSensorOutputAccess().getOutputDataOutputParserRuleCall_1_0(), semanticObject.getOutput());
+		feeder.accept(grammarAccess.getSensorOutputAccess().getChannelChannelIDTerminalRuleCall_3_0_1(), semanticObject.eGet(IoTPackage.Literals.SENSOR_OUTPUT__CHANNEL, false));
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     SensorVariables returns SensorVariables
+	 *
+	 * Constraint:
+	 *     (name=ID ids+=Variable ids+=Variable*)
+	 */
+	protected void sequence_SensorVariables(ISerializationContext context, SensorVariables semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Sensor returns Sensor
+	 *
+	 * Constraint:
+	 *     (name=ID sensortype=SensorType vars=SensorVariables sampler+=Sampler? output+=SensorOutput+)
+	 */
+	protected void sequence_Sensor(ISerializationContext context, Sensor semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ChannelConfig returns Serial
+	 *     Serial returns Serial
+	 *
+	 * Constraint:
+	 *     (baud=INT stop=stopChar)
+	 */
+	protected void sequence_Serial(ISerializationContext context, Serial semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SERIAL__BAUD) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SERIAL__BAUD));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SERIAL__STOP) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SERIAL__STOP));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getSerialAccess().getBaudINTTerminalRuleCall_1_0(), semanticObject.getBaud());
+		feeder.accept(grammarAccess.getSerialAccess().getStopStopCharParserRuleCall_3_0(), semanticObject.getStop());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns StringLiteral
+	 *     Conditional returns StringLiteral
+	 *     Conditional.Conditional_1_0 returns StringLiteral
+	 *     Or returns StringLiteral
+	 *     Or.Or_1_0 returns StringLiteral
+	 *     And returns StringLiteral
+	 *     And.And_1_0 returns StringLiteral
+	 *     Equality returns StringLiteral
+	 *     Equality.Equal_1_0_0 returns StringLiteral
+	 *     Equality.Unequal_1_1_0 returns StringLiteral
+	 *     Comparison returns StringLiteral
+	 *     Comparison.LessThan_1_0_0 returns StringLiteral
+	 *     Comparison.LessThanEqual_1_1_0 returns StringLiteral
+	 *     Comparison.GreaterThan_1_2_0 returns StringLiteral
+	 *     Comparison.GreaterThanEqual_1_3_0 returns StringLiteral
+	 *     SubAdd returns StringLiteral
+	 *     SubAdd.Plus_1_0_0 returns StringLiteral
+	 *     SubAdd.Minus_1_1_0 returns StringLiteral
+	 *     MulDiv returns StringLiteral
+	 *     MulDiv.Mul_1_0_0 returns StringLiteral
+	 *     MulDiv.Div_1_1_0 returns StringLiteral
+	 *     Negation returns StringLiteral
+	 *     Exponent returns StringLiteral
+	 *     Exponent.Exponent_1_0 returns StringLiteral
+	 *     Not returns StringLiteral
+	 *     Primary returns StringLiteral
+	 *     StringLiteral returns StringLiteral
+	 *
+	 * Constraint:
+	 *     str=STRING
+	 */
+	protected void sequence_StringLiteral(ISerializationContext context, StringLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.STRING_LITERAL__STR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.STRING_LITERAL__STR));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getStringLiteralAccess().getStrSTRINGTerminalRuleCall_0(), semanticObject.getStr());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Minus
+	 *     Conditional returns Minus
+	 *     Conditional.Conditional_1_0 returns Minus
+	 *     Or returns Minus
+	 *     Or.Or_1_0 returns Minus
+	 *     And returns Minus
+	 *     And.And_1_0 returns Minus
+	 *     Equality returns Minus
+	 *     Equality.Equal_1_0_0 returns Minus
+	 *     Equality.Unequal_1_1_0 returns Minus
+	 *     Comparison returns Minus
+	 *     Comparison.LessThan_1_0_0 returns Minus
+	 *     Comparison.LessThanEqual_1_1_0 returns Minus
+	 *     Comparison.GreaterThan_1_2_0 returns Minus
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Minus
+	 *     SubAdd returns Minus
+	 *     SubAdd.Plus_1_0_0 returns Minus
+	 *     SubAdd.Minus_1_1_0 returns Minus
+	 *     MulDiv returns Minus
+	 *     MulDiv.Mul_1_0_0 returns Minus
+	 *     MulDiv.Div_1_1_0 returns Minus
+	 *     Negation returns Minus
+	 *     Exponent returns Minus
+	 *     Exponent.Exponent_1_0 returns Minus
+	 *     Not returns Minus
+	 *     Primary returns Minus
+	 *
+	 * Constraint:
+	 *     (left=SubAdd_Minus_1_1_0 right=MulDiv)
+	 */
+	protected void sequence_SubAdd(ISerializationContext context, Minus semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MINUS__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MINUS__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MINUS__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MINUS__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getSubAddAccess().getMinusLeftAction_1_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getSubAddAccess().getRightMulDivParserRuleCall_1_1_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns Plus
+	 *     Conditional returns Plus
+	 *     Conditional.Conditional_1_0 returns Plus
+	 *     Or returns Plus
+	 *     Or.Or_1_0 returns Plus
+	 *     And returns Plus
+	 *     And.And_1_0 returns Plus
+	 *     Equality returns Plus
+	 *     Equality.Equal_1_0_0 returns Plus
+	 *     Equality.Unequal_1_1_0 returns Plus
+	 *     Comparison returns Plus
+	 *     Comparison.LessThan_1_0_0 returns Plus
+	 *     Comparison.LessThanEqual_1_1_0 returns Plus
+	 *     Comparison.GreaterThan_1_2_0 returns Plus
+	 *     Comparison.GreaterThanEqual_1_3_0 returns Plus
+	 *     SubAdd returns Plus
+	 *     SubAdd.Plus_1_0_0 returns Plus
+	 *     SubAdd.Minus_1_1_0 returns Plus
+	 *     MulDiv returns Plus
+	 *     MulDiv.Mul_1_0_0 returns Plus
+	 *     MulDiv.Div_1_1_0 returns Plus
+	 *     Negation returns Plus
+	 *     Exponent returns Plus
+	 *     Exponent.Exponent_1_0 returns Plus
+	 *     Not returns Plus
+	 *     Primary returns Plus
+	 *
+	 * Constraint:
+	 *     (left=SubAdd_Plus_1_0_0 right=MulDiv)
+	 */
+	protected void sequence_SubAdd(ISerializationContext context, Plus semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.PLUS__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.PLUS__LEFT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.PLUS__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.PLUS__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getSubAddAccess().getPlusLeftAction_1_0_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getSubAddAccess().getRightMulDivParserRuleCall_1_0_2_0(), semanticObject.getRight());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     TuplePipeline returns Abs
+	 *
+	 * Constraint:
+	 *     expression=Expression
+	 */
+	protected void sequence_TuplePipeline(ISerializationContext context, Abs semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTuplePipelineAccess().getExpressionExpressionParserRuleCall_2_0(), semanticObject.getExpression());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     TuplePipeline returns Filter
+	 *
+	 * Constraint:
+	 *     expression=Expression
+	 */
+	protected void sequence_TuplePipeline(ISerializationContext context, Filter semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTuplePipelineAccess().getExpressionExpressionParserRuleCall_2_0(), semanticObject.getExpression());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Variable returns Variable
+	 *
+	 * Constraint:
+	 *     name=ID
+	 */
+	protected void sequence_Variable(ISerializationContext context, Variable semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.VARIABLE__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.VARIABLE__NAME));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getVariableAccess().getNameIDTerminalRuleCall_0(), semanticObject.getName());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     ChannelConfig returns Wifi
+	 *     Wifi returns Wifi
+	 *
+	 * Constraint:
+	 *     (ssid=STRING pass=STRING)
+	 */
+	protected void sequence_Wifi(ISerializationContext context, Wifi semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.WIFI__SSID) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.WIFI__SSID));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.WIFI__PASS) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.WIFI__PASS));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getWifiAccess().getSsidSTRINGTerminalRuleCall_1_0(), semanticObject.getSsid());
+		feeder.accept(grammarAccess.getWifiAccess().getPassSTRINGTerminalRuleCall_3_0(), semanticObject.getPass());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     WindowPipeline returns Window
+	 *
+	 * Constraint:
+	 *     (width=INT execute=ExecutePipeline)
+	 */
+	protected void sequence_WindowPipeline(ISerializationContext context, Window semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.WINDOW__WIDTH) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.WINDOW__WIDTH));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.WINDOW__EXECUTE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.WINDOW__EXECUTE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getWindowPipelineAccess().getWidthINTTerminalRuleCall_3_0(), semanticObject.getWidth());
+		feeder.accept(grammarAccess.getWindowPipelineAccess().getExecuteExecutePipelineParserRuleCall_6_0(), semanticObject.getExecute());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     stopChar returns Byte
+	 *
+	 * Constraint:
+	 *     name=INT
+	 */
+	protected void sequence_stopChar(ISerializationContext context, org.xtext.mdsd.arduino.boardgenerator.ioT.Byte semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.BYTE__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.BYTE__NAME));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getStopCharAccess().getNameINTTerminalRuleCall_1_2_0(), semanticObject.getName());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     stopChar returns Char
+	 *
+	 * Constraint:
+	 *     name=STRING
+	 */
+	protected void sequence_stopChar(ISerializationContext context, Char semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.CHAR__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.CHAR__NAME));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getStopCharAccess().getNameSTRINGTerminalRuleCall_0_2_0(), semanticObject.getName());
+		feeder.finish();
 	}
 	
 	

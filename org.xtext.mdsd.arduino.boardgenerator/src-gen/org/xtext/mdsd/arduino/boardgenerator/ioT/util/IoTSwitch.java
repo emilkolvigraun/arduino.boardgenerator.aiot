@@ -8,7 +8,77 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.*;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Micros;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Millis;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Not;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.NumberLiteral;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Window;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,10 +150,548 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.GREETING:
+      case IoTPackage.INCLUDE:
       {
-        Greeting greeting = (Greeting)theEObject;
-        T result = caseGreeting(greeting);
+        Include include = (Include)theEObject;
+        T result = caseInclude(include);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.CHANNEL:
+      {
+        Channel channel = (Channel)theEObject;
+        T result = caseChannel(channel);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.CHANNEL_TYPE:
+      {
+        ChannelType channelType = (ChannelType)theEObject;
+        T result = caseChannelType(channelType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.CHANNEL_CONFIG:
+      {
+        ChannelConfig channelConfig = (ChannelConfig)theEObject;
+        T result = caseChannelConfig(channelConfig);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.WIFI:
+      {
+        Wifi wifi = (Wifi)theEObject;
+        T result = caseWifi(wifi);
+        if (result == null) result = caseChannelConfig(wifi);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SERIAL:
+      {
+        Serial serial = (Serial)theEObject;
+        T result = caseSerial(serial);
+        if (result == null) result = caseChannelConfig(serial);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.STOP_CHAR:
+      {
+        stopChar stopChar = (stopChar)theEObject;
+        T result = casestopChar(stopChar);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MQTT_CLIENT:
+      {
+        MqttClient mqttClient = (MqttClient)theEObject;
+        T result = caseMqttClient(mqttClient);
+        if (result == null) result = caseChannelConfig(mqttClient);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.BOARD:
+      {
+        Board board = (Board)theEObject;
+        T result = caseBoard(board);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.NEW_BOARD:
+      {
+        NewBoard newBoard = (NewBoard)theEObject;
+        T result = caseNewBoard(newBoard);
+        if (result == null) result = caseBoard(newBoard);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.BOARD_VERSION:
+      {
+        BoardVersion boardVersion = (BoardVersion)theEObject;
+        T result = caseBoardVersion(boardVersion);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.EXTENDS_BOARD:
+      {
+        ExtendsBoard extendsBoard = (ExtendsBoard)theEObject;
+        T result = caseExtendsBoard(extendsBoard);
+        if (result == null) result = caseBoard(extendsBoard);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.ABSTRACT_BOARD:
+      {
+        AbstractBoard abstractBoard = (AbstractBoard)theEObject;
+        T result = caseAbstractBoard(abstractBoard);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SENSOR:
+      {
+        Sensor sensor = (Sensor)theEObject;
+        T result = caseSensor(sensor);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SENSOR_TYPE:
+      {
+        SensorType sensorType = (SensorType)theEObject;
+        T result = caseSensorType(sensorType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.EXTERNAL_SENSOR:
+      {
+        ExternalSensor externalSensor = (ExternalSensor)theEObject;
+        T result = caseExternalSensor(externalSensor);
+        if (result == null) result = caseSensorType(externalSensor);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.ONBOARD_SENSOR:
+      {
+        OnboardSensor onboardSensor = (OnboardSensor)theEObject;
+        T result = caseOnboardSensor(onboardSensor);
+        if (result == null) result = caseSensorType(onboardSensor);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SENSOR_VARIABLES:
+      {
+        SensorVariables sensorVariables = (SensorVariables)theEObject;
+        T result = caseSensorVariables(sensorVariables);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.VARIABLE:
+      {
+        Variable variable = (Variable)theEObject;
+        T result = caseVariable(variable);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SAMPLER:
+      {
+        Sampler sampler = (Sampler)theEObject;
+        T result = caseSampler(sampler);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.COMMAND:
+      {
+        Command command = (Command)theEObject;
+        T result = caseCommand(command);
+        if (result == null) result = caseSampler(command);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.FREQUENCY:
+      {
+        Frequency frequency = (Frequency)theEObject;
+        T result = caseFrequency(frequency);
+        if (result == null) result = caseSampler(frequency);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.RESOLUTION:
+      {
+        Resolution resolution = (Resolution)theEObject;
+        T result = caseResolution(resolution);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SENSOR_OUTPUT:
+      {
+        SensorOutput sensorOutput = (SensorOutput)theEObject;
+        T result = caseSensorOutput(sensorOutput);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.DATA_OUTPUT:
+      {
+        DataOutput dataOutput = (DataOutput)theEObject;
+        T result = caseDataOutput(dataOutput);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.PIPELINE:
+      {
+        Pipeline pipeline = (Pipeline)theEObject;
+        T result = casePipeline(pipeline);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.TUPLE_PIPELINE:
+      {
+        TuplePipeline tuplePipeline = (TuplePipeline)theEObject;
+        T result = caseTuplePipeline(tuplePipeline);
+        if (result == null) result = casePipeline(tuplePipeline);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MAP_PIPELINE:
+      {
+        MapPipeline mapPipeline = (MapPipeline)theEObject;
+        T result = caseMapPipeline(mapPipeline);
+        if (result == null) result = casePipeline(mapPipeline);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.WINDOW_PIPELINE:
+      {
+        WindowPipeline windowPipeline = (WindowPipeline)theEObject;
+        T result = caseWindowPipeline(windowPipeline);
+        if (result == null) result = casePipeline(windowPipeline);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.EXECUTE_PIPELINE:
+      {
+        ExecutePipeline executePipeline = (ExecutePipeline)theEObject;
+        T result = caseExecutePipeline(executePipeline);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.EXPRESSION:
+      {
+        Expression expression = (Expression)theEObject;
+        T result = caseExpression(expression);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.REFERENCE:
+      {
+        Reference reference = (Reference)theEObject;
+        T result = caseReference(reference);
+        if (result == null) result = caseExpression(reference);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.STRING_LITERAL:
+      {
+        StringLiteral stringLiteral = (StringLiteral)theEObject;
+        T result = caseStringLiteral(stringLiteral);
+        if (result == null) result = caseExpression(stringLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.NUMBER_LITERAL:
+      {
+        NumberLiteral numberLiteral = (NumberLiteral)theEObject;
+        T result = caseNumberLiteral(numberLiteral);
+        if (result == null) result = caseExpression(numberLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.BOOLEAN_LITERAL:
+      {
+        BooleanLiteral booleanLiteral = (BooleanLiteral)theEObject;
+        T result = caseBooleanLiteral(booleanLiteral);
+        if (result == null) result = caseExpression(booleanLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.WIFI_CONFIG:
+      {
+        WifiConfig wifiConfig = (WifiConfig)theEObject;
+        T result = caseWifiConfig(wifiConfig);
+        if (result == null) result = caseChannelType(wifiConfig);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SERIAL_CONFIG:
+      {
+        SerialConfig serialConfig = (SerialConfig)theEObject;
+        T result = caseSerialConfig(serialConfig);
+        if (result == null) result = caseChannelType(serialConfig);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MQTT:
+      {
+        MQTT mqtt = (MQTT)theEObject;
+        T result = caseMQTT(mqtt);
+        if (result == null) result = caseChannelType(mqtt);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.CHAR:
+      {
+        Char char_ = (Char)theEObject;
+        T result = caseChar(char_);
+        if (result == null) result = casestopChar(char_);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.BYTE:
+      {
+        org.xtext.mdsd.arduino.boardgenerator.ioT.Byte byte_ = (org.xtext.mdsd.arduino.boardgenerator.ioT.Byte)theEObject;
+        T result = caseByte(byte_);
+        if (result == null) result = casestopChar(byte_);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.SECONDS:
+      {
+        Seconds seconds = (Seconds)theEObject;
+        T result = caseSeconds(seconds);
+        if (result == null) result = caseResolution(seconds);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MILLIS:
+      {
+        Millis millis = (Millis)theEObject;
+        T result = caseMillis(millis);
+        if (result == null) result = caseResolution(millis);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MICROS:
+      {
+        Micros micros = (Micros)theEObject;
+        T result = caseMicros(micros);
+        if (result == null) result = caseResolution(micros);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.FILTER:
+      {
+        Filter filter = (Filter)theEObject;
+        T result = caseFilter(filter);
+        if (result == null) result = caseTuplePipeline(filter);
+        if (result == null) result = casePipeline(filter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.ABS:
+      {
+        Abs abs = (Abs)theEObject;
+        T result = caseAbs(abs);
+        if (result == null) result = caseTuplePipeline(abs);
+        if (result == null) result = casePipeline(abs);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MAP:
+      {
+        Map map = (Map)theEObject;
+        T result = caseMap(map);
+        if (result == null) result = caseMapPipeline(map);
+        if (result == null) result = casePipeline(map);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.WINDOW:
+      {
+        Window window = (Window)theEObject;
+        T result = caseWindow(window);
+        if (result == null) result = caseWindowPipeline(window);
+        if (result == null) result = casePipeline(window);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.REDUCE:
+      {
+        Reduce reduce = (Reduce)theEObject;
+        T result = caseReduce(reduce);
+        if (result == null) result = caseExecutePipeline(reduce);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MEAN:
+      {
+        Mean mean = (Mean)theEObject;
+        T result = caseMean(mean);
+        if (result == null) result = caseExecutePipeline(mean);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MEDIAN:
+      {
+        Median median = (Median)theEObject;
+        T result = caseMedian(median);
+        if (result == null) result = caseExecutePipeline(median);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.ST_DEV:
+      {
+        StDev stDev = (StDev)theEObject;
+        T result = caseStDev(stDev);
+        if (result == null) result = caseExecutePipeline(stDev);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MIN:
+      {
+        Min min = (Min)theEObject;
+        T result = caseMin(min);
+        if (result == null) result = caseExecutePipeline(min);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MAX:
+      {
+        Max max = (Max)theEObject;
+        T result = caseMax(max);
+        if (result == null) result = caseExecutePipeline(max);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.COUNT:
+      {
+        Count count = (Count)theEObject;
+        T result = caseCount(count);
+        if (result == null) result = caseExecutePipeline(count);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.CONDITIONAL:
+      {
+        Conditional conditional = (Conditional)theEObject;
+        T result = caseConditional(conditional);
+        if (result == null) result = caseExpression(conditional);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.OR:
+      {
+        Or or = (Or)theEObject;
+        T result = caseOr(or);
+        if (result == null) result = caseExpression(or);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.AND:
+      {
+        And and = (And)theEObject;
+        T result = caseAnd(and);
+        if (result == null) result = caseExpression(and);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.EQUAL:
+      {
+        Equal equal = (Equal)theEObject;
+        T result = caseEqual(equal);
+        if (result == null) result = caseExpression(equal);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.UNEQUAL:
+      {
+        Unequal unequal = (Unequal)theEObject;
+        T result = caseUnequal(unequal);
+        if (result == null) result = caseExpression(unequal);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.LESS_THAN:
+      {
+        LessThan lessThan = (LessThan)theEObject;
+        T result = caseLessThan(lessThan);
+        if (result == null) result = caseExpression(lessThan);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.LESS_THAN_EQUAL:
+      {
+        LessThanEqual lessThanEqual = (LessThanEqual)theEObject;
+        T result = caseLessThanEqual(lessThanEqual);
+        if (result == null) result = caseExpression(lessThanEqual);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.GREATER_THAN:
+      {
+        GreaterThan greaterThan = (GreaterThan)theEObject;
+        T result = caseGreaterThan(greaterThan);
+        if (result == null) result = caseExpression(greaterThan);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.GREATER_THAN_EQUAL:
+      {
+        GreaterThanEqual greaterThanEqual = (GreaterThanEqual)theEObject;
+        T result = caseGreaterThanEqual(greaterThanEqual);
+        if (result == null) result = caseExpression(greaterThanEqual);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.PLUS:
+      {
+        Plus plus = (Plus)theEObject;
+        T result = casePlus(plus);
+        if (result == null) result = caseExpression(plus);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MINUS:
+      {
+        Minus minus = (Minus)theEObject;
+        T result = caseMinus(minus);
+        if (result == null) result = caseExpression(minus);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.MUL:
+      {
+        Mul mul = (Mul)theEObject;
+        T result = caseMul(mul);
+        if (result == null) result = caseExpression(mul);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.DIV:
+      {
+        Div div = (Div)theEObject;
+        T result = caseDiv(div);
+        if (result == null) result = caseExpression(div);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.NEGATION:
+      {
+        Negation negation = (Negation)theEObject;
+        T result = caseNegation(negation);
+        if (result == null) result = caseExpression(negation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.EXPONENT:
+      {
+        Exponent exponent = (Exponent)theEObject;
+        T result = caseExponent(exponent);
+        if (result == null) result = caseExpression(exponent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.NOT:
+      {
+        Not not = (Not)theEObject;
+        T result = caseNot(not);
+        if (result == null) result = caseExpression(not);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -108,17 +716,1121 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Greeting</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Include</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Greeting</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Include</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseGreeting(Greeting object)
+  public T caseInclude(Include object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Channel</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Channel</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseChannel(Channel object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Channel Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Channel Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseChannelType(ChannelType object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Channel Config</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Channel Config</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseChannelConfig(ChannelConfig object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Wifi</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Wifi</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseWifi(Wifi object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Serial</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Serial</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSerial(Serial object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>stop Char</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>stop Char</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T casestopChar(stopChar object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Mqtt Client</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Mqtt Client</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMqttClient(MqttClient object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Board</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Board</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseBoard(Board object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>New Board</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>New Board</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNewBoard(NewBoard object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Board Version</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Board Version</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseBoardVersion(BoardVersion object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Extends Board</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Extends Board</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseExtendsBoard(ExtendsBoard object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Abstract Board</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Abstract Board</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseAbstractBoard(AbstractBoard object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sensor</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sensor</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSensor(Sensor object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sensor Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sensor Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSensorType(SensorType object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>External Sensor</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>External Sensor</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseExternalSensor(ExternalSensor object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Onboard Sensor</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Onboard Sensor</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseOnboardSensor(OnboardSensor object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sensor Variables</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sensor Variables</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSensorVariables(SensorVariables object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Variable</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Variable</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseVariable(Variable object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sampler</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sampler</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSampler(Sampler object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Command</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Command</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseCommand(Command object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Frequency</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Frequency</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseFrequency(Frequency object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Resolution</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Resolution</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseResolution(Resolution object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sensor Output</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sensor Output</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSensorOutput(SensorOutput object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Data Output</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Data Output</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseDataOutput(DataOutput object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Pipeline</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Pipeline</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T casePipeline(Pipeline object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Tuple Pipeline</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Tuple Pipeline</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTuplePipeline(TuplePipeline object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Map Pipeline</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Map Pipeline</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMapPipeline(MapPipeline object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Window Pipeline</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Window Pipeline</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseWindowPipeline(WindowPipeline object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Execute Pipeline</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Execute Pipeline</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseExecutePipeline(ExecutePipeline object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Expression</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Expression</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseExpression(Expression object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Reference</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Reference</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseReference(Reference object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>String Literal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>String Literal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseStringLiteral(StringLiteral object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Number Literal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Number Literal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNumberLiteral(NumberLiteral object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Boolean Literal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Boolean Literal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseBooleanLiteral(BooleanLiteral object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Wifi Config</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Wifi Config</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseWifiConfig(WifiConfig object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Serial Config</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Serial Config</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSerialConfig(SerialConfig object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>MQTT</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>MQTT</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMQTT(MQTT object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Char</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Char</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseChar(Char object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Byte</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Byte</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseByte(org.xtext.mdsd.arduino.boardgenerator.ioT.Byte object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Seconds</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Seconds</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSeconds(Seconds object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Millis</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Millis</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMillis(Millis object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Micros</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Micros</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMicros(Micros object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Filter</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Filter</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseFilter(Filter object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Abs</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Abs</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseAbs(Abs object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Map</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Map</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMap(Map object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Window</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Window</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseWindow(Window object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Reduce</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Reduce</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseReduce(Reduce object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Mean</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Mean</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMean(Mean object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Median</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Median</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMedian(Median object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>St Dev</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>St Dev</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseStDev(StDev object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Min</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Min</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMin(Min object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Max</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Max</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMax(Max object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Count</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Count</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseCount(Count object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Conditional</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Conditional</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseConditional(Conditional object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Or</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Or</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseOr(Or object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>And</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>And</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseAnd(And object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Equal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Equal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseEqual(Equal object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Unequal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Unequal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseUnequal(Unequal object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Less Than</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Less Than</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseLessThan(LessThan object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Less Than Equal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Less Than Equal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseLessThanEqual(LessThanEqual object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Greater Than</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Greater Than</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseGreaterThan(GreaterThan object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Greater Than Equal</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Greater Than Equal</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseGreaterThanEqual(GreaterThanEqual object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Plus</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Plus</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T casePlus(Plus object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Minus</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Minus</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMinus(Minus object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Mul</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Mul</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMul(Mul object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Div</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Div</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseDiv(Div object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Negation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Negation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNegation(Negation object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Exponent</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Exponent</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseExponent(Exponent object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Not</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Not</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNot(Not object)
   {
     return null;
   }

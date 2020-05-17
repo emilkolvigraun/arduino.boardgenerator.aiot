@@ -3,6 +3,11 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.validation;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.validation.Check;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.validation.AbstractIoTValidator;
 
 /**
@@ -12,4 +17,21 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.AbstractIoTValidator;
  */
 @SuppressWarnings("all")
 public class IoTValidator extends AbstractIoTValidator {
+  @Check
+  public void validateExternalSensor(final ExternalSensor externalSensor) {
+    EObject _eContainer = externalSensor.eContainer();
+    final Sensor sensor = ((Sensor) _eContainer);
+    System.out.println(sensor.getVars());
+  }
+  
+  @Check
+  protected void _validateSensor(final OnboardSensor sensor) {
+    System.out.println("----");
+    System.out.println(sensor);
+  }
+  
+  public void validateSensor(final OnboardSensor sensor) {
+    _validateSensor(sensor);
+    return;
+  }
 }

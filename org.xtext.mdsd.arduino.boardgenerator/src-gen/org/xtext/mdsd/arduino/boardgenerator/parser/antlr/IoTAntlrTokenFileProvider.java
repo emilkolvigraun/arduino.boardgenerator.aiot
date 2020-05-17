@@ -11,6 +11,6 @@ public class IoTAntlrTokenFileProvider implements IAntlrTokenFileProvider {
 	@Override
 	public InputStream getAntlrTokenFile() {
 		ClassLoader classLoader = getClass().getClassLoader();
-		return classLoader.getResourceAsStream("org/xtext/mdsd/arduino/boardgenerator/parser/antlr/internal/InternalIoT.tokens");
+		return classLoader.getResourceAsStream("org/xtext/mdsd/arduino/boardgenerator/parser/antlr/internal/InternalIoTParser.tokens");
 	}
 }

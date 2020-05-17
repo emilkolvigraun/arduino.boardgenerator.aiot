@@ -21,6 +21,8 @@ import org.eclipse.xtext.builder.nature.NatureAddingEditorCallback;
 import org.eclipse.xtext.builder.preferences.BuilderPreferenceAccess;
 import org.eclipse.xtext.generator.IContextualOutputConfigurationProvider;
 import org.eclipse.xtext.ide.LexerIdeBindings;
+import org.eclipse.xtext.ide.editor.contentassist.CompletionPrefixProvider;
+import org.eclipse.xtext.ide.editor.contentassist.IndentationAwareCompletionPrefixProvider;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 import org.eclipse.xtext.ide.editor.partialEditing.IPartialEditingContentAssistParser;
@@ -71,7 +73,7 @@ import org.eclipse.xtext.ui.shared.Access;
 import org.eclipse.xtext.ui.validation.AbstractValidatorConfigurationBlock;
 import org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr.IoTParser;
 import org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr.PartialIoTContentAssistParser;
-import org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr.internal.InternalIoTLexer;
+import org.xtext.mdsd.arduino.boardgenerator.ide.contentassist.antlr.lexer.InternalIoTLexer;
 import org.xtext.mdsd.arduino.boardgenerator.ui.contentassist.IoTProposalProvider;
 import org.xtext.mdsd.arduino.boardgenerator.ui.labeling.IoTDescriptionLabelProvider;
 import org.xtext.mdsd.arduino.boardgenerator.ui.labeling.IoTLabelProvider;
@@ -110,7 +112,7 @@ public abstract class AbstractIoTUiModule extends DefaultUiModule {
 	public void configureHighlightingLexer(Binder binder) {
 		binder.bind(org.eclipse.xtext.parser.antlr.Lexer.class)
 			.annotatedWith(Names.named(LexerIdeBindings.HIGHLIGHTING))
-			.to(org.xtext.mdsd.arduino.boardgenerator.parser.antlr.internal.InternalIoTLexer.class);
+			.to(org.xtext.mdsd.arduino.boardgenerator.parser.antlr.lexer.InternalIoTLexer.class);
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
@@ -133,6 +135,11 @@ public abstract class AbstractIoTUiModule extends DefaultUiModule {
 	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
 	public void configureContentAssistLexerProvider(Binder binder) {
 		binder.bind(InternalIoTLexer.class).toProvider(LexerProvider.create(InternalIoTLexer.class));
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public Class<? extends CompletionPrefixProvider> bindCompletionPrefixProvider() {
+		return IndentationAwareCompletionPrefixProvider.class;
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.validation.ValidatorFragment2
