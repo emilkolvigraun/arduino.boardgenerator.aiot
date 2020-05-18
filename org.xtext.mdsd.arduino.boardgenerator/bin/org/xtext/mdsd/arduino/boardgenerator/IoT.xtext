@@ -47,11 +47,12 @@ stopChar:
 	{Char} 'char' name=STRING | {Byte} 'byte' name=INT
 ;
 
-MqttClient:
-	'broker' broker=STRING
-	'client' client=STRING
-	('sub' '[' sub+=STRING (',' sub+=STRING)* ']')?
-;
+MqttClient: 
+	'broker'broker=STRING
+	'port'	port=INT
+	'id'    client=STRING   
+	'topic' pub=STRING 
+;  
 
 // board can either extend another or is new
 Board:
@@ -92,12 +93,12 @@ Sensor:
 SensorType:
 	ExternalSensor | OnboardSensor	
 ;
- 
+  
 ExternalSensor:
-	sensor=ID '('pins+=INT (',' pins+=INT)* ')';
+	name=ID '('pins+=INT (',' pins+=INT)* ')';
 
 OnboardSensor: 
-	sensor=ID;
+	name=ID;
 
 SensorVariables:
 	name=ID '(' ids+=Variable (',' ids+=Variable)* ')'
@@ -111,7 +112,7 @@ Sampler:
 	Command | Frequency;
 
 Command:
-	'command' command=STRING;
+	'command' command=STRING topic=STRING?;
 
 Frequency:
 	'frequency' frequency=INT resolution=Resolution;
@@ -229,8 +230,15 @@ terminal END: 'synthetic:END';
 terminal INT returns ecore::EInt:
 	'0' | ('1'..'9')('0'..'9')*;
 
+terminal NINT returns ecore::EInt:
+	'-' ('0' | ('1'..'9')('0'..'9')*);
+
+
 terminal DBL returns ecore::EDouble:
-	INT? '.'('0'..'9')+;
+	INT? '.'('0'..'9')+; 
+	
+terminal NDBL returns ecore::EDouble:
+	'-' (INT? '.'('0'..'9')+);
 
 terminal SCI returns ecore::EDouble:
 	(INT | DBL) ('e' | 'E') '-'? INT;
@@ -243,5 +251,6 @@ terminal SL_COMMENT : '#' !('\n'|'\r')* ('\r'? '\n')?;
 @Override  
 terminal ML_COMMENT : '#*' -> '*#';
 
+
 NUMBER hidden():
-	INT | DBL | SCI;
+	INT | DBL | SCI | NINT | NDBL;

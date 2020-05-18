@@ -48,7 +48,7 @@ public class IoTHighlightingConfiguration extends DefaultHighlightingConfigurati
     TextStyle _xblockexpression = null;
     {
       final TextStyle textStyle = this.defaultTextStyle().copy();
-      RGB _rGB = new RGB(137, 0, 115);
+      RGB _rGB = new RGB(249, 141, 19);
       textStyle.setColor(_rGB);
       _xblockexpression = textStyle;
     }
@@ -99,7 +99,7 @@ public class IoTHighlightingConfiguration extends DefaultHighlightingConfigurati
     TextStyle _xblockexpression = null;
     {
       final TextStyle textStyle = this.defaultTextStyle().copy();
-      RGB _rGB = new RGB(80, 60, 60);
+      RGB _rGB = new RGB(137, 0, 115);
       textStyle.setColor(_rGB);
       _xblockexpression = textStyle;
     }

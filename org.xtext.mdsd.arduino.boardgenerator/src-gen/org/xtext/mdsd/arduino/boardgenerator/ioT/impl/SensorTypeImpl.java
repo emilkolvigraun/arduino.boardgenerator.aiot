@@ -21,7 +21,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorTypeImpl#getSensor <em>Sensor</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorTypeImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
@@ -29,24 +29,24 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 public class SensorTypeImpl extends MinimalEObjectImpl.Container implements SensorType
 {
   /**
-   * The default value of the '{@link #getSensor() <em>Sensor</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getSensor()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String SENSOR_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getSensor() <em>Sensor</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getSensor()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String sensor = SENSOR_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -75,9 +75,9 @@ public class SensorTypeImpl extends MinimalEObjectImpl.Container implements Sens
    * @generated
    */
   @Override
-  public String getSensor()
+  public String getName()
   {
-    return sensor;
+    return name;
   }
 
   /**
@@ -86,12 +86,12 @@ public class SensorTypeImpl extends MinimalEObjectImpl.Container implements Sens
    * @generated
    */
   @Override
-  public void setSensor(String newSensor)
+  public void setName(String newName)
   {
-    String oldSensor = sensor;
-    sensor = newSensor;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR_TYPE__SENSOR, oldSensor, sensor));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR_TYPE__NAME, oldName, name));
   }
 
   /**
@@ -104,8 +104,8 @@ public class SensorTypeImpl extends MinimalEObjectImpl.Container implements Sens
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_TYPE__SENSOR:
-        return getSensor();
+      case IoTPackage.SENSOR_TYPE__NAME:
+        return getName();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -120,8 +120,8 @@ public class SensorTypeImpl extends MinimalEObjectImpl.Container implements Sens
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_TYPE__SENSOR:
-        setSensor((String)newValue);
+      case IoTPackage.SENSOR_TYPE__NAME:
+        setName((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -137,8 +137,8 @@ public class SensorTypeImpl extends MinimalEObjectImpl.Container implements Sens
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_TYPE__SENSOR:
-        setSensor(SENSOR_EDEFAULT);
+      case IoTPackage.SENSOR_TYPE__NAME:
+        setName(NAME_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -154,8 +154,8 @@ public class SensorTypeImpl extends MinimalEObjectImpl.Container implements Sens
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_TYPE__SENSOR:
-        return SENSOR_EDEFAULT == null ? sensor != null : !SENSOR_EDEFAULT.equals(sensor);
+      case IoTPackage.SENSOR_TYPE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
     }
     return super.eIsSet(featureID);
   }
@@ -171,8 +171,8 @@ public class SensorTypeImpl extends MinimalEObjectImpl.Container implements Sens
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (sensor: ");
-    result.append(sensor);
+    result.append(" (name: ");
+    result.append(name);
     result.append(')');
     return result.toString();
   }

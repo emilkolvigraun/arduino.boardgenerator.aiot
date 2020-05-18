@@ -14,10 +14,10 @@ import com.google.inject.Inject;
 import org.eclipse.xtext.EcoreUtil2; 
 
 class IoTGlobalScopeProvider extends ImportUriGlobalScopeProvider {
-	private static final Splitter c_splitter = Splitter.on(',');
-	private static final Splitter src_splitter = Splitter.on('src/');
-
-	@Inject
+	static final Splitter c_splitter = Splitter.on(',');
+	static final Splitter src_splitter = Splitter.on('src/');
+ 
+	@Inject 
 	IResourceDescription.Manager descriptionManager;
 
 	@Inject

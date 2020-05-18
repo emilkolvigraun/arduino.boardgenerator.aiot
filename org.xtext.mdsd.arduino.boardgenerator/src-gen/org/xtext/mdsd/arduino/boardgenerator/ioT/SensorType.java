@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getSensor <em>Sensor</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getName <em>Name</em>}</li>
  * </ul>
  *
  * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensorType()
@@ -24,25 +24,25 @@ import org.eclipse.emf.ecore.EObject;
 public interface SensorType extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Sensor</b></em>' attribute.
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Sensor</em>' attribute.
-   * @see #setSensor(String)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensorType_Sensor()
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensorType_Name()
    * @model
    * @generated
    */
-  String getSensor();
+  String getName();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getSensor <em>Sensor</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Sensor</em>' attribute.
-   * @see #getSensor()
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
    * @generated
    */
-  void setSensor(String value);
+  void setName(String value);
 
 } // SensorType

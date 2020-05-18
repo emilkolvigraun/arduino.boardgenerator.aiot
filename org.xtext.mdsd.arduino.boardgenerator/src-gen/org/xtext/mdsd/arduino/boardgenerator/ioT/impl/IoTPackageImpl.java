@@ -928,7 +928,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getMqttClient_Client()
+  public EAttribute getMqttClient_Port()
   {
     return (EAttribute)mqttClientEClass.getEStructuralFeatures().get(1);
   }
@@ -939,9 +939,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getMqttClient_Sub()
+  public EAttribute getMqttClient_Client()
   {
     return (EAttribute)mqttClientEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getMqttClient_Pub()
+  {
+    return (EAttribute)mqttClientEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -1192,7 +1203,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getSensorType_Sensor()
+  public EAttribute getSensorType_Name()
   {
     return (EAttribute)sensorTypeEClass.getEStructuralFeatures().get(0);
   }
@@ -1316,6 +1327,17 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
   public EAttribute getCommand_Command()
   {
     return (EAttribute)commandEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getCommand_Topic()
+  {
+    return (EAttribute)commandEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -2460,8 +2482,9 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     mqttClientEClass = createEClass(MQTT_CLIENT);
     createEAttribute(mqttClientEClass, MQTT_CLIENT__BROKER);
+    createEAttribute(mqttClientEClass, MQTT_CLIENT__PORT);
     createEAttribute(mqttClientEClass, MQTT_CLIENT__CLIENT);
-    createEAttribute(mqttClientEClass, MQTT_CLIENT__SUB);
+    createEAttribute(mqttClientEClass, MQTT_CLIENT__PUB);
 
     boardEClass = createEClass(BOARD);
     createEAttribute(boardEClass, BOARD__NAME);
@@ -2491,7 +2514,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     createEReference(sensorEClass, SENSOR__OUTPUT);
 
     sensorTypeEClass = createEClass(SENSOR_TYPE);
-    createEAttribute(sensorTypeEClass, SENSOR_TYPE__SENSOR);
+    createEAttribute(sensorTypeEClass, SENSOR_TYPE__NAME);
 
     externalSensorEClass = createEClass(EXTERNAL_SENSOR);
     createEAttribute(externalSensorEClass, EXTERNAL_SENSOR__PINS);
@@ -2509,6 +2532,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     commandEClass = createEClass(COMMAND);
     createEAttribute(commandEClass, COMMAND__COMMAND);
+    createEAttribute(commandEClass, COMMAND__TOPIC);
 
     frequencyEClass = createEClass(FREQUENCY);
     createEAttribute(frequencyEClass, FREQUENCY__FREQUENCY);
@@ -2773,8 +2797,9 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     initEClass(mqttClientEClass, MqttClient.class, "MqttClient", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getMqttClient_Broker(), ecorePackage.getEString(), "broker", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMqttClient_Port(), ecorePackage.getEInt(), "port", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMqttClient_Client(), ecorePackage.getEString(), "client", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMqttClient_Sub(), ecorePackage.getEString(), "sub", null, 0, -1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMqttClient_Pub(), ecorePackage.getEString(), "pub", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(boardEClass, Board.class, "Board", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBoard_Name(), ecorePackage.getEString(), "name", null, 0, 1, Board.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2804,7 +2829,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEReference(getSensor_Output(), this.getSensorOutput(), null, "output", null, 0, -1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(sensorTypeEClass, SensorType.class, "SensorType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getSensorType_Sensor(), ecorePackage.getEString(), "sensor", null, 0, 1, SensorType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getSensorType_Name(), ecorePackage.getEString(), "name", null, 0, 1, SensorType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(externalSensorEClass, ExternalSensor.class, "ExternalSensor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getExternalSensor_Pins(), ecorePackage.getEInt(), "pins", null, 0, -1, ExternalSensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2822,6 +2847,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     initEClass(commandEClass, Command.class, "Command", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getCommand_Command(), ecorePackage.getEString(), "command", null, 0, 1, Command.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCommand_Topic(), ecorePackage.getEString(), "topic", null, 0, 1, Command.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(frequencyEClass, Frequency.class, "Frequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getFrequency_Frequency(), ecorePackage.getEInt(), "frequency", null, 0, 1, Frequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

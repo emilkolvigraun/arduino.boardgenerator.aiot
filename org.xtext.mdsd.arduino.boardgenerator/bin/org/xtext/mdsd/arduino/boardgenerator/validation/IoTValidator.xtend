@@ -5,15 +5,39 @@ package org.xtext.mdsd.arduino.boardgenerator.validation
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Model
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Map
+import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board
 
+import org.eclipse.xtext.resource.IEObjectDescription
+import org.eclipse.xtext.validation.CheckType
 import org.eclipse.xtext.validation.Check
-import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Model
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
+
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EClass
+
+import java.util.HashSet
+import java.util.List
+
+import com.google.inject.Inject
+
+import static extension org.eclipse.xtext.EcoreUtil2.* import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion
+import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard
+import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
+import org.eclipse.emf.ecore.EReference
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
 
 /**
  * This class contains custom validation rules. 
@@ -22,34 +46,258 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
  */
 class IoTValidator extends AbstractIoTValidator {
 	
+	@Inject
+	IoTGlobalScopeProvider scopeProvider
+	
+	
 	@Check 
 	def validateExternalSensor(Sensor sensor){
+		val vcc = sensor.getVcc(); 
 		val externalSensor = sensor.sensortype;
-		if (externalSensor instanceof ExternalSensor){
+		if (externalSensor instanceof ExternalSensor){ 
 			if (externalSensor.pins.size() != sensor.vars.ids.size()){
-				error("number of vars must equal number of pins", IoTPackage.Literals.SENSOR__VARS); 
-			}    
-			val vcc = sensor.getVcc();    
+				error('''number of vars must equal «externalSensor.pins.size()»''', IoTPackage.Literals.SENSOR__VARS); 
+			}       
 			if (vcc < 1){
 				error("this declaration of sensor needs vcc", IoTPackage.eINSTANCE.sensor_Name); 
 			}
 		}
+		val list = sensor.vars.ids.construct
+		val set = new HashSet<String>(list)
+		if (set.size() != list.size()){ 
+			error("variables must be unique", IoTPackage.Literals.SENSOR__VARS);
+		}
+		
+		if (externalSensor instanceof OnboardSensor && vcc > 0){   
+			warning("supported sensors does not require vcc", IoTPackage.eINSTANCE.sensor_Vcc)
+		}   
 	} 
+	
+	def List<String> construct(List<Variable> variables){
+		val list = newArrayList() 
+		var counter = 0
+		for (Variable v : variables){
+			val name = v.name			
+			if (name == "_"){
+				list.add(name + counter.toString)
+				counter++
+			} else {
+				list.add(name)
+			}
+		}
+		list
+	}
 		
 	@Check
-	def validatePipeLine(Expression expression){
-	}
+	def validateExpressionVariables(Expression expression){
 		
-	@Check 
-	def validateOnboardSensor(Model model){ 
-		
-		//val boards = model.abstractBoard;
-		  
-		//System.out.println(boards); 
-		
-		// https://blogs.itemis.com/en/in-five-minutes-to-transitive-imports-within-a-dsl-with-xtext
-		
-		
+		if (expression instanceof Reference){
+			val reference = expression as Reference
+			var parentMapVar = reference.getContainerOfType(Pipeline).getIfPipelineIsFromMap
+			if (parentMapVar === null){				
+				val sensor = expression.getContainerOfType(Sensor)
+				var error = true
+				for (Variable v : sensor.vars.ids){ 
+					if (reference.ref == v.name) error = false
+				} 
+				if (error) 
+					error('''variable "«reference.ref»" was not declared''', IoTPackage.eINSTANCE.reference_Ref);
+			} else if (parentMapVar.name != reference.ref){
+				error('''only variable "«parentMapVar.name»" is reachable after map function''', IoTPackage.eINSTANCE.reference_Ref);
+			}	
+		}
 	}
 	
+	def Variable getIfPipelineIsFromMap(EObject pipeline){
+		var parent = pipeline.eContainer
+		while (parent instanceof Pipeline){
+			switch (parent){
+					Map: return parent.output
+					default: parent = parent.eContainer
+				} 
+		}
+		return null;
+	}
+	
+	def Iterable<IEObjectDescription> getGlobalEObjectsOfType(Model model, EClass type){
+		var scope = scopeProvider.getResourceDescriptions(model.eResource)
+		val objs  = scope.getExportedObjectsByType(type)
+		objs
+	}
+	
+	def List<String> getListQualifiedNames(Iterable<IEObjectDescription> descriptions){
+		var list = newArrayList()
+		for (IEObjectDescription description : descriptions){
+			
+			// xtend builds on java and thus "." must be escaped as java defaults to regex
+			var name = description.name.toString.split('\\.') 
+			if (name.size() > 1)
+				list.add(name.get(name.size()-1))  
+			else 
+				list.add(name.get(0))
+		}
+		list
+	}
+	
+	def boolean validateOccursOnce(List<String> list, String name){
+		var counter = 0
+		for (String currentName : list){
+			if (name == currentName)
+				counter++
+		} 
+		if (counter > 1)
+			return true
+		false
+	}
+	
+	@Check(CheckType.NORMAL) 
+	def validateBoardNamesUniversallyUnique(Board board){
+		val boards = board.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.board)
+		val dublicate = boards.listQualifiedNames.validateOccursOnce(board.name)
+		if (dublicate)  
+			error("board names must be universally unique", IoTPackage.Literals.BOARD__NAME)
+	}
+	
+	def asStringList(List<Variable> vars){
+		val list = newArrayList()
+		for (Variable variable : vars){
+			list.add(variable.name)
+		}
+		list		
+	}
+	
+	@Check(CheckType.NORMAL) 
+	def validateSensorNamesUniversallyUnique(Sensor sensor){
+		val sensors = sensor.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.sensor)
+		val dublicate = sensors.listQualifiedNames.validateOccursOnce(sensor.name)
+		if (dublicate) {
+			 
+			val extendsBoard = sensor.getContainerOfType(ExtendsBoard)?.abstractBoard
+			
+			if (extendsBoard !== null){
+				var counter = 0
+				for(Sensor s : extendsBoard.sensors){
+					if (s.name == sensor.name){
+						counter++
+					} 
+				}   
+				
+				if (counter > 0){
+					info('''overriding «sensor.name» in «extendsBoard.name»''', IoTPackage.Literals.SENSOR__NAME)
+					return 
+				} 
+			}  
+			  
+			if (sensor.getContainerOfType(AbstractBoard) !== null){
+				info('''«sensor.name» might be overwritten''', IoTPackage.Literals.SENSOR__NAME)
+			} else {				
+				error("sensor names must be universally unique", IoTPackage.Literals.SENSOR__NAME)							
+			}
+		}
+	}  
+	 
+	@Check
+	def validateBoardVersion(BoardVersion boardVersion){
+		val board = Boards.getBoardSupported(boardVersion.type, boardVersion.model)
+		if (board.sensors.size() > 0){ 
+			info('''«board.toString» supports the following sensors: «board.sensors»''', IoTPackage.Literals.BOARD_VERSION__TYPE)
+		}
+	}
+	
+	def validateOnboardSensorVariables(Boards board, String sensor, List<Variable> vars, EReference ref){
+		if (board.supportsSensor(sensor)) 
+			if (board.getVariableCount(sensor) != vars.size()){
+				error('''«sensor» outputs «board.getVariableCount(sensor)» variables''', ref)
+			} 
+	}
+	 
+	@Check
+	def validateSensorVariables(SensorVariables sensorVars){
+		if (sensorVars.ids.asStringList.contains(sensorVars.name)){ 
+	 		error("sensor variable must be unique in its context", IoTPackage.eINSTANCE.sensorVariables_Name)
+	 	}
+	}
+	
+	@Check
+	def validateOnboardSensorVariables(Sensor sensor){
+		 
+		val nboard = sensor.getContainerOfType(NewBoard) 
+		if (nboard !== null){
+			val board = Boards.getBoardSupported(nboard.version)
+			board.validateOnboardSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
+			return;
+		} 
+		val eboard = sensor.getContainerOfType(ExtendsBoard) 
+		if (eboard !== null){
+			val board = Boards.getBoardSupported(eboard.abstractBoard.version)
+			board.validateOnboardSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
+			return
+		}
+		val aboard = sensor.getContainerOfType(AbstractBoard)  
+		if (aboard !== null){ 
+			val board = Boards.getBoardSupported(aboard.version)
+			board.validateOnboardSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
+		}
+	} 
+		 
+	@Check 
+	def validateOnboardSensor(OnboardSensor onbSensor){ 	 	
+		var boardVersion = onbSensor.getContainerOfType(NewBoard)  
+		
+		if (boardVersion !== null){
+			val board = Boards.getBoardSupported(boardVersion.version)		
+			     
+			if (!board.supportsSensor(onbSensor.name)){ 
+				error('''«board.toString» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name)
+			} 
+			return;
+		} 
+		
+		var extendsVersion = onbSensor.getContainerOfType(ExtendsBoard)?.abstractBoard  
+		
+		if (extendsVersion !== null){ 
+			val board = Boards.getBoardSupported(extendsVersion.version)		
+			       
+			if (!board.supportsSensor(onbSensor.name)){  
+				error('''«extendsVersion.name» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name)
+			} 
+			return;
+		}  
+		 
+		var abstractVersion = onbSensor.getContainerOfType(AbstractBoard)  
+		  
+		if (abstractVersion !== null){ 
+			val board = Boards.getBoardSupported(abstractVersion.version)		
+			        
+			if (!board.supportsSensor(onbSensor.name)){  
+				error('''«board.toString» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name)
+			} 
+		}  
+	} 
+	
+	@Check
+	def validateChannel(Wifi channel){
+		warning("wifi information should not be displayed in the code", IoTPackage.eINSTANCE.wifi_Pass)	
+	}
+	
+	@Check
+	def validateMQTTClient(MqttClient mqtt){
+		var ipAddress = mqtt.broker.split('\\.') 
+		
+		if (ipAddress.size() < 4){
+			error("not a valid ip address", IoTPackage.eINSTANCE.mqttClient_Broker)
+		}
+		
+		for (String str : ipAddress){
+			val integer = Integer.parseInt(str)
+			
+			if (integer < 0){
+				error("address cannot be less than 0", IoTPackage.eINSTANCE.mqttClient_Broker)
+			}
+			
+			if (integer > 255){ 
+				error("address cannot be larger than 255", IoTPackage.eINSTANCE.mqttClient_Broker)
+			}
+		}
+	} 
 }

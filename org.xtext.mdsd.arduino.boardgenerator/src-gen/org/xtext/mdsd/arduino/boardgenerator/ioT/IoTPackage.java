@@ -365,22 +365,31 @@ public interface IoTPackage extends EPackage
   int MQTT_CLIENT__BROKER = CHANNEL_CONFIG_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Port</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MQTT_CLIENT__PORT = CHANNEL_CONFIG_FEATURE_COUNT + 1;
+
+  /**
    * The feature id for the '<em><b>Client</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MQTT_CLIENT__CLIENT = CHANNEL_CONFIG_FEATURE_COUNT + 1;
+  int MQTT_CLIENT__CLIENT = CHANNEL_CONFIG_FEATURE_COUNT + 2;
 
   /**
-   * The feature id for the '<em><b>Sub</b></em>' attribute list.
+   * The feature id for the '<em><b>Pub</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MQTT_CLIENT__SUB = CHANNEL_CONFIG_FEATURE_COUNT + 2;
+  int MQTT_CLIENT__PUB = CHANNEL_CONFIG_FEATURE_COUNT + 3;
 
   /**
    * The number of structural features of the '<em>Mqtt Client</em>' class.
@@ -389,7 +398,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MQTT_CLIENT_FEATURE_COUNT = CHANNEL_CONFIG_FEATURE_COUNT + 3;
+  int MQTT_CLIENT_FEATURE_COUNT = CHANNEL_CONFIG_FEATURE_COUNT + 4;
 
   /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardImpl <em>Board</em>}' class.
@@ -687,13 +696,13 @@ public interface IoTPackage extends EPackage
   int SENSOR_TYPE = 16;
 
   /**
-   * The feature id for the '<em><b>Sensor</b></em>' attribute.
+   * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SENSOR_TYPE__SENSOR = 0;
+  int SENSOR_TYPE__NAME = 0;
 
   /**
    * The number of structural features of the '<em>Sensor Type</em>' class.
@@ -715,13 +724,13 @@ public interface IoTPackage extends EPackage
   int EXTERNAL_SENSOR = 17;
 
   /**
-   * The feature id for the '<em><b>Sensor</b></em>' attribute.
+   * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXTERNAL_SENSOR__SENSOR = SENSOR_TYPE__SENSOR;
+  int EXTERNAL_SENSOR__NAME = SENSOR_TYPE__NAME;
 
   /**
    * The feature id for the '<em><b>Pins</b></em>' attribute list.
@@ -752,13 +761,13 @@ public interface IoTPackage extends EPackage
   int ONBOARD_SENSOR = 18;
 
   /**
-   * The feature id for the '<em><b>Sensor</b></em>' attribute.
+   * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ONBOARD_SENSOR__SENSOR = SENSOR_TYPE__SENSOR;
+  int ONBOARD_SENSOR__NAME = SENSOR_TYPE__NAME;
 
   /**
    * The number of structural features of the '<em>Onboard Sensor</em>' class.
@@ -873,13 +882,22 @@ public interface IoTPackage extends EPackage
   int COMMAND__COMMAND = SAMPLER_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Topic</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int COMMAND__TOPIC = SAMPLER_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Command</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int COMMAND_FEATURE_COUNT = SAMPLER_FEATURE_COUNT + 1;
+  int COMMAND_FEATURE_COUNT = SAMPLER_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.FrequencyImpl <em>Frequency</em>}' class.
@@ -2590,6 +2608,17 @@ public interface IoTPackage extends EPackage
   EAttribute getMqttClient_Broker();
 
   /**
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPort <em>Port</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Port</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPort()
+   * @see #getMqttClient()
+   * @generated
+   */
+  EAttribute getMqttClient_Port();
+
+  /**
    * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getClient <em>Client</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2601,15 +2630,15 @@ public interface IoTPackage extends EPackage
   EAttribute getMqttClient_Client();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getSub <em>Sub</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPub <em>Pub</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Sub</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getSub()
+   * @return the meta object for the attribute '<em>Pub</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPub()
    * @see #getMqttClient()
    * @generated
    */
-  EAttribute getMqttClient_Sub();
+  EAttribute getMqttClient_Pub();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board <em>Board</em>}'.
@@ -2847,15 +2876,15 @@ public interface IoTPackage extends EPackage
   EClass getSensorType();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getSensor <em>Sensor</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Sensor</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getSensor()
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType#getName()
    * @see #getSensorType()
    * @generated
    */
-  EAttribute getSensorType_Sensor();
+  EAttribute getSensorType_Name();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor <em>External Sensor</em>}'.
@@ -2971,6 +3000,17 @@ public interface IoTPackage extends EPackage
    * @generated
    */
   EAttribute getCommand_Command();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command#getTopic <em>Topic</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Topic</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Command#getTopic()
+   * @see #getCommand()
+   * @generated
+   */
+  EAttribute getCommand_Topic();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency <em>Frequency</em>}'.
@@ -4237,6 +4277,14 @@ public interface IoTPackage extends EPackage
     EAttribute MQTT_CLIENT__BROKER = eINSTANCE.getMqttClient_Broker();
 
     /**
+     * The meta object literal for the '<em><b>Port</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MQTT_CLIENT__PORT = eINSTANCE.getMqttClient_Port();
+
+    /**
      * The meta object literal for the '<em><b>Client</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4245,12 +4293,12 @@ public interface IoTPackage extends EPackage
     EAttribute MQTT_CLIENT__CLIENT = eINSTANCE.getMqttClient_Client();
 
     /**
-     * The meta object literal for the '<em><b>Sub</b></em>' attribute list feature.
+     * The meta object literal for the '<em><b>Pub</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute MQTT_CLIENT__SUB = eINSTANCE.getMqttClient_Sub();
+    EAttribute MQTT_CLIENT__PUB = eINSTANCE.getMqttClient_Pub();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardImpl <em>Board</em>}' class.
@@ -4443,12 +4491,12 @@ public interface IoTPackage extends EPackage
     EClass SENSOR_TYPE = eINSTANCE.getSensorType();
 
     /**
-     * The meta object literal for the '<em><b>Sensor</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute SENSOR_TYPE__SENSOR = eINSTANCE.getSensorType_Sensor();
+    EAttribute SENSOR_TYPE__NAME = eINSTANCE.getSensorType_Name();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ExternalSensorImpl <em>External Sensor</em>}' class.
@@ -4549,6 +4597,14 @@ public interface IoTPackage extends EPackage
      * @generated
      */
     EAttribute COMMAND__COMMAND = eINSTANCE.getCommand_Command();
+
+    /**
+     * The meta object literal for the '<em><b>Topic</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute COMMAND__TOPIC = eINSTANCE.getCommand_Topic();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.FrequencyImpl <em>Frequency</em>}' class.

@@ -3,7 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,8 +14,9 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getBroker <em>Broker</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPort <em>Port</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getClient <em>Client</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getSub <em>Sub</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPub <em>Pub</em>}</li>
  * </ul>
  *
  * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getMqttClient()
@@ -48,6 +48,28 @@ public interface MqttClient extends ChannelConfig
   void setBroker(String value);
 
   /**
+   * Returns the value of the '<em><b>Port</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Port</em>' attribute.
+   * @see #setPort(int)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getMqttClient_Port()
+   * @model
+   * @generated
+   */
+  int getPort();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPort <em>Port</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Port</em>' attribute.
+   * @see #getPort()
+   * @generated
+   */
+  void setPort(int value);
+
+  /**
    * Returns the value of the '<em><b>Client</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -70,15 +92,25 @@ public interface MqttClient extends ChannelConfig
   void setClient(String value);
 
   /**
-   * Returns the value of the '<em><b>Sub</b></em>' attribute list.
-   * The list contents are of type {@link java.lang.String}.
+   * Returns the value of the '<em><b>Pub</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Sub</em>' attribute list.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getMqttClient_Sub()
-   * @model unique="false"
+   * @return the value of the '<em>Pub</em>' attribute.
+   * @see #setPub(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getMqttClient_Pub()
+   * @model
    * @generated
    */
-  EList<String> getSub();
+  String getPub();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPub <em>Pub</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Pub</em>' attribute.
+   * @see #getPub()
+   * @generated
+   */
+  void setPub(String value);
 
 } // MqttClient

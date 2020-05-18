@@ -3,14 +3,46 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.validation;
 
+import com.google.common.base.Objects;
+import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.validation.Check;
+import org.eclipse.xtext.validation.CheckType;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
+import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider;
 import org.xtext.mdsd.arduino.boardgenerator.validation.AbstractIoTValidator;
+import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 
 /**
  * This class contains custom validation rules.
@@ -19,30 +51,384 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.AbstractIoTValidator;
  */
 @SuppressWarnings("all")
 public class IoTValidator extends AbstractIoTValidator {
+  @Inject
+  private IoTGlobalScopeProvider scopeProvider;
+  
   @Check
   public void validateExternalSensor(final Sensor sensor) {
+    final int vcc = sensor.getVcc();
     final SensorType externalSensor = sensor.getSensortype();
     if ((externalSensor instanceof ExternalSensor)) {
       int _size = ((ExternalSensor)externalSensor).getPins().size();
       int _size_1 = sensor.getVars().getIds().size();
       boolean _notEquals = (_size != _size_1);
       if (_notEquals) {
-        this.error("number of vars must equal number of pins", IoTPackage.Literals.SENSOR__VARS);
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("number of vars must equal ");
+        int _size_2 = ((ExternalSensor)externalSensor).getPins().size();
+        _builder.append(_size_2);
+        this.error(_builder.toString(), IoTPackage.Literals.SENSOR__VARS);
       }
-      final int vcc = sensor.getVcc();
       if ((vcc < 1)) {
         this.error("this declaration of sensor needs vcc", IoTPackage.eINSTANCE.getSensor_Name());
+      }
+    }
+    final List<String> list = this.construct(sensor.getVars().getIds());
+    final HashSet<String> set = new HashSet<String>(list);
+    int _size_3 = set.size();
+    int _size_4 = list.size();
+    boolean _notEquals_1 = (_size_3 != _size_4);
+    if (_notEquals_1) {
+      this.error("variables must be unique", IoTPackage.Literals.SENSOR__VARS);
+    }
+    if (((externalSensor instanceof OnboardSensor) && (vcc > 0))) {
+      this.warning("supported sensors does not require vcc", IoTPackage.eINSTANCE.getSensor_Vcc());
+    }
+  }
+  
+  public List<String> construct(final List<Variable> variables) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      final ArrayList<String> list = CollectionLiterals.<String>newArrayList();
+      int counter = 0;
+      for (final Variable v : variables) {
+        {
+          final String name = v.getName();
+          boolean _equals = Objects.equal(name, "_");
+          if (_equals) {
+            String _string = Integer.valueOf(counter).toString();
+            String _plus = (name + _string);
+            list.add(_plus);
+            counter++;
+          } else {
+            list.add(name);
+          }
+        }
+      }
+      _xblockexpression = list;
+    }
+    return _xblockexpression;
+  }
+  
+  @Check
+  public void validateExpressionVariables(final Expression expression) {
+    if ((expression instanceof Reference)) {
+      final Reference reference = ((Reference) expression);
+      Variable parentMapVar = this.getIfPipelineIsFromMap(EcoreUtil2.<Pipeline>getContainerOfType(reference, Pipeline.class));
+      if ((parentMapVar == null)) {
+        final Sensor sensor = EcoreUtil2.<Sensor>getContainerOfType(expression, Sensor.class);
+        boolean error = true;
+        EList<Variable> _ids = sensor.getVars().getIds();
+        for (final Variable v : _ids) {
+          String _ref = reference.getRef();
+          String _name = v.getName();
+          boolean _equals = Objects.equal(_ref, _name);
+          if (_equals) {
+            error = false;
+          }
+        }
+        if (error) {
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("variable \"");
+          String _ref_1 = reference.getRef();
+          _builder.append(_ref_1);
+          _builder.append("\" was not declared");
+          this.error(_builder.toString(), IoTPackage.eINSTANCE.getReference_Ref());
+        }
+      } else {
+        String _name_1 = parentMapVar.getName();
+        String _ref_2 = reference.getRef();
+        boolean _notEquals = (!Objects.equal(_name_1, _ref_2));
+        if (_notEquals) {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("only variable \"");
+          String _name_2 = parentMapVar.getName();
+          _builder_1.append(_name_2);
+          _builder_1.append("\" is reachable after map function");
+          this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getReference_Ref());
+        }
+      }
+    }
+  }
+  
+  public Variable getIfPipelineIsFromMap(final EObject pipeline) {
+    EObject parent = pipeline.eContainer();
+    while ((parent instanceof Pipeline)) {
+      boolean _matched = false;
+      if (parent instanceof Map) {
+        _matched=true;
+        return ((Map)parent).getOutput();
+      }
+      parent = ((Pipeline)parent).eContainer();
+    }
+    return null;
+  }
+  
+  public Iterable<IEObjectDescription> getGlobalEObjectsOfType(final Model model, final EClass type) {
+    Iterable<IEObjectDescription> _xblockexpression = null;
+    {
+      IResourceDescriptions scope = this.scopeProvider.getResourceDescriptions(model.eResource());
+      final Iterable<IEObjectDescription> objs = scope.getExportedObjectsByType(type);
+      _xblockexpression = objs;
+    }
+    return _xblockexpression;
+  }
+  
+  public List<String> getListQualifiedNames(final Iterable<IEObjectDescription> descriptions) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      ArrayList<String> list = CollectionLiterals.<String>newArrayList();
+      for (final IEObjectDescription description : descriptions) {
+        {
+          String[] name = description.getName().toString().split("\\.");
+          final String[] _converted_name = (String[])name;
+          int _size = ((List<String>)Conversions.doWrapArray(_converted_name)).size();
+          boolean _greaterThan = (_size > 1);
+          if (_greaterThan) {
+            final String[] _converted_name_1 = (String[])name;
+            int _size_1 = ((List<String>)Conversions.doWrapArray(_converted_name_1)).size();
+            int _minus = (_size_1 - 1);
+            list.add(name[_minus]);
+          } else {
+            list.add(name[0]);
+          }
+        }
+      }
+      _xblockexpression = list;
+    }
+    return _xblockexpression;
+  }
+  
+  public boolean validateOccursOnce(final List<String> list, final String name) {
+    boolean _xblockexpression = false;
+    {
+      int counter = 0;
+      for (final String currentName : list) {
+        boolean _equals = Objects.equal(name, currentName);
+        if (_equals) {
+          counter++;
+        }
+      }
+      if ((counter > 1)) {
+        return true;
+      }
+      _xblockexpression = false;
+    }
+    return _xblockexpression;
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void validateBoardNamesUniversallyUnique(final Board board) {
+    final Iterable<IEObjectDescription> boards = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(board, Model.class), IoTPackage.eINSTANCE.getBoard());
+    final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(boards), board.getName());
+    if (dublicate) {
+      this.error("board names must be universally unique", IoTPackage.Literals.BOARD__NAME);
+    }
+  }
+  
+  public ArrayList<String> asStringList(final List<Variable> vars) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      final ArrayList<String> list = CollectionLiterals.<String>newArrayList();
+      for (final Variable variable : vars) {
+        list.add(variable.getName());
+      }
+      _xblockexpression = list;
+    }
+    return _xblockexpression;
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void validateSensorNamesUniversallyUnique(final Sensor sensor) {
+    final Iterable<IEObjectDescription> sensors = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(sensor, Model.class), IoTPackage.eINSTANCE.getSensor());
+    final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(sensors), sensor.getName());
+    if (dublicate) {
+      ExtendsBoard _containerOfType = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
+      AbstractBoard _abstractBoard = null;
+      if (_containerOfType!=null) {
+        _abstractBoard=_containerOfType.getAbstractBoard();
+      }
+      final AbstractBoard extendsBoard = _abstractBoard;
+      if ((extendsBoard != null)) {
+        int counter = 0;
+        EList<Sensor> _sensors = extendsBoard.getSensors();
+        for (final Sensor s : _sensors) {
+          String _name = s.getName();
+          String _name_1 = sensor.getName();
+          boolean _equals = Objects.equal(_name, _name_1);
+          if (_equals) {
+            counter++;
+          }
+        }
+        if ((counter > 0)) {
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("overriding ");
+          String _name_2 = sensor.getName();
+          _builder.append(_name_2);
+          _builder.append(" in ");
+          String _name_3 = extendsBoard.getName();
+          _builder.append(_name_3);
+          this.info(_builder.toString(), IoTPackage.Literals.SENSOR__NAME);
+          return;
+        }
+      }
+      AbstractBoard _containerOfType_1 = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
+      boolean _tripleNotEquals = (_containerOfType_1 != null);
+      if (_tripleNotEquals) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        String _name_4 = sensor.getName();
+        _builder_1.append(_name_4);
+        _builder_1.append(" might be overwritten");
+        this.info(_builder_1.toString(), IoTPackage.Literals.SENSOR__NAME);
+      } else {
+        this.error("sensor names must be universally unique", IoTPackage.Literals.SENSOR__NAME);
       }
     }
   }
   
   @Check
-  public Object validatePipeLine(final Expression expression) {
-    return null;
+  public void validateBoardVersion(final BoardVersion boardVersion) {
+    final Boards board = Boards.getBoardSupported(boardVersion.getType(), boardVersion.getModel());
+    int _size = board.getSensors().size();
+    boolean _greaterThan = (_size > 0);
+    if (_greaterThan) {
+      StringConcatenation _builder = new StringConcatenation();
+      String _string = board.toString();
+      _builder.append(_string);
+      _builder.append(" supports the following sensors: ");
+      Set<String> _sensors = board.getSensors();
+      _builder.append(_sensors);
+      this.info(_builder.toString(), IoTPackage.Literals.BOARD_VERSION__TYPE);
+    }
+  }
+  
+  public void validateOnboardSensorVariables(final Boards board, final String sensor, final List<Variable> vars, final EReference ref) {
+    boolean _supportsSensor = board.supportsSensor(sensor);
+    if (_supportsSensor) {
+      int _variableCount = board.getVariableCount(sensor);
+      int _size = vars.size();
+      boolean _notEquals = (_variableCount != _size);
+      if (_notEquals) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append(sensor);
+        _builder.append(" outputs ");
+        int _variableCount_1 = board.getVariableCount(sensor);
+        _builder.append(_variableCount_1);
+        _builder.append(" variables");
+        this.error(_builder.toString(), ref);
+      }
+    }
   }
   
   @Check
-  public Object validateOnboardSensor(final Model model) {
-    return null;
+  public void validateSensorVariables(final SensorVariables sensorVars) {
+    boolean _contains = this.asStringList(sensorVars.getIds()).contains(sensorVars.getName());
+    if (_contains) {
+      this.error("sensor variable must be unique in its context", IoTPackage.eINSTANCE.getSensorVariables_Name());
+    }
+  }
+  
+  @Check
+  public void validateOnboardSensorVariables(final Sensor sensor) {
+    final NewBoard nboard = EcoreUtil2.<NewBoard>getContainerOfType(sensor, NewBoard.class);
+    if ((nboard != null)) {
+      final Boards board = Boards.getBoardSupported(nboard.getVersion());
+      this.validateOnboardSensorVariables(board, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
+      return;
+    }
+    final ExtendsBoard eboard = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
+    if ((eboard != null)) {
+      final Boards board_1 = Boards.getBoardSupported(eboard.getAbstractBoard().getVersion());
+      this.validateOnboardSensorVariables(board_1, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
+      return;
+    }
+    final AbstractBoard aboard = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
+    if ((aboard != null)) {
+      final Boards board_2 = Boards.getBoardSupported(aboard.getVersion());
+      this.validateOnboardSensorVariables(board_2, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
+    }
+  }
+  
+  @Check
+  public void validateOnboardSensor(final OnboardSensor onbSensor) {
+    NewBoard boardVersion = EcoreUtil2.<NewBoard>getContainerOfType(onbSensor, NewBoard.class);
+    if ((boardVersion != null)) {
+      final Boards board = Boards.getBoardSupported(boardVersion.getVersion());
+      boolean _supportsSensor = board.supportsSensor(onbSensor.getName());
+      boolean _not = (!_supportsSensor);
+      if (_not) {
+        StringConcatenation _builder = new StringConcatenation();
+        String _string = board.toString();
+        _builder.append(_string);
+        _builder.append(" does not support ");
+        String _name = onbSensor.getName();
+        _builder.append(_name);
+        this.error(_builder.toString(), IoTPackage.eINSTANCE.getSensorType_Name());
+      }
+      return;
+    }
+    ExtendsBoard _containerOfType = EcoreUtil2.<ExtendsBoard>getContainerOfType(onbSensor, ExtendsBoard.class);
+    AbstractBoard _abstractBoard = null;
+    if (_containerOfType!=null) {
+      _abstractBoard=_containerOfType.getAbstractBoard();
+    }
+    AbstractBoard extendsVersion = _abstractBoard;
+    if ((extendsVersion != null)) {
+      final Boards board_1 = Boards.getBoardSupported(extendsVersion.getVersion());
+      boolean _supportsSensor_1 = board_1.supportsSensor(onbSensor.getName());
+      boolean _not_1 = (!_supportsSensor_1);
+      if (_not_1) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        String _name_1 = extendsVersion.getName();
+        _builder_1.append(_name_1);
+        _builder_1.append(" does not support ");
+        String _name_2 = onbSensor.getName();
+        _builder_1.append(_name_2);
+        this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getSensorType_Name());
+      }
+      return;
+    }
+    AbstractBoard abstractVersion = EcoreUtil2.<AbstractBoard>getContainerOfType(onbSensor, AbstractBoard.class);
+    if ((abstractVersion != null)) {
+      final Boards board_2 = Boards.getBoardSupported(abstractVersion.getVersion());
+      boolean _supportsSensor_2 = board_2.supportsSensor(onbSensor.getName());
+      boolean _not_2 = (!_supportsSensor_2);
+      if (_not_2) {
+        StringConcatenation _builder_2 = new StringConcatenation();
+        String _string_1 = board_2.toString();
+        _builder_2.append(_string_1);
+        _builder_2.append(" does not support ");
+        String _name_3 = onbSensor.getName();
+        _builder_2.append(_name_3);
+        this.error(_builder_2.toString(), IoTPackage.eINSTANCE.getSensorType_Name());
+      }
+    }
+  }
+  
+  @Check
+  public void validateChannel(final Wifi channel) {
+    this.warning("wifi information should not be displayed in the code", IoTPackage.eINSTANCE.getWifi_Pass());
+  }
+  
+  @Check
+  public void validateMQTTClient(final MqttClient mqtt) {
+    String[] ipAddress = mqtt.getBroker().split("\\.");
+    final String[] _converted_ipAddress = (String[])ipAddress;
+    int _size = ((List<String>)Conversions.doWrapArray(_converted_ipAddress)).size();
+    boolean _lessThan = (_size < 4);
+    if (_lessThan) {
+      this.error("not a valid ip address", IoTPackage.eINSTANCE.getMqttClient_Broker());
+    }
+    for (final String str : ipAddress) {
+      {
+        final int integer = Integer.parseInt(str);
+        if ((integer < 0)) {
+          this.error("address cannot be less than 0", IoTPackage.eINSTANCE.getMqttClient_Broker());
+        }
+        if ((integer > 255)) {
+          this.error("address cannot be larger than 255", IoTPackage.eINSTANCE.getMqttClient_Broker());
+        }
+      }
+    }
   }
 }

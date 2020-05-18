@@ -36,8 +36,9 @@
     <genClasses ecoreClass="IoT.ecore#//stopChar"/>
     <genClasses ecoreClass="IoT.ecore#//MqttClient">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/broker"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/port"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/client"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/sub"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/pub"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Board">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Board/name"/>
@@ -67,7 +68,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/output"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//SensorType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SensorType/sensor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SensorType/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//ExternalSensor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ExternalSensor/pins"/>
@@ -83,6 +84,7 @@
     <genClasses ecoreClass="IoT.ecore#//Sampler"/>
     <genClasses ecoreClass="IoT.ecore#//Command">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Command/command"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Command/topic"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Frequency">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Frequency/frequency"/>

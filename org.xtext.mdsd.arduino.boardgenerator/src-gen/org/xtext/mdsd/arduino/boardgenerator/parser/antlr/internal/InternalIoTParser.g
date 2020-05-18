@@ -658,15 +658,37 @@ ruleMqttClient returns [EObject current=null]
 				}
 			)
 		)
-		otherlv_2=Client
+		otherlv_2=Port
 		{
-			newLeafNode(otherlv_2, grammarAccess.getMqttClientAccess().getClientKeyword_2());
+			newLeafNode(otherlv_2, grammarAccess.getMqttClientAccess().getPortKeyword_2());
 		}
 		(
 			(
-				lv_client_3_0=RULE_STRING
+				lv_port_3_0=RULE_INT
 				{
-					newLeafNode(lv_client_3_0, grammarAccess.getMqttClientAccess().getClientSTRINGTerminalRuleCall_3_0());
+					newLeafNode(lv_port_3_0, grammarAccess.getMqttClientAccess().getPortINTTerminalRuleCall_3_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getMqttClientRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"port",
+						lv_port_3_0,
+						"org.xtext.mdsd.arduino.boardgenerator.IoT.INT");
+				}
+			)
+		)
+		otherlv_4=Id
+		{
+			newLeafNode(otherlv_4, grammarAccess.getMqttClientAccess().getIdKeyword_4());
+		}
+		(
+			(
+				lv_client_5_0=RULE_STRING
+				{
+					newLeafNode(lv_client_5_0, grammarAccess.getMqttClientAccess().getClientSTRINGTerminalRuleCall_5_0());
 				}
 				{
 					if ($current==null) {
@@ -675,67 +697,33 @@ ruleMqttClient returns [EObject current=null]
 					setWithLastConsumed(
 						$current,
 						"client",
-						lv_client_3_0,
+						lv_client_5_0,
 						"org.eclipse.xtext.common.Terminals.STRING");
 				}
 			)
 		)
+		otherlv_6=Topic
+		{
+			newLeafNode(otherlv_6, grammarAccess.getMqttClientAccess().getTopicKeyword_6());
+		}
 		(
-			otherlv_4=Sub
-			{
-				newLeafNode(otherlv_4, grammarAccess.getMqttClientAccess().getSubKeyword_4_0());
-			}
-			otherlv_5=LeftSquareBracket
-			{
-				newLeafNode(otherlv_5, grammarAccess.getMqttClientAccess().getLeftSquareBracketKeyword_4_1());
-			}
 			(
-				(
-					lv_sub_6_0=RULE_STRING
-					{
-						newLeafNode(lv_sub_6_0, grammarAccess.getMqttClientAccess().getSubSTRINGTerminalRuleCall_4_2_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMqttClientRule());
-						}
-						addWithLastConsumed(
-							$current,
-							"sub",
-							lv_sub_6_0,
-							"org.eclipse.xtext.common.Terminals.STRING");
-					}
-				)
-			)
-			(
-				otherlv_7=Comma
+				lv_pub_7_0=RULE_STRING
 				{
-					newLeafNode(otherlv_7, grammarAccess.getMqttClientAccess().getCommaKeyword_4_3_0());
+					newLeafNode(lv_pub_7_0, grammarAccess.getMqttClientAccess().getPubSTRINGTerminalRuleCall_7_0());
 				}
-				(
-					(
-						lv_sub_8_0=RULE_STRING
-						{
-							newLeafNode(lv_sub_8_0, grammarAccess.getMqttClientAccess().getSubSTRINGTerminalRuleCall_4_3_1_0());
-						}
-						{
-							if ($current==null) {
-								$current = createModelElement(grammarAccess.getMqttClientRule());
-							}
-							addWithLastConsumed(
-								$current,
-								"sub",
-								lv_sub_8_0,
-								"org.eclipse.xtext.common.Terminals.STRING");
-						}
-					)
-				)
-			)*
-			otherlv_9=RightSquareBracket
-			{
-				newLeafNode(otherlv_9, grammarAccess.getMqttClientAccess().getRightSquareBracketKeyword_4_4());
-			}
-		)?
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getMqttClientRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"pub",
+						lv_pub_7_0,
+						"org.eclipse.xtext.common.Terminals.STRING");
+				}
+			)
+		)
 	)
 ;
 
@@ -1334,9 +1322,9 @@ ruleExternalSensor returns [EObject current=null]
 	(
 		(
 			(
-				lv_sensor_0_0=RULE_ID
+				lv_name_0_0=RULE_ID
 				{
-					newLeafNode(lv_sensor_0_0, grammarAccess.getExternalSensorAccess().getSensorIDTerminalRuleCall_0_0());
+					newLeafNode(lv_name_0_0, grammarAccess.getExternalSensorAccess().getNameIDTerminalRuleCall_0_0());
 				}
 				{
 					if ($current==null) {
@@ -1344,8 +1332,8 @@ ruleExternalSensor returns [EObject current=null]
 					}
 					setWithLastConsumed(
 						$current,
-						"sensor",
-						lv_sensor_0_0,
+						"name",
+						lv_name_0_0,
 						"org.eclipse.xtext.common.Terminals.ID");
 				}
 			)
@@ -1420,9 +1408,9 @@ ruleOnboardSensor returns [EObject current=null]
 }:
 	(
 		(
-			lv_sensor_0_0=RULE_ID
+			lv_name_0_0=RULE_ID
 			{
-				newLeafNode(lv_sensor_0_0, grammarAccess.getOnboardSensorAccess().getSensorIDTerminalRuleCall_0());
+				newLeafNode(lv_name_0_0, grammarAccess.getOnboardSensorAccess().getNameIDTerminalRuleCall_0());
 			}
 			{
 				if ($current==null) {
@@ -1430,8 +1418,8 @@ ruleOnboardSensor returns [EObject current=null]
 				}
 				setWithLastConsumed(
 					$current,
-					"sensor",
-					lv_sensor_0_0,
+					"name",
+					lv_name_0_0,
 					"org.eclipse.xtext.common.Terminals.ID");
 			}
 		)
@@ -1636,6 +1624,24 @@ ruleCommand returns [EObject current=null]
 				}
 			)
 		)
+		(
+			(
+				lv_topic_2_0=RULE_STRING
+				{
+					newLeafNode(lv_topic_2_0, grammarAccess.getCommandAccess().getTopicSTRINGTerminalRuleCall_2_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getCommandRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"topic",
+						lv_topic_2_0,
+						"org.eclipse.xtext.common.Terminals.STRING");
+				}
+			)
+		)?
 	)
 ;
 
@@ -3393,6 +3399,22 @@ ruleNUMBER returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 		}
 		{
 			newLeafNode(this_SCI_2, grammarAccess.getNUMBERAccess().getSCITerminalRuleCall_2());
+		}
+		    |
+		this_NINT_3=RULE_NINT
+		{
+			$current.merge(this_NINT_3);
+		}
+		{
+			newLeafNode(this_NINT_3, grammarAccess.getNUMBERAccess().getNINTTerminalRuleCall_3());
+		}
+		    |
+		this_NDBL_4=RULE_NDBL
+		{
+			$current.merge(this_NDBL_4);
+		}
+		{
+			newLeafNode(this_NDBL_4, grammarAccess.getNUMBERAccess().getNDBLTerminalRuleCall_4());
 		}
 	)
 ;

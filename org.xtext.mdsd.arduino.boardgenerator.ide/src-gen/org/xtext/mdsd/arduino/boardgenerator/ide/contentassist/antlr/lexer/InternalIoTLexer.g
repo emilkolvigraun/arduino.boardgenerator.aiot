@@ -33,8 +33,6 @@ Seconds : 'seconds';
 
 Broker : 'broker';
 
-Client : 'client';
-
 Filter : 'filter';
 
 Median : 'median';
@@ -55,6 +53,8 @@ Model : 'model';
 
 Stdev : 'stdev';
 
+Topic : 'topic';
+
 Baud : 'baud';
 
 Byte : 'byte';
@@ -68,6 +68,8 @@ Mqtt : 'mqtt';
 Pass : 'pass';
 
 Pipe : 'pipe';
+
+Port : 'port';
 
 Ssid : 'ssid';
 
@@ -84,8 +86,6 @@ Map : 'map';
 Max : 'max';
 
 Min : 'min';
-
-Sub : 'sub';
 
 Vcc : 'vcc';
 
@@ -104,6 +104,8 @@ EqualsSignEqualsSign : '==';
 GreaterThanSignEqualsSign : '>=';
 
 As : 'as';
+
+Id : 'id';
 
 VerticalLineVerticalLine : '||';
 
@@ -145,7 +147,11 @@ fragment RULE_END : ;
 
 RULE_INT : ('0'|'1'..'9' ('0'..'9')*);
 
+RULE_NINT : '-' ('0'|'1'..'9' ('0'..'9')*);
+
 RULE_DBL : RULE_INT? '.' ('0'..'9')+;
+
+RULE_NDBL : '-' RULE_INT? '.' ('0'..'9')+;
 
 RULE_SCI : (RULE_INT|RULE_DBL) ('e'|'E') '-'? RULE_INT;
 

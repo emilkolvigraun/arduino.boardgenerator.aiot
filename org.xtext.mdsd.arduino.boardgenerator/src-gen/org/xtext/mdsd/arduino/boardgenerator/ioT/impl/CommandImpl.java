@@ -21,6 +21,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CommandImpl#getCommand <em>Command</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CommandImpl#getTopic <em>Topic</em>}</li>
  * </ul>
  *
  * @generated
@@ -46,6 +47,26 @@ public class CommandImpl extends SamplerImpl implements Command
    * @ordered
    */
   protected String command = COMMAND_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getTopic() <em>Topic</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTopic()
+   * @generated
+   * @ordered
+   */
+  protected static final String TOPIC_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getTopic() <em>Topic</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTopic()
+   * @generated
+   * @ordered
+   */
+  protected String topic = TOPIC_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -99,12 +120,39 @@ public class CommandImpl extends SamplerImpl implements Command
    * @generated
    */
   @Override
+  public String getTopic()
+  {
+    return topic;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setTopic(String newTopic)
+  {
+    String oldTopic = topic;
+    topic = newTopic;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.COMMAND__TOPIC, oldTopic, topic));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
     {
       case IoTPackage.COMMAND__COMMAND:
         return getCommand();
+      case IoTPackage.COMMAND__TOPIC:
+        return getTopic();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -121,6 +169,9 @@ public class CommandImpl extends SamplerImpl implements Command
     {
       case IoTPackage.COMMAND__COMMAND:
         setCommand((String)newValue);
+        return;
+      case IoTPackage.COMMAND__TOPIC:
+        setTopic((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -139,6 +190,9 @@ public class CommandImpl extends SamplerImpl implements Command
       case IoTPackage.COMMAND__COMMAND:
         setCommand(COMMAND_EDEFAULT);
         return;
+      case IoTPackage.COMMAND__TOPIC:
+        setTopic(TOPIC_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -155,6 +209,8 @@ public class CommandImpl extends SamplerImpl implements Command
     {
       case IoTPackage.COMMAND__COMMAND:
         return COMMAND_EDEFAULT == null ? command != null : !COMMAND_EDEFAULT.equals(command);
+      case IoTPackage.COMMAND__TOPIC:
+        return TOPIC_EDEFAULT == null ? topic != null : !TOPIC_EDEFAULT.equals(topic);
     }
     return super.eIsSet(featureID);
   }
@@ -172,6 +228,8 @@ public class CommandImpl extends SamplerImpl implements Command
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (command: ");
     result.append(command);
+    result.append(", topic: ");
+    result.append(topic);
     result.append(')');
     return result.toString();
   }

@@ -476,16 +476,10 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Command returns Command
 	 *
 	 * Constraint:
-	 *     command=STRING
+	 *     (command=STRING topic=STRING?)
 	 */
 	protected void sequence_Command(ISerializationContext context, Command semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.COMMAND__COMMAND) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.COMMAND__COMMAND));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getCommandAccess().getCommandSTRINGTerminalRuleCall_1_0(), semanticObject.getCommand());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -975,7 +969,7 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     ExternalSensor returns ExternalSensor
 	 *
 	 * Constraint:
-	 *     (sensor=ID pins+=INT pins+=INT*)
+	 *     (name=ID pins+=INT pins+=INT*)
 	 */
 	protected void sequence_ExternalSensor(ISerializationContext context, ExternalSensor semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1090,10 +1084,25 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     MqttClient returns MqttClient
 	 *
 	 * Constraint:
-	 *     (broker=STRING client=STRING (sub+=STRING sub+=STRING*)?)
+	 *     (broker=STRING port=INT client=STRING pub=STRING)
 	 */
 	protected void sequence_MqttClient(ISerializationContext context, MqttClient semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__BROKER) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__BROKER));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PORT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PORT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__CLIENT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__CLIENT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PUB) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PUB));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getMqttClientAccess().getBrokerSTRINGTerminalRuleCall_1_0(), semanticObject.getBroker());
+		feeder.accept(grammarAccess.getMqttClientAccess().getPortINTTerminalRuleCall_3_0(), semanticObject.getPort());
+		feeder.accept(grammarAccess.getMqttClientAccess().getClientSTRINGTerminalRuleCall_5_0(), semanticObject.getClient());
+		feeder.accept(grammarAccess.getMqttClientAccess().getPubSTRINGTerminalRuleCall_7_0(), semanticObject.getPub());
+		feeder.finish();
 	}
 	
 	
@@ -1338,15 +1347,15 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     OnboardSensor returns OnboardSensor
 	 *
 	 * Constraint:
-	 *     sensor=ID
+	 *     name=ID
 	 */
 	protected void sequence_OnboardSensor(ISerializationContext context, OnboardSensor semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SENSOR_TYPE__SENSOR) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SENSOR_TYPE__SENSOR));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SENSOR_TYPE__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SENSOR_TYPE__NAME));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getOnboardSensorAccess().getSensorIDTerminalRuleCall_0(), semanticObject.getSensor());
+		feeder.accept(grammarAccess.getOnboardSensorAccess().getNameIDTerminalRuleCall_0(), semanticObject.getName());
 		feeder.finish();
 	}
 	

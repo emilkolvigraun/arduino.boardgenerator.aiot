@@ -10,15 +10,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Model
 import java.util.HashMap
 import org.eclipse.xtext.resource.EObjectDescription
 import org.eclipse.xtext.naming.QualifiedName
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.EOperation
-import org.eclipse.emf.common.util.EList
-import java.lang.reflect.InvocationTargetException
-import org.eclipse.emf.common.notify.Notification
-import java.util.List
-import java.nio.file.Paths;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject
 import org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ImportObjectImpl
 
 class IoTResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy {

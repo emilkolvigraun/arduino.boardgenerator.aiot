@@ -3,17 +3,11 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
@@ -27,8 +21,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MqttClientImpl#getBroker <em>Broker</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MqttClientImpl#getPort <em>Port</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MqttClientImpl#getClient <em>Client</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MqttClientImpl#getSub <em>Sub</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MqttClientImpl#getPub <em>Pub</em>}</li>
  * </ul>
  *
  * @generated
@@ -56,6 +51,26 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
   protected String broker = BROKER_EDEFAULT;
 
   /**
+   * The default value of the '{@link #getPort() <em>Port</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPort()
+   * @generated
+   * @ordered
+   */
+  protected static final int PORT_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getPort() <em>Port</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPort()
+   * @generated
+   * @ordered
+   */
+  protected int port = PORT_EDEFAULT;
+
+  /**
    * The default value of the '{@link #getClient() <em>Client</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -76,14 +91,24 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
   protected String client = CLIENT_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getSub() <em>Sub</em>}' attribute list.
+   * The default value of the '{@link #getPub() <em>Pub</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getSub()
+   * @see #getPub()
    * @generated
    * @ordered
    */
-  protected EList<String> sub;
+  protected static final String PUB_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getPub() <em>Pub</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPub()
+   * @generated
+   * @ordered
+   */
+  protected String pub = PUB_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -137,6 +162,31 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
    * @generated
    */
   @Override
+  public int getPort()
+  {
+    return port;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setPort(int newPort)
+  {
+    int oldPort = port;
+    port = newPort;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.MQTT_CLIENT__PORT, oldPort, port));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public String getClient()
   {
     return client;
@@ -162,13 +212,23 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
    * @generated
    */
   @Override
-  public EList<String> getSub()
+  public String getPub()
   {
-    if (sub == null)
-    {
-      sub = new EDataTypeEList<String>(String.class, this, IoTPackage.MQTT_CLIENT__SUB);
-    }
-    return sub;
+    return pub;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setPub(String newPub)
+  {
+    String oldPub = pub;
+    pub = newPub;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.MQTT_CLIENT__PUB, oldPub, pub));
   }
 
   /**
@@ -183,10 +243,12 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
     {
       case IoTPackage.MQTT_CLIENT__BROKER:
         return getBroker();
+      case IoTPackage.MQTT_CLIENT__PORT:
+        return getPort();
       case IoTPackage.MQTT_CLIENT__CLIENT:
         return getClient();
-      case IoTPackage.MQTT_CLIENT__SUB:
-        return getSub();
+      case IoTPackage.MQTT_CLIENT__PUB:
+        return getPub();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -196,7 +258,6 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -205,12 +266,14 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
       case IoTPackage.MQTT_CLIENT__BROKER:
         setBroker((String)newValue);
         return;
+      case IoTPackage.MQTT_CLIENT__PORT:
+        setPort((Integer)newValue);
+        return;
       case IoTPackage.MQTT_CLIENT__CLIENT:
         setClient((String)newValue);
         return;
-      case IoTPackage.MQTT_CLIENT__SUB:
-        getSub().clear();
-        getSub().addAll((Collection<? extends String>)newValue);
+      case IoTPackage.MQTT_CLIENT__PUB:
+        setPub((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -229,11 +292,14 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
       case IoTPackage.MQTT_CLIENT__BROKER:
         setBroker(BROKER_EDEFAULT);
         return;
+      case IoTPackage.MQTT_CLIENT__PORT:
+        setPort(PORT_EDEFAULT);
+        return;
       case IoTPackage.MQTT_CLIENT__CLIENT:
         setClient(CLIENT_EDEFAULT);
         return;
-      case IoTPackage.MQTT_CLIENT__SUB:
-        getSub().clear();
+      case IoTPackage.MQTT_CLIENT__PUB:
+        setPub(PUB_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -251,10 +317,12 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
     {
       case IoTPackage.MQTT_CLIENT__BROKER:
         return BROKER_EDEFAULT == null ? broker != null : !BROKER_EDEFAULT.equals(broker);
+      case IoTPackage.MQTT_CLIENT__PORT:
+        return port != PORT_EDEFAULT;
       case IoTPackage.MQTT_CLIENT__CLIENT:
         return CLIENT_EDEFAULT == null ? client != null : !CLIENT_EDEFAULT.equals(client);
-      case IoTPackage.MQTT_CLIENT__SUB:
-        return sub != null && !sub.isEmpty();
+      case IoTPackage.MQTT_CLIENT__PUB:
+        return PUB_EDEFAULT == null ? pub != null : !PUB_EDEFAULT.equals(pub);
     }
     return super.eIsSet(featureID);
   }
@@ -272,10 +340,12 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (broker: ");
     result.append(broker);
+    result.append(", port: ");
+    result.append(port);
     result.append(", client: ");
     result.append(client);
-    result.append(", sub: ");
-    result.append(sub);
+    result.append(", pub: ");
+    result.append(pub);
     result.append(')');
     return result.toString();
   }
