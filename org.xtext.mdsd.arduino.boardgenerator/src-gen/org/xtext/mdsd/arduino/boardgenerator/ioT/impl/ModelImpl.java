@@ -32,7 +32,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getInclude <em>Include</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getIncludes <em>Includes</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getChannel <em>Channel</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getAbstractBoard <em>Abstract Board</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getBoard <em>Board</em>}</li>
@@ -43,14 +43,14 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model
 {
   /**
-   * The cached value of the '{@link #getInclude() <em>Include</em>}' containment reference list.
+   * The cached value of the '{@link #getIncludes() <em>Includes</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInclude()
+   * @see #getIncludes()
    * @generated
    * @ordered
    */
-  protected EList<Include> include;
+  protected EList<Include> includes;
 
   /**
    * The cached value of the '{@link #getChannel() <em>Channel</em>}' containment reference list.
@@ -109,13 +109,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
-  public EList<Include> getInclude()
+  public EList<Include> getIncludes()
   {
-    if (include == null)
+    if (includes == null)
     {
-      include = new EObjectContainmentEList<Include>(Include.class, this, IoTPackage.MODEL__INCLUDE);
+      includes = new EObjectContainmentEList<Include>(Include.class, this, IoTPackage.MODEL__INCLUDES);
     }
-    return include;
+    return includes;
   }
 
   /**
@@ -173,8 +173,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__INCLUDE:
-        return ((InternalEList<?>)getInclude()).basicRemove(otherEnd, msgs);
+      case IoTPackage.MODEL__INCLUDES:
+        return ((InternalEList<?>)getIncludes()).basicRemove(otherEnd, msgs);
       case IoTPackage.MODEL__CHANNEL:
         return ((InternalEList<?>)getChannel()).basicRemove(otherEnd, msgs);
       case IoTPackage.MODEL__ABSTRACT_BOARD:
@@ -195,8 +195,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__INCLUDE:
-        return getInclude();
+      case IoTPackage.MODEL__INCLUDES:
+        return getIncludes();
       case IoTPackage.MODEL__CHANNEL:
         return getChannel();
       case IoTPackage.MODEL__ABSTRACT_BOARD:
@@ -218,9 +218,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__INCLUDE:
-        getInclude().clear();
-        getInclude().addAll((Collection<? extends Include>)newValue);
+      case IoTPackage.MODEL__INCLUDES:
+        getIncludes().clear();
+        getIncludes().addAll((Collection<? extends Include>)newValue);
         return;
       case IoTPackage.MODEL__CHANNEL:
         getChannel().clear();
@@ -248,8 +248,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__INCLUDE:
-        getInclude().clear();
+      case IoTPackage.MODEL__INCLUDES:
+        getIncludes().clear();
         return;
       case IoTPackage.MODEL__CHANNEL:
         getChannel().clear();
@@ -274,8 +274,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case IoTPackage.MODEL__INCLUDE:
-        return include != null && !include.isEmpty();
+      case IoTPackage.MODEL__INCLUDES:
+        return includes != null && !includes.isEmpty();
       case IoTPackage.MODEL__CHANNEL:
         return channel != null && !channel.isEmpty();
       case IoTPackage.MODEL__ABSTRACT_BOARD:

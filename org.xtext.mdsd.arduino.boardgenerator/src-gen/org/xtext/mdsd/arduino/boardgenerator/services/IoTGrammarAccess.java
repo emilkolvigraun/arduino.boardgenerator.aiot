@@ -27,8 +27,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	public class ModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Model");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cIncludeAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cIncludeIncludeParserRuleCall_0_0 = (RuleCall)cIncludeAssignment_0.eContents().get(0);
+		private final Assignment cIncludesAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cIncludesIncludeParserRuleCall_0_0 = (RuleCall)cIncludesAssignment_0.eContents().get(0);
 		private final Assignment cChannelAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cChannelChannelParserRuleCall_1_0 = (RuleCall)cChannelAssignment_1.eContents().get(0);
 		private final Assignment cAbstractBoardAssignment_2 = (Assignment)cGroup.eContents().get(2);
@@ -40,17 +40,17 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//// Channels are zero or more (in case they are imported)
 		//// Boards are zero or more   
 		//Model:
-		//	include+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*;
+		//	includes+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//include+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*
+		//includes+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*
 		public Group getGroup() { return cGroup; }
 		
-		//include+=Include*
-		public Assignment getIncludeAssignment_0() { return cIncludeAssignment_0; }
+		//includes+=Include*
+		public Assignment getIncludesAssignment_0() { return cIncludesAssignment_0; }
 		
 		//Include
-		public RuleCall getIncludeIncludeParserRuleCall_0_0() { return cIncludeIncludeParserRuleCall_0_0; }
+		public RuleCall getIncludesIncludeParserRuleCall_0_0() { return cIncludesIncludeParserRuleCall_0_0; }
 		
 		//channel+=Channel*
 		public Assignment getChannelAssignment_1() { return cChannelAssignment_1; }
@@ -74,42 +74,57 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Include");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cIncludeKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cPathAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cPathIDTerminalRuleCall_1_0 = (RuleCall)cPathAssignment_1.eContents().get(0);
+		private final Assignment cImportURIAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cImportURIIDTerminalRuleCall_1_0 = (RuleCall)cImportURIAssignment_1.eContents().get(0);
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
 		private final Keyword cFullStopKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Assignment cPathAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
-		private final RuleCall cPathIDTerminalRuleCall_2_1_0 = (RuleCall)cPathAssignment_2_1.eContents().get(0);
+		private final Assignment cImportURIAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
+		private final RuleCall cImportURIIDTerminalRuleCall_2_1_0 = (RuleCall)cImportURIAssignment_2_1.eContents().get(0);
 		
-		//// Includes = imports
+		//// Includes = imports 
 		//// I don't want the developer to write a string, so this will be parsed
 		//Include:
-		//	'include' path+=ID ('.' path+=ID)*;
+		//	'include' importURI+=ID ('.' importURI+=ID)*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'include' path+=ID ('.' path+=ID)*
+		//'include' importURI+=ID ('.' importURI+=ID)*
 		public Group getGroup() { return cGroup; }
 		
 		//'include'
 		public Keyword getIncludeKeyword_0() { return cIncludeKeyword_0; }
 		
-		//path+=ID
-		public Assignment getPathAssignment_1() { return cPathAssignment_1; }
+		//importURI+=ID
+		public Assignment getImportURIAssignment_1() { return cImportURIAssignment_1; }
 		
 		//ID
-		public RuleCall getPathIDTerminalRuleCall_1_0() { return cPathIDTerminalRuleCall_1_0; }
+		public RuleCall getImportURIIDTerminalRuleCall_1_0() { return cImportURIIDTerminalRuleCall_1_0; }
 		
-		//('.' path+=ID)*
+		//('.' importURI+=ID)*
 		public Group getGroup_2() { return cGroup_2; }
 		
 		//'.'
 		public Keyword getFullStopKeyword_2_0() { return cFullStopKeyword_2_0; }
 		
-		//path+=ID
-		public Assignment getPathAssignment_2_1() { return cPathAssignment_2_1; }
+		//importURI+=ID
+		public Assignment getImportURIAssignment_2_1() { return cImportURIAssignment_2_1; }
 		
 		//ID
-		public RuleCall getPathIDTerminalRuleCall_2_1_0() { return cPathIDTerminalRuleCall_2_1_0; }
+		public RuleCall getImportURIIDTerminalRuleCall_2_1_0() { return cImportURIIDTerminalRuleCall_2_1_0; }
+	}
+	public class ImportObjectElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.ImportObject");
+		private final Assignment cImportURIAssignment = (Assignment)rule.eContents().get(1);
+		private final RuleCall cImportURISTRINGTerminalRuleCall_0 = (RuleCall)cImportURIAssignment.eContents().get(0);
+		
+		//ImportObject:
+		//	importURI=STRING;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//importURI=STRING
+		public Assignment getImportURIAssignment() { return cImportURIAssignment; }
+		
+		//STRING
+		public RuleCall getImportURISTRINGTerminalRuleCall_0() { return cImportURISTRINGTerminalRuleCall_0; }
 	}
 	public class ChannelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Channel");
@@ -561,7 +576,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIDTerminalRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
 		private final Keyword cExtendsKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cAbstractBoardAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cAbstractBoardIDTerminalRuleCall_2_0 = (RuleCall)cAbstractBoardAssignment_2.eContents().get(0);
+		private final CrossReference cAbstractBoardAbstractBoardCrossReference_2_0 = (CrossReference)cAbstractBoardAssignment_2.eContents().get(0);
+		private final RuleCall cAbstractBoardAbstractBoardIDTerminalRuleCall_2_0_1 = (RuleCall)cAbstractBoardAbstractBoardCrossReference_2_0.eContents().get(1);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
 		private final Keyword cColonKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
 		private final RuleCall cBEGINTerminalRuleCall_3_1 = (RuleCall)cGroup_3.eContents().get(1);
@@ -571,11 +587,11 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//// Can extend another board, in that case needs only reference
 		//ExtendsBoard:
-		//	name=ID 'extends' abstractBoard=ID (':' BEGIN
+		//	name=ID 'extends' abstractBoard=[AbstractBoard] (':' BEGIN
 		//	sensors+=Sensor+ END)?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=ID 'extends' abstractBoard=ID (':' BEGIN sensors+=Sensor+ END)?
+		//name=ID 'extends' abstractBoard=[AbstractBoard] (':' BEGIN sensors+=Sensor+ END)?
 		public Group getGroup() { return cGroup; }
 		
 		//name=ID
@@ -587,11 +603,14 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//'extends'
 		public Keyword getExtendsKeyword_1() { return cExtendsKeyword_1; }
 		
-		//abstractBoard=ID
+		//abstractBoard=[AbstractBoard]
 		public Assignment getAbstractBoardAssignment_2() { return cAbstractBoardAssignment_2; }
 		
+		//[AbstractBoard]
+		public CrossReference getAbstractBoardAbstractBoardCrossReference_2_0() { return cAbstractBoardAbstractBoardCrossReference_2_0; }
+		
 		//ID
-		public RuleCall getAbstractBoardIDTerminalRuleCall_2_0() { return cAbstractBoardIDTerminalRuleCall_2_0; }
+		public RuleCall getAbstractBoardAbstractBoardIDTerminalRuleCall_2_0_1() { return cAbstractBoardAbstractBoardIDTerminalRuleCall_2_0_1; }
 		
 		//(':' BEGIN sensors+=Sensor+ END)?
 		public Group getGroup_3() { return cGroup_3; }
@@ -616,15 +635,25 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cAbstractKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cBoardKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cBoardAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cBoardNewBoardParserRuleCall_2_0 = (RuleCall)cBoardAssignment_2.eContents().get(0);
+		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		private final Keyword cColonKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final RuleCall cBEGINTerminalRuleCall_4 = (RuleCall)cGroup.eContents().get(4);
+		private final Assignment cVersionAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cVersionBoardVersionParserRuleCall_5_0 = (RuleCall)cVersionAssignment_5.eContents().get(0);
+		private final Assignment cSensorsAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cSensorsSensorParserRuleCall_6_0 = (RuleCall)cSensorsAssignment_6.eContents().get(0);
+		private final RuleCall cENDTerminalRuleCall_7 = (RuleCall)cGroup.eContents().get(7);
 		
 		//// ...
 		//AbstractBoard:
-		//	'abstract' 'board' board=NewBoard;
+		//	'abstract' 'board' name=ID ':' BEGIN
+		//	version=BoardVersion
+		//	sensors+=Sensor+
+		//	END;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'abstract' 'board' board=NewBoard
+		//'abstract' 'board' name=ID ':' BEGIN version=BoardVersion sensors+=Sensor+ END
 		public Group getGroup() { return cGroup; }
 		
 		//'abstract'
@@ -633,11 +662,32 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//'board'
 		public Keyword getBoardKeyword_1() { return cBoardKeyword_1; }
 		
-		//board=NewBoard
-		public Assignment getBoardAssignment_2() { return cBoardAssignment_2; }
+		//name=ID
+		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
 		
-		//NewBoard
-		public RuleCall getBoardNewBoardParserRuleCall_2_0() { return cBoardNewBoardParserRuleCall_2_0; }
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
+		
+		//':'
+		public Keyword getColonKeyword_3() { return cColonKeyword_3; }
+		
+		//BEGIN
+		public RuleCall getBEGINTerminalRuleCall_4() { return cBEGINTerminalRuleCall_4; }
+		
+		//version=BoardVersion
+		public Assignment getVersionAssignment_5() { return cVersionAssignment_5; }
+		
+		//BoardVersion
+		public RuleCall getVersionBoardVersionParserRuleCall_5_0() { return cVersionBoardVersionParserRuleCall_5_0; }
+		
+		//sensors+=Sensor+
+		public Assignment getSensorsAssignment_6() { return cSensorsAssignment_6; }
+		
+		//Sensor
+		public RuleCall getSensorsSensorParserRuleCall_6_0() { return cSensorsSensorParserRuleCall_6_0; }
+		
+		//END
+		public RuleCall getENDTerminalRuleCall_7() { return cENDTerminalRuleCall_7; }
 	}
 	public class SensorElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Sensor");
@@ -657,18 +707,23 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSampleKeyword_8_0 = (Keyword)cGroup_8.eContents().get(0);
 		private final Assignment cSamplerAssignment_8_1 = (Assignment)cGroup_8.eContents().get(1);
 		private final RuleCall cSamplerSamplerParserRuleCall_8_1_0 = (RuleCall)cSamplerAssignment_8_1.eContents().get(0);
-		private final Assignment cOutputAssignment_9 = (Assignment)cGroup.eContents().get(9);
-		private final RuleCall cOutputSensorOutputParserRuleCall_9_0 = (RuleCall)cOutputAssignment_9.eContents().get(0);
-		private final RuleCall cENDTerminalRuleCall_10 = (RuleCall)cGroup.eContents().get(10);
+		private final Group cGroup_9 = (Group)cGroup.eContents().get(9);
+		private final Keyword cVccKeyword_9_0 = (Keyword)cGroup_9.eContents().get(0);
+		private final Assignment cVccAssignment_9_1 = (Assignment)cGroup_9.eContents().get(1);
+		private final RuleCall cVccINTTerminalRuleCall_9_1_0 = (RuleCall)cVccAssignment_9_1.eContents().get(0);
+		private final Assignment cOutputAssignment_10 = (Assignment)cGroup.eContents().get(10);
+		private final RuleCall cOutputSensorOutputParserRuleCall_10_0 = (RuleCall)cOutputAssignment_10.eContents().get(0);
+		private final RuleCall cENDTerminalRuleCall_11 = (RuleCall)cGroup.eContents().get(11);
 		
 		//Sensor:
-		//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)?
+		//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)? ('vcc'
+		//	vcc=INT)?
 		//	output+=SensorOutput+
 		//	END;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)?
-		//output+=SensorOutput+ END
+		//'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)? ('vcc'
+		//vcc=INT)? output+=SensorOutput+ END
 		public Group getGroup() { return cGroup; }
 		
 		//'sensor'
@@ -716,14 +771,26 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//Sampler
 		public RuleCall getSamplerSamplerParserRuleCall_8_1_0() { return cSamplerSamplerParserRuleCall_8_1_0; }
 		
+		//('vcc' vcc=INT)?
+		public Group getGroup_9() { return cGroup_9; }
+		
+		//'vcc'
+		public Keyword getVccKeyword_9_0() { return cVccKeyword_9_0; }
+		
+		//vcc=INT
+		public Assignment getVccAssignment_9_1() { return cVccAssignment_9_1; }
+		
+		//INT
+		public RuleCall getVccINTTerminalRuleCall_9_1_0() { return cVccINTTerminalRuleCall_9_1_0; }
+		
 		//output+=SensorOutput+
-		public Assignment getOutputAssignment_9() { return cOutputAssignment_9; }
+		public Assignment getOutputAssignment_10() { return cOutputAssignment_10; }
 		
 		//SensorOutput
-		public RuleCall getOutputSensorOutputParserRuleCall_9_0() { return cOutputSensorOutputParserRuleCall_9_0; }
+		public RuleCall getOutputSensorOutputParserRuleCall_10_0() { return cOutputSensorOutputParserRuleCall_10_0; }
 		
 		//END
-		public RuleCall getENDTerminalRuleCall_10() { return cENDTerminalRuleCall_10; }
+		public RuleCall getENDTerminalRuleCall_11() { return cENDTerminalRuleCall_11; }
 	}
 	public class SensorTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.SensorType");
@@ -1999,6 +2066,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	
 	private final ModelElements pModel;
 	private final IncludeElements pInclude;
+	private final ImportObjectElements pImportObject;
 	private final ChannelElements pChannel;
 	private final ChannelTypeElements pChannelType;
 	private final ChannelConfigElements pChannelConfig;
@@ -2065,6 +2133,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		this.gaTerminals = gaTerminals;
 		this.pModel = new ModelElements();
 		this.pInclude = new IncludeElements();
+		this.pImportObject = new ImportObjectElements();
 		this.pChannel = new ChannelElements();
 		this.pChannelType = new ChannelTypeElements();
 		this.pChannelConfig = new ChannelConfigElements();
@@ -2152,7 +2221,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	//// Channels are zero or more (in case they are imported)
 	//// Boards are zero or more   
 	//Model:
-	//	include+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*;
+	//	includes+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -2161,16 +2230,26 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		return getModelAccess().getRule();
 	}
 	
-	//// Includes = imports
+	//// Includes = imports 
 	//// I don't want the developer to write a string, so this will be parsed
 	//Include:
-	//	'include' path+=ID ('.' path+=ID)*;
+	//	'include' importURI+=ID ('.' importURI+=ID)*;
 	public IncludeElements getIncludeAccess() {
 		return pInclude;
 	}
 	
 	public ParserRule getIncludeRule() {
 		return getIncludeAccess().getRule();
+	}
+	
+	//ImportObject:
+	//	importURI=STRING;
+	public ImportObjectElements getImportObjectAccess() {
+		return pImportObject;
+	}
+	
+	public ParserRule getImportObjectRule() {
+		return getImportObjectAccess().getRule();
 	}
 	
 	//// I realize that the channel grammar is very loose.
@@ -2288,7 +2367,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//// Can extend another board, in that case needs only reference
 	//ExtendsBoard:
-	//	name=ID 'extends' abstractBoard=ID (':' BEGIN
+	//	name=ID 'extends' abstractBoard=[AbstractBoard] (':' BEGIN
 	//	sensors+=Sensor+ END)?;
 	public ExtendsBoardElements getExtendsBoardAccess() {
 		return pExtendsBoard;
@@ -2300,7 +2379,10 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//// ...
 	//AbstractBoard:
-	//	'abstract' 'board' board=NewBoard;
+	//	'abstract' 'board' name=ID ':' BEGIN
+	//	version=BoardVersion
+	//	sensors+=Sensor+
+	//	END;
 	public AbstractBoardElements getAbstractBoardAccess() {
 		return pAbstractBoard;
 	}
@@ -2310,7 +2392,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Sensor:
-	//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)?
+	//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)? ('vcc'
+	//	vcc=INT)?
 	//	output+=SensorOutput+
 	//	END;
 	public SensorElements getSensorAccess() {

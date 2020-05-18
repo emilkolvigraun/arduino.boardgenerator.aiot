@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getInclude <em>Include</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getIncludes <em>Includes</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getChannel <em>Channel</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getAbstractBoard <em>Abstract Board</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getBoard <em>Board</em>}</li>
@@ -29,16 +29,16 @@ import org.eclipse.emf.ecore.EObject;
 public interface Model extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Include</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Includes</b></em>' containment reference list.
    * The list contents are of type {@link org.xtext.mdsd.arduino.boardgenerator.ioT.Include}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Include</em>' containment reference list.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getModel_Include()
+   * @return the value of the '<em>Includes</em>' containment reference list.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getModel_Includes()
    * @model containment="true"
    * @generated
    */
-  EList<Include> getInclude();
+  EList<Include> getIncludes();
 
   /**
    * Returns the value of the '<em><b>Channel</b></em>' containment reference list.

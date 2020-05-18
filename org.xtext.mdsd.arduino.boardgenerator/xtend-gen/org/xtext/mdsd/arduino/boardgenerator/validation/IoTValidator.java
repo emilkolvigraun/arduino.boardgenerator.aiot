@@ -3,11 +3,13 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.validation;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.validation.AbstractIoTValidator;
 
 /**
@@ -18,20 +20,29 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.AbstractIoTValidator;
 @SuppressWarnings("all")
 public class IoTValidator extends AbstractIoTValidator {
   @Check
-  public void validateExternalSensor(final ExternalSensor externalSensor) {
-    EObject _eContainer = externalSensor.eContainer();
-    final Sensor sensor = ((Sensor) _eContainer);
-    System.out.println(sensor.getVars());
+  public void validateExternalSensor(final Sensor sensor) {
+    final SensorType externalSensor = sensor.getSensortype();
+    if ((externalSensor instanceof ExternalSensor)) {
+      int _size = ((ExternalSensor)externalSensor).getPins().size();
+      int _size_1 = sensor.getVars().getIds().size();
+      boolean _notEquals = (_size != _size_1);
+      if (_notEquals) {
+        this.error("number of vars must equal number of pins", IoTPackage.Literals.SENSOR__VARS);
+      }
+      final int vcc = sensor.getVcc();
+      if ((vcc < 1)) {
+        this.error("this declaration of sensor needs vcc", IoTPackage.eINSTANCE.getSensor_Name());
+      }
+    }
   }
   
   @Check
-  protected void _validateSensor(final OnboardSensor sensor) {
-    System.out.println("----");
-    System.out.println(sensor);
+  public Object validatePipeLine(final Expression expression) {
+    return null;
   }
   
-  public void validateSensor(final OnboardSensor sensor) {
-    _validateSensor(sensor);
-    return;
+  @Check
+  public Object validateOnboardSensor(final Model model) {
+    return null;
   }
 }

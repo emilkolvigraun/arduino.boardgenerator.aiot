@@ -6,9 +6,11 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 
@@ -28,24 +30,14 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 public class ExtendsBoardImpl extends BoardImpl implements ExtendsBoard
 {
   /**
-   * The default value of the '{@link #getAbstractBoard() <em>Abstract Board</em>}' attribute.
+   * The cached value of the '{@link #getAbstractBoard() <em>Abstract Board</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getAbstractBoard()
    * @generated
    * @ordered
    */
-  protected static final String ABSTRACT_BOARD_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getAbstractBoard() <em>Abstract Board</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getAbstractBoard()
-   * @generated
-   * @ordered
-   */
-  protected String abstractBoard = ABSTRACT_BOARD_EDEFAULT;
+  protected AbstractBoard abstractBoard;
 
   /**
    * <!-- begin-user-doc -->
@@ -74,7 +66,27 @@ public class ExtendsBoardImpl extends BoardImpl implements ExtendsBoard
    * @generated
    */
   @Override
-  public String getAbstractBoard()
+  public AbstractBoard getAbstractBoard()
+  {
+    if (abstractBoard != null && abstractBoard.eIsProxy())
+    {
+      InternalEObject oldAbstractBoard = (InternalEObject)abstractBoard;
+      abstractBoard = (AbstractBoard)eResolveProxy(oldAbstractBoard);
+      if (abstractBoard != oldAbstractBoard)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, IoTPackage.EXTENDS_BOARD__ABSTRACT_BOARD, oldAbstractBoard, abstractBoard));
+      }
+    }
+    return abstractBoard;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public AbstractBoard basicGetAbstractBoard()
   {
     return abstractBoard;
   }
@@ -85,9 +97,9 @@ public class ExtendsBoardImpl extends BoardImpl implements ExtendsBoard
    * @generated
    */
   @Override
-  public void setAbstractBoard(String newAbstractBoard)
+  public void setAbstractBoard(AbstractBoard newAbstractBoard)
   {
-    String oldAbstractBoard = abstractBoard;
+    AbstractBoard oldAbstractBoard = abstractBoard;
     abstractBoard = newAbstractBoard;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.EXTENDS_BOARD__ABSTRACT_BOARD, oldAbstractBoard, abstractBoard));
@@ -104,7 +116,8 @@ public class ExtendsBoardImpl extends BoardImpl implements ExtendsBoard
     switch (featureID)
     {
       case IoTPackage.EXTENDS_BOARD__ABSTRACT_BOARD:
-        return getAbstractBoard();
+        if (resolve) return getAbstractBoard();
+        return basicGetAbstractBoard();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -120,7 +133,7 @@ public class ExtendsBoardImpl extends BoardImpl implements ExtendsBoard
     switch (featureID)
     {
       case IoTPackage.EXTENDS_BOARD__ABSTRACT_BOARD:
-        setAbstractBoard((String)newValue);
+        setAbstractBoard((AbstractBoard)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -137,7 +150,7 @@ public class ExtendsBoardImpl extends BoardImpl implements ExtendsBoard
     switch (featureID)
     {
       case IoTPackage.EXTENDS_BOARD__ABSTRACT_BOARD:
-        setAbstractBoard(ABSTRACT_BOARD_EDEFAULT);
+        setAbstractBoard((AbstractBoard)null);
         return;
     }
     super.eUnset(featureID);
@@ -154,26 +167,9 @@ public class ExtendsBoardImpl extends BoardImpl implements ExtendsBoard
     switch (featureID)
     {
       case IoTPackage.EXTENDS_BOARD__ABSTRACT_BOARD:
-        return ABSTRACT_BOARD_EDEFAULT == null ? abstractBoard != null : !ABSTRACT_BOARD_EDEFAULT.equals(abstractBoard);
+        return abstractBoard != null;
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (abstractBoard: ");
-    result.append(abstractBoard);
-    result.append(')');
-    return result.toString();
   }
 
 } //ExtendsBoardImpl

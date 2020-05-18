@@ -72,17 +72,17 @@ ruleModel returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getModelAccess().getIncludeIncludeParserRuleCall_0_0());
+					newCompositeNode(grammarAccess.getModelAccess().getIncludesIncludeParserRuleCall_0_0());
 				}
-				lv_include_0_0=ruleInclude
+				lv_includes_0_0=ruleInclude
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getModelRule());
 					}
 					add(
 						$current,
-						"include",
-						lv_include_0_0,
+						"includes",
+						lv_includes_0_0,
 						"org.xtext.mdsd.arduino.boardgenerator.IoT.Include");
 					afterParserOrEnumRuleCall();
 				}
@@ -170,9 +170,9 @@ ruleInclude returns [EObject current=null]
 		}
 		(
 			(
-				lv_path_1_0=RULE_ID
+				lv_importURI_1_0=RULE_ID
 				{
-					newLeafNode(lv_path_1_0, grammarAccess.getIncludeAccess().getPathIDTerminalRuleCall_1_0());
+					newLeafNode(lv_importURI_1_0, grammarAccess.getIncludeAccess().getImportURIIDTerminalRuleCall_1_0());
 				}
 				{
 					if ($current==null) {
@@ -180,8 +180,8 @@ ruleInclude returns [EObject current=null]
 					}
 					addWithLastConsumed(
 						$current,
-						"path",
-						lv_path_1_0,
+						"importURI",
+						lv_importURI_1_0,
 						"org.eclipse.xtext.common.Terminals.ID");
 				}
 			)
@@ -193,9 +193,9 @@ ruleInclude returns [EObject current=null]
 			}
 			(
 				(
-					lv_path_3_0=RULE_ID
+					lv_importURI_3_0=RULE_ID
 					{
-						newLeafNode(lv_path_3_0, grammarAccess.getIncludeAccess().getPathIDTerminalRuleCall_2_1_0());
+						newLeafNode(lv_importURI_3_0, grammarAccess.getIncludeAccess().getImportURIIDTerminalRuleCall_2_1_0());
 					}
 					{
 						if ($current==null) {
@@ -203,8 +203,8 @@ ruleInclude returns [EObject current=null]
 						}
 						addWithLastConsumed(
 							$current,
-							"path",
-							lv_path_3_0,
+							"importURI",
+							lv_importURI_3_0,
 							"org.eclipse.xtext.common.Terminals.ID");
 					}
 				)
@@ -971,19 +971,14 @@ ruleExtendsBoard returns [EObject current=null]
 		}
 		(
 			(
-				lv_abstractBoard_2_0=RULE_ID
-				{
-					newLeafNode(lv_abstractBoard_2_0, grammarAccess.getExtendsBoardAccess().getAbstractBoardIDTerminalRuleCall_2_0());
-				}
 				{
 					if ($current==null) {
 						$current = createModelElement(grammarAccess.getExtendsBoardRule());
 					}
-					setWithLastConsumed(
-						$current,
-						"abstractBoard",
-						lv_abstractBoard_2_0,
-						"org.eclipse.xtext.common.Terminals.ID");
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getExtendsBoardAccess().getAbstractBoardAbstractBoardCrossReference_2_0());
 				}
 			)
 		)
@@ -1049,23 +1044,72 @@ ruleAbstractBoard returns [EObject current=null]
 		}
 		(
 			(
+				lv_name_2_0=RULE_ID
 				{
-					newCompositeNode(grammarAccess.getAbstractBoardAccess().getBoardNewBoardParserRuleCall_2_0());
+					newLeafNode(lv_name_2_0, grammarAccess.getAbstractBoardAccess().getNameIDTerminalRuleCall_2_0());
 				}
-				lv_board_2_0=ruleNewBoard
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getAbstractBoardRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_2_0,
+						"org.eclipse.xtext.common.Terminals.ID");
+				}
+			)
+		)
+		otherlv_3=Colon
+		{
+			newLeafNode(otherlv_3, grammarAccess.getAbstractBoardAccess().getColonKeyword_3());
+		}
+		this_BEGIN_4=RULE_BEGIN
+		{
+			newLeafNode(this_BEGIN_4, grammarAccess.getAbstractBoardAccess().getBEGINTerminalRuleCall_4());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getAbstractBoardAccess().getVersionBoardVersionParserRuleCall_5_0());
+				}
+				lv_version_5_0=ruleBoardVersion
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getAbstractBoardRule());
 					}
 					set(
 						$current,
-						"board",
-						lv_board_2_0,
-						"org.xtext.mdsd.arduino.boardgenerator.IoT.NewBoard");
+						"version",
+						lv_version_5_0,
+						"org.xtext.mdsd.arduino.boardgenerator.IoT.BoardVersion");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getAbstractBoardAccess().getSensorsSensorParserRuleCall_6_0());
+				}
+				lv_sensors_6_0=ruleSensor
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getAbstractBoardRule());
+					}
+					add(
+						$current,
+						"sensors",
+						lv_sensors_6_0,
+						"org.xtext.mdsd.arduino.boardgenerator.IoT.Sensor");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)+
+		this_END_7=RULE_END
+		{
+			newLeafNode(this_END_7, grammarAccess.getAbstractBoardAccess().getENDTerminalRuleCall_7());
+		}
 	)
 ;
 
@@ -1187,11 +1231,35 @@ ruleSensor returns [EObject current=null]
 			)
 		)?
 		(
+			otherlv_10=Vcc
+			{
+				newLeafNode(otherlv_10, grammarAccess.getSensorAccess().getVccKeyword_9_0());
+			}
+			(
+				(
+					lv_vcc_11_0=RULE_INT
+					{
+						newLeafNode(lv_vcc_11_0, grammarAccess.getSensorAccess().getVccINTTerminalRuleCall_9_1_0());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getSensorRule());
+						}
+						setWithLastConsumed(
+							$current,
+							"vcc",
+							lv_vcc_11_0,
+							"org.xtext.mdsd.arduino.boardgenerator.IoT.INT");
+					}
+				)
+			)
+		)?
+		(
 			(
 				{
-					newCompositeNode(grammarAccess.getSensorAccess().getOutputSensorOutputParserRuleCall_9_0());
+					newCompositeNode(grammarAccess.getSensorAccess().getOutputSensorOutputParserRuleCall_10_0());
 				}
-				lv_output_10_0=ruleSensorOutput
+				lv_output_12_0=ruleSensorOutput
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getSensorRule());
@@ -1199,15 +1267,15 @@ ruleSensor returns [EObject current=null]
 					add(
 						$current,
 						"output",
-						lv_output_10_0,
+						lv_output_12_0,
 						"org.xtext.mdsd.arduino.boardgenerator.IoT.SensorOutput");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)+
-		this_END_11=RULE_END
+		this_END_13=RULE_END
 		{
-			newLeafNode(this_END_11, grammarAccess.getSensorAccess().getENDTerminalRuleCall_10());
+			newLeafNode(this_END_13, grammarAccess.getSensorAccess().getENDTerminalRuleCall_11());
 		}
 	)
 ;

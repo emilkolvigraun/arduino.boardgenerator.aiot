@@ -23,25 +23,25 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT;
 public interface ExtendsBoard extends Board
 {
   /**
-   * Returns the value of the '<em><b>Abstract Board</b></em>' attribute.
+   * Returns the value of the '<em><b>Abstract Board</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Abstract Board</em>' attribute.
-   * @see #setAbstractBoard(String)
+   * @return the value of the '<em>Abstract Board</em>' reference.
+   * @see #setAbstractBoard(AbstractBoard)
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getExtendsBoard_AbstractBoard()
    * @model
    * @generated
    */
-  String getAbstractBoard();
+  AbstractBoard getAbstractBoard();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard#getAbstractBoard <em>Abstract Board</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard#getAbstractBoard <em>Abstract Board</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Abstract Board</em>' attribute.
+   * @param value the new value of the '<em>Abstract Board</em>' reference.
    * @see #getAbstractBoard()
    * @generated
    */
-  void setAbstractBoard(String value);
+  void setAbstractBoard(AbstractBoard value);
 
 } // ExtendsBoard

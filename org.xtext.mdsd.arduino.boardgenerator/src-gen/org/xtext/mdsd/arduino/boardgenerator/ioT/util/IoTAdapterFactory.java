@@ -35,6 +35,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
@@ -154,6 +155,11 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseInclude(Include object)
       {
         return createIncludeAdapter();
+      }
+      @Override
+      public Adapter caseImportObject(ImportObject object)
+      {
+        return createImportObjectAdapter();
       }
       @Override
       public Adapter caseChannel(Channel object)
@@ -548,6 +554,21 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createIncludeAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject <em>Import Object</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject
+   * @generated
+   */
+  public Adapter createImportObjectAdapter()
   {
     return null;
   }

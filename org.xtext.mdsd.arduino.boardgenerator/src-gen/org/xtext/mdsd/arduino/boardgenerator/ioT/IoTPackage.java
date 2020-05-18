@@ -68,13 +68,13 @@ public interface IoTPackage extends EPackage
   int MODEL = 0;
 
   /**
-   * The feature id for the '<em><b>Include</b></em>' containment reference list.
+   * The feature id for the '<em><b>Includes</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__INCLUDE = 0;
+  int MODEL__INCLUDES = 0;
 
   /**
    * The feature id for the '<em><b>Channel</b></em>' containment reference list.
@@ -123,13 +123,13 @@ public interface IoTPackage extends EPackage
   int INCLUDE = 1;
 
   /**
-   * The feature id for the '<em><b>Path</b></em>' attribute list.
+   * The feature id for the '<em><b>Import URI</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int INCLUDE__PATH = 0;
+  int INCLUDE__IMPORT_URI = 0;
 
   /**
    * The number of structural features of the '<em>Include</em>' class.
@@ -141,6 +141,34 @@ public interface IoTPackage extends EPackage
   int INCLUDE_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ImportObjectImpl <em>Import Object</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ImportObjectImpl
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getImportObject()
+   * @generated
+   */
+  int IMPORT_OBJECT = 2;
+
+  /**
+   * The feature id for the '<em><b>Import URI</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMPORT_OBJECT__IMPORT_URI = 0;
+
+  /**
+   * The number of structural features of the '<em>Import Object</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMPORT_OBJECT_FEATURE_COUNT = 1;
+
+  /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl <em>Channel</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -148,7 +176,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChannel()
    * @generated
    */
-  int CHANNEL = 2;
+  int CHANNEL = 3;
 
   /**
    * The feature id for the '<em><b>Channeltype</b></em>' containment reference.
@@ -194,7 +222,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChannelType()
    * @generated
    */
-  int CHANNEL_TYPE = 3;
+  int CHANNEL_TYPE = 4;
 
   /**
    * The number of structural features of the '<em>Channel Type</em>' class.
@@ -213,7 +241,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChannelConfig()
    * @generated
    */
-  int CHANNEL_CONFIG = 4;
+  int CHANNEL_CONFIG = 5;
 
   /**
    * The number of structural features of the '<em>Channel Config</em>' class.
@@ -232,7 +260,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWifi()
    * @generated
    */
-  int WIFI = 5;
+  int WIFI = 6;
 
   /**
    * The feature id for the '<em><b>Ssid</b></em>' attribute.
@@ -269,7 +297,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSerial()
    * @generated
    */
-  int SERIAL = 6;
+  int SERIAL = 7;
 
   /**
    * The feature id for the '<em><b>Baud</b></em>' attribute.
@@ -306,7 +334,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getstopChar()
    * @generated
    */
-  int STOP_CHAR = 7;
+  int STOP_CHAR = 8;
 
   /**
    * The number of structural features of the '<em>stop Char</em>' class.
@@ -325,7 +353,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMqttClient()
    * @generated
    */
-  int MQTT_CLIENT = 8;
+  int MQTT_CLIENT = 9;
 
   /**
    * The feature id for the '<em><b>Broker</b></em>' attribute.
@@ -371,7 +399,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getBoard()
    * @generated
    */
-  int BOARD = 9;
+  int BOARD = 10;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -408,7 +436,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNewBoard()
    * @generated
    */
-  int NEW_BOARD = 10;
+  int NEW_BOARD = 11;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -454,7 +482,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getBoardVersion()
    * @generated
    */
-  int BOARD_VERSION = 11;
+  int BOARD_VERSION = 12;
 
   /**
    * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -491,7 +519,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getExtendsBoard()
    * @generated
    */
-  int EXTENDS_BOARD = 12;
+  int EXTENDS_BOARD = 13;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -512,7 +540,7 @@ public interface IoTPackage extends EPackage
   int EXTENDS_BOARD__SENSORS = BOARD__SENSORS;
 
   /**
-   * The feature id for the '<em><b>Abstract Board</b></em>' attribute.
+   * The feature id for the '<em><b>Abstract Board</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -537,16 +565,34 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getAbstractBoard()
    * @generated
    */
-  int ABSTRACT_BOARD = 13;
+  int ABSTRACT_BOARD = 14;
 
   /**
-   * The feature id for the '<em><b>Board</b></em>' containment reference.
+   * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ABSTRACT_BOARD__BOARD = 0;
+  int ABSTRACT_BOARD__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Version</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ABSTRACT_BOARD__VERSION = 1;
+
+  /**
+   * The feature id for the '<em><b>Sensors</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ABSTRACT_BOARD__SENSORS = 2;
 
   /**
    * The number of structural features of the '<em>Abstract Board</em>' class.
@@ -555,7 +601,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ABSTRACT_BOARD_FEATURE_COUNT = 1;
+  int ABSTRACT_BOARD_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl <em>Sensor</em>}' class.
@@ -565,7 +611,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSensor()
    * @generated
    */
-  int SENSOR = 14;
+  int SENSOR = 15;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -604,13 +650,22 @@ public interface IoTPackage extends EPackage
   int SENSOR__SAMPLER = 3;
 
   /**
+   * The feature id for the '<em><b>Vcc</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SENSOR__VCC = 4;
+
+  /**
    * The feature id for the '<em><b>Output</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SENSOR__OUTPUT = 4;
+  int SENSOR__OUTPUT = 5;
 
   /**
    * The number of structural features of the '<em>Sensor</em>' class.
@@ -619,7 +674,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int SENSOR_FEATURE_COUNT = 5;
+  int SENSOR_FEATURE_COUNT = 6;
 
   /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorTypeImpl <em>Sensor Type</em>}' class.
@@ -629,7 +684,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSensorType()
    * @generated
    */
-  int SENSOR_TYPE = 15;
+  int SENSOR_TYPE = 16;
 
   /**
    * The feature id for the '<em><b>Sensor</b></em>' attribute.
@@ -657,7 +712,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getExternalSensor()
    * @generated
    */
-  int EXTERNAL_SENSOR = 16;
+  int EXTERNAL_SENSOR = 17;
 
   /**
    * The feature id for the '<em><b>Sensor</b></em>' attribute.
@@ -694,7 +749,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getOnboardSensor()
    * @generated
    */
-  int ONBOARD_SENSOR = 17;
+  int ONBOARD_SENSOR = 18;
 
   /**
    * The feature id for the '<em><b>Sensor</b></em>' attribute.
@@ -722,7 +777,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSensorVariables()
    * @generated
    */
-  int SENSOR_VARIABLES = 18;
+  int SENSOR_VARIABLES = 19;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -759,7 +814,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getVariable()
    * @generated
    */
-  int VARIABLE = 19;
+  int VARIABLE = 20;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -787,7 +842,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSampler()
    * @generated
    */
-  int SAMPLER = 20;
+  int SAMPLER = 21;
 
   /**
    * The number of structural features of the '<em>Sampler</em>' class.
@@ -806,7 +861,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getCommand()
    * @generated
    */
-  int COMMAND = 21;
+  int COMMAND = 22;
 
   /**
    * The feature id for the '<em><b>Command</b></em>' attribute.
@@ -834,7 +889,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getFrequency()
    * @generated
    */
-  int FREQUENCY = 22;
+  int FREQUENCY = 23;
 
   /**
    * The feature id for the '<em><b>Frequency</b></em>' attribute.
@@ -871,7 +926,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getResolution()
    * @generated
    */
-  int RESOLUTION = 23;
+  int RESOLUTION = 24;
 
   /**
    * The number of structural features of the '<em>Resolution</em>' class.
@@ -890,7 +945,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSensorOutput()
    * @generated
    */
-  int SENSOR_OUTPUT = 24;
+  int SENSOR_OUTPUT = 25;
 
   /**
    * The feature id for the '<em><b>Output</b></em>' containment reference.
@@ -927,7 +982,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getDataOutput()
    * @generated
    */
-  int DATA_OUTPUT = 25;
+  int DATA_OUTPUT = 26;
 
   /**
    * The feature id for the '<em><b>Sensorvar</b></em>' reference.
@@ -964,7 +1019,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getPipeline()
    * @generated
    */
-  int PIPELINE = 26;
+  int PIPELINE = 27;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -992,7 +1047,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getTuplePipeline()
    * @generated
    */
-  int TUPLE_PIPELINE = 27;
+  int TUPLE_PIPELINE = 28;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1029,7 +1084,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMapPipeline()
    * @generated
    */
-  int MAP_PIPELINE = 28;
+  int MAP_PIPELINE = 29;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1057,7 +1112,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWindowPipeline()
    * @generated
    */
-  int WINDOW_PIPELINE = 29;
+  int WINDOW_PIPELINE = 30;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1085,7 +1140,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getExecutePipeline()
    * @generated
    */
-  int EXECUTE_PIPELINE = 30;
+  int EXECUTE_PIPELINE = 31;
 
   /**
    * The number of structural features of the '<em>Execute Pipeline</em>' class.
@@ -1104,7 +1159,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getExpression()
    * @generated
    */
-  int EXPRESSION = 31;
+  int EXPRESSION = 32;
 
   /**
    * The number of structural features of the '<em>Expression</em>' class.
@@ -1123,7 +1178,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getReference()
    * @generated
    */
-  int REFERENCE = 32;
+  int REFERENCE = 33;
 
   /**
    * The feature id for the '<em><b>Ref</b></em>' attribute.
@@ -1151,7 +1206,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getStringLiteral()
    * @generated
    */
-  int STRING_LITERAL = 33;
+  int STRING_LITERAL = 34;
 
   /**
    * The feature id for the '<em><b>Str</b></em>' attribute.
@@ -1179,7 +1234,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNumberLiteral()
    * @generated
    */
-  int NUMBER_LITERAL = 34;
+  int NUMBER_LITERAL = 35;
 
   /**
    * The feature id for the '<em><b>Numb</b></em>' attribute.
@@ -1207,7 +1262,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getBooleanLiteral()
    * @generated
    */
-  int BOOLEAN_LITERAL = 35;
+  int BOOLEAN_LITERAL = 36;
 
   /**
    * The feature id for the '<em><b>Bool</b></em>' attribute.
@@ -1235,7 +1290,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWifiConfig()
    * @generated
    */
-  int WIFI_CONFIG = 36;
+  int WIFI_CONFIG = 37;
 
   /**
    * The number of structural features of the '<em>Wifi Config</em>' class.
@@ -1254,7 +1309,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSerialConfig()
    * @generated
    */
-  int SERIAL_CONFIG = 37;
+  int SERIAL_CONFIG = 38;
 
   /**
    * The number of structural features of the '<em>Serial Config</em>' class.
@@ -1273,7 +1328,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMQTT()
    * @generated
    */
-  int MQTT = 38;
+  int MQTT = 39;
 
   /**
    * The number of structural features of the '<em>MQTT</em>' class.
@@ -1292,7 +1347,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChar()
    * @generated
    */
-  int CHAR = 39;
+  int CHAR = 40;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1320,7 +1375,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getByte()
    * @generated
    */
-  int BYTE = 40;
+  int BYTE = 41;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1348,7 +1403,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSeconds()
    * @generated
    */
-  int SECONDS = 41;
+  int SECONDS = 42;
 
   /**
    * The number of structural features of the '<em>Seconds</em>' class.
@@ -1367,7 +1422,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMillis()
    * @generated
    */
-  int MILLIS = 42;
+  int MILLIS = 43;
 
   /**
    * The number of structural features of the '<em>Millis</em>' class.
@@ -1386,7 +1441,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMicros()
    * @generated
    */
-  int MICROS = 43;
+  int MICROS = 44;
 
   /**
    * The number of structural features of the '<em>Micros</em>' class.
@@ -1405,7 +1460,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getFilter()
    * @generated
    */
-  int FILTER = 44;
+  int FILTER = 45;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1442,7 +1497,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getAbs()
    * @generated
    */
-  int ABS = 45;
+  int ABS = 46;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1479,7 +1534,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMap()
    * @generated
    */
-  int MAP = 46;
+  int MAP = 47;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1525,7 +1580,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWindow()
    * @generated
    */
-  int WINDOW = 47;
+  int WINDOW = 48;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1571,7 +1626,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getReduce()
    * @generated
    */
-  int REDUCE = 48;
+  int REDUCE = 49;
 
   /**
    * The number of structural features of the '<em>Reduce</em>' class.
@@ -1590,7 +1645,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMean()
    * @generated
    */
-  int MEAN = 49;
+  int MEAN = 50;
 
   /**
    * The number of structural features of the '<em>Mean</em>' class.
@@ -1609,7 +1664,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMedian()
    * @generated
    */
-  int MEDIAN = 50;
+  int MEDIAN = 51;
 
   /**
    * The number of structural features of the '<em>Median</em>' class.
@@ -1628,7 +1683,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getStDev()
    * @generated
    */
-  int ST_DEV = 51;
+  int ST_DEV = 52;
 
   /**
    * The number of structural features of the '<em>St Dev</em>' class.
@@ -1647,7 +1702,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMin()
    * @generated
    */
-  int MIN = 52;
+  int MIN = 53;
 
   /**
    * The number of structural features of the '<em>Min</em>' class.
@@ -1666,7 +1721,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMax()
    * @generated
    */
-  int MAX = 53;
+  int MAX = 54;
 
   /**
    * The number of structural features of the '<em>Max</em>' class.
@@ -1685,7 +1740,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getCount()
    * @generated
    */
-  int COUNT = 54;
+  int COUNT = 55;
 
   /**
    * The number of structural features of the '<em>Count</em>' class.
@@ -1704,7 +1759,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getConditional()
    * @generated
    */
-  int CONDITIONAL = 55;
+  int CONDITIONAL = 56;
 
   /**
    * The feature id for the '<em><b>Condition</b></em>' containment reference.
@@ -1750,7 +1805,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getOr()
    * @generated
    */
-  int OR = 56;
+  int OR = 57;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1787,7 +1842,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getAnd()
    * @generated
    */
-  int AND = 57;
+  int AND = 58;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1824,7 +1879,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getEqual()
    * @generated
    */
-  int EQUAL = 58;
+  int EQUAL = 59;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1861,7 +1916,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getUnequal()
    * @generated
    */
-  int UNEQUAL = 59;
+  int UNEQUAL = 60;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1898,7 +1953,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getLessThan()
    * @generated
    */
-  int LESS_THAN = 60;
+  int LESS_THAN = 61;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1935,7 +1990,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getLessThanEqual()
    * @generated
    */
-  int LESS_THAN_EQUAL = 61;
+  int LESS_THAN_EQUAL = 62;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1972,7 +2027,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getGreaterThan()
    * @generated
    */
-  int GREATER_THAN = 62;
+  int GREATER_THAN = 63;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2009,7 +2064,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getGreaterThanEqual()
    * @generated
    */
-  int GREATER_THAN_EQUAL = 63;
+  int GREATER_THAN_EQUAL = 64;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2046,7 +2101,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getPlus()
    * @generated
    */
-  int PLUS = 64;
+  int PLUS = 65;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2083,7 +2138,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMinus()
    * @generated
    */
-  int MINUS = 65;
+  int MINUS = 66;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2120,7 +2175,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMul()
    * @generated
    */
-  int MUL = 66;
+  int MUL = 67;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2157,7 +2212,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getDiv()
    * @generated
    */
-  int DIV = 67;
+  int DIV = 68;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2194,7 +2249,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNegation()
    * @generated
    */
-  int NEGATION = 68;
+  int NEGATION = 69;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -2222,7 +2277,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getExponent()
    * @generated
    */
-  int EXPONENT = 69;
+  int EXPONENT = 70;
 
   /**
    * The feature id for the '<em><b>Base</b></em>' containment reference.
@@ -2259,7 +2314,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNot()
    * @generated
    */
-  int NOT = 70;
+  int NOT = 71;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -2291,15 +2346,15 @@ public interface IoTPackage extends EPackage
   EClass getModel();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getInclude <em>Include</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getIncludes <em>Includes</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Include</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getInclude()
+   * @return the meta object for the containment reference list '<em>Includes</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getIncludes()
    * @see #getModel()
    * @generated
    */
-  EReference getModel_Include();
+  EReference getModel_Includes();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getChannel <em>Channel</em>}'.
@@ -2345,15 +2400,36 @@ public interface IoTPackage extends EPackage
   EClass getInclude();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Include#getPath <em>Path</em>}'.
+   * Returns the meta object for the attribute list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Include#getImportURI <em>Import URI</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Path</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Include#getPath()
+   * @return the meta object for the attribute list '<em>Import URI</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Include#getImportURI()
    * @see #getInclude()
    * @generated
    */
-  EAttribute getInclude_Path();
+  EAttribute getInclude_ImportURI();
+
+  /**
+   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject <em>Import Object</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Import Object</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject
+   * @generated
+   */
+  EClass getImportObject();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject#getImportURI <em>Import URI</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Import URI</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject#getImportURI()
+   * @see #getImportObject()
+   * @generated
+   */
+  EAttribute getImportObject_ImportURI();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel <em>Channel</em>}'.
@@ -2631,15 +2707,15 @@ public interface IoTPackage extends EPackage
   EClass getExtendsBoard();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard#getAbstractBoard <em>Abstract Board</em>}'.
+   * Returns the meta object for the reference '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard#getAbstractBoard <em>Abstract Board</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Abstract Board</em>'.
+   * @return the meta object for the reference '<em>Abstract Board</em>'.
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard#getAbstractBoard()
    * @see #getExtendsBoard()
    * @generated
    */
-  EAttribute getExtendsBoard_AbstractBoard();
+  EReference getExtendsBoard_AbstractBoard();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard <em>Abstract Board</em>}'.
@@ -2652,15 +2728,37 @@ public interface IoTPackage extends EPackage
   EClass getAbstractBoard();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getBoard <em>Board</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Board</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getBoard()
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getName()
    * @see #getAbstractBoard()
    * @generated
    */
-  EReference getAbstractBoard_Board();
+  EAttribute getAbstractBoard_Name();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getVersion <em>Version</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Version</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getVersion()
+   * @see #getAbstractBoard()
+   * @generated
+   */
+  EReference getAbstractBoard_Version();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getSensors <em>Sensors</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Sensors</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard#getSensors()
+   * @see #getAbstractBoard()
+   * @generated
+   */
+  EReference getAbstractBoard_Sensors();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor <em>Sensor</em>}'.
@@ -2715,6 +2813,17 @@ public interface IoTPackage extends EPackage
    * @generated
    */
   EReference getSensor_Sampler();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getVcc <em>Vcc</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Vcc</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getVcc()
+   * @see #getSensor()
+   * @generated
+   */
+  EAttribute getSensor_Vcc();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getOutput <em>Output</em>}'.
@@ -3926,12 +4035,12 @@ public interface IoTPackage extends EPackage
     EClass MODEL = eINSTANCE.getModel();
 
     /**
-     * The meta object literal for the '<em><b>Include</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Includes</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MODEL__INCLUDE = eINSTANCE.getModel_Include();
+    EReference MODEL__INCLUDES = eINSTANCE.getModel_Includes();
 
     /**
      * The meta object literal for the '<em><b>Channel</b></em>' containment reference list feature.
@@ -3968,12 +4077,30 @@ public interface IoTPackage extends EPackage
     EClass INCLUDE = eINSTANCE.getInclude();
 
     /**
-     * The meta object literal for the '<em><b>Path</b></em>' attribute list feature.
+     * The meta object literal for the '<em><b>Import URI</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute INCLUDE__PATH = eINSTANCE.getInclude_Path();
+    EAttribute INCLUDE__IMPORT_URI = eINSTANCE.getInclude_ImportURI();
+
+    /**
+     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ImportObjectImpl <em>Import Object</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ImportObjectImpl
+     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getImportObject()
+     * @generated
+     */
+    EClass IMPORT_OBJECT = eINSTANCE.getImportObject();
+
+    /**
+     * The meta object literal for the '<em><b>Import URI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute IMPORT_OBJECT__IMPORT_URI = eINSTANCE.getImportObject_ImportURI();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl <em>Channel</em>}' class.
@@ -4206,12 +4333,12 @@ public interface IoTPackage extends EPackage
     EClass EXTENDS_BOARD = eINSTANCE.getExtendsBoard();
 
     /**
-     * The meta object literal for the '<em><b>Abstract Board</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Abstract Board</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute EXTENDS_BOARD__ABSTRACT_BOARD = eINSTANCE.getExtendsBoard_AbstractBoard();
+    EReference EXTENDS_BOARD__ABSTRACT_BOARD = eINSTANCE.getExtendsBoard_AbstractBoard();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.AbstractBoardImpl <em>Abstract Board</em>}' class.
@@ -4224,12 +4351,28 @@ public interface IoTPackage extends EPackage
     EClass ABSTRACT_BOARD = eINSTANCE.getAbstractBoard();
 
     /**
-     * The meta object literal for the '<em><b>Board</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ABSTRACT_BOARD__BOARD = eINSTANCE.getAbstractBoard_Board();
+    EAttribute ABSTRACT_BOARD__NAME = eINSTANCE.getAbstractBoard_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Version</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ABSTRACT_BOARD__VERSION = eINSTANCE.getAbstractBoard_Version();
+
+    /**
+     * The meta object literal for the '<em><b>Sensors</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ABSTRACT_BOARD__SENSORS = eINSTANCE.getAbstractBoard_Sensors();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl <em>Sensor</em>}' class.
@@ -4272,6 +4415,14 @@ public interface IoTPackage extends EPackage
      * @generated
      */
     EReference SENSOR__SAMPLER = eINSTANCE.getSensor_Sampler();
+
+    /**
+     * The meta object literal for the '<em><b>Vcc</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SENSOR__VCC = eINSTANCE.getSensor_Vcc();
 
     /**
      * The meta object literal for the '<em><b>Output</b></em>' containment reference list feature.

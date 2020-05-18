@@ -35,6 +35,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTFactory;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
@@ -103,6 +104,13 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   private EClass includeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass importObjectEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -667,7 +675,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getModel_Include()
+  public EReference getModel_Includes()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(0);
   }
@@ -722,9 +730,31 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getInclude_Path()
+  public EAttribute getInclude_ImportURI()
   {
     return (EAttribute)includeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getImportObject()
+  {
+    return importObjectEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getImportObject_ImportURI()
+  {
+    return (EAttribute)importObjectEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1019,9 +1049,9 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getExtendsBoard_AbstractBoard()
+  public EReference getExtendsBoard_AbstractBoard()
   {
-    return (EAttribute)extendsBoardEClass.getEStructuralFeatures().get(0);
+    return (EReference)extendsBoardEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1041,9 +1071,31 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getAbstractBoard_Board()
+  public EAttribute getAbstractBoard_Name()
   {
-    return (EReference)abstractBoardEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)abstractBoardEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getAbstractBoard_Version()
+  {
+    return (EReference)abstractBoardEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getAbstractBoard_Sensors()
+  {
+    return (EReference)abstractBoardEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -1107,9 +1159,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
+  public EAttribute getSensor_Vcc()
+  {
+    return (EAttribute)sensorEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EReference getSensor_Output()
   {
-    return (EReference)sensorEClass.getEStructuralFeatures().get(4);
+    return (EReference)sensorEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -2365,13 +2428,16 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     // Create classes and their features
     modelEClass = createEClass(MODEL);
-    createEReference(modelEClass, MODEL__INCLUDE);
+    createEReference(modelEClass, MODEL__INCLUDES);
     createEReference(modelEClass, MODEL__CHANNEL);
     createEReference(modelEClass, MODEL__ABSTRACT_BOARD);
     createEReference(modelEClass, MODEL__BOARD);
 
     includeEClass = createEClass(INCLUDE);
-    createEAttribute(includeEClass, INCLUDE__PATH);
+    createEAttribute(includeEClass, INCLUDE__IMPORT_URI);
+
+    importObjectEClass = createEClass(IMPORT_OBJECT);
+    createEAttribute(importObjectEClass, IMPORT_OBJECT__IMPORT_URI);
 
     channelEClass = createEClass(CHANNEL);
     createEReference(channelEClass, CHANNEL__CHANNELTYPE);
@@ -2409,16 +2475,19 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     createEAttribute(boardVersionEClass, BOARD_VERSION__MODEL);
 
     extendsBoardEClass = createEClass(EXTENDS_BOARD);
-    createEAttribute(extendsBoardEClass, EXTENDS_BOARD__ABSTRACT_BOARD);
+    createEReference(extendsBoardEClass, EXTENDS_BOARD__ABSTRACT_BOARD);
 
     abstractBoardEClass = createEClass(ABSTRACT_BOARD);
-    createEReference(abstractBoardEClass, ABSTRACT_BOARD__BOARD);
+    createEAttribute(abstractBoardEClass, ABSTRACT_BOARD__NAME);
+    createEReference(abstractBoardEClass, ABSTRACT_BOARD__VERSION);
+    createEReference(abstractBoardEClass, ABSTRACT_BOARD__SENSORS);
 
     sensorEClass = createEClass(SENSOR);
     createEAttribute(sensorEClass, SENSOR__NAME);
     createEReference(sensorEClass, SENSOR__SENSORTYPE);
     createEReference(sensorEClass, SENSOR__VARS);
     createEReference(sensorEClass, SENSOR__SAMPLER);
+    createEAttribute(sensorEClass, SENSOR__VCC);
     createEReference(sensorEClass, SENSOR__OUTPUT);
 
     sensorTypeEClass = createEClass(SENSOR_TYPE);
@@ -2672,13 +2741,16 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getModel_Include(), this.getInclude(), null, "include", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModel_Includes(), this.getInclude(), null, "includes", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Channel(), this.getChannel(), null, "channel", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_AbstractBoard(), this.getAbstractBoard(), null, "abstractBoard", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Board(), this.getBoard(), null, "board", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(includeEClass, Include.class, "Include", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getInclude_Path(), ecorePackage.getEString(), "path", null, 0, -1, Include.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getInclude_ImportURI(), ecorePackage.getEString(), "importURI", null, 0, -1, Include.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(importObjectEClass, ImportObject.class, "ImportObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getImportObject_ImportURI(), ecorePackage.getEString(), "importURI", null, 0, 1, ImportObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(channelEClass, Channel.class, "Channel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getChannel_Channeltype(), this.getChannelType(), null, "channeltype", null, 0, 1, Channel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2716,16 +2788,19 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEAttribute(getBoardVersion_Model(), ecorePackage.getEString(), "model", null, 0, 1, BoardVersion.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(extendsBoardEClass, ExtendsBoard.class, "ExtendsBoard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getExtendsBoard_AbstractBoard(), ecorePackage.getEString(), "abstractBoard", null, 0, 1, ExtendsBoard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getExtendsBoard_AbstractBoard(), this.getAbstractBoard(), null, "abstractBoard", null, 0, 1, ExtendsBoard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(abstractBoardEClass, AbstractBoard.class, "AbstractBoard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getAbstractBoard_Board(), this.getNewBoard(), null, "board", null, 0, 1, AbstractBoard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAbstractBoard_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractBoard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAbstractBoard_Version(), this.getBoardVersion(), null, "version", null, 0, 1, AbstractBoard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAbstractBoard_Sensors(), this.getSensor(), null, "sensors", null, 0, -1, AbstractBoard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(sensorEClass, Sensor.class, "Sensor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getSensor_Name(), ecorePackage.getEString(), "name", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getSensor_Sensortype(), this.getSensorType(), null, "sensortype", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getSensor_Vars(), this.getSensorVariables(), null, "vars", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getSensor_Sampler(), this.getSampler(), null, "sampler", null, 0, -1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getSensor_Vcc(), ecorePackage.getEInt(), "vcc", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getSensor_Output(), this.getSensorOutput(), null, "output", null, 0, -1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(sensorTypeEClass, SensorType.class, "SensorType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

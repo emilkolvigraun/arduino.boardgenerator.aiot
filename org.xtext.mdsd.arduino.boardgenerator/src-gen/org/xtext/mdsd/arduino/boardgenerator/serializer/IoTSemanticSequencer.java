@@ -34,6 +34,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
@@ -164,6 +165,9 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				return; 
 			case IoTPackage.GREATER_THAN_EQUAL:
 				sequence_Comparison(context, (GreaterThanEqual) semanticObject); 
+				return; 
+			case IoTPackage.IMPORT_OBJECT:
+				sequence_ImportObject(context, (ImportObject) semanticObject); 
 				return; 
 			case IoTPackage.INCLUDE:
 				sequence_Include(context, (Include) semanticObject); 
@@ -300,16 +304,10 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     AbstractBoard returns AbstractBoard
 	 *
 	 * Constraint:
-	 *     board=NewBoard
+	 *     (name=ID version=BoardVersion sensors+=Sensor+)
 	 */
 	protected void sequence_AbstractBoard(ISerializationContext context, AbstractBoard semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.ABSTRACT_BOARD__BOARD) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.ABSTRACT_BOARD__BOARD));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getAbstractBoardAccess().getBoardNewBoardParserRuleCall_2_0(), semanticObject.getBoard());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -964,7 +962,7 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     ExtendsBoard returns ExtendsBoard
 	 *
 	 * Constraint:
-	 *     (name=ID abstractBoard=ID sensors+=Sensor*)
+	 *     (name=ID abstractBoard=[AbstractBoard|ID] sensors+=Sensor*)
 	 */
 	protected void sequence_ExtendsBoard(ISerializationContext context, ExtendsBoard semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1008,10 +1006,28 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     ImportObject returns ImportObject
+	 *
+	 * Constraint:
+	 *     importURI=STRING
+	 */
+	protected void sequence_ImportObject(ISerializationContext context, ImportObject semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.IMPORT_OBJECT__IMPORT_URI) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.IMPORT_OBJECT__IMPORT_URI));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getImportObjectAccess().getImportURISTRINGTerminalRuleCall_0(), semanticObject.getImportURI());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     Include returns Include
 	 *
 	 * Constraint:
-	 *     (path+=ID path+=ID*)
+	 *     (importURI+=ID importURI+=ID*)
 	 */
 	protected void sequence_Include(ISerializationContext context, Include semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1057,8 +1073,8 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *
 	 * Constraint:
 	 *     (
-	 *         (include+=Include+ ((channel+=Channel+ board+=Board+) | board+=Board+)) | 
-	 *         (((include+=Include+ channel+=Channel+) | channel+=Channel+)? abstractBoard+=AbstractBoard+ board+=Board+) | 
+	 *         (includes+=Include+ ((channel+=Channel+ board+=Board+) | board+=Board+)) | 
+	 *         (((includes+=Include+ channel+=Channel+) | channel+=Channel+)? abstractBoard+=AbstractBoard+ board+=Board+) | 
 	 *         (channel+=Channel+ board+=Board+) | 
 	 *         board+=Board+
 	 *     )?
@@ -1535,7 +1551,14 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Sensor returns Sensor
 	 *
 	 * Constraint:
-	 *     (name=ID sensortype=SensorType vars=SensorVariables sampler+=Sampler? output+=SensorOutput+)
+	 *     (
+	 *         name=ID 
+	 *         sensortype=SensorType 
+	 *         vars=SensorVariables 
+	 *         sampler+=Sampler? 
+	 *         vcc=INT? 
+	 *         output+=SensorOutput+
+	 *     )
 	 */
 	protected void sequence_Sensor(ISerializationContext context, Sensor semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

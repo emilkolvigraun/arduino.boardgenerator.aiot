@@ -3,8 +3,12 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -12,9 +16,13 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +32,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.AbstractBoardImpl#getBoard <em>Board</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.AbstractBoardImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.AbstractBoardImpl#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.AbstractBoardImpl#getSensors <em>Sensors</em>}</li>
  * </ul>
  *
  * @generated
@@ -32,14 +42,44 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
 public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements AbstractBoard
 {
   /**
-   * The cached value of the '{@link #getBoard() <em>Board</em>}' containment reference.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getBoard()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected NewBoard board;
+  protected static final String NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected String name = NAME_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getVersion() <em>Version</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getVersion()
+   * @generated
+   * @ordered
+   */
+  protected BoardVersion version;
+
+  /**
+   * The cached value of the '{@link #getSensors() <em>Sensors</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getSensors()
+   * @generated
+   * @ordered
+   */
+  protected EList<Sensor> sensors;
 
   /**
    * <!-- begin-user-doc -->
@@ -68,9 +108,9 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
    * @generated
    */
   @Override
-  public NewBoard getBoard()
+  public String getName()
   {
-    return board;
+    return name;
   }
 
   /**
@@ -78,13 +118,38 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetBoard(NewBoard newBoard, NotificationChain msgs)
+  @Override
+  public void setName(String newName)
   {
-    NewBoard oldBoard = board;
-    board = newBoard;
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.ABSTRACT_BOARD__NAME, oldName, name));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public BoardVersion getVersion()
+  {
+    return version;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetVersion(BoardVersion newVersion, NotificationChain msgs)
+  {
+    BoardVersion oldVersion = version;
+    version = newVersion;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.ABSTRACT_BOARD__BOARD, oldBoard, newBoard);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.ABSTRACT_BOARD__VERSION, oldVersion, newVersion);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -96,20 +161,35 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
    * @generated
    */
   @Override
-  public void setBoard(NewBoard newBoard)
+  public void setVersion(BoardVersion newVersion)
   {
-    if (newBoard != board)
+    if (newVersion != version)
     {
       NotificationChain msgs = null;
-      if (board != null)
-        msgs = ((InternalEObject)board).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.ABSTRACT_BOARD__BOARD, null, msgs);
-      if (newBoard != null)
-        msgs = ((InternalEObject)newBoard).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.ABSTRACT_BOARD__BOARD, null, msgs);
-      msgs = basicSetBoard(newBoard, msgs);
+      if (version != null)
+        msgs = ((InternalEObject)version).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.ABSTRACT_BOARD__VERSION, null, msgs);
+      if (newVersion != null)
+        msgs = ((InternalEObject)newVersion).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.ABSTRACT_BOARD__VERSION, null, msgs);
+      msgs = basicSetVersion(newVersion, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.ABSTRACT_BOARD__BOARD, newBoard, newBoard));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.ABSTRACT_BOARD__VERSION, newVersion, newVersion));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<Sensor> getSensors()
+  {
+    if (sensors == null)
+    {
+      sensors = new EObjectContainmentEList<Sensor>(Sensor.class, this, IoTPackage.ABSTRACT_BOARD__SENSORS);
+    }
+    return sensors;
   }
 
   /**
@@ -122,8 +202,10 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
   {
     switch (featureID)
     {
-      case IoTPackage.ABSTRACT_BOARD__BOARD:
-        return basicSetBoard(null, msgs);
+      case IoTPackage.ABSTRACT_BOARD__VERSION:
+        return basicSetVersion(null, msgs);
+      case IoTPackage.ABSTRACT_BOARD__SENSORS:
+        return ((InternalEList<?>)getSensors()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -138,8 +220,12 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
   {
     switch (featureID)
     {
-      case IoTPackage.ABSTRACT_BOARD__BOARD:
-        return getBoard();
+      case IoTPackage.ABSTRACT_BOARD__NAME:
+        return getName();
+      case IoTPackage.ABSTRACT_BOARD__VERSION:
+        return getVersion();
+      case IoTPackage.ABSTRACT_BOARD__SENSORS:
+        return getSensors();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -149,13 +235,21 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case IoTPackage.ABSTRACT_BOARD__BOARD:
-        setBoard((NewBoard)newValue);
+      case IoTPackage.ABSTRACT_BOARD__NAME:
+        setName((String)newValue);
+        return;
+      case IoTPackage.ABSTRACT_BOARD__VERSION:
+        setVersion((BoardVersion)newValue);
+        return;
+      case IoTPackage.ABSTRACT_BOARD__SENSORS:
+        getSensors().clear();
+        getSensors().addAll((Collection<? extends Sensor>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -171,8 +265,14 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
   {
     switch (featureID)
     {
-      case IoTPackage.ABSTRACT_BOARD__BOARD:
-        setBoard((NewBoard)null);
+      case IoTPackage.ABSTRACT_BOARD__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case IoTPackage.ABSTRACT_BOARD__VERSION:
+        setVersion((BoardVersion)null);
+        return;
+      case IoTPackage.ABSTRACT_BOARD__SENSORS:
+        getSensors().clear();
         return;
     }
     super.eUnset(featureID);
@@ -188,10 +288,31 @@ public class AbstractBoardImpl extends MinimalEObjectImpl.Container implements A
   {
     switch (featureID)
     {
-      case IoTPackage.ABSTRACT_BOARD__BOARD:
-        return board != null;
+      case IoTPackage.ABSTRACT_BOARD__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case IoTPackage.ABSTRACT_BOARD__VERSION:
+        return version != null;
+      case IoTPackage.ABSTRACT_BOARD__SENSORS:
+        return sensors != null && !sensors.isEmpty();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (name: ");
+    result.append(name);
+    result.append(')');
+    return result.toString();
   }
 
 } //AbstractBoardImpl

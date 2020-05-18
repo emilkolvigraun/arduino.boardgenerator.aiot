@@ -87,6 +87,8 @@ Min : 'min';
 
 Sub : 'sub';
 
+Vcc : 'vcc';
+
 ExclamationMarkEqualsSign : '!=';
 
 AmpersandAmpersand : '&&';

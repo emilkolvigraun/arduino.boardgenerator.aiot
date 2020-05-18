@@ -3,50 +3,57 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
-import java.util.Collection;
-
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Include</b></em>'.
+ * An implementation of the model object '<em><b>Import Object</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IncludeImpl#getImportURI <em>Import URI</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ImportObjectImpl#getImportURI <em>Import URI</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
+public class ImportObjectImpl extends MinimalEObjectImpl.Container implements ImportObject
 {
   /**
-   * The cached value of the '{@link #getImportURI() <em>Import URI</em>}' attribute list.
+   * The default value of the '{@link #getImportURI() <em>Import URI</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getImportURI()
    * @generated
    * @ordered
    */
-  protected EList<String> importURI;
+  protected static final String IMPORT_URI_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getImportURI() <em>Import URI</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getImportURI()
+   * @generated
+   * @ordered
+   */
+  protected String importURI = IMPORT_URI_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IncludeImpl()
+  protected ImportObjectImpl()
   {
     super();
   }
@@ -59,7 +66,7 @@ public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
   @Override
   protected EClass eStaticClass()
   {
-    return IoTPackage.Literals.INCLUDE;
+    return IoTPackage.Literals.IMPORT_OBJECT;
   }
 
   /**
@@ -68,13 +75,23 @@ public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
    * @generated
    */
   @Override
-  public EList<String> getImportURI()
+  public String getImportURI()
   {
-    if (importURI == null)
-    {
-      importURI = new EDataTypeEList<String>(String.class, this, IoTPackage.INCLUDE__IMPORT_URI);
-    }
     return importURI;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setImportURI(String newImportURI)
+  {
+    String oldImportURI = importURI;
+    importURI = newImportURI;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.IMPORT_OBJECT__IMPORT_URI, oldImportURI, importURI));
   }
 
   /**
@@ -87,7 +104,7 @@ public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
   {
     switch (featureID)
     {
-      case IoTPackage.INCLUDE__IMPORT_URI:
+      case IoTPackage.IMPORT_OBJECT__IMPORT_URI:
         return getImportURI();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -98,15 +115,13 @@ public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case IoTPackage.INCLUDE__IMPORT_URI:
-        getImportURI().clear();
-        getImportURI().addAll((Collection<? extends String>)newValue);
+      case IoTPackage.IMPORT_OBJECT__IMPORT_URI:
+        setImportURI((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -122,8 +137,8 @@ public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
   {
     switch (featureID)
     {
-      case IoTPackage.INCLUDE__IMPORT_URI:
-        getImportURI().clear();
+      case IoTPackage.IMPORT_OBJECT__IMPORT_URI:
+        setImportURI(IMPORT_URI_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -139,8 +154,8 @@ public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
   {
     switch (featureID)
     {
-      case IoTPackage.INCLUDE__IMPORT_URI:
-        return importURI != null && !importURI.isEmpty();
+      case IoTPackage.IMPORT_OBJECT__IMPORT_URI:
+        return IMPORT_URI_EDEFAULT == null ? importURI != null : !IMPORT_URI_EDEFAULT.equals(importURI);
     }
     return super.eIsSet(featureID);
   }
@@ -162,4 +177,4 @@ public class IncludeImpl extends MinimalEObjectImpl.Container implements Include
     return result.toString();
   }
 
-} //IncludeImpl
+} //ImportObjectImpl

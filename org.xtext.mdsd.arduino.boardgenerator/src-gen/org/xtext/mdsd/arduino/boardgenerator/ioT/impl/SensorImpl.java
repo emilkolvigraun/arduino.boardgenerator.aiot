@@ -38,6 +38,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl#getSensortype <em>Sensortype</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl#getVars <em>Vars</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl#getSampler <em>Sampler</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl#getVcc <em>Vcc</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl#getOutput <em>Output</em>}</li>
  * </ul>
  *
@@ -94,6 +95,26 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
    * @ordered
    */
   protected EList<Sampler> sampler;
+
+  /**
+   * The default value of the '{@link #getVcc() <em>Vcc</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getVcc()
+   * @generated
+   * @ordered
+   */
+  protected static final int VCC_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getVcc() <em>Vcc</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getVcc()
+   * @generated
+   * @ordered
+   */
+  protected int vcc = VCC_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getOutput() <em>Output</em>}' containment reference list.
@@ -272,6 +293,31 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
    * @generated
    */
   @Override
+  public int getVcc()
+  {
+    return vcc;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setVcc(int newVcc)
+  {
+    int oldVcc = vcc;
+    vcc = newVcc;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR__VCC, oldVcc, vcc));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EList<SensorOutput> getOutput()
   {
     if (output == null)
@@ -321,6 +367,8 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
         return getVars();
       case IoTPackage.SENSOR__SAMPLER:
         return getSampler();
+      case IoTPackage.SENSOR__VCC:
+        return getVcc();
       case IoTPackage.SENSOR__OUTPUT:
         return getOutput();
     }
@@ -350,6 +398,9 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
       case IoTPackage.SENSOR__SAMPLER:
         getSampler().clear();
         getSampler().addAll((Collection<? extends Sampler>)newValue);
+        return;
+      case IoTPackage.SENSOR__VCC:
+        setVcc((Integer)newValue);
         return;
       case IoTPackage.SENSOR__OUTPUT:
         getOutput().clear();
@@ -381,6 +432,9 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
       case IoTPackage.SENSOR__SAMPLER:
         getSampler().clear();
         return;
+      case IoTPackage.SENSOR__VCC:
+        setVcc(VCC_EDEFAULT);
+        return;
       case IoTPackage.SENSOR__OUTPUT:
         getOutput().clear();
         return;
@@ -406,6 +460,8 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
         return vars != null;
       case IoTPackage.SENSOR__SAMPLER:
         return sampler != null && !sampler.isEmpty();
+      case IoTPackage.SENSOR__VCC:
+        return vcc != VCC_EDEFAULT;
       case IoTPackage.SENSOR__OUTPUT:
         return output != null && !output.isEmpty();
     }
@@ -425,6 +481,8 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
+    result.append(", vcc: ");
+    result.append(vcc);
     result.append(')');
     return result.toString();
   }

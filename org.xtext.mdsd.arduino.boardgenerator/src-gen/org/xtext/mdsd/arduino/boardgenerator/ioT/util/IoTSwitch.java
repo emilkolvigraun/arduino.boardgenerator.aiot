@@ -33,6 +33,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
@@ -154,6 +155,13 @@ public class IoTSwitch<T> extends Switch<T>
       {
         Include include = (Include)theEObject;
         T result = caseInclude(include);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.IMPORT_OBJECT:
+      {
+        ImportObject importObject = (ImportObject)theEObject;
+        T result = caseImportObject(importObject);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -727,6 +735,22 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseInclude(Include object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Import Object</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Import Object</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseImportObject(ImportObject object)
   {
     return null;
   }

@@ -3,11 +3,23 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator;
 
+import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
+import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.xtext.mdsd.arduino.boardgenerator.AbstractIoTRuntimeModule;
+import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider;
+import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTResourceDescriptionStrategy;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 @SuppressWarnings("all")
 public class IoTRuntimeModule extends AbstractIoTRuntimeModule {
+  public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
+    return IoTResourceDescriptionStrategy.class;
+  }
+  
+  @Override
+  public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
+    return IoTGlobalScopeProvider.class;
+  }
 }

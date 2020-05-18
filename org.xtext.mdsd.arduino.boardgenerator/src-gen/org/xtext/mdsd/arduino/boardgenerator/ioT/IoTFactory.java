@@ -42,6 +42,15 @@ public interface IoTFactory extends EFactory
   Include createInclude();
 
   /**
+   * Returns a new object of class '<em>Import Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Import Object</em>'.
+   * @generated
+   */
+  ImportObject createImportObject();
+
+  /**
    * Returns a new object of class '<em>Channel</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

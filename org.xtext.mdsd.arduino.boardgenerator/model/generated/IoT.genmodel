@@ -7,13 +7,16 @@
   <genPackages prefix="IoT" basePackage="org.xtext.mdsd.arduino.boardgenerator" disposableProviderFactory="true"
       fileExtensions="aiot" ecorePackage="IoT.ecore#/">
     <genClasses ecoreClass="IoT.ecore#//Model">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/include"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/includes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/channel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/abstractBoard"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/board"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Include">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Include/path"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Include/importURI"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//ImportObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ImportObject/importURI"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Channel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Channel/channeltype"/>
@@ -48,16 +51,19 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BoardVersion/model"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//ExtendsBoard">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ExtendsBoard/abstractBoard"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//ExtendsBoard/abstractBoard"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//AbstractBoard">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//AbstractBoard/board"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//AbstractBoard/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//AbstractBoard/version"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//AbstractBoard/sensors"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Sensor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Sensor/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/sensortype"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/vars"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/sampler"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Sensor/vcc"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Sensor/output"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//SensorType">

@@ -3,7 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ioT" nsURI="http://www.xtext.org/mdsd/arduino/boardgenerator/IoT"
     nsPrefix="ioT">
   <eClassifiers xsi:type="ecore:EClass" name="Model">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="include" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" upperBound="-1"
         eType="#//Include" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="channel" upperBound="-1"
         eType="#//Channel" containment="true"/>
@@ -13,8 +13,11 @@
         eType="#//Board" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Include">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" unique="false" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Channel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="channeltype" eType="#//ChannelType"
@@ -55,11 +58,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtendsBoard" eSuperTypes="#//Board">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstractBoard" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abstractBoard" eType="#//AbstractBoard"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractBoard">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="board" eType="#//NewBoard"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="version" eType="#//BoardVersion"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensors" upperBound="-1"
+        eType="#//Sensor" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Sensor">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -69,6 +75,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sampler" upperBound="-1"
         eType="#//Sampler" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vcc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="output" upperBound="-1"
         eType="#//SensorOutput" containment="true"/>
   </eClassifiers>

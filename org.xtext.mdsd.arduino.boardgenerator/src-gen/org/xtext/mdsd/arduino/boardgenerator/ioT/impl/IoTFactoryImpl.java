@@ -36,6 +36,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTFactory;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
@@ -138,6 +139,7 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
     {
       case IoTPackage.MODEL: return createModel();
       case IoTPackage.INCLUDE: return createInclude();
+      case IoTPackage.IMPORT_OBJECT: return createImportObject();
       case IoTPackage.CHANNEL: return createChannel();
       case IoTPackage.CHANNEL_TYPE: return createChannelType();
       case IoTPackage.CHANNEL_CONFIG: return createChannelConfig();
@@ -234,6 +236,18 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     IncludeImpl include = new IncludeImpl();
     return include;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ImportObject createImportObject()
+  {
+    ImportObjectImpl importObject = new ImportObjectImpl();
+    return importObject;
   }
 
   /**

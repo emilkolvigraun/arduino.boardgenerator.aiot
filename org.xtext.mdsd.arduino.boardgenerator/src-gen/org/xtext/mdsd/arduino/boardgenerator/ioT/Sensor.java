@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getSensortype <em>Sensortype</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getVars <em>Vars</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getSampler <em>Sampler</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getVcc <em>Vcc</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getOutput <em>Output</em>}</li>
  * </ul>
  *
@@ -106,6 +107,28 @@ public interface Sensor extends EObject
    * @generated
    */
   EList<Sampler> getSampler();
+
+  /**
+   * Returns the value of the '<em><b>Vcc</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Vcc</em>' attribute.
+   * @see #setVcc(int)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensor_Vcc()
+   * @model
+   * @generated
+   */
+  int getVcc();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getVcc <em>Vcc</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Vcc</em>' attribute.
+   * @see #getVcc()
+   * @generated
+   */
+  void setVcc(int value);
 
   /**
    * Returns the value of the '<em><b>Output</b></em>' containment reference list.

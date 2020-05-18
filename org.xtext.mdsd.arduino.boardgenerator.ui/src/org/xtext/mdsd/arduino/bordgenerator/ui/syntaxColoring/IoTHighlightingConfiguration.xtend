@@ -21,13 +21,13 @@ class IoTHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	 
 	override TextStyle numberTextStyle() {
 		val textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(127, 0, 105));
+		textStyle.setColor(new RGB(0, 168, 45));
 		textStyle;
 	}
 
 	override TextStyle stringTextStyle() {
 		val textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(0, 188, 65));
+		textStyle.setColor(new RGB(137, 0, 115));
 		textStyle;
 	}
 
@@ -54,11 +54,7 @@ class IoTHighlightingConfiguration extends DefaultHighlightingConfiguration {
 
 	override TextStyle punctuationTextStyle() { 
 		val textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(203, 116, 1));
+		textStyle.setColor(new RGB(80, 60, 60));
 		textStyle;
-	}
-	
-	def get(){
-		
 	}
 }

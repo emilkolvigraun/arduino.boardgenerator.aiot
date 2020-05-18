@@ -3,15 +3,17 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.validation
 
-import org.eclipse.xtext.validation.Check
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
-import com.sun.org.apache.xpath.internal.operations.Variable
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Board
 
+import org.eclipse.xtext.validation.Check
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Model
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
 
 /**
  * This class contains custom validation rules. 
@@ -21,18 +23,33 @@ import static extension org.eclipse.xtext.EcoreUtil2.*
 class IoTValidator extends AbstractIoTValidator {
 	
 	@Check 
-	def validateExternalSensor(ExternalSensor externalSensor){
-		val sensor = externalSensor.eContainer as Sensor; 
-		System.out.println(sensor.vars); 
-		//if (sensor.pins.size() != vars.ids.size()){
-		//	error("number of vars must equal number of pins", IoTPackage.eINSTANCE.sensor_Vars); 
-		//}
-	}
-	
+	def validateExternalSensor(Sensor sensor){
+		val externalSensor = sensor.sensortype;
+		if (externalSensor instanceof ExternalSensor){
+			if (externalSensor.pins.size() != sensor.vars.ids.size()){
+				error("number of vars must equal number of pins", IoTPackage.Literals.SENSOR__VARS); 
+			}    
+			val vcc = sensor.getVcc();    
+			if (vcc < 1){
+				error("this declaration of sensor needs vcc", IoTPackage.eINSTANCE.sensor_Name); 
+			}
+		}
+	} 
+		
 	@Check
-	def dispatch validateSensor(OnboardSensor sensor){
-		System.out.println("----");
-		System.out.println(sensor);
+	def validatePipeLine(Expression expression){
+	}
+		
+	@Check 
+	def validateOnboardSensor(Model model){ 
+		
+		//val boards = model.abstractBoard;
+		  
+		//System.out.println(boards); 
+		
+		// https://blogs.itemis.com/en/in-five-minutes-to-transitive-imports-within-a-dsl-with-xtext
+		
+		
 	}
 	
 }

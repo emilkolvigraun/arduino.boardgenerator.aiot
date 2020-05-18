@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Include#getPath <em>Path</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Include#getImportURI <em>Import URI</em>}</li>
  * </ul>
  *
  * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getInclude()
@@ -26,15 +26,15 @@ import org.eclipse.emf.ecore.EObject;
 public interface Include extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Path</b></em>' attribute list.
+   * Returns the value of the '<em><b>Import URI</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Path</em>' attribute list.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getInclude_Path()
+   * @return the value of the '<em>Import URI</em>' attribute list.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getInclude_ImportURI()
    * @model unique="false"
    * @generated
    */
-  EList<String> getPath();
+  EList<String> getImportURI();
 
 } // Include
