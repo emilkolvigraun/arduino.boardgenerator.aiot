@@ -93,8 +93,8 @@ AbstractBoard:
 
 Sensor:
 	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN
-		('sample' sampler+=Sampler)?
-		('vcc' vcc=INT)?
+		('sample' sampler+=Sampler)? 
+		('vcc' vcc=INT)? 
 		output+=SensorOutput+ 
 	END;
  
@@ -122,14 +122,14 @@ Sampler:
 Command:
 	'command' command=STRING topic=STRING?;
 
-Frequency:
+Frequency: 
 	'frequency' frequency=INT resolution=Resolution;
 
 Resolution:
 	({Seconds} 'seconds' | {Millis} 'milliseconds' | {Micros} 'microseconds');
-	
-SensorOutput:
-	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])* 
+	 
+SensorOutput: 
+	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*
 ;   
     
 DataOutput:
@@ -143,8 +143,7 @@ Pipeline:
 // external function can be added
 // validator verifyes whether input is valid
 External:  
-	function=[Function] '[' input+=Expression (',' input+=Expression)* ']' 
-; 
+	function=[Function] '[' input+=Expression (',' input+=Expression)* ']'; 
 
 TuplePipeline:
 	({Filter} 'filter' | {Abs} 'abs') '[' expression=Expression ']';

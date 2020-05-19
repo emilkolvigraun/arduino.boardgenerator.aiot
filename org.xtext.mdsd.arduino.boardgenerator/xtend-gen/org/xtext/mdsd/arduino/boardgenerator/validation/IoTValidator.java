@@ -74,6 +74,8 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
  */
 @SuppressWarnings("all")
 public class IoTValidator extends AbstractIoTValidator {
+  public static final String NO_SUPPORT_FOR_SENSOR = "org.xtext.mdsd.arduino.boardgenerator.NoSupportForSensor";
+  
   @Inject
   private IoTGlobalScopeProvider scopeProvider;
   
@@ -192,10 +194,6 @@ public class IoTValidator extends AbstractIoTValidator {
         }
       }
     }
-  }
-  
-  public Expression GetExpressionChildOf(final Expression expression) {
-    return null;
   }
   
   @Check
@@ -386,48 +384,40 @@ public class IoTValidator extends AbstractIoTValidator {
   
   @Check(CheckType.NORMAL)
   public void validateSensorNamesUniversallyUnique(final Sensor sensor) {
-    final Iterable<IEObjectDescription> sensors = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(sensor, Model.class), IoTPackage.eINSTANCE.getSensor());
-    final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(sensors), sensor.getName());
-    if (dublicate) {
-      ExtendsBoard _containerOfType = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
-      AbstractBoard _abstractBoard = null;
-      if (_containerOfType!=null) {
-        _abstractBoard=_containerOfType.getAbstractBoard();
-      }
-      final AbstractBoard extendsBoard = _abstractBoard;
-      if ((extendsBoard != null)) {
-        int counter = 0;
-        EList<Sensor> _sensors = extendsBoard.getSensors();
-        for (final Sensor s : _sensors) {
-          String _name = s.getName();
-          String _name_1 = sensor.getName();
-          boolean _equals = Objects.equal(_name, _name_1);
-          if (_equals) {
-            counter++;
-          }
-        }
-        if ((counter > 0)) {
-          StringConcatenation _builder = new StringConcatenation();
-          _builder.append("overriding ");
-          String _name_2 = sensor.getName();
-          _builder.append(_name_2);
-          _builder.append(" in ");
-          String _name_3 = extendsBoard.getName();
-          _builder.append(_name_3);
-          this.info(_builder.toString(), IoTPackage.Literals.SENSOR__NAME);
-          return;
-        }
-      }
-      AbstractBoard abstractContainer = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
-      if (((abstractContainer != null) && this.appearsOnce(this.asStringListSensor(abstractContainer.getSensors()), sensor.getName()))) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _name_4 = sensor.getName();
-        _builder_1.append(_name_4);
-        _builder_1.append(" might be overwritten");
-        this.info(_builder_1.toString(), IoTPackage.Literals.SENSOR__NAME);
-      } else {
-        this.error("sensor names must be universally unique", IoTPackage.Literals.SENSOR__NAME);
-      }
+    final boolean error = this.appearsOnce(this.getListQualifiedNames(this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(sensor, Model.class), IoTPackage.eINSTANCE.getSensor())), sensor.getName());
+    AbstractBoard abstractContainer = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
+    if ((((!error) && (abstractContainer != null)) && this.appearsOnce(this.asStringListSensor(abstractContainer.getSensors()), sensor.getName()))) {
+      StringConcatenation _builder = new StringConcatenation();
+      String _name = sensor.getName();
+      _builder.append(_name);
+      _builder.append(" might be overwritten");
+      this.info(_builder.toString(), IoTPackage.Literals.SENSOR__NAME);
+      return;
+    }
+    ExtendsBoard _containerOfType = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
+    AbstractBoard _abstractBoard = null;
+    if (_containerOfType!=null) {
+      _abstractBoard=_containerOfType.getAbstractBoard();
+    }
+    AbstractBoard extendsBoard = _abstractBoard;
+    if ((((!error) && (extendsBoard != null)) && this.appearsOnce(this.asStringListSensor(extendsBoard.getSensors()), sensor.getName()))) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("overriding ");
+      String _name_1 = sensor.getName();
+      _builder_1.append(_name_1);
+      _builder_1.append(" in ");
+      String _name_2 = extendsBoard.getName();
+      _builder_1.append(_name_2);
+      this.info(_builder_1.toString(), IoTPackage.Literals.SENSOR__NAME);
+      return;
+    }
+    NewBoard newBoard = EcoreUtil2.<NewBoard>getContainerOfType(sensor, NewBoard.class);
+    boolean _appearsOnce = this.appearsOnce(this.asStringListSensor(newBoard.getSensors()), sensor.getName());
+    boolean _not = (!_appearsOnce);
+    if (_not) {
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("sensor names must be unique within the context of a board");
+      this.error(_builder_2.toString(), IoTPackage.Literals.SENSOR__NAME);
     }
   }
   
@@ -508,7 +498,7 @@ public class IoTValidator extends AbstractIoTValidator {
         _builder.append(" does not support ");
         String _name = onbSensor.getName();
         _builder.append(_name);
-        this.error(_builder.toString(), IoTPackage.eINSTANCE.getSensorType_Name());
+        this.error(_builder.toString(), IoTPackage.eINSTANCE.getSensorType_Name(), IoTValidator.NO_SUPPORT_FOR_SENSOR, onbSensor.getName());
       }
       return;
     }
@@ -529,7 +519,7 @@ public class IoTValidator extends AbstractIoTValidator {
         _builder_1.append(" does not support ");
         String _name_2 = onbSensor.getName();
         _builder_1.append(_name_2);
-        this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getSensorType_Name());
+        this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getSensorType_Name(), IoTValidator.NO_SUPPORT_FOR_SENSOR, onbSensor.getName());
       }
       return;
     }
@@ -545,7 +535,7 @@ public class IoTValidator extends AbstractIoTValidator {
         _builder_2.append(" does not support ");
         String _name_3 = onbSensor.getName();
         _builder_2.append(_name_3);
-        this.error(_builder_2.toString(), IoTPackage.eINSTANCE.getSensorType_Name());
+        this.error(_builder_2.toString(), IoTPackage.eINSTANCE.getSensorType_Name(), IoTValidator.NO_SUPPORT_FOR_SENSOR, onbSensor.getName());
       }
     }
   }

@@ -68,7 +68,10 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
-class IoTValidator extends AbstractIoTValidator {
+class IoTValidator extends AbstractIoTValidator { 
+	  
+	public static val NO_SUPPORT_FOR_SENSOR = "org.xtext.mdsd.arduino.boardgenerator.NoSupportForSensor"
+	
 	
 	@Inject
 	IoTGlobalScopeProvider scopeProvider
@@ -142,10 +145,6 @@ class IoTValidator extends AbstractIoTValidator {
 				}
 			}	
 		}  
-	}
-	
-	def Expression GetExpressionChildOf(Expression expression){
-		
 	}
 	
 	@Check
@@ -268,33 +267,23 @@ class IoTValidator extends AbstractIoTValidator {
 	
 	@Check(CheckType.NORMAL) 
 	def validateSensorNamesUniversallyUnique(Sensor sensor){
-		val sensors = sensor.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.sensor)
-		val dublicate = sensors.listQualifiedNames.validateOccursOnce(sensor.name)
-		if (dublicate) {
-			 
-			val extendsBoard = sensor.getContainerOfType(ExtendsBoard)?.abstractBoard
-			
-			if (extendsBoard !== null){
-				var counter = 0
-				for(Sensor s : extendsBoard.sensors){
-					if (s.name == sensor.name){
-						counter++
-					} 
-				}   
-				
-				if (counter > 0){
-					info('''overriding «sensor.name» in «extendsBoard.name»''', IoTPackage.Literals.SENSOR__NAME)
-					return 
-				} 
-			}  
-			   
-		  	var abstractContainer = sensor.getContainerOfType(AbstractBoard)
-			if (abstractContainer !== null && abstractContainer.sensors.asStringListSensor.appearsOnce(sensor.name)){
-				info('''«sensor.name» might be overwritten''', IoTPackage.Literals.SENSOR__NAME)
-			} else {				
-				error("sensor names must be universally unique", IoTPackage.Literals.SENSOR__NAME)							
-			}
-		}
+		val error = sensor.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.sensor).listQualifiedNames.appearsOnce(sensor.name)
+		 
+		var abstractContainer = sensor.getContainerOfType(AbstractBoard)
+		if (!error && abstractContainer !== null && abstractContainer.sensors.asStringListSensor.appearsOnce(sensor.name)){
+			info('''«sensor.name» might be overwritten''', IoTPackage.Literals.SENSOR__NAME)
+			return;  
+		} 
+		
+		var extendsBoard = sensor.getContainerOfType(ExtendsBoard)?.abstractBoard
+		if (!error && extendsBoard !== null && extendsBoard.sensors.asStringListSensor.appearsOnce(sensor.name)){
+			info('''overriding «sensor.name» in «extendsBoard.name»''', IoTPackage.Literals.SENSOR__NAME)
+			return;
+		}   
+		    
+		var newBoard = sensor.getContainerOfType(NewBoard)  
+		if (!newBoard.sensors.asStringListSensor.appearsOnce(sensor.name))
+			error('''sensor names must be unique within the context of a board''', IoTPackage.Literals.SENSOR__NAME)
 	}  
 	 
 	@Check
@@ -349,7 +338,7 @@ class IoTValidator extends AbstractIoTValidator {
 			val board = Boards.getBoardSupported(boardVersion.version)		
 			     
 			if (!board.supportsSensor(onbSensor.name)){ 
-				error('''«board.toString» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name)
+				error('''«board.toString» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name, NO_SUPPORT_FOR_SENSOR, onbSensor.name)
 			} 
 			return;
 		} 
@@ -360,7 +349,7 @@ class IoTValidator extends AbstractIoTValidator {
 			val board = Boards.getBoardSupported(extendsVersion.version)		
 			       
 			if (!board.supportsSensor(onbSensor.name)){  
-				error('''«extendsVersion.name» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name)
+				error('''«extendsVersion.name» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name, NO_SUPPORT_FOR_SENSOR, onbSensor.name)
 			} 
 			return;
 		}  
@@ -371,10 +360,10 @@ class IoTValidator extends AbstractIoTValidator {
 			val board = Boards.getBoardSupported(abstractVersion.version)		
 			        
 			if (!board.supportsSensor(onbSensor.name)){  
-				error('''«board.toString» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name)
+				error('''«board.toString» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name, NO_SUPPORT_FOR_SENSOR, onbSensor.name)
 			} 
 		}  
-	} 
+	}  
 	
 	@Check
 	def validateChannel(Wifi channel){

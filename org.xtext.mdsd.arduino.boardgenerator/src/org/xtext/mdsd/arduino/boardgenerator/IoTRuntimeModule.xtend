@@ -18,6 +18,7 @@ class IoTRuntimeModule extends AbstractIoTRuntimeModule {
 	}
 	 
 	override Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
+		
 		IoTGlobalScopeProvider
 	}
 }

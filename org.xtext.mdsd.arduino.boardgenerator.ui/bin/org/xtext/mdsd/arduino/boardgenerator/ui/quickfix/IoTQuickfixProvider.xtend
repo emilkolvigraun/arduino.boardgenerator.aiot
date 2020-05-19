@@ -4,6 +4,13 @@
 package org.xtext.mdsd.arduino.boardgenerator.ui.quickfix
 
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
+import org.eclipse.xtext.validation.Issue
+import org.eclipse.xtext.ui.editor.quickfix.Fix
+import org.xtext.mdsd.arduino.boardgenerator.validation.IoTValidator
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils
+import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
 
 /**
  * Custom quickfixes.
@@ -11,14 +18,17 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#quick-fixes
  */
 class IoTQuickfixProvider extends DefaultQuickfixProvider {
-
-//	@Fix(IoTValidator.INVALID_NAME)
-//	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
-//		acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [
-//			context |
-//			val xtextDocument = context.xtextDocument
-//			val firstLetter = xtextDocument.get(issue.offset, 1)
-//			xtextDocument.replace(issue.offset, 1, firstLetter.toUpperCase)
-//		]
-//	}
+	 
+	@Fix(IoTValidator.NO_SUPPORT_FOR_SENSOR)  
+	def newSensor(Issue issue, IssueResolutionAcceptor acceptor){
+		acceptor.accept(issue, "Assign pins",  
+			null, null, [element, context |  
+				var sensor = element.getContainerOfType(Sensor)
+				var pins = '''''' 
+				for (i:0 ..< sensor.vars.ids.size()){  
+					pins += '''«i», '''
+				}
+				context.xtextDocument.replace(NodeModelUtils.getNode(element).endOffset, 0, ''' («pins.substring(0, pins.length-2)»)''')
+			]) 
+	}
 }

@@ -3,7 +3,20 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ui.quickfix;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.ui.editor.model.IXtextDocument;
+import org.eclipse.xtext.ui.editor.model.edit.IModificationContext;
+import org.eclipse.xtext.ui.editor.model.edit.ISemanticModification;
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
+import org.eclipse.xtext.ui.editor.quickfix.Fix;
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
+import org.eclipse.xtext.validation.Issue;
+import org.eclipse.xtext.xbase.lib.ExclusiveRange;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
+import org.xtext.mdsd.arduino.boardgenerator.validation.IoTValidator;
 
 /**
  * Custom quickfixes.
@@ -12,4 +25,34 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider;
  */
 @SuppressWarnings("all")
 public class IoTQuickfixProvider extends DefaultQuickfixProvider {
+  @Fix(IoTValidator.NO_SUPPORT_FOR_SENSOR)
+  public void newSensor(final Issue issue, final IssueResolutionAcceptor acceptor) {
+    final ISemanticModification _function = (EObject element, IModificationContext context) -> {
+      Sensor sensor = EcoreUtil2.<Sensor>getContainerOfType(element, Sensor.class);
+      StringConcatenation _builder = new StringConcatenation();
+      String pins = _builder.toString();
+      int _size = sensor.getVars().getIds().size();
+      ExclusiveRange _doubleDotLessThan = new ExclusiveRange(0, _size, true);
+      for (final Integer i : _doubleDotLessThan) {
+        String _pins = pins;
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append(i);
+        _builder_1.append(", ");
+        pins = (_pins + _builder_1);
+      }
+      IXtextDocument _xtextDocument = context.getXtextDocument();
+      int _endOffset = NodeModelUtils.getNode(element).getEndOffset();
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append(" ");
+      _builder_2.append("(");
+      int _length = pins.length();
+      int _minus = (_length - 2);
+      String _substring = pins.substring(0, _minus);
+      _builder_2.append(_substring, " ");
+      _builder_2.append(")");
+      _xtextDocument.replace(_endOffset, 0, _builder_2.toString());
+    };
+    acceptor.accept(issue, "Assign pins", 
+      null, null, _function);
+  }
 }
