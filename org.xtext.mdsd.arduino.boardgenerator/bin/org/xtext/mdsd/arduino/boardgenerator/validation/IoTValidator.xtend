@@ -3,65 +3,56 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.validation
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
-import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Model
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Map
-import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Board
-
-import org.eclipse.xtext.resource.IEObjectDescription
-import org.eclipse.xtext.validation.CheckType
-import org.eclipse.xtext.validation.Check
-
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EClass
-
+import com.google.inject.Inject
 import java.util.HashSet
 import java.util.List
-
-import com.google.inject.Inject
-
-import static extension org.eclipse.xtext.EcoreUtil2.* 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard
-import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EReference
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
-import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker
 import org.eclipse.emf.ecore.EStructuralFeature
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Or
+import org.eclipse.xtext.resource.IEObjectDescription
+import org.eclipse.xtext.validation.Check
+import org.eclipse.xtext.validation.CheckType
+import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Board
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Div
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus
+import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Map
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Model
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Div
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent
+import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Not
+import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Or
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
-import org.xtext.mdsd.arduino.boardgenerator.ioT.External
-import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline  
+import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider
+import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker
+
+import static extension org.eclipse.xtext.EcoreUtil2.*
 
 /**
  * This class contains custom validation rules. 

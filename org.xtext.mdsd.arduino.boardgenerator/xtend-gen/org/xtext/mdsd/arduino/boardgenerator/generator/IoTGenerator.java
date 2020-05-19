@@ -3,10 +3,22 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.generator;
 
+import com.google.common.collect.Iterators;
+import com.google.inject.Inject;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
+import org.xtext.mdsd.arduino.boardgenerator.generator.GeneratorUtils;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 
 /**
  * Generates code from your model files on save.
@@ -15,7 +27,80 @@ import org.eclipse.xtext.generator.IGeneratorContext;
  */
 @SuppressWarnings("all")
 public class IoTGenerator extends AbstractGenerator {
+  @Inject
+  @Extension
+  private GeneratorUtils _generatorUtils;
+  
+  private IFileSystemAccess2 fsa;
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    this.fsa = fsa;
+    this.exportBoards(IteratorExtensions.<Board>toList(Iterators.<Board>filter(resource.getAllContents(), Board.class)));
+  }
+  
+  public void exportBoards(final List<Board> boards) {
+    for (final Board board : boards) {
+      {
+        final String currentBoard = StringExtensions.toFirstUpper(board.getName());
+        Set<Channel> channels = this._generatorUtils.getChannelsInBoard(board);
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("/*  ");
+        _builder.newLine();
+        _builder.append("* Generated Code  ");
+        _builder.newLine();
+        _builder.append("* Model : ");
+        String _model = this._generatorUtils.getBoardVersion(board).getModel();
+        _builder.append(_model);
+        _builder.newLineIfNotEmpty();
+        _builder.append("* Type  : ");
+        String _type = this._generatorUtils.getBoardVersion(board).getType();
+        _builder.append(_type);
+        _builder.newLineIfNotEmpty();
+        _builder.append("*/");
+        _builder.newLine();
+        _builder.append(" ");
+        _builder.newLine();
+        String _generatorBoardCode = this.generatorBoardCode(board, IterableExtensions.<Channel>toList(channels));
+        _builder.append(_generatorBoardCode);
+        _builder.newLineIfNotEmpty();
+        final String content = _builder.toString();
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append(currentBoard);
+        _builder_1.append("/Device.ino");
+        this.fsa.generateFile(_builder_1.toString(), content);
+        StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append(currentBoard);
+        _builder_2.append("/config.json");
+        this.fsa.generateFile(_builder_2.toString(), content);
+      }
+    }
+  }
+  
+  public String generateConfigFile(final List<Channel> channels) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("{");
+    _builder.newLine();
+    {
+      for(final Channel channel : channels) {
+        _builder.append("\"");
+        String _name = channel.getName();
+        _builder.append(_name);
+        _builder.append("\":{");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t \t\t\t\t");
+        _builder.newLine();
+        _builder.append("\t \t\t\t");
+        _builder.append("} ");
+        _builder.newLine();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    return _builder.toString();
+  }
+  
+  public String generatorBoardCode(final Board board, final List<Channel> channels) {
+    return "";
   }
 }

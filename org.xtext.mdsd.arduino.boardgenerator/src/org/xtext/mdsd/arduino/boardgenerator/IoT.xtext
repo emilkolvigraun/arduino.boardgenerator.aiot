@@ -71,8 +71,7 @@ NewBoard:
 	name=ID ':' BEGIN
 		version=BoardVersion
 		sensors+=Sensor+
-	END
-;
+	END;
 
 BoardVersion:
 	'type' type=ID 
@@ -88,19 +87,17 @@ AbstractBoard:
 	'abstract' 'board' name=ID ':' BEGIN
 		version=BoardVersion
 		sensors+=Sensor+ 
-	END
-;
+	END;
 
 Sensor:
 	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN
-		('sample' sampler+=Sampler)? 
+		('sample' sampler+=Sampler)?  
 		('vcc' vcc=INT)? 
 		output+=SensorOutput+ 
 	END;
  
 SensorType:
-	ExternalSensor | OnboardSensor	
-;
+	ExternalSensor | OnboardSensor;
   
 ExternalSensor:
 	name=ID '('pins+=INT (',' pins+=INT)* ')';
@@ -109,12 +106,10 @@ OnboardSensor:
 	name=ID;
 
 SensorVariables:
-	name=ID '(' ids+=Variable (',' ids+=Variable)* ')'
-; 
+	name=ID '(' ids+=Variable (',' ids+=Variable)* ')'; 
 
 Variable:
-	name=ID
-;
+	name=ID;
 
 Sampler:
 	Command | Frequency;
@@ -129,16 +124,13 @@ Resolution:
 	({Seconds} 'seconds' | {Millis} 'milliseconds' | {Micros} 'microseconds');
 	 
 SensorOutput: 
-	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*
-;   
+	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*;   
     
 DataOutput:
-	sensorvar=[SensorVariables] (pipeline=Pipeline)?
-; 
+	sensorvar=[SensorVariables] (pipeline=Pipeline)?; 
 
 Pipeline: 
-	'.' (TuplePipeline | MapPipeline | WindowPipeline | External ) (next=Pipeline)?
-; 
+	'.' (TuplePipeline | MapPipeline | WindowPipeline | External ) (next=Pipeline)?; 
  
 // external function can be added
 // validator verifyes whether input is valid
@@ -152,8 +144,7 @@ MapPipeline:
 	{Map} 'map' '[' expression=Expression '->' output=Variable ']';
 
 WindowPipeline:
-	{Window} 'byWindow' '[' width=INT ']' '.' execute=ExecutePipeline
-;
+	{Window} 'byWindow' '[' width=INT ']' '.' execute=ExecutePipeline;
 
 ExecutePipeline:
 	{Reduce}'reduce'| 
@@ -163,79 +154,62 @@ ExecutePipeline:
 	{Min} 	'min' 	|
 	{Max} 	'max' 	|
 	{Count} 'count'	|
-	{Var} 	'var'	
-;
+	{Var} 	'var'	;
 
 // The expression rules are loose allowing for meaningless expressions to be
 // formed. Well-typedness will be ensured using validators
 Expression:
-	Conditional
-;
+	Conditional;
 
 // 4 == 4 ? yes : no, is per definition right associative
 Conditional returns Expression:
-	Or ({Conditional.condition=current} '?' correct=Conditional ':' incorrect=Conditional)?
-;
+	Or ({Conditional.condition=current} '?' correct=Conditional ':' incorrect=Conditional)?;
 
 // Implemented in a right-associative way just as an example - associativity
 // does not matter for && and ||
 Or returns Expression:
-	And ({Or.left=current} '||' right=Or)?
-;
+	And ({Or.left=current} '||' right=Or)?;
 
 And returns Expression:
-	Equality ({And.left=current} '&&' right=And)?
-;
+	Equality ({And.left=current} '&&' right=And)?;
 
 Equality returns Expression:
-	Comparison ({Equal.left=current} '==' right=Comparison | {Unequal.left = current} '!=' right=Comparison)*
-;
+	Comparison ({Equal.left=current} '==' right=Comparison | {Unequal.left = current} '!=' right=Comparison)*;
 
 Comparison returns Expression:
-	SubAdd ({LessThan.left=current} '<' right=SubAdd | {LessThanEqual.left=current} '<=' right=SubAdd | {GreaterThan.left=current} '>' right=SubAdd | {GreaterThanEqual.left=current} '>=' right=SubAdd)*
-;
+	SubAdd ({LessThan.left=current} '<' right=SubAdd | {LessThanEqual.left=current} '<=' right=SubAdd | {GreaterThan.left=current} '>' right=SubAdd | {GreaterThanEqual.left=current} '>=' right=SubAdd)*;
 
 SubAdd returns Expression:
-	MulDiv ({Plus.left=current} '+' right=MulDiv | {Minus.left=current} '-' right=MulDiv)*
-;
+	MulDiv ({Plus.left=current} '+' right=MulDiv | {Minus.left=current} '-' right=MulDiv)*;
 
 MulDiv returns Expression:
-	Negation ({Mul.left=current} '*' right=Negation | {Div.left=current} '/' right=Negation)*
-;
+	Negation ({Mul.left=current} '*' right=Negation | {Div.left=current} '/' right=Negation)*;
 
 Negation returns Expression:
-    {Negation} '-' value=Exponent | Exponent
-;
+    {Negation} '-' value=Exponent | Exponent;
 
 // Exponentiation is right-associative!
 // That is why the rule refers to itself (or its parent) on the right of the operator
 Exponent returns Expression:
-    Not ({Exponent.base=current} '**' power=Negation)?
-;
+    Not ({Exponent.base=current} '**' power=Negation)?;
  
 Not returns Expression:
-	{Not} '!' value=Primary | Primary 
-;
+	{Not} '!' value=Primary | Primary ;
 
 Primary returns Expression:
-	'('Expression')' | Reference | NumberLiteral | BooleanLiteral | StringLiteral
-;
+	'('Expression')' | Reference | NumberLiteral | BooleanLiteral | StringLiteral;
  
 Reference:
-	ref=ID  
-; 
+	ref=ID; 
 
 StringLiteral: 
-	str=STRING 
-;
+	str=STRING;
 
 NumberLiteral:
-	numb=NUMBER
-; 
+	numb=NUMBER; 
  
 BooleanLiteral:
-	bool=BOOLEAN
-;
+	bool=BOOLEAN;
 
 terminal BEGIN: 'synthetic:BEGIN';
 terminal END: 'synthetic:END';
@@ -250,14 +224,11 @@ terminal NINT returns ecore::EInt:
 
 terminal DBL returns ecore::EDouble:
 	INT? '.'('0'..'9')+; 
-	
+	 
 terminal NDBL returns ecore::EDouble:
 	'-' (INT? '.'('0'..'9')+);
-
-terminal SCI returns ecore::EDouble:
-	(INT | DBL) ('e' | 'E') '-'? INT;
  
-terminal BOOLEAN returns ecore::EBoolean:
+terminal BOOLEAN returns ecore::EBoolean: 
 	'true' | 'false' | 'True' | 'False';
 
 @Override 
