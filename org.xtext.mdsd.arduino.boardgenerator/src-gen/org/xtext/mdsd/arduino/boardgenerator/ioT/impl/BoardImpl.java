@@ -3,6 +3,8 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
+import java.lang.String;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;

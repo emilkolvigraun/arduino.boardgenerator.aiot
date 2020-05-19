@@ -21,6 +21,8 @@ Abstract : 'abstract';
 
 ByWindow : 'byWindow';
 
+Function : 'function';
+
 Channel : 'channel';
 
 Command : 'command';
@@ -37,6 +39,8 @@ Filter : 'filter';
 
 Median : 'median';
 
+Number : 'number';
+
 Reduce : 'reduce';
 
 Sample : 'sample';
@@ -44,6 +48,8 @@ Sample : 'sample';
 Sensor : 'sensor';
 
 Serial : 'serial';
+
+String : 'string';
 
 Board : 'board';
 
@@ -56,6 +62,8 @@ Stdev : 'stdev';
 Topic : 'topic';
 
 Baud : 'baud';
+
+Bool : 'bool';
 
 Byte : 'byte';
 
@@ -81,11 +89,15 @@ Wifi : 'wifi';
 
 Abs : 'abs';
 
+And : 'and';
+
 Map : 'map';
 
 Max : 'max';
 
 Min : 'min';
+
+Var : 'var';
 
 Vcc : 'vcc';
 

@@ -27,7 +27,8 @@ import java.util.List
 
 import com.google.inject.Inject
 
-import static extension org.eclipse.xtext.EcoreUtil2.* import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion
+import static extension org.eclipse.xtext.EcoreUtil2.* 
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion
 import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard
@@ -38,6 +39,29 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
 import org.eclipse.emf.ecore.EReference
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
+import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Or
+import org.xtext.mdsd.arduino.boardgenerator.ioT.And
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Div
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Not
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External
+import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline  
 
 /**
  * This class contains custom validation rules. 
@@ -49,8 +73,10 @@ class IoTValidator extends AbstractIoTValidator {
 	@Inject
 	IoTGlobalScopeProvider scopeProvider
 	
+	@Inject 
+	extension TypeChecker
 	
-	@Check 
+	@Check  
 	def validateExternalSensor(Sensor sensor){
 		val vcc = sensor.getVcc(); 
 		val externalSensor = sensor.sensortype;
@@ -67,7 +93,7 @@ class IoTValidator extends AbstractIoTValidator {
 		if (set.size() != list.size()){ 
 			error("variables must be unique", IoTPackage.Literals.SENSOR__VARS);
 		}
-		
+		 
 		if (externalSensor instanceof OnboardSensor && vcc > 0){   
 			warning("supported sensors does not require vcc", IoTPackage.eINSTANCE.sensor_Vcc)
 		}   
@@ -93,30 +119,85 @@ class IoTValidator extends AbstractIoTValidator {
 		
 		if (expression instanceof Reference){
 			val reference = expression as Reference
-			var parentMapVar = reference.getContainerOfType(Pipeline).getIfPipelineIsFromMap
-			if (parentMapVar === null){				
+			var parent = reference.getContainerOfType(Pipeline).pipelineChildOf
+			
+			if (parent === null){	 			 
 				val sensor = expression.getContainerOfType(Sensor)
 				var error = true
-				for (Variable v : sensor.vars.ids){ 
-					if (reference.ref == v.name) error = false
-				} 
-				if (error) 
+				for (Variable v : sensor.vars.ids){   
+					if (reference.ref == v.name) error = false 
+				}  
+				if (error)      
 					error('''variable "«reference.ref»" was not declared''', IoTPackage.eINSTANCE.reference_Ref);
-			} else if (parentMapVar.name != reference.ref){
-				error('''only variable "«parentMapVar.name»" is reachable after map function''', IoTPackage.eINSTANCE.reference_Ref);
+					
+			} else if (parent instanceof Map){   
+				var map = parent as Map 
+				if ( map.output.name != reference.ref)
+					error('''only variable "«map.output.name»" is reachable after map function''', IoTPackage.eINSTANCE.reference_Ref);
+			} else if (parent instanceof External){   
+				var external = parent as External
+				var index = external.function.output.indexOf(reference.ref) 
+				if (index < 0){  
+					error('''"«reference.ref»" not reachable''', IoTPackage.eINSTANCE.reference_Ref)
+				}
 			}	
-		}
+		}  
 	}
 	
-	def Variable getIfPipelineIsFromMap(EObject pipeline){
-		var parent = pipeline.eContainer
-		while (parent instanceof Pipeline){
-			switch (parent){
-					Map: return parent.output
-					default: parent = parent.eContainer
-				} 
+	def Expression GetExpressionChildOf(Expression expression){
+		
+	}
+	
+	@Check
+	def validateFunction(External external){ 
+		var functionOutput = external.function.input.size() 
+		if(external.input.size() != functionOutput){
+			error('''input does not match declared function «external.function.name»«external.function.input.toString.replace('[', '(').replace(']', ')')»''', IoTPackage.eINSTANCE.external_Input)
+		} 
+		var sensor = external.getContainerOfType(Sensor)
+		for (i:0 ..< functionOutput){  
+			if (external.input.size() < 1){
+				return
+			}
+			var inputType = (external.input.get(i) as Expression).type
+			var acceptedInputType = external.function.input.get(i).type 
+			 
+			if (acceptedInputType.isNumberType){
+				inputType.validateNumbers(IoTPackage.eINSTANCE.external_Input) 
+			} else { 
+				inputType.validateTypes(acceptedInputType, IoTPackage.eINSTANCE.external_Function)
+			}
+			  
+			if (sensor !== null){
+				
+				var functionOutputID = external.function.output.get(i)   
+				var index = sensor.vars.ids.asStringList.indexOf(functionOutputID.toString)
+				  
+				if (index > -1){
+					error('''funtion «external.function.name» not applicable in «sensor.name» because output variables not unique''', IoTPackage.eINSTANCE.external_Function)
+				}
+				
+				if (functionOutputID.toString == sensor.vars.name.toString){ 
+					error('''funtion «external.function.name» not applicable in «sensor.name» because sensor variable not unique''', IoTPackage.eINSTANCE.external_Function)
+				}
+				
+			}
+		} 
+	}
+	 
+	@Check 
+	def validateReferenceNotIgnored(Reference reference){ 
+		if (reference.ref == "_"){ 
+			error('''cannot parse ignored variables''', IoTPackage.eINSTANCE.reference_Ref)
 		}
-		return null;
+	}
+	 
+	@Check 
+	def validateLastPipeIsWindow(WindowPipeline pipeline){
+		var next = pipeline.next
+		if (next !== null){ 
+			error('''byWindow cannot be followed by another pipeline''', IoTPackage.eINSTANCE.pipeline_Next)
+		}
 	}
 	
 	def Iterable<IEObjectDescription> getGlobalEObjectsOfType(Model model, EClass type){
@@ -165,6 +246,25 @@ class IoTValidator extends AbstractIoTValidator {
 		}
 		list		
 	}
+	 
+	def asStringListSensor(List<Sensor> vars){
+		val list = newArrayList()
+		for (Sensor sensor : vars){
+			list.add(sensor.name)
+		}
+		list		
+	}
+	
+	def boolean appearsOnce(List<String> list, String name){
+		var counter = 0
+		for(String actual : list){
+			if (actual == name)
+				counter++
+		}
+		if (counter > 1) 
+			return false
+		return true
+	}
 	
 	@Check(CheckType.NORMAL) 
 	def validateSensorNamesUniversallyUnique(Sensor sensor){
@@ -187,8 +287,9 @@ class IoTValidator extends AbstractIoTValidator {
 					return 
 				} 
 			}  
-			  
-			if (sensor.getContainerOfType(AbstractBoard) !== null){
+			   
+		  	var abstractContainer = sensor.getContainerOfType(AbstractBoard)
+			if (abstractContainer !== null && abstractContainer.sensors.asStringListSensor.appearsOnce(sensor.name)){
 				info('''«sensor.name» might be overwritten''', IoTPackage.Literals.SENSOR__NAME)
 			} else {				
 				error("sensor names must be universally unique", IoTPackage.Literals.SENSOR__NAME)							
@@ -238,9 +339,9 @@ class IoTValidator extends AbstractIoTValidator {
 			val board = Boards.getBoardSupported(aboard.version)
 			board.validateOnboardSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
 		}
-	} 
+	}  
 		 
-	@Check 
+	@Check  
 	def validateOnboardSensor(OnboardSensor onbSensor){ 	 	
 		var boardVersion = onbSensor.getContainerOfType(NewBoard)  
 		
@@ -277,10 +378,10 @@ class IoTValidator extends AbstractIoTValidator {
 	
 	@Check
 	def validateChannel(Wifi channel){
-		warning("wifi information should not be displayed in the code", IoTPackage.eINSTANCE.wifi_Pass)	
+		warning("sensitive information should not be displayed in the code", IoTPackage.eINSTANCE.wifi_Pass)	
 	}
 	
-	@Check
+	@Check 
 	def validateMQTTClient(MqttClient mqtt){
 		var ipAddress = mqtt.broker.split('\\.') 
 		
@@ -300,4 +401,147 @@ class IoTValidator extends AbstractIoTValidator {
 			}
 		}
 	} 
+	
+	def validateTypes(TypeChecker.Type actual, TypeChecker.Type expected, EStructuralFeature error) {
+		if (expected != actual) {
+			error('''expected «expected» got «actual»''', error)
+		}
+	}
+
+	def validateNumbers(TypeChecker.Type type, EStructuralFeature error) {
+		if (!type.isNumberType) {
+			error('''expected number got «type»''', error)
+		}			
+	}
+
+	@Check
+	def validateFilterExpression(Filter filter) {
+		filter.expression.type.validateTypes(TypeChecker.Type.BOOLEAN,
+			IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION)
+	} 
+
+	@Check
+	def checkExpression(Conditional conditional) {
+		if (conditional.condition !== null)
+			conditional.condition.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.CONDITIONAL__CONDITION)  
+		if (conditional.incorrect !== null)
+			conditional.incorrect.type.validateTypes(conditional.correct.type, IoTPackage.Literals.CONDITIONAL__INCORRECT)
+	}
+
+	@Check
+	def checkExpression(Or or) {
+		if (or.left !== null)
+			or.left.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.OR__LEFT)
+		if (or.right !== null)
+			or.right.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.OR__RIGHT)
+	}
+
+	@Check
+	def checkExpression(And and) {
+		if (and.left !== null)
+			and.left.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.AND__LEFT)
+		if (and.right !== null)
+			and.right.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.AND__RIGHT)
+	}
+
+	@Check
+	def checkExpression(Equal equal) {
+		if (equal.left !== null && equal.right !== null)
+			if (!equal.left.type.isNumberType || !equal.right.type.isNumberType) {
+				equal.right.type.validateTypes(equal.left.type, IoTPackage.Literals.EQUAL__RIGHT)
+			}
+	}
+
+	@Check
+	def checkExpression(Unequal unequal) {
+		if (unequal.left !== null && unequal.right !== null)
+			if (!unequal.left.type.isNumberType || !unequal.right.type.isNumberType) {
+				unequal.right.type.validateTypes(unequal.left.type, IoTPackage.Literals.UNEQUAL__RIGHT)
+			}
+	}
+
+	@Check
+	def checkExpression(LessThan lessThan) {
+		if (lessThan.left !== null)
+			lessThan.left.type.validateNumbers(IoTPackage.Literals.LESS_THAN__LEFT)
+		if (lessThan.right !== null)
+			lessThan.right.type.validateNumbers(IoTPackage.Literals.LESS_THAN__RIGHT)
+	}
+
+	@Check
+	def checkExpression(LessThanEqual lessThanEqual) {
+		if (lessThanEqual.left !== null)
+			lessThanEqual.left.type.validateNumbers(IoTPackage.Literals.LESS_THAN_EQUAL__LEFT)
+		if (lessThanEqual.right !== null)
+			lessThanEqual.right.type.validateNumbers(IoTPackage.Literals.LESS_THAN_EQUAL__RIGHT)
+	}
+
+	@Check
+	def checkExpression(GreaterThan greaterThan) {
+		if (greaterThan.left !== null)
+			greaterThan.left.type.validateNumbers(IoTPackage.Literals.GREATER_THAN__LEFT)
+		if (greaterThan.right !== null)
+			greaterThan.right.type.validateNumbers(IoTPackage.Literals.GREATER_THAN__RIGHT)
+	}
+ 
+	@Check
+	def checkExpression(GreaterThanEqual greaterThanEqual) {
+		if (greaterThanEqual.left !== null)
+			greaterThanEqual.left.type.validateNumbers(IoTPackage.Literals.GREATER_THAN_EQUAL__LEFT)
+		if (greaterThanEqual.right !== null)
+			greaterThanEqual.right.type.validateNumbers(IoTPackage.Literals.GREATER_THAN_EQUAL__RIGHT)
+	}
+
+	@Check
+	def checkExpression(Plus plus) {
+		if (plus.left !== null && plus.right !== null)
+			if (plus.left.type != TypeChecker.Type.STRING && plus.right.type != TypeChecker.Type.STRING) {
+				plus.left.type.validateNumbers(IoTPackage.Literals.PLUS__LEFT)
+				plus.right.type.validateNumbers(IoTPackage.Literals.PLUS__RIGHT)
+			}
+	}
+
+	@Check
+	def checkExpression(Minus minus) {
+		if (minus.left !== null)
+			minus.left.type.validateNumbers(IoTPackage.Literals.MINUS__LEFT)
+		if (minus.right !== null)
+			minus.right.type.validateNumbers(IoTPackage.Literals.MINUS__RIGHT)
+	}
+
+	@Check
+	def checkExpression(Mul mul) {
+		if (mul.left !== null)
+			mul.left.type.validateNumbers(IoTPackage.Literals.MUL__LEFT)
+		if (mul.right !== null)
+			mul.right.type.validateNumbers(IoTPackage.Literals.MUL__RIGHT)
+	}
+
+	@Check
+	def checkExpression(Div div) {
+		if (div.left !== null)
+			div.left.type.validateNumbers(IoTPackage.Literals.DIV__LEFT)
+		if (div.right !== null)
+			div.right.type.validateNumbers(IoTPackage.Literals.DIV__RIGHT)
+	}
+
+	@Check
+	def checkExpression(Negation negation) {
+		if (negation.value !== null)
+			negation.value.type.validateNumbers(IoTPackage.Literals.NEGATION__VALUE)
+	}
+
+	@Check
+	def checkExpression(Exponent exponent) {
+		if (exponent.base !== null)
+			exponent.base.type.validateNumbers(IoTPackage.Literals.EXPONENT__BASE)
+		if (exponent.power !== null)
+			exponent.power.type.validateNumbers(IoTPackage.Literals.EXPONENT__POWER)
+	}
+
+	@Check 
+	def checkPower(Not not) {  
+		if (not.value !== null)
+			not.value.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.NOT__VALUE)
+	}
 }

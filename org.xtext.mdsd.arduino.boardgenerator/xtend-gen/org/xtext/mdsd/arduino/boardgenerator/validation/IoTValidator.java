@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -21,26 +22,48 @@ import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.ExclusiveRange;
+import org.eclipse.xtext.xbase.lib.Extension;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Not;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
 import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider;
+import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker;
 import org.xtext.mdsd.arduino.boardgenerator.validation.AbstractIoTValidator;
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 
@@ -53,6 +76,10 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 public class IoTValidator extends AbstractIoTValidator {
   @Inject
   private IoTGlobalScopeProvider scopeProvider;
+  
+  @Inject
+  @Extension
+  private TypeChecker _typeChecker;
   
   @Check
   public void validateExternalSensor(final Sensor sensor) {
@@ -114,8 +141,8 @@ public class IoTValidator extends AbstractIoTValidator {
   public void validateExpressionVariables(final Expression expression) {
     if ((expression instanceof Reference)) {
       final Reference reference = ((Reference) expression);
-      Variable parentMapVar = this.getIfPipelineIsFromMap(EcoreUtil2.<Pipeline>getContainerOfType(reference, Pipeline.class));
-      if ((parentMapVar == null)) {
+      EObject parent = this._typeChecker.getPipelineChildOf(EcoreUtil2.<Pipeline>getContainerOfType(reference, Pipeline.class));
+      if ((parent == null)) {
         final Sensor sensor = EcoreUtil2.<Sensor>getContainerOfType(expression, Sensor.class);
         boolean error = true;
         EList<Variable> _ids = sensor.getVars().getIds();
@@ -136,32 +163,125 @@ public class IoTValidator extends AbstractIoTValidator {
           this.error(_builder.toString(), IoTPackage.eINSTANCE.getReference_Ref());
         }
       } else {
-        String _name_1 = parentMapVar.getName();
-        String _ref_2 = reference.getRef();
-        boolean _notEquals = (!Objects.equal(_name_1, _ref_2));
-        if (_notEquals) {
-          StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("only variable \"");
-          String _name_2 = parentMapVar.getName();
-          _builder_1.append(_name_2);
-          _builder_1.append("\" is reachable after map function");
-          this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getReference_Ref());
+        if ((parent instanceof Map)) {
+          Map map = ((Map) parent);
+          String _name_1 = map.getOutput().getName();
+          String _ref_2 = reference.getRef();
+          boolean _notEquals = (!Objects.equal(_name_1, _ref_2));
+          if (_notEquals) {
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("only variable \"");
+            String _name_2 = map.getOutput().getName();
+            _builder_1.append(_name_2);
+            _builder_1.append("\" is reachable after map function");
+            this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getReference_Ref());
+          }
+        } else {
+          if ((parent instanceof External)) {
+            External external = ((External) parent);
+            int index = external.getFunction().getOutput().indexOf(reference.getRef());
+            if ((index < 0)) {
+              StringConcatenation _builder_2 = new StringConcatenation();
+              _builder_2.append("\"");
+              String _ref_3 = reference.getRef();
+              _builder_2.append(_ref_3);
+              _builder_2.append("\" not reachable");
+              this.error(_builder_2.toString(), IoTPackage.eINSTANCE.getReference_Ref());
+            }
+          }
         }
       }
     }
   }
   
-  public Variable getIfPipelineIsFromMap(final EObject pipeline) {
-    EObject parent = pipeline.eContainer();
-    while ((parent instanceof Pipeline)) {
-      boolean _matched = false;
-      if (parent instanceof Map) {
-        _matched=true;
-        return ((Map)parent).getOutput();
-      }
-      parent = ((Pipeline)parent).eContainer();
-    }
+  public Expression GetExpressionChildOf(final Expression expression) {
     return null;
+  }
+  
+  @Check
+  public void validateFunction(final External external) {
+    int functionOutput = external.getFunction().getInput().size();
+    int _size = external.getInput().size();
+    boolean _notEquals = (_size != functionOutput);
+    if (_notEquals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("input does not match declared function ");
+      String _name = external.getFunction().getName();
+      _builder.append(_name);
+      String _replace = external.getFunction().getInput().toString().replace("[", "(").replace("]", ")");
+      _builder.append(_replace);
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getExternal_Input());
+    }
+    Sensor sensor = EcoreUtil2.<Sensor>getContainerOfType(external, Sensor.class);
+    ExclusiveRange _doubleDotLessThan = new ExclusiveRange(0, functionOutput, true);
+    for (final Integer i : _doubleDotLessThan) {
+      {
+        int _size_1 = external.getInput().size();
+        boolean _lessThan = (_size_1 < 1);
+        if (_lessThan) {
+          return;
+        }
+        Expression _get = external.getInput().get((i).intValue());
+        TypeChecker.Type inputType = this._typeChecker.type(((Expression) _get));
+        TypeChecker.Type acceptedInputType = this._typeChecker.type(external.getFunction().getInput().get((i).intValue()));
+        boolean _isNumberType = this._typeChecker.isNumberType(acceptedInputType);
+        if (_isNumberType) {
+          this.validateNumbers(inputType, IoTPackage.eINSTANCE.getExternal_Input());
+        } else {
+          this.validateTypes(inputType, acceptedInputType, IoTPackage.eINSTANCE.getExternal_Function());
+        }
+        if ((sensor != null)) {
+          String functionOutputID = external.getFunction().getOutput().get((i).intValue());
+          int index = this.asStringList(sensor.getVars().getIds()).indexOf(functionOutputID.toString());
+          if ((index > (-1))) {
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("funtion ");
+            String _name_1 = external.getFunction().getName();
+            _builder_1.append(_name_1);
+            _builder_1.append(" not applicable in ");
+            String _name_2 = sensor.getName();
+            _builder_1.append(_name_2);
+            _builder_1.append(" because output variables not unique");
+            this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getExternal_Function());
+          }
+          String _string = functionOutputID.toString();
+          String _string_1 = sensor.getVars().getName().toString();
+          boolean _equals = Objects.equal(_string, _string_1);
+          if (_equals) {
+            StringConcatenation _builder_2 = new StringConcatenation();
+            _builder_2.append("funtion ");
+            String _name_3 = external.getFunction().getName();
+            _builder_2.append(_name_3);
+            _builder_2.append(" not applicable in ");
+            String _name_4 = sensor.getName();
+            _builder_2.append(_name_4);
+            _builder_2.append(" because sensor variable not unique");
+            this.error(_builder_2.toString(), IoTPackage.eINSTANCE.getExternal_Function());
+          }
+        }
+      }
+    }
+  }
+  
+  @Check
+  public void validateReferenceNotIgnored(final Reference reference) {
+    String _ref = reference.getRef();
+    boolean _equals = Objects.equal(_ref, "_");
+    if (_equals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("cannot parse ignored variables");
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getReference_Ref());
+    }
+  }
+  
+  @Check
+  public void validateLastPipeIsWindow(final WindowPipeline pipeline) {
+    Pipeline next = pipeline.getNext();
+    if ((next != null)) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("byWindow cannot be followed by another pipeline");
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getPipeline_Next());
+    }
   }
   
   public Iterable<IEObjectDescription> getGlobalEObjectsOfType(final Model model, final EClass type) {
@@ -238,6 +358,32 @@ public class IoTValidator extends AbstractIoTValidator {
     return _xblockexpression;
   }
   
+  public ArrayList<String> asStringListSensor(final List<Sensor> vars) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      final ArrayList<String> list = CollectionLiterals.<String>newArrayList();
+      for (final Sensor sensor : vars) {
+        list.add(sensor.getName());
+      }
+      _xblockexpression = list;
+    }
+    return _xblockexpression;
+  }
+  
+  public boolean appearsOnce(final List<String> list, final String name) {
+    int counter = 0;
+    for (final String actual : list) {
+      boolean _equals = Objects.equal(actual, name);
+      if (_equals) {
+        counter++;
+      }
+    }
+    if ((counter > 1)) {
+      return false;
+    }
+    return true;
+  }
+  
   @Check(CheckType.NORMAL)
   public void validateSensorNamesUniversallyUnique(final Sensor sensor) {
     final Iterable<IEObjectDescription> sensors = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(sensor, Model.class), IoTPackage.eINSTANCE.getSensor());
@@ -272,9 +418,8 @@ public class IoTValidator extends AbstractIoTValidator {
           return;
         }
       }
-      AbstractBoard _containerOfType_1 = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
-      boolean _tripleNotEquals = (_containerOfType_1 != null);
-      if (_tripleNotEquals) {
+      AbstractBoard abstractContainer = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
+      if (((abstractContainer != null) && this.appearsOnce(this.asStringListSensor(abstractContainer.getSensors()), sensor.getName()))) {
         StringConcatenation _builder_1 = new StringConcatenation();
         String _name_4 = sensor.getName();
         _builder_1.append(_name_4);
@@ -407,7 +552,7 @@ public class IoTValidator extends AbstractIoTValidator {
   
   @Check
   public void validateChannel(final Wifi channel) {
-    this.warning("wifi information should not be displayed in the code", IoTPackage.eINSTANCE.getWifi_Pass());
+    this.warning("sensitive information should not be displayed in the code", IoTPackage.eINSTANCE.getWifi_Pass());
   }
   
   @Check
@@ -429,6 +574,235 @@ public class IoTValidator extends AbstractIoTValidator {
           this.error("address cannot be larger than 255", IoTPackage.eINSTANCE.getMqttClient_Broker());
         }
       }
+    }
+  }
+  
+  public void validateTypes(final TypeChecker.Type actual, final TypeChecker.Type expected, final EStructuralFeature error) {
+    boolean _notEquals = (!Objects.equal(expected, actual));
+    if (_notEquals) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("expected ");
+      _builder.append(expected);
+      _builder.append(" got ");
+      _builder.append(actual);
+      this.error(_builder.toString(), error);
+    }
+  }
+  
+  public void validateNumbers(final TypeChecker.Type type, final EStructuralFeature error) {
+    boolean _isNumberType = this._typeChecker.isNumberType(type);
+    boolean _not = (!_isNumberType);
+    if (_not) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("expected number got ");
+      _builder.append(type);
+      this.error(_builder.toString(), error);
+    }
+  }
+  
+  @Check
+  public void validateFilterExpression(final Filter filter) {
+    this.validateTypes(this._typeChecker.type(filter.getExpression()), TypeChecker.Type.BOOLEAN, 
+      IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION);
+  }
+  
+  @Check
+  public void checkExpression(final Conditional conditional) {
+    Expression _condition = conditional.getCondition();
+    boolean _tripleNotEquals = (_condition != null);
+    if (_tripleNotEquals) {
+      this.validateTypes(this._typeChecker.type(conditional.getCondition()), TypeChecker.Type.BOOLEAN, IoTPackage.Literals.CONDITIONAL__CONDITION);
+    }
+    Expression _incorrect = conditional.getIncorrect();
+    boolean _tripleNotEquals_1 = (_incorrect != null);
+    if (_tripleNotEquals_1) {
+      this.validateTypes(this._typeChecker.type(conditional.getIncorrect()), this._typeChecker.type(conditional.getCorrect()), IoTPackage.Literals.CONDITIONAL__INCORRECT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Or or) {
+    Expression _left = or.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateTypes(this._typeChecker.type(or.getLeft()), TypeChecker.Type.BOOLEAN, IoTPackage.Literals.OR__LEFT);
+    }
+    Expression _right = or.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateTypes(this._typeChecker.type(or.getRight()), TypeChecker.Type.BOOLEAN, IoTPackage.Literals.OR__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final And and) {
+    Expression _left = and.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateTypes(this._typeChecker.type(and.getLeft()), TypeChecker.Type.BOOLEAN, IoTPackage.Literals.AND__LEFT);
+    }
+    Expression _right = and.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateTypes(this._typeChecker.type(and.getRight()), TypeChecker.Type.BOOLEAN, IoTPackage.Literals.AND__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Equal equal) {
+    if (((equal.getLeft() != null) && (equal.getRight() != null))) {
+      if (((!this._typeChecker.isNumberType(this._typeChecker.type(equal.getLeft()))) || (!this._typeChecker.isNumberType(this._typeChecker.type(equal.getRight()))))) {
+        this.validateTypes(this._typeChecker.type(equal.getRight()), this._typeChecker.type(equal.getLeft()), IoTPackage.Literals.EQUAL__RIGHT);
+      }
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Unequal unequal) {
+    if (((unequal.getLeft() != null) && (unequal.getRight() != null))) {
+      if (((!this._typeChecker.isNumberType(this._typeChecker.type(unequal.getLeft()))) || (!this._typeChecker.isNumberType(this._typeChecker.type(unequal.getRight()))))) {
+        this.validateTypes(this._typeChecker.type(unequal.getRight()), this._typeChecker.type(unequal.getLeft()), IoTPackage.Literals.UNEQUAL__RIGHT);
+      }
+    }
+  }
+  
+  @Check
+  public void checkExpression(final LessThan lessThan) {
+    Expression _left = lessThan.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(lessThan.getLeft()), IoTPackage.Literals.LESS_THAN__LEFT);
+    }
+    Expression _right = lessThan.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(lessThan.getRight()), IoTPackage.Literals.LESS_THAN__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final LessThanEqual lessThanEqual) {
+    Expression _left = lessThanEqual.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(lessThanEqual.getLeft()), IoTPackage.Literals.LESS_THAN_EQUAL__LEFT);
+    }
+    Expression _right = lessThanEqual.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(lessThanEqual.getRight()), IoTPackage.Literals.LESS_THAN_EQUAL__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final GreaterThan greaterThan) {
+    Expression _left = greaterThan.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(greaterThan.getLeft()), IoTPackage.Literals.GREATER_THAN__LEFT);
+    }
+    Expression _right = greaterThan.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(greaterThan.getRight()), IoTPackage.Literals.GREATER_THAN__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final GreaterThanEqual greaterThanEqual) {
+    Expression _left = greaterThanEqual.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(greaterThanEqual.getLeft()), IoTPackage.Literals.GREATER_THAN_EQUAL__LEFT);
+    }
+    Expression _right = greaterThanEqual.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(greaterThanEqual.getRight()), IoTPackage.Literals.GREATER_THAN_EQUAL__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Plus plus) {
+    if (((plus.getLeft() != null) && (plus.getRight() != null))) {
+      if (((!Objects.equal(this._typeChecker.type(plus.getLeft()), TypeChecker.Type.STRING)) && (!Objects.equal(this._typeChecker.type(plus.getRight()), TypeChecker.Type.STRING)))) {
+        this.validateNumbers(this._typeChecker.type(plus.getLeft()), IoTPackage.Literals.PLUS__LEFT);
+        this.validateNumbers(this._typeChecker.type(plus.getRight()), IoTPackage.Literals.PLUS__RIGHT);
+      }
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Minus minus) {
+    Expression _left = minus.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(minus.getLeft()), IoTPackage.Literals.MINUS__LEFT);
+    }
+    Expression _right = minus.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(minus.getRight()), IoTPackage.Literals.MINUS__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Mul mul) {
+    Expression _left = mul.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(mul.getLeft()), IoTPackage.Literals.MUL__LEFT);
+    }
+    Expression _right = mul.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(mul.getRight()), IoTPackage.Literals.MUL__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Div div) {
+    Expression _left = div.getLeft();
+    boolean _tripleNotEquals = (_left != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(div.getLeft()), IoTPackage.Literals.DIV__LEFT);
+    }
+    Expression _right = div.getRight();
+    boolean _tripleNotEquals_1 = (_right != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(div.getRight()), IoTPackage.Literals.DIV__RIGHT);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Negation negation) {
+    Expression _value = negation.getValue();
+    boolean _tripleNotEquals = (_value != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(negation.getValue()), IoTPackage.Literals.NEGATION__VALUE);
+    }
+  }
+  
+  @Check
+  public void checkExpression(final Exponent exponent) {
+    Expression _base = exponent.getBase();
+    boolean _tripleNotEquals = (_base != null);
+    if (_tripleNotEquals) {
+      this.validateNumbers(this._typeChecker.type(exponent.getBase()), IoTPackage.Literals.EXPONENT__BASE);
+    }
+    Expression _power = exponent.getPower();
+    boolean _tripleNotEquals_1 = (_power != null);
+    if (_tripleNotEquals_1) {
+      this.validateNumbers(this._typeChecker.type(exponent.getPower()), IoTPackage.Literals.EXPONENT__POWER);
+    }
+  }
+  
+  @Check
+  public void checkPower(final Not not) {
+    Expression _value = not.getValue();
+    boolean _tripleNotEquals = (_value != null);
+    if (_tripleNotEquals) {
+      this.validateTypes(this._typeChecker.type(not.getValue()), TypeChecker.Type.BOOLEAN, IoTPackage.Literals.NOT__VALUE);
     }
   }
 }

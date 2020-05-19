@@ -15,6 +15,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
@@ -30,9 +31,12 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
@@ -76,6 +80,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -197,6 +202,16 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createMqttClientAdapter();
       }
       @Override
+      public Adapter caseFunction(Function object)
+      {
+        return createFunctionAdapter();
+      }
+      @Override
+      public Adapter caseFunctionInputType(FunctionInputType object)
+      {
+        return createFunctionInputTypeAdapter();
+      }
+      @Override
       public Adapter caseBoard(Board object)
       {
         return createBoardAdapter();
@@ -287,6 +302,11 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createPipelineAdapter();
       }
       @Override
+      public Adapter caseExternal(External object)
+      {
+        return createExternalAdapter();
+      }
+      @Override
       public Adapter caseTuplePipeline(TuplePipeline object)
       {
         return createTuplePipelineAdapter();
@@ -357,6 +377,21 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createByteAdapter();
       }
       @Override
+      public Adapter caseNumber(org.xtext.mdsd.arduino.boardgenerator.ioT.Number object)
+      {
+        return createNumberAdapter();
+      }
+      @Override
+      public Adapter caseString(org.xtext.mdsd.arduino.boardgenerator.ioT.String object)
+      {
+        return createStringAdapter();
+      }
+      @Override
+      public Adapter caseBool(Bool object)
+      {
+        return createBoolAdapter();
+      }
+      @Override
       public Adapter caseSeconds(Seconds object)
       {
         return createSecondsAdapter();
@@ -425,6 +460,11 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseCount(Count object)
       {
         return createCountAdapter();
+      }
+      @Override
+      public Adapter caseVar(Var object)
+      {
+        return createVarAdapter();
       }
       @Override
       public Adapter caseConditional(Conditional object)
@@ -674,6 +714,36 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createMqttClientAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Function <em>Function</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Function
+   * @generated
+   */
+  public Adapter createFunctionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType <em>Function Input Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
+   * @generated
+   */
+  public Adapter createFunctionInputTypeAdapter()
   {
     return null;
   }
@@ -949,6 +1019,21 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.External <em>External</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.External
+   * @generated
+   */
+  public Adapter createExternalAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline <em>Tuple Pipeline</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1159,6 +1244,51 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Number <em>Number</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Number
+   * @generated
+   */
+  public Adapter createNumberAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.String <em>String</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.String
+   * @generated
+   */
+  public Adapter createStringAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Bool <em>Bool</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Bool
+   * @generated
+   */
+  public Adapter createBoolAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds <em>Seconds</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1364,6 +1494,21 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createCountAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Var <em>Var</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Var
+   * @generated
+   */
+  public Adapter createVarAdapter()
   {
     return null;
   }

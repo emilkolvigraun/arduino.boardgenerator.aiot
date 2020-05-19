@@ -3,6 +3,8 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -47,25 +49,15 @@ public interface SensorOutput extends EObject
   void setOutput(DataOutput value);
 
   /**
-   * Returns the value of the '<em><b>Channel</b></em>' reference.
+   * Returns the value of the '<em><b>Channel</b></em>' reference list.
+   * The list contents are of type {@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Channel</em>' reference.
-   * @see #setChannel(Channel)
+   * @return the value of the '<em>Channel</em>' reference list.
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensorOutput_Channel()
    * @model
    * @generated
    */
-  Channel getChannel();
-
-  /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getChannel <em>Channel</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Channel</em>' reference.
-   * @see #getChannel()
-   * @generated
-   */
-  void setChannel(Channel value);
+  EList<Channel> getChannel();
 
 } // SensorOutput

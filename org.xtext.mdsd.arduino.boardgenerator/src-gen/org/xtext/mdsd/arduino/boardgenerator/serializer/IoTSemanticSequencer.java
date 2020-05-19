@@ -18,6 +18,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
@@ -29,9 +30,11 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
@@ -69,6 +72,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -108,6 +112,9 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case IoTPackage.BOARD_VERSION:
 				sequence_BoardVersion(context, (BoardVersion) semanticObject); 
 				return; 
+			case IoTPackage.BOOL:
+				sequence_FunctionInputType(context, (Bool) semanticObject); 
+				return; 
 			case IoTPackage.BOOLEAN_LITERAL:
 				sequence_BooleanLiteral(context, (BooleanLiteral) semanticObject); 
 				return; 
@@ -144,6 +151,16 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case IoTPackage.EXTENDS_BOARD:
 				sequence_ExtendsBoard(context, (ExtendsBoard) semanticObject); 
 				return; 
+			case IoTPackage.EXTERNAL:
+				if (rule == grammarAccess.getExternalRule()) {
+					sequence_External(context, (External) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getPipelineRule()) {
+					sequence_External_Pipeline(context, (External) semanticObject); 
+					return; 
+				}
+				else break;
 			case IoTPackage.EXTERNAL_SENSOR:
 				sequence_ExternalSensor(context, (ExternalSensor) semanticObject); 
 				return; 
@@ -159,6 +176,9 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				else break;
 			case IoTPackage.FREQUENCY:
 				sequence_Frequency(context, (Frequency) semanticObject); 
+				return; 
+			case IoTPackage.FUNCTION:
+				sequence_Function(context, (Function) semanticObject); 
 				return; 
 			case IoTPackage.GREATER_THAN:
 				sequence_Comparison(context, (GreaterThan) semanticObject); 
@@ -230,6 +250,9 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case IoTPackage.NOT:
 				sequence_Not(context, (Not) semanticObject); 
 				return; 
+			case IoTPackage.NUMBER:
+				sequence_FunctionInputType(context, (org.xtext.mdsd.arduino.boardgenerator.ioT.Number) semanticObject); 
+				return; 
 			case IoTPackage.NUMBER_LITERAL:
 				sequence_NumberLiteral(context, (NumberLiteral) semanticObject); 
 				return; 
@@ -269,11 +292,17 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case IoTPackage.ST_DEV:
 				sequence_ExecutePipeline(context, (StDev) semanticObject); 
 				return; 
+			case IoTPackage.STRING:
+				sequence_FunctionInputType(context, (org.xtext.mdsd.arduino.boardgenerator.ioT.String) semanticObject); 
+				return; 
 			case IoTPackage.STRING_LITERAL:
 				sequence_StringLiteral(context, (StringLiteral) semanticObject); 
 				return; 
 			case IoTPackage.UNEQUAL:
 				sequence_Equality(context, (Unequal) semanticObject); 
+				return; 
+			case IoTPackage.VAR:
+				sequence_ExecutePipeline(context, (Var) semanticObject); 
 				return; 
 			case IoTPackage.VARIABLE:
 				sequence_Variable(context, (Variable) semanticObject); 
@@ -906,6 +935,18 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     ExecutePipeline returns Var
+	 *
+	 * Constraint:
+	 *     {Var}
+	 */
+	protected void sequence_ExecutePipeline(ISerializationContext context, Var semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     Expression returns Exponent
 	 *     Conditional returns Exponent
 	 *     Conditional.Conditional_1_0 returns Exponent
@@ -978,6 +1019,30 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     External returns External
+	 *
+	 * Constraint:
+	 *     (function=[Function|ID] input+=Expression input+=Expression*)
+	 */
+	protected void sequence_External(ISerializationContext context, External semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Pipeline returns External
+	 *
+	 * Constraint:
+	 *     (function=[Function|ID] input+=Expression input+=Expression* next=Pipeline?)
+	 */
+	protected void sequence_External_Pipeline(ISerializationContext context, External semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     Sampler returns Frequency
 	 *     Frequency returns Frequency
 	 *
@@ -995,6 +1060,72 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		feeder.accept(grammarAccess.getFrequencyAccess().getFrequencyINTTerminalRuleCall_1_0(), semanticObject.getFrequency());
 		feeder.accept(grammarAccess.getFrequencyAccess().getResolutionResolutionParserRuleCall_2_0(), semanticObject.getResolution());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     FunctionInputType returns Bool
+	 *
+	 * Constraint:
+	 *     value=ID
+	 */
+	protected void sequence_FunctionInputType(ISerializationContext context, Bool semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.FUNCTION_INPUT_TYPE__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.FUNCTION_INPUT_TYPE__VALUE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_2_2_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     FunctionInputType returns Number
+	 *
+	 * Constraint:
+	 *     value=ID
+	 */
+	protected void sequence_FunctionInputType(ISerializationContext context, org.xtext.mdsd.arduino.boardgenerator.ioT.Number semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.FUNCTION_INPUT_TYPE__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.FUNCTION_INPUT_TYPE__VALUE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_0_2_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     FunctionInputType returns String
+	 *
+	 * Constraint:
+	 *     value=ID
+	 */
+	protected void sequence_FunctionInputType(ISerializationContext context, org.xtext.mdsd.arduino.boardgenerator.ioT.String semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.FUNCTION_INPUT_TYPE__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.FUNCTION_INPUT_TYPE__VALUE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_1_2_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Function returns Function
+	 *
+	 * Constraint:
+	 *     (name=ID input+=FunctionInputType input+=FunctionInputType* output+=ID output+=ID*)
+	 */
+	protected void sequence_Function(ISerializationContext context, Function semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1067,9 +1198,18 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *
 	 * Constraint:
 	 *     (
-	 *         (includes+=Include+ ((channel+=Channel+ board+=Board+) | board+=Board+)) | 
-	 *         (((includes+=Include+ channel+=Channel+) | channel+=Channel+)? abstractBoard+=AbstractBoard+ board+=Board+) | 
-	 *         (channel+=Channel+ board+=Board+) | 
+	 *         (includes+=Include+ ((function+=Function+ board+=Board+) | board+=Board+)) | 
+	 *         (((includes+=Include+ channel+=Channel+) | channel+=Channel+) ((function+=Function+ board+=Board+) | board+=Board+)) | 
+	 *         (
+	 *             (
+	 *                 (includes+=Include+ ((channel+=Channel+ function+=Function+) | function+=Function+)) | 
+	 *                 (channel+=Channel+ function+=Function+) | 
+	 *                 function+=Function+
+	 *             )? 
+	 *             abstractBoard+=AbstractBoard+ 
+	 *             board+=Board+
+	 *         ) | 
+	 *         (function+=Function+ board+=Board+) | 
 	 *         board+=Board+
 	 *     )?
 	 */
@@ -1527,19 +1667,10 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     SensorOutput returns SensorOutput
 	 *
 	 * Constraint:
-	 *     (output=DataOutput channel=[Channel|ID])
+	 *     (output=DataOutput channel+=[Channel|ID] channel+=[Channel|ID]*)
 	 */
 	protected void sequence_SensorOutput(ISerializationContext context, SensorOutput semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__OUTPUT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__OUTPUT));
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__CHANNEL) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.SENSOR_OUTPUT__CHANNEL));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getSensorOutputAccess().getOutputDataOutputParserRuleCall_1_0(), semanticObject.getOutput());
-		feeder.accept(grammarAccess.getSensorOutputAccess().getChannelChannelIDTerminalRuleCall_3_0_1(), semanticObject.eGet(IoTPackage.Literals.SENSOR_OUTPUT__CHANNEL, false));
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

@@ -9,6 +9,7 @@
     <genClasses ecoreClass="IoT.ecore#//Model">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/includes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/channel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/function"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/abstractBoard"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/board"/>
     </genClasses>
@@ -39,6 +40,14 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/port"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/client"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/pub"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Function">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Function/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Function/input"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Function/output"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//FunctionInputType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//FunctionInputType/value"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Board">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Board/name"/>
@@ -102,6 +111,10 @@
     <genClasses ecoreClass="IoT.ecore#//Pipeline">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Pipeline/next"/>
     </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//External">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//External/function"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//External/input"/>
+    </genClasses>
     <genClasses ecoreClass="IoT.ecore#//TuplePipeline">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//TuplePipeline/expression"/>
     </genClasses>
@@ -130,6 +143,9 @@
     <genClasses ecoreClass="IoT.ecore#//Byte">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Byte/name"/>
     </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Number"/>
+    <genClasses ecoreClass="IoT.ecore#//String"/>
+    <genClasses ecoreClass="IoT.ecore#//Bool"/>
     <genClasses ecoreClass="IoT.ecore#//Seconds"/>
     <genClasses ecoreClass="IoT.ecore#//Millis"/>
     <genClasses ecoreClass="IoT.ecore#//Micros"/>
@@ -150,6 +166,7 @@
     <genClasses ecoreClass="IoT.ecore#//Min"/>
     <genClasses ecoreClass="IoT.ecore#//Max"/>
     <genClasses ecoreClass="IoT.ecore#//Count"/>
+    <genClasses ecoreClass="IoT.ecore#//Var"/>
     <genClasses ecoreClass="IoT.ecore#//Conditional">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Conditional/condition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Conditional/correct"/>

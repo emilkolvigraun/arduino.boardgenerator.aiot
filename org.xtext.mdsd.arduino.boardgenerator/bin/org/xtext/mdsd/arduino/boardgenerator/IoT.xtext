@@ -8,7 +8,7 @@ generate ioT "http://www.xtext.org/mdsd/arduino/boardgenerator/IoT"
 // Channels are zero or more (in case they are imported)
 // Boards are zero or more   
 Model: 
-	includes+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*;
+	includes+=Include* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard* board+=Board*;
 
 // Includes = imports 
 // I don't want the developer to write a string, so this will be parsed
@@ -48,11 +48,19 @@ stopChar:
 ;
 
 MqttClient: 
-	'broker'broker=STRING
+	'broker'broker=STRING 
 	'port'	port=INT
 	'id'    client=STRING   
 	'topic' pub=STRING 
 ;  
+  
+Function:
+	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)*  ')' '->' '(' output+=ID (',' output+=ID)*  ')'
+;
+ 
+FunctionInputType: 
+	{Number} 'number' value=ID | {String} 'string' value=ID | {Bool} 'bool' value=ID
+;
 
 // board can either extend another or is new
 Board:
@@ -102,7 +110,7 @@ OnboardSensor:
 
 SensorVariables:
 	name=ID '(' ids+=Variable (',' ids+=Variable)* ')'
-;
+; 
 
 Variable:
 	name=ID
@@ -121,16 +129,22 @@ Resolution:
 	({Seconds} 'seconds' | {Millis} 'milliseconds' | {Micros} 'microseconds');
 	
 SensorOutput:
-	'pipe' output=DataOutput '->' channel=[Channel] 
-;  
-  
+	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])* 
+;   
+    
 DataOutput:
 	sensorvar=[SensorVariables] (pipeline=Pipeline)?
-;
+; 
 
-Pipeline:
-	'.' (TuplePipeline | MapPipeline | WindowPipeline) (next=Pipeline)?
-;
+Pipeline: 
+	'.' (TuplePipeline | MapPipeline | WindowPipeline | External ) (next=Pipeline)?
+; 
+ 
+// external function can be added
+// validator verifyes whether input is valid
+External:  
+	function=[Function] '[' input+=Expression (',' input+=Expression)* ']' 
+; 
 
 TuplePipeline:
 	({Filter} 'filter' | {Abs} 'abs') '[' expression=Expression ']';
@@ -143,13 +157,14 @@ WindowPipeline:
 ;
 
 ExecutePipeline:
-	{Reduce} 'reduce' 	| 
-	{Mean} 'mean' 		|
-	{Median} 'median' 	|
-	{StDev} 'stdev' 	|
-	{Min} 'min' 		|
-	{Max} 'max' 		|
-	{Count} 'count'
+	{Reduce}'reduce'| 
+	{Mean} 	'mean' 	|
+	{Median}'median'|
+	{StDev} 'stdev' |
+	{Min} 	'min' 	|
+	{Max} 	'max' 	|
+	{Count} 'count'	|
+	{Var} 	'var'	
 ;
 
 // The expression rules are loose allowing for meaningless expressions to be
@@ -208,8 +223,8 @@ Primary returns Expression:
 ;
  
 Reference:
-	ref=ID
-;
+	ref=ID  
+; 
 
 StringLiteral: 
 	str=STRING 
@@ -217,8 +232,8 @@ StringLiteral:
 
 NumberLiteral:
 	numb=NUMBER
-;
-
+; 
+ 
 BooleanLiteral:
 	bool=BOOLEAN
 ;
@@ -242,7 +257,7 @@ terminal NDBL returns ecore::EDouble:
 
 terminal SCI returns ecore::EDouble:
 	(INT | DBL) ('e' | 'E') '-'? INT;
-
+ 
 terminal BOOLEAN returns ecore::EBoolean:
 	'true' | 'false' | 'True' | 'False';
 
@@ -253,4 +268,4 @@ terminal ML_COMMENT : '#*' -> '*#';
 
 
 NUMBER hidden():
-	INT | DBL | SCI | NINT | NDBL;
+	INT | DBL | NINT | NDBL;

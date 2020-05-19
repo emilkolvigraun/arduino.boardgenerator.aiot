@@ -31,19 +31,21 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cIncludesIncludeParserRuleCall_0_0 = (RuleCall)cIncludesAssignment_0.eContents().get(0);
 		private final Assignment cChannelAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cChannelChannelParserRuleCall_1_0 = (RuleCall)cChannelAssignment_1.eContents().get(0);
-		private final Assignment cAbstractBoardAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cAbstractBoardAbstractBoardParserRuleCall_2_0 = (RuleCall)cAbstractBoardAssignment_2.eContents().get(0);
-		private final Assignment cBoardAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cBoardBoardParserRuleCall_3_0 = (RuleCall)cBoardAssignment_3.eContents().get(0);
+		private final Assignment cFunctionAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cFunctionFunctionParserRuleCall_2_0 = (RuleCall)cFunctionAssignment_2.eContents().get(0);
+		private final Assignment cAbstractBoardAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cAbstractBoardAbstractBoardParserRuleCall_3_0 = (RuleCall)cAbstractBoardAssignment_3.eContents().get(0);
+		private final Assignment cBoardAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cBoardBoardParserRuleCall_4_0 = (RuleCall)cBoardAssignment_4.eContents().get(0);
 		
 		//// Includes are zero or more
 		//// Channels are zero or more (in case they are imported)
 		//// Boards are zero or more   
 		//Model:
-		//	includes+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*;
+		//	includes+=Include* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard* board+=Board*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//includes+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*
+		//includes+=Include* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard* board+=Board*
 		public Group getGroup() { return cGroup; }
 		
 		//includes+=Include*
@@ -58,17 +60,23 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//Channel
 		public RuleCall getChannelChannelParserRuleCall_1_0() { return cChannelChannelParserRuleCall_1_0; }
 		
+		//function+=Function*
+		public Assignment getFunctionAssignment_2() { return cFunctionAssignment_2; }
+		
+		//Function
+		public RuleCall getFunctionFunctionParserRuleCall_2_0() { return cFunctionFunctionParserRuleCall_2_0; }
+		
 		//abstractBoard+=AbstractBoard*
-		public Assignment getAbstractBoardAssignment_2() { return cAbstractBoardAssignment_2; }
+		public Assignment getAbstractBoardAssignment_3() { return cAbstractBoardAssignment_3; }
 		
 		//AbstractBoard
-		public RuleCall getAbstractBoardAbstractBoardParserRuleCall_2_0() { return cAbstractBoardAbstractBoardParserRuleCall_2_0; }
+		public RuleCall getAbstractBoardAbstractBoardParserRuleCall_3_0() { return cAbstractBoardAbstractBoardParserRuleCall_3_0; }
 		
 		//board+=Board*
-		public Assignment getBoardAssignment_3() { return cBoardAssignment_3; }
+		public Assignment getBoardAssignment_4() { return cBoardAssignment_4; }
 		
 		//Board
-		public RuleCall getBoardBoardParserRuleCall_3_0() { return cBoardBoardParserRuleCall_3_0; }
+		public RuleCall getBoardBoardParserRuleCall_4_0() { return cBoardBoardParserRuleCall_4_0; }
 	}
 	public class IncludeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Include");
@@ -439,6 +447,170 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//STRING
 		public RuleCall getPubSTRINGTerminalRuleCall_7_0() { return cPubSTRINGTerminalRuleCall_7_0; }
+	}
+	public class FunctionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Function");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cFunctionKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cInputAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cInputFunctionInputTypeParserRuleCall_3_0 = (RuleCall)cInputAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cInputAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final RuleCall cInputFunctionInputTypeParserRuleCall_4_1_0 = (RuleCall)cInputAssignment_4_1.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Keyword cHyphenMinusGreaterThanSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Keyword cLeftParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		private final Assignment cOutputAssignment_8 = (Assignment)cGroup.eContents().get(8);
+		private final RuleCall cOutputIDTerminalRuleCall_8_0 = (RuleCall)cOutputAssignment_8.eContents().get(0);
+		private final Group cGroup_9 = (Group)cGroup.eContents().get(9);
+		private final Keyword cCommaKeyword_9_0 = (Keyword)cGroup_9.eContents().get(0);
+		private final Assignment cOutputAssignment_9_1 = (Assignment)cGroup_9.eContents().get(1);
+		private final RuleCall cOutputIDTerminalRuleCall_9_1_0 = (RuleCall)cOutputAssignment_9_1.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_10 = (Keyword)cGroup.eContents().get(10);
+		
+		//Function:
+		//	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)* ')' '->' '(' output+=ID (','
+		//	output+=ID)* ')';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)* ')' '->' '(' output+=ID (','
+		//output+=ID)* ')'
+		public Group getGroup() { return cGroup; }
+		
+		//'function'
+		public Keyword getFunctionKeyword_0() { return cFunctionKeyword_0; }
+		
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
+		
+		//input+=FunctionInputType
+		public Assignment getInputAssignment_3() { return cInputAssignment_3; }
+		
+		//FunctionInputType
+		public RuleCall getInputFunctionInputTypeParserRuleCall_3_0() { return cInputFunctionInputTypeParserRuleCall_3_0; }
+		
+		//(',' input+=FunctionInputType)*
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//','
+		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
+		
+		//input+=FunctionInputType
+		public Assignment getInputAssignment_4_1() { return cInputAssignment_4_1; }
+		
+		//FunctionInputType
+		public RuleCall getInputFunctionInputTypeParserRuleCall_4_1_0() { return cInputFunctionInputTypeParserRuleCall_4_1_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_5() { return cRightParenthesisKeyword_5; }
+		
+		//'->'
+		public Keyword getHyphenMinusGreaterThanSignKeyword_6() { return cHyphenMinusGreaterThanSignKeyword_6; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_7() { return cLeftParenthesisKeyword_7; }
+		
+		//output+=ID
+		public Assignment getOutputAssignment_8() { return cOutputAssignment_8; }
+		
+		//ID
+		public RuleCall getOutputIDTerminalRuleCall_8_0() { return cOutputIDTerminalRuleCall_8_0; }
+		
+		//(',' output+=ID)*
+		public Group getGroup_9() { return cGroup_9; }
+		
+		//','
+		public Keyword getCommaKeyword_9_0() { return cCommaKeyword_9_0; }
+		
+		//output+=ID
+		public Assignment getOutputAssignment_9_1() { return cOutputAssignment_9_1; }
+		
+		//ID
+		public RuleCall getOutputIDTerminalRuleCall_9_1_0() { return cOutputIDTerminalRuleCall_9_1_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_10() { return cRightParenthesisKeyword_10; }
+	}
+	public class FunctionInputTypeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.FunctionInputType");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Action cNumberAction_0_0 = (Action)cGroup_0.eContents().get(0);
+		private final Keyword cNumberKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Assignment cValueAssignment_0_2 = (Assignment)cGroup_0.eContents().get(2);
+		private final RuleCall cValueIDTerminalRuleCall_0_2_0 = (RuleCall)cValueAssignment_0_2.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Action cStringAction_1_0 = (Action)cGroup_1.eContents().get(0);
+		private final Keyword cStringKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cValueAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cValueIDTerminalRuleCall_1_2_0 = (RuleCall)cValueAssignment_1_2.eContents().get(0);
+		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
+		private final Action cBoolAction_2_0 = (Action)cGroup_2.eContents().get(0);
+		private final Keyword cBoolKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
+		private final Assignment cValueAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
+		private final RuleCall cValueIDTerminalRuleCall_2_2_0 = (RuleCall)cValueAssignment_2_2.eContents().get(0);
+		
+		//FunctionInputType:
+		//	{Number} 'number' value=ID | {String} 'string' value=ID | {Bool} 'bool' value=ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{Number} 'number' value=ID | {String} 'string' value=ID | {Bool} 'bool' value=ID
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//{Number} 'number' value=ID
+		public Group getGroup_0() { return cGroup_0; }
+		
+		//{Number}
+		public Action getNumberAction_0_0() { return cNumberAction_0_0; }
+		
+		//'number'
+		public Keyword getNumberKeyword_0_1() { return cNumberKeyword_0_1; }
+		
+		//value=ID
+		public Assignment getValueAssignment_0_2() { return cValueAssignment_0_2; }
+		
+		//ID
+		public RuleCall getValueIDTerminalRuleCall_0_2_0() { return cValueIDTerminalRuleCall_0_2_0; }
+		
+		//{String} 'string' value=ID
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//{String}
+		public Action getStringAction_1_0() { return cStringAction_1_0; }
+		
+		//'string'
+		public Keyword getStringKeyword_1_1() { return cStringKeyword_1_1; }
+		
+		//value=ID
+		public Assignment getValueAssignment_1_2() { return cValueAssignment_1_2; }
+		
+		//ID
+		public RuleCall getValueIDTerminalRuleCall_1_2_0() { return cValueIDTerminalRuleCall_1_2_0; }
+		
+		//{Bool} 'bool' value=ID
+		public Group getGroup_2() { return cGroup_2; }
+		
+		//{Bool}
+		public Action getBoolAction_2_0() { return cBoolAction_2_0; }
+		
+		//'bool'
+		public Keyword getBoolKeyword_2_1() { return cBoolKeyword_2_1; }
+		
+		//value=ID
+		public Assignment getValueAssignment_2_2() { return cValueAssignment_2_2; }
+		
+		//ID
+		public RuleCall getValueIDTerminalRuleCall_2_2_0() { return cValueIDTerminalRuleCall_2_2_0; }
 	}
 	public class BoardElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Board");
@@ -1067,12 +1239,17 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cChannelAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final CrossReference cChannelChannelCrossReference_3_0 = (CrossReference)cChannelAssignment_3.eContents().get(0);
 		private final RuleCall cChannelChannelIDTerminalRuleCall_3_0_1 = (RuleCall)cChannelChannelCrossReference_3_0.eContents().get(1);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cAndKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cChannelAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final CrossReference cChannelChannelCrossReference_4_1_0 = (CrossReference)cChannelAssignment_4_1.eContents().get(0);
+		private final RuleCall cChannelChannelIDTerminalRuleCall_4_1_0_1 = (RuleCall)cChannelChannelCrossReference_4_1_0.eContents().get(1);
 		
 		//SensorOutput:
-		//	'pipe' output=DataOutput '->' channel=[Channel];
+		//	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'pipe' output=DataOutput '->' channel=[Channel]
+		//'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*
 		public Group getGroup() { return cGroup; }
 		
 		//'pipe'
@@ -1087,7 +1264,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//'->'
 		public Keyword getHyphenMinusGreaterThanSignKeyword_2() { return cHyphenMinusGreaterThanSignKeyword_2; }
 		
-		//channel=[Channel]
+		//channel+=[Channel]
 		public Assignment getChannelAssignment_3() { return cChannelAssignment_3; }
 		
 		//[Channel]
@@ -1095,6 +1272,21 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//ID
 		public RuleCall getChannelChannelIDTerminalRuleCall_3_0_1() { return cChannelChannelIDTerminalRuleCall_3_0_1; }
+		
+		//('and' channel+=[Channel])*
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//'and'
+		public Keyword getAndKeyword_4_0() { return cAndKeyword_4_0; }
+		
+		//channel+=[Channel]
+		public Assignment getChannelAssignment_4_1() { return cChannelAssignment_4_1; }
+		
+		//[Channel]
+		public CrossReference getChannelChannelCrossReference_4_1_0() { return cChannelChannelCrossReference_4_1_0; }
+		
+		//ID
+		public RuleCall getChannelChannelIDTerminalRuleCall_4_1_0_1() { return cChannelChannelIDTerminalRuleCall_4_1_0_1; }
 	}
 	public class DataOutputElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.DataOutput");
@@ -1135,20 +1327,21 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTuplePipelineParserRuleCall_1_0 = (RuleCall)cAlternatives_1.eContents().get(0);
 		private final RuleCall cMapPipelineParserRuleCall_1_1 = (RuleCall)cAlternatives_1.eContents().get(1);
 		private final RuleCall cWindowPipelineParserRuleCall_1_2 = (RuleCall)cAlternatives_1.eContents().get(2);
+		private final RuleCall cExternalParserRuleCall_1_3 = (RuleCall)cAlternatives_1.eContents().get(3);
 		private final Assignment cNextAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cNextPipelineParserRuleCall_2_0 = (RuleCall)cNextAssignment_2.eContents().get(0);
 		
 		//Pipeline:
-		//	'.' (TuplePipeline | MapPipeline | WindowPipeline) next=Pipeline?;
+		//	'.' (TuplePipeline | MapPipeline | WindowPipeline | External) next=Pipeline?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'.' (TuplePipeline | MapPipeline | WindowPipeline) next=Pipeline?
+		//'.' (TuplePipeline | MapPipeline | WindowPipeline | External) next=Pipeline?
 		public Group getGroup() { return cGroup; }
 		
 		//'.'
 		public Keyword getFullStopKeyword_0() { return cFullStopKeyword_0; }
 		
-		//(TuplePipeline | MapPipeline | WindowPipeline)
+		//(TuplePipeline | MapPipeline | WindowPipeline | External)
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 		
 		//TuplePipeline
@@ -1160,11 +1353,71 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//WindowPipeline
 		public RuleCall getWindowPipelineParserRuleCall_1_2() { return cWindowPipelineParserRuleCall_1_2; }
 		
+		//External
+		public RuleCall getExternalParserRuleCall_1_3() { return cExternalParserRuleCall_1_3; }
+		
 		//next=Pipeline?
 		public Assignment getNextAssignment_2() { return cNextAssignment_2; }
 		
 		//Pipeline
 		public RuleCall getNextPipelineParserRuleCall_2_0() { return cNextPipelineParserRuleCall_2_0; }
+	}
+	public class ExternalElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.External");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cFunctionAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final CrossReference cFunctionFunctionCrossReference_0_0 = (CrossReference)cFunctionAssignment_0.eContents().get(0);
+		private final RuleCall cFunctionFunctionIDTerminalRuleCall_0_0_1 = (RuleCall)cFunctionFunctionCrossReference_0_0.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cInputAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cInputExpressionParserRuleCall_2_0 = (RuleCall)cInputAssignment_2.eContents().get(0);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cCommaKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cInputAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cInputExpressionParserRuleCall_3_1_0 = (RuleCall)cInputAssignment_3_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		
+		//// external function can be added
+		//// validator verifyes whether input is valid
+		//External:
+		//	function=[Function] '[' input+=Expression (',' input+=Expression)* ']';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//function=[Function] '[' input+=Expression (',' input+=Expression)* ']'
+		public Group getGroup() { return cGroup; }
+		
+		//function=[Function]
+		public Assignment getFunctionAssignment_0() { return cFunctionAssignment_0; }
+		
+		//[Function]
+		public CrossReference getFunctionFunctionCrossReference_0_0() { return cFunctionFunctionCrossReference_0_0; }
+		
+		//ID
+		public RuleCall getFunctionFunctionIDTerminalRuleCall_0_0_1() { return cFunctionFunctionIDTerminalRuleCall_0_0_1; }
+		
+		//'['
+		public Keyword getLeftSquareBracketKeyword_1() { return cLeftSquareBracketKeyword_1; }
+		
+		//input+=Expression
+		public Assignment getInputAssignment_2() { return cInputAssignment_2; }
+		
+		//Expression
+		public RuleCall getInputExpressionParserRuleCall_2_0() { return cInputExpressionParserRuleCall_2_0; }
+		
+		//(',' input+=Expression)*
+		public Group getGroup_3() { return cGroup_3; }
+		
+		//','
+		public Keyword getCommaKeyword_3_0() { return cCommaKeyword_3_0; }
+		
+		//input+=Expression
+		public Assignment getInputAssignment_3_1() { return cInputAssignment_3_1; }
+		
+		//Expression
+		public RuleCall getInputExpressionParserRuleCall_3_1_0() { return cInputExpressionParserRuleCall_3_1_0; }
+		
+		//']'
+		public Keyword getRightSquareBracketKeyword_4() { return cRightSquareBracketKeyword_4; }
 	}
 	public class TuplePipelineElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.TuplePipeline");
@@ -1339,13 +1592,17 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup_6 = (Group)cAlternatives.eContents().get(6);
 		private final Action cCountAction_6_0 = (Action)cGroup_6.eContents().get(0);
 		private final Keyword cCountKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
+		private final Group cGroup_7 = (Group)cAlternatives.eContents().get(7);
+		private final Action cVarAction_7_0 = (Action)cGroup_7.eContents().get(0);
+		private final Keyword cVarKeyword_7_1 = (Keyword)cGroup_7.eContents().get(1);
 		
 		//ExecutePipeline:
-		//	{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count}
-		//	'count';
+		//	{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count} 'count'
+		//	| {Var} 'var';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count} 'count'
+		//{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count} 'count' |
+		//{Var} 'var'
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//{Reduce} 'reduce'
@@ -1410,6 +1667,15 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//'count'
 		public Keyword getCountKeyword_6_1() { return cCountKeyword_6_1; }
+		
+		//{Var} 'var'
+		public Group getGroup_7() { return cGroup_7; }
+		
+		//{Var}
+		public Action getVarAction_7_0() { return cVarAction_7_0; }
+		
+		//'var'
+		public Keyword getVarKeyword_7_1() { return cVarKeyword_7_1; }
 	}
 	public class ExpressionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Expression");
@@ -2038,15 +2304,14 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cINTTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cDBLTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cSCITerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final RuleCall cNINTTerminalRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
-		private final RuleCall cNDBLTerminalRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cNINTTerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cNDBLTerminalRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//NUMBER hidden():
-		//	INT | DBL | SCI | NINT | NDBL;
+		//	INT | DBL | NINT | NDBL;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//INT | DBL | SCI | NINT | NDBL
+		//INT | DBL | NINT | NDBL
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//INT
@@ -2055,14 +2320,11 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//DBL
 		public RuleCall getDBLTerminalRuleCall_1() { return cDBLTerminalRuleCall_1; }
 		
-		//SCI
-		public RuleCall getSCITerminalRuleCall_2() { return cSCITerminalRuleCall_2; }
-		
 		//NINT
-		public RuleCall getNINTTerminalRuleCall_3() { return cNINTTerminalRuleCall_3; }
+		public RuleCall getNINTTerminalRuleCall_2() { return cNINTTerminalRuleCall_2; }
 		
 		//NDBL
-		public RuleCall getNDBLTerminalRuleCall_4() { return cNDBLTerminalRuleCall_4; }
+		public RuleCall getNDBLTerminalRuleCall_3() { return cNDBLTerminalRuleCall_3; }
 	}
 	
 	
@@ -2076,6 +2338,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	private final SerialElements pSerial;
 	private final StopCharElements pStopChar;
 	private final MqttClientElements pMqttClient;
+	private final FunctionElements pFunction;
+	private final FunctionInputTypeElements pFunctionInputType;
 	private final BoardElements pBoard;
 	private final NewBoardElements pNewBoard;
 	private final BoardVersionElements pBoardVersion;
@@ -2094,6 +2358,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	private final SensorOutputElements pSensorOutput;
 	private final DataOutputElements pDataOutput;
 	private final PipelineElements pPipeline;
+	private final ExternalElements pExternal;
 	private final TuplePipelineElements pTuplePipeline;
 	private final MapPipelineElements pMapPipeline;
 	private final WindowPipelineElements pWindowPipeline;
@@ -2145,6 +2410,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		this.pSerial = new SerialElements();
 		this.pStopChar = new StopCharElements();
 		this.pMqttClient = new MqttClientElements();
+		this.pFunction = new FunctionElements();
+		this.pFunctionInputType = new FunctionInputTypeElements();
 		this.pBoard = new BoardElements();
 		this.pNewBoard = new NewBoardElements();
 		this.pBoardVersion = new BoardVersionElements();
@@ -2163,6 +2430,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		this.pSensorOutput = new SensorOutputElements();
 		this.pDataOutput = new DataOutputElements();
 		this.pPipeline = new PipelineElements();
+		this.pExternal = new ExternalElements();
 		this.pTuplePipeline = new TuplePipelineElements();
 		this.pMapPipeline = new MapPipelineElements();
 		this.pWindowPipeline = new WindowPipelineElements();
@@ -2227,7 +2495,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	//// Channels are zero or more (in case they are imported)
 	//// Boards are zero or more   
 	//Model:
-	//	includes+=Include* channel+=Channel* abstractBoard+=AbstractBoard* board+=Board*;
+	//	includes+=Include* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard* board+=Board*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -2335,6 +2603,27 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getMqttClientRule() {
 		return getMqttClientAccess().getRule();
+	}
+	
+	//Function:
+	//	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)* ')' '->' '(' output+=ID (','
+	//	output+=ID)* ')';
+	public FunctionElements getFunctionAccess() {
+		return pFunction;
+	}
+	
+	public ParserRule getFunctionRule() {
+		return getFunctionAccess().getRule();
+	}
+	
+	//FunctionInputType:
+	//	{Number} 'number' value=ID | {String} 'string' value=ID | {Bool} 'bool' value=ID;
+	public FunctionInputTypeElements getFunctionInputTypeAccess() {
+		return pFunctionInputType;
+	}
+	
+	public ParserRule getFunctionInputTypeRule() {
+		return getFunctionInputTypeAccess().getRule();
 	}
 	
 	//// board can either extend another or is new
@@ -2503,7 +2792,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//SensorOutput:
-	//	'pipe' output=DataOutput '->' channel=[Channel];
+	//	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*;
 	public SensorOutputElements getSensorOutputAccess() {
 		return pSensorOutput;
 	}
@@ -2523,13 +2812,25 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Pipeline:
-	//	'.' (TuplePipeline | MapPipeline | WindowPipeline) next=Pipeline?;
+	//	'.' (TuplePipeline | MapPipeline | WindowPipeline | External) next=Pipeline?;
 	public PipelineElements getPipelineAccess() {
 		return pPipeline;
 	}
 	
 	public ParserRule getPipelineRule() {
 		return getPipelineAccess().getRule();
+	}
+	
+	//// external function can be added
+	//// validator verifyes whether input is valid
+	//External:
+	//	function=[Function] '[' input+=Expression (',' input+=Expression)* ']';
+	public ExternalElements getExternalAccess() {
+		return pExternal;
+	}
+	
+	public ParserRule getExternalRule() {
+		return getExternalAccess().getRule();
 	}
 	
 	//TuplePipeline:
@@ -2563,8 +2864,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//ExecutePipeline:
-	//	{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count}
-	//	'count';
+	//	{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count} 'count'
+	//	| {Var} 'var';
 	public ExecutePipelineElements getExecutePipelineAccess() {
 		return pExecutePipeline;
 	}
@@ -2805,7 +3106,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//NUMBER hidden():
-	//	INT | DBL | SCI | NINT | NDBL;
+	//	INT | DBL | NINT | NDBL;
 	public NUMBERElements getNUMBERAccess() {
 		return pNUMBER;
 	}

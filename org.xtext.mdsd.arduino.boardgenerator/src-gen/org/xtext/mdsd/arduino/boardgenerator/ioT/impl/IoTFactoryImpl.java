@@ -16,6 +16,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
@@ -31,9 +32,12 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
@@ -78,6 +82,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -147,6 +152,8 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.SERIAL: return createSerial();
       case IoTPackage.STOP_CHAR: return createstopChar();
       case IoTPackage.MQTT_CLIENT: return createMqttClient();
+      case IoTPackage.FUNCTION: return createFunction();
+      case IoTPackage.FUNCTION_INPUT_TYPE: return createFunctionInputType();
       case IoTPackage.BOARD: return createBoard();
       case IoTPackage.NEW_BOARD: return createNewBoard();
       case IoTPackage.BOARD_VERSION: return createBoardVersion();
@@ -165,6 +172,7 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.SENSOR_OUTPUT: return createSensorOutput();
       case IoTPackage.DATA_OUTPUT: return createDataOutput();
       case IoTPackage.PIPELINE: return createPipeline();
+      case IoTPackage.EXTERNAL: return createExternal();
       case IoTPackage.TUPLE_PIPELINE: return createTuplePipeline();
       case IoTPackage.MAP_PIPELINE: return createMapPipeline();
       case IoTPackage.WINDOW_PIPELINE: return createWindowPipeline();
@@ -179,6 +187,9 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.MQTT: return createMQTT();
       case IoTPackage.CHAR: return createChar();
       case IoTPackage.BYTE: return createByte();
+      case IoTPackage.NUMBER: return createNumber();
+      case IoTPackage.STRING: return createString();
+      case IoTPackage.BOOL: return createBool();
       case IoTPackage.SECONDS: return createSeconds();
       case IoTPackage.MILLIS: return createMillis();
       case IoTPackage.MICROS: return createMicros();
@@ -193,6 +204,7 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.MIN: return createMin();
       case IoTPackage.MAX: return createMax();
       case IoTPackage.COUNT: return createCount();
+      case IoTPackage.VAR: return createVar();
       case IoTPackage.CONDITIONAL: return createConditional();
       case IoTPackage.OR: return createOr();
       case IoTPackage.AND: return createAnd();
@@ -332,6 +344,30 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     MqttClientImpl mqttClient = new MqttClientImpl();
     return mqttClient;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Function createFunction()
+  {
+    FunctionImpl function = new FunctionImpl();
+    return function;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public FunctionInputType createFunctionInputType()
+  {
+    FunctionInputTypeImpl functionInputType = new FunctionInputTypeImpl();
+    return functionInputType;
   }
 
   /**
@@ -556,6 +592,18 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
+  public External createExternal()
+  {
+    ExternalImpl external = new ExternalImpl();
+    return external;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public TuplePipeline createTuplePipeline()
   {
     TuplePipelineImpl tuplePipeline = new TuplePipelineImpl();
@@ -724,6 +772,42 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
+  public org.xtext.mdsd.arduino.boardgenerator.ioT.Number createNumber()
+  {
+    NumberImpl number = new NumberImpl();
+    return number;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public org.xtext.mdsd.arduino.boardgenerator.ioT.String createString()
+  {
+    StringImpl string = new StringImpl();
+    return string;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Bool createBool()
+  {
+    BoolImpl bool = new BoolImpl();
+    return bool;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public Seconds createSeconds()
   {
     SecondsImpl seconds = new SecondsImpl();
@@ -884,6 +968,18 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     CountImpl count = new CountImpl();
     return count;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Var createVar()
+  {
+    VarImpl var = new VarImpl();
+    return var;
   }
 
   /**

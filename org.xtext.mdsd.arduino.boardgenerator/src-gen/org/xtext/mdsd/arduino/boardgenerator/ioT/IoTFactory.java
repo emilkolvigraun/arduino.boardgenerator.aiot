@@ -114,6 +114,24 @@ public interface IoTFactory extends EFactory
   MqttClient createMqttClient();
 
   /**
+   * Returns a new object of class '<em>Function</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Function</em>'.
+   * @generated
+   */
+  Function createFunction();
+
+  /**
+   * Returns a new object of class '<em>Function Input Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Function Input Type</em>'.
+   * @generated
+   */
+  FunctionInputType createFunctionInputType();
+
+  /**
    * Returns a new object of class '<em>Board</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -276,6 +294,15 @@ public interface IoTFactory extends EFactory
   Pipeline createPipeline();
 
   /**
+   * Returns a new object of class '<em>External</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>External</em>'.
+   * @generated
+   */
+  External createExternal();
+
+  /**
    * Returns a new object of class '<em>Tuple Pipeline</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -402,6 +429,33 @@ public interface IoTFactory extends EFactory
   Byte createByte();
 
   /**
+   * Returns a new object of class '<em>Number</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Number</em>'.
+   * @generated
+   */
+  Number createNumber();
+
+  /**
+   * Returns a new object of class '<em>String</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>String</em>'.
+   * @generated
+   */
+  String createString();
+
+  /**
+   * Returns a new object of class '<em>Bool</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Bool</em>'.
+   * @generated
+   */
+  Bool createBool();
+
+  /**
    * Returns a new object of class '<em>Seconds</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -526,6 +580,15 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   Count createCount();
+
+  /**
+   * Returns a new object of class '<em>Var</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Var</em>'.
+   * @generated
+   */
+  Var createVar();
 
   /**
    * Returns a new object of class '<em>Conditional</em>'.

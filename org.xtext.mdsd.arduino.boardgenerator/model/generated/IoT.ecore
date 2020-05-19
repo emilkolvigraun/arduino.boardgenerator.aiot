@@ -7,6 +7,8 @@
         eType="#//Include" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="channel" upperBound="-1"
         eType="#//Channel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" upperBound="-1"
+        eType="#//Function" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="abstractBoard" upperBound="-1"
         eType="#//AbstractBoard" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="board" upperBound="-1"
@@ -43,6 +45,16 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="client" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pub" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Function">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
+        eType="#//FunctionInputType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="output" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionInputType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Board">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -109,7 +121,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="SensorOutput">
     <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//DataOutput"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" eType="#//Channel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" unique="false"
+        upperBound="-1" eType="#//Channel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataOutput">
     <eStructuralFeatures xsi:type="ecore:EReference" name="sensorvar" eType="#//SensorVariables"/>
@@ -119,6 +132,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="Pipeline">
     <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//Pipeline"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="External" eSuperTypes="#//Pipeline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="#//Function"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
+        eType="#//Expression" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TuplePipeline" eSuperTypes="#//Pipeline">
     <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression"
@@ -149,6 +167,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="Byte" eSuperTypes="#//stopChar">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Number" eSuperTypes="#//FunctionInputType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="String" eSuperTypes="#//FunctionInputType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bool" eSuperTypes="#//FunctionInputType"/>
   <eClassifiers xsi:type="ecore:EClass" name="Seconds" eSuperTypes="#//Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="Millis" eSuperTypes="#//Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="Micros" eSuperTypes="#//Resolution"/>
@@ -172,6 +193,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Min" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Max" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Count" eSuperTypes="#//ExecutePipeline"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Var" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Conditional" eSuperTypes="#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Expression"
         containment="true"/>

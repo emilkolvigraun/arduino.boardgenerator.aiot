@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
@@ -34,6 +35,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getIncludes <em>Includes</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getChannel <em>Channel</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getFunction <em>Function</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getAbstractBoard <em>Abstract Board</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getBoard <em>Board</em>}</li>
  * </ul>
@@ -61,6 +63,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @ordered
    */
   protected EList<Channel> channel;
+
+  /**
+   * The cached value of the '{@link #getFunction() <em>Function</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFunction()
+   * @generated
+   * @ordered
+   */
+  protected EList<Function> function;
 
   /**
    * The cached value of the '{@link #getAbstractBoard() <em>Abstract Board</em>}' containment reference list.
@@ -139,6 +151,21 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
+  public EList<Function> getFunction()
+  {
+    if (function == null)
+    {
+      function = new EObjectContainmentEList<Function>(Function.class, this, IoTPackage.MODEL__FUNCTION);
+    }
+    return function;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EList<AbstractBoard> getAbstractBoard()
   {
     if (abstractBoard == null)
@@ -177,6 +204,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return ((InternalEList<?>)getIncludes()).basicRemove(otherEnd, msgs);
       case IoTPackage.MODEL__CHANNEL:
         return ((InternalEList<?>)getChannel()).basicRemove(otherEnd, msgs);
+      case IoTPackage.MODEL__FUNCTION:
+        return ((InternalEList<?>)getFunction()).basicRemove(otherEnd, msgs);
       case IoTPackage.MODEL__ABSTRACT_BOARD:
         return ((InternalEList<?>)getAbstractBoard()).basicRemove(otherEnd, msgs);
       case IoTPackage.MODEL__BOARD:
@@ -199,6 +228,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return getIncludes();
       case IoTPackage.MODEL__CHANNEL:
         return getChannel();
+      case IoTPackage.MODEL__FUNCTION:
+        return getFunction();
       case IoTPackage.MODEL__ABSTRACT_BOARD:
         return getAbstractBoard();
       case IoTPackage.MODEL__BOARD:
@@ -225,6 +256,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
       case IoTPackage.MODEL__CHANNEL:
         getChannel().clear();
         getChannel().addAll((Collection<? extends Channel>)newValue);
+        return;
+      case IoTPackage.MODEL__FUNCTION:
+        getFunction().clear();
+        getFunction().addAll((Collection<? extends Function>)newValue);
         return;
       case IoTPackage.MODEL__ABSTRACT_BOARD:
         getAbstractBoard().clear();
@@ -254,6 +289,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
       case IoTPackage.MODEL__CHANNEL:
         getChannel().clear();
         return;
+      case IoTPackage.MODEL__FUNCTION:
+        getFunction().clear();
+        return;
       case IoTPackage.MODEL__ABSTRACT_BOARD:
         getAbstractBoard().clear();
         return;
@@ -278,6 +316,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return includes != null && !includes.isEmpty();
       case IoTPackage.MODEL__CHANNEL:
         return channel != null && !channel.isEmpty();
+      case IoTPackage.MODEL__FUNCTION:
+        return function != null && !function.isEmpty();
       case IoTPackage.MODEL__ABSTRACT_BOARD:
         return abstractBoard != null && !abstractBoard.isEmpty();
       case IoTPackage.MODEL__BOARD:

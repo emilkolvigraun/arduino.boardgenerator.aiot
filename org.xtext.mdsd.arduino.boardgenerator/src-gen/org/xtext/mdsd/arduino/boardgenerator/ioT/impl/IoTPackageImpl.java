@@ -15,6 +15,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
@@ -30,9 +31,12 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
@@ -76,6 +80,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -160,6 +165,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   private EClass mqttClientEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass functionEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass functionInputTypeEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -292,6 +311,13 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass externalEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass tuplePipelineEClass = null;
 
   /**
@@ -390,6 +416,27 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass numberEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass stringEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass boolEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass secondsEClass = null;
 
   /**
@@ -482,6 +529,13 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   private EClass countEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass varEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -697,7 +751,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getModel_AbstractBoard()
+  public EReference getModel_Function()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(2);
   }
@@ -708,9 +762,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getModel_Board()
+  public EReference getModel_AbstractBoard()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getModel_Board()
+  {
+    return (EReference)modelEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -953,6 +1018,72 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
   public EAttribute getMqttClient_Pub()
   {
     return (EAttribute)mqttClientEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getFunction()
+  {
+    return functionEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getFunction_Name()
+  {
+    return (EAttribute)functionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getFunction_Input()
+  {
+    return (EReference)functionEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getFunction_Output()
+  {
+    return (EAttribute)functionEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getFunctionInputType()
+  {
+    return functionInputTypeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getFunctionInputType_Value()
+  {
+    return (EAttribute)functionInputTypeEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1478,6 +1609,39 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
+  public EClass getExternal()
+  {
+    return externalEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getExternal_Function()
+  {
+    return (EReference)externalEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getExternal_Input()
+  {
+    return (EReference)externalEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getTuplePipeline()
   {
     return tuplePipelineEClass;
@@ -1709,6 +1873,39 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
+  public EClass getNumber()
+  {
+    return numberEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getString()
+  {
+    return stringEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getBool()
+  {
+    return boolEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getSeconds()
   {
     return secondsEClass;
@@ -1899,6 +2096,17 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
   public EClass getCount()
   {
     return countEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getVar()
+  {
+    return varEClass;
   }
 
   /**
@@ -2452,6 +2660,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     modelEClass = createEClass(MODEL);
     createEReference(modelEClass, MODEL__INCLUDES);
     createEReference(modelEClass, MODEL__CHANNEL);
+    createEReference(modelEClass, MODEL__FUNCTION);
     createEReference(modelEClass, MODEL__ABSTRACT_BOARD);
     createEReference(modelEClass, MODEL__BOARD);
 
@@ -2485,6 +2694,14 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     createEAttribute(mqttClientEClass, MQTT_CLIENT__PORT);
     createEAttribute(mqttClientEClass, MQTT_CLIENT__CLIENT);
     createEAttribute(mqttClientEClass, MQTT_CLIENT__PUB);
+
+    functionEClass = createEClass(FUNCTION);
+    createEAttribute(functionEClass, FUNCTION__NAME);
+    createEReference(functionEClass, FUNCTION__INPUT);
+    createEAttribute(functionEClass, FUNCTION__OUTPUT);
+
+    functionInputTypeEClass = createEClass(FUNCTION_INPUT_TYPE);
+    createEAttribute(functionInputTypeEClass, FUNCTION_INPUT_TYPE__VALUE);
 
     boardEClass = createEClass(BOARD);
     createEAttribute(boardEClass, BOARD__NAME);
@@ -2551,6 +2768,10 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     pipelineEClass = createEClass(PIPELINE);
     createEReference(pipelineEClass, PIPELINE__NEXT);
 
+    externalEClass = createEClass(EXTERNAL);
+    createEReference(externalEClass, EXTERNAL__FUNCTION);
+    createEReference(externalEClass, EXTERNAL__INPUT);
+
     tuplePipelineEClass = createEClass(TUPLE_PIPELINE);
     createEReference(tuplePipelineEClass, TUPLE_PIPELINE__EXPRESSION);
 
@@ -2586,6 +2807,12 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     byteEClass = createEClass(BYTE);
     createEAttribute(byteEClass, BYTE__NAME);
 
+    numberEClass = createEClass(NUMBER);
+
+    stringEClass = createEClass(STRING);
+
+    boolEClass = createEClass(BOOL);
+
     secondsEClass = createEClass(SECONDS);
 
     millisEClass = createEClass(MILLIS);
@@ -2617,6 +2844,8 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     maxEClass = createEClass(MAX);
 
     countEClass = createEClass(COUNT);
+
+    varEClass = createEClass(VAR);
 
     conditionalEClass = createEClass(CONDITIONAL);
     createEReference(conditionalEClass, CONDITIONAL__CONDITION);
@@ -2720,6 +2949,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     onboardSensorEClass.getESuperTypes().add(this.getSensorType());
     commandEClass.getESuperTypes().add(this.getSampler());
     frequencyEClass.getESuperTypes().add(this.getSampler());
+    externalEClass.getESuperTypes().add(this.getPipeline());
     tuplePipelineEClass.getESuperTypes().add(this.getPipeline());
     mapPipelineEClass.getESuperTypes().add(this.getPipeline());
     windowPipelineEClass.getESuperTypes().add(this.getPipeline());
@@ -2732,6 +2962,9 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     mqttEClass.getESuperTypes().add(this.getChannelType());
     charEClass.getESuperTypes().add(this.getstopChar());
     byteEClass.getESuperTypes().add(this.getstopChar());
+    numberEClass.getESuperTypes().add(this.getFunctionInputType());
+    stringEClass.getESuperTypes().add(this.getFunctionInputType());
+    boolEClass.getESuperTypes().add(this.getFunctionInputType());
     secondsEClass.getESuperTypes().add(this.getResolution());
     millisEClass.getESuperTypes().add(this.getResolution());
     microsEClass.getESuperTypes().add(this.getResolution());
@@ -2746,6 +2979,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     minEClass.getESuperTypes().add(this.getExecutePipeline());
     maxEClass.getESuperTypes().add(this.getExecutePipeline());
     countEClass.getESuperTypes().add(this.getExecutePipeline());
+    varEClass.getESuperTypes().add(this.getExecutePipeline());
     conditionalEClass.getESuperTypes().add(this.getExpression());
     orEClass.getESuperTypes().add(this.getExpression());
     andEClass.getESuperTypes().add(this.getExpression());
@@ -2767,6 +3001,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getModel_Includes(), this.getInclude(), null, "includes", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Channel(), this.getChannel(), null, "channel", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModel_Function(), this.getFunction(), null, "function", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_AbstractBoard(), this.getAbstractBoard(), null, "abstractBoard", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Board(), this.getBoard(), null, "board", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2800,6 +3035,14 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEAttribute(getMqttClient_Port(), ecorePackage.getEInt(), "port", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMqttClient_Client(), ecorePackage.getEString(), "client", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMqttClient_Pub(), ecorePackage.getEString(), "pub", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(functionEClass, Function.class, "Function", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getFunction_Name(), ecorePackage.getEString(), "name", null, 0, 1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFunction_Input(), this.getFunctionInputType(), null, "input", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getFunction_Output(), ecorePackage.getEString(), "output", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(functionInputTypeEClass, FunctionInputType.class, "FunctionInputType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getFunctionInputType_Value(), ecorePackage.getEString(), "value", null, 0, 1, FunctionInputType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(boardEClass, Board.class, "Board", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBoard_Name(), ecorePackage.getEString(), "name", null, 0, 1, Board.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2857,7 +3100,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     initEClass(sensorOutputEClass, SensorOutput.class, "SensorOutput", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getSensorOutput_Output(), this.getDataOutput(), null, "output", null, 0, 1, SensorOutput.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getSensorOutput_Channel(), this.getChannel(), null, "channel", null, 0, 1, SensorOutput.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getSensorOutput_Channel(), this.getChannel(), null, "channel", null, 0, -1, SensorOutput.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(dataOutputEClass, DataOutput.class, "DataOutput", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getDataOutput_Sensorvar(), this.getSensorVariables(), null, "sensorvar", null, 0, 1, DataOutput.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2865,6 +3108,10 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     initEClass(pipelineEClass, Pipeline.class, "Pipeline", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getPipeline_Next(), this.getPipeline(), null, "next", null, 0, 1, Pipeline.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(externalEClass, External.class, "External", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getExternal_Function(), this.getFunction(), null, "function", null, 0, 1, External.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getExternal_Input(), this.getExpression(), null, "input", null, 0, -1, External.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(tuplePipelineEClass, TuplePipeline.class, "TuplePipeline", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getTuplePipeline_Expression(), this.getExpression(), null, "expression", null, 0, 1, TuplePipeline.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2901,6 +3148,12 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEClass(byteEClass, org.xtext.mdsd.arduino.boardgenerator.ioT.Byte.class, "Byte", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getByte_Name(), ecorePackage.getEInt(), "name", null, 0, 1, org.xtext.mdsd.arduino.boardgenerator.ioT.Byte.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(numberEClass, org.xtext.mdsd.arduino.boardgenerator.ioT.Number.class, "Number", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(stringEClass, org.xtext.mdsd.arduino.boardgenerator.ioT.String.class, "String", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(boolEClass, Bool.class, "Bool", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
     initEClass(secondsEClass, Seconds.class, "Seconds", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(millisEClass, Millis.class, "Millis", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2932,6 +3185,8 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEClass(maxEClass, Max.class, "Max", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(countEClass, Count.class, "Count", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(varEClass, Var.class, "Var", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(conditionalEClass, Conditional.class, "Conditional", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getConditional_Condition(), this.getExpression(), null, "condition", null, 0, 1, Conditional.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

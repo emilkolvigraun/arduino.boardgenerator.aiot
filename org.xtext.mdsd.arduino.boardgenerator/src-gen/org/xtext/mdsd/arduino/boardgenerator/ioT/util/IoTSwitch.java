@@ -13,6 +13,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
@@ -28,9 +29,12 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
@@ -74,6 +78,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -217,6 +222,20 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case IoTPackage.FUNCTION:
+      {
+        Function function = (Function)theEObject;
+        T result = caseFunction(function);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.FUNCTION_INPUT_TYPE:
+      {
+        FunctionInputType functionInputType = (FunctionInputType)theEObject;
+        T result = caseFunctionInputType(functionInputType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case IoTPackage.BOARD:
       {
         Board board = (Board)theEObject;
@@ -349,6 +368,14 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case IoTPackage.EXTERNAL:
+      {
+        External external = (External)theEObject;
+        T result = caseExternal(external);
+        if (result == null) result = casePipeline(external);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case IoTPackage.TUPLE_PIPELINE:
       {
         TuplePipeline tuplePipeline = (TuplePipeline)theEObject;
@@ -456,6 +483,30 @@ public class IoTSwitch<T> extends Switch<T>
         org.xtext.mdsd.arduino.boardgenerator.ioT.Byte byte_ = (org.xtext.mdsd.arduino.boardgenerator.ioT.Byte)theEObject;
         T result = caseByte(byte_);
         if (result == null) result = casestopChar(byte_);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.NUMBER:
+      {
+        org.xtext.mdsd.arduino.boardgenerator.ioT.Number number = (org.xtext.mdsd.arduino.boardgenerator.ioT.Number)theEObject;
+        T result = caseNumber(number);
+        if (result == null) result = caseFunctionInputType(number);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.STRING:
+      {
+        org.xtext.mdsd.arduino.boardgenerator.ioT.String string = (org.xtext.mdsd.arduino.boardgenerator.ioT.String)theEObject;
+        T result = caseString(string);
+        if (result == null) result = caseFunctionInputType(string);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.BOOL:
+      {
+        Bool bool = (Bool)theEObject;
+        T result = caseBool(bool);
+        if (result == null) result = caseFunctionInputType(bool);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -572,6 +623,14 @@ public class IoTSwitch<T> extends Switch<T>
         Count count = (Count)theEObject;
         T result = caseCount(count);
         if (result == null) result = caseExecutePipeline(count);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.VAR:
+      {
+        Var var = (Var)theEObject;
+        T result = caseVar(var);
+        if (result == null) result = caseExecutePipeline(var);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -868,6 +927,38 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Function</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Function</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseFunction(Function object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Function Input Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Function Input Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseFunctionInputType(FunctionInputType object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Board</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1156,6 +1247,22 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>External</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>External</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseExternal(External object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Tuple Pipeline</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1380,6 +1487,54 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Number</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Number</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNumber(org.xtext.mdsd.arduino.boardgenerator.ioT.Number object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>String</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>String</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseString(org.xtext.mdsd.arduino.boardgenerator.ioT.String object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Bool</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Bool</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseBool(Bool object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Seconds</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1599,6 +1754,22 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseCount(Count object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Var</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Var</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseVar(Var object)
   {
     return null;
   }

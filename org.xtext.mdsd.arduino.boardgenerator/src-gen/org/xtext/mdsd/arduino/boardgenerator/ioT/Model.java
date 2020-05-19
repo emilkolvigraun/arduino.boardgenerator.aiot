@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getIncludes <em>Includes</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getChannel <em>Channel</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getFunction <em>Function</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getAbstractBoard <em>Abstract Board</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getBoard <em>Board</em>}</li>
  * </ul>
@@ -51,6 +52,18 @@ public interface Model extends EObject
    * @generated
    */
   EList<Channel> getChannel();
+
+  /**
+   * Returns the value of the '<em><b>Function</b></em>' containment reference list.
+   * The list contents are of type {@link org.xtext.mdsd.arduino.boardgenerator.ioT.Function}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Function</em>' containment reference list.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getModel_Function()
+   * @model containment="true"
+   * @generated
+   */
+  EList<Function> getFunction();
 
   /**
    * Returns the value of the '<em><b>Abstract Board</b></em>' containment reference list.
