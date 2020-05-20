@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -22,12 +23,14 @@ import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
@@ -37,6 +40,8 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
@@ -56,11 +61,13 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
 import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider;
 import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker;
@@ -75,6 +82,8 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 @SuppressWarnings("all")
 public class IoTValidator extends AbstractIoTValidator {
   public static final String NO_SUPPORT_FOR_SENSOR = "org.xtext.mdsd.arduino.boardgenerator.NoSupportForSensor";
+  
+  public static final String INVALID_TYPE = "org.xtext.mdsd.arduino.boardgenerator.InvalidType";
   
   @Inject
   private IoTGlobalScopeProvider scopeProvider;
@@ -202,13 +211,18 @@ public class IoTValidator extends AbstractIoTValidator {
     int _size = external.getInput().size();
     boolean _notEquals = (_size != functionOutput);
     if (_notEquals) {
+      final ArrayList<String> inputs = CollectionLiterals.<String>newArrayList();
+      final Consumer<FunctionInputType> _function = (FunctionInputType i) -> {
+        inputs.add(i.getName());
+      };
+      external.getFunction().getInput().forEach(_function);
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("input does not match declared function ");
       String _name = external.getFunction().getName();
       _builder.append(_name);
-      String _replace = external.getFunction().getInput().toString().replace("[", "(").replace("]", ")");
+      String _replace = inputs.toString().replace("[", "(").replace("]", ")");
       _builder.append(_replace);
-      this.error(_builder.toString(), IoTPackage.eINSTANCE.getExternal_Input());
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getExternal_Function());
     }
     Sensor sensor = EcoreUtil2.<Sensor>getContainerOfType(external, Sensor.class);
     ExclusiveRange _doubleDotLessThan = new ExclusiveRange(0, functionOutput, true);
@@ -219,44 +233,79 @@ public class IoTValidator extends AbstractIoTValidator {
         if (_lessThan) {
           return;
         }
-        Expression _get = external.getInput().get((i).intValue());
-        TypeChecker.Type inputType = this._typeChecker.type(((Expression) _get));
-        TypeChecker.Type acceptedInputType = this._typeChecker.type(external.getFunction().getInput().get((i).intValue()));
-        boolean _isNumberType = this._typeChecker.isNumberType(acceptedInputType);
-        if (_isNumberType) {
-          this.validateNumbers(inputType, IoTPackage.eINSTANCE.getExternal_Input());
-        } else {
-          this.validateTypes(inputType, acceptedInputType, IoTPackage.eINSTANCE.getExternal_Function());
-        }
-        if ((sensor != null)) {
-          String functionOutputID = external.getFunction().getOutput().get((i).intValue());
-          int index = this.asStringList(sensor.getVars().getIds()).indexOf(functionOutputID.toString());
-          if ((index > (-1))) {
-            StringConcatenation _builder_1 = new StringConcatenation();
-            _builder_1.append("funtion ");
-            String _name_1 = external.getFunction().getName();
-            _builder_1.append(_name_1);
-            _builder_1.append(" not applicable in ");
-            String _name_2 = sensor.getName();
-            _builder_1.append(_name_2);
-            _builder_1.append(" because output variables not unique");
-            this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getExternal_Function());
+        try {
+          Expression _get = external.getInput().get((i).intValue());
+          TypeChecker.Type inputType = this._typeChecker.type(((Expression) _get));
+          TypeChecker.Type acceptedInputType = this._typeChecker.type(external.getFunction().getInput().get((i).intValue()));
+          boolean _isNumberType = this._typeChecker.isNumberType(acceptedInputType);
+          if (_isNumberType) {
+            this.validateNumbers(inputType, IoTPackage.eINSTANCE.getExternal_Input());
+          } else {
+            this.validateTypes(inputType, acceptedInputType, IoTPackage.eINSTANCE.getExternal_Input());
           }
-          String _string = functionOutputID.toString();
-          String _string_1 = sensor.getVars().getName().toString();
-          boolean _equals = Objects.equal(_string, _string_1);
-          if (_equals) {
-            StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("funtion ");
-            String _name_3 = external.getFunction().getName();
-            _builder_2.append(_name_3);
-            _builder_2.append(" not applicable in ");
-            String _name_4 = sensor.getName();
-            _builder_2.append(_name_4);
-            _builder_2.append(" because sensor variable not unique");
-            this.error(_builder_2.toString(), IoTPackage.eINSTANCE.getExternal_Function());
+          if ((sensor != null)) {
+            String functionOutputID = external.getFunction().getOutput().get((i).intValue());
+            int index = this.asStringList(sensor.getVars().getIds()).indexOf(functionOutputID.toString());
+            if ((index > (-1))) {
+              StringConcatenation _builder_1 = new StringConcatenation();
+              _builder_1.append("funtion ");
+              String _name_1 = external.getFunction().getName();
+              _builder_1.append(_name_1);
+              _builder_1.append(" not applicable in ");
+              String _name_2 = sensor.getName();
+              _builder_1.append(_name_2);
+              _builder_1.append(" because output variables not unique");
+              this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getExternal_Function());
+            }
+            String _string = functionOutputID.toString();
+            String _string_1 = sensor.getVars().getName().toString();
+            boolean _equals = Objects.equal(_string, _string_1);
+            if (_equals) {
+              StringConcatenation _builder_2 = new StringConcatenation();
+              _builder_2.append("funtion ");
+              String _name_3 = external.getFunction().getName();
+              _builder_2.append(_name_3);
+              _builder_2.append(" not applicable in ");
+              String _name_4 = sensor.getName();
+              _builder_2.append(_name_4);
+              _builder_2.append(" because sensor variable not unique");
+              this.error(_builder_2.toString(), IoTPackage.eINSTANCE.getExternal_Function());
+            }
+          }
+        } catch (final Throwable _t) {
+          if (_t instanceof Exception) {
+            return;
+          } else {
+            throw Exceptions.sneakyThrow(_t);
           }
         }
+      }
+    }
+  }
+  
+  @Check
+  public void validateSensorHasWifiConnection(final SensorOutput output) {
+    final EList<Channel> channels = output.getChannel();
+    boolean includes = false;
+    ArrayList<String> wifiChannels = CollectionLiterals.<String>newArrayList();
+    for (final Channel channel : channels) {
+      {
+        if (((channel.getConfig() instanceof Wifi) || (channel.getConfig() instanceof MqttClient))) {
+          includes = true;
+        }
+        wifiChannels.add(channel.getName());
+      }
+    }
+    if (includes) {
+      Board board = EcoreUtil2.<Board>getContainerOfType(output, Board.class);
+      WifiConfig _wifiSelect = board.getWifiSelect();
+      final boolean wifi = (_wifiSelect != null);
+      if ((!wifi)) {
+        StringConcatenation _builder = new StringConcatenation();
+        String _replace = wifiChannels.toString().replace(",", " and").replace("[", "").replace("]", "");
+        _builder.append(_replace);
+        _builder.append(", is not applicable without a wifi connection");
+        this.error(_builder.toString(), IoTPackage.eINSTANCE.getSensorOutput_Channel());
       }
     }
   }
@@ -340,7 +389,50 @@ public class IoTValidator extends AbstractIoTValidator {
     final Iterable<IEObjectDescription> boards = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(board, Model.class), IoTPackage.eINSTANCE.getBoard());
     final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(boards), board.getName());
     if (dublicate) {
-      this.error("board names must be universally unique", IoTPackage.Literals.BOARD__NAME);
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("board name \"");
+      String _name = board.getName();
+      _builder.append(_name);
+      _builder.append("\" is already taken");
+      this.error(_builder.toString(), IoTPackage.Literals.BOARD__NAME);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void validateChannelNamesUniversallyUnique(final Channel channel) {
+    final Iterable<IEObjectDescription> channels = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(channel, Model.class), IoTPackage.eINSTANCE.getChannel());
+    final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(channels), channel.getName());
+    if (dublicate) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("board name \"");
+      String _name = channel.getName();
+      _builder.append(_name);
+      _builder.append("\" is already taken");
+      this.error(_builder.toString(), IoTPackage.Literals.CHANNEL__NAME);
+    }
+  }
+  
+  @Check(CheckType.NORMAL)
+  public void validateFunctionNamesUniversallyUnique(final Function function) {
+    final Iterable<IEObjectDescription> functions = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(function, Model.class), IoTPackage.eINSTANCE.getFunction());
+    final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(functions), function.getName());
+    if (dublicate) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("board name \"");
+      String _name = function.getName();
+      _builder.append(_name);
+      _builder.append("\" is already taken");
+      this.error(_builder.toString(), IoTPackage.Literals.FUNCTION__NAME);
+    }
+  }
+  
+  @Check
+  public void validateFunctionType(final FunctionInputType functionType) {
+    boolean _ifInvalid = this._typeChecker.ifInvalid(this._typeChecker.type(functionType));
+    if (_ifInvalid) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("invalid type");
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getFunctionInputType_Name(), IoTValidator.INVALID_TYPE, functionType.getName());
     }
   }
   
@@ -459,7 +551,12 @@ public class IoTValidator extends AbstractIoTValidator {
   public void validateSensorVariables(final SensorVariables sensorVars) {
     boolean _contains = this.asStringList(sensorVars.getIds()).contains(sensorVars.getName());
     if (_contains) {
-      this.error("sensor variable must be unique in its context", IoTPackage.eINSTANCE.getSensorVariables_Name());
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("sensor variable \"");
+      String _name = sensorVars.getName();
+      _builder.append(_name);
+      _builder.append("\" is already taken");
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getSensorVariables_Name());
     }
   }
   
@@ -541,8 +638,12 @@ public class IoTValidator extends AbstractIoTValidator {
   }
   
   @Check
-  public void validateChannel(final Wifi channel) {
-    this.warning("sensitive information should not be displayed in the code", IoTPackage.eINSTANCE.getWifi_Pass());
+  public void validateChannel(final WifiConfig channel) {
+    String _pass = channel.getPass();
+    boolean _tripleNotEquals = (_pass != null);
+    if (_tripleNotEquals) {
+      this.warning("sensitive information should not be displayed in the code", IoTPackage.eINSTANCE.getWifiConfig_Pass());
+    }
   }
   
   @Check
@@ -686,28 +787,16 @@ public class IoTValidator extends AbstractIoTValidator {
   
   @Check
   public void checkExpression(final GreaterThan greaterThan) {
-    Expression _left = greaterThan.getLeft();
-    boolean _tripleNotEquals = (_left != null);
-    if (_tripleNotEquals) {
+    if (((greaterThan.getLeft() != null) && (greaterThan.getRight() != null))) {
       this.validateNumbers(this._typeChecker.type(greaterThan.getLeft()), IoTPackage.Literals.GREATER_THAN__LEFT);
-    }
-    Expression _right = greaterThan.getRight();
-    boolean _tripleNotEquals_1 = (_right != null);
-    if (_tripleNotEquals_1) {
       this.validateNumbers(this._typeChecker.type(greaterThan.getRight()), IoTPackage.Literals.GREATER_THAN__RIGHT);
     }
   }
   
   @Check
   public void checkExpression(final GreaterThanEqual greaterThanEqual) {
-    Expression _left = greaterThanEqual.getLeft();
-    boolean _tripleNotEquals = (_left != null);
-    if (_tripleNotEquals) {
+    if (((greaterThanEqual.getLeft() != null) && (greaterThanEqual.getRight() != null))) {
       this.validateNumbers(this._typeChecker.type(greaterThanEqual.getLeft()), IoTPackage.Literals.GREATER_THAN_EQUAL__LEFT);
-    }
-    Expression _right = greaterThanEqual.getRight();
-    boolean _tripleNotEquals_1 = (_right != null);
-    if (_tripleNotEquals_1) {
       this.validateNumbers(this._typeChecker.type(greaterThanEqual.getRight()), IoTPackage.Literals.GREATER_THAN_EQUAL__RIGHT);
     }
   }

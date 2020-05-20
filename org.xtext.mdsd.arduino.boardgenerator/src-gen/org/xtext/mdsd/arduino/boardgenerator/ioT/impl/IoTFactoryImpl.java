@@ -16,11 +16,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
@@ -46,7 +44,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTFactory;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
@@ -77,7 +74,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
@@ -145,8 +141,8 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.MODEL: return createModel();
       case IoTPackage.INCLUDE: return createInclude();
       case IoTPackage.IMPORT_OBJECT: return createImportObject();
+      case IoTPackage.WIFI_CONFIG: return createWifiConfig();
       case IoTPackage.CHANNEL: return createChannel();
-      case IoTPackage.CHANNEL_TYPE: return createChannelType();
       case IoTPackage.CHANNEL_CONFIG: return createChannelConfig();
       case IoTPackage.WIFI: return createWifi();
       case IoTPackage.SERIAL: return createSerial();
@@ -182,14 +178,8 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.STRING_LITERAL: return createStringLiteral();
       case IoTPackage.NUMBER_LITERAL: return createNumberLiteral();
       case IoTPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
-      case IoTPackage.WIFI_CONFIG: return createWifiConfig();
-      case IoTPackage.SERIAL_CONFIG: return createSerialConfig();
-      case IoTPackage.MQTT: return createMQTT();
       case IoTPackage.CHAR: return createChar();
       case IoTPackage.BYTE: return createByte();
-      case IoTPackage.NUMBER: return createNumber();
-      case IoTPackage.STRING: return createString();
-      case IoTPackage.BOOL: return createBool();
       case IoTPackage.SECONDS: return createSeconds();
       case IoTPackage.MILLIS: return createMillis();
       case IoTPackage.MICROS: return createMicros();
@@ -268,10 +258,10 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public Channel createChannel()
+  public WifiConfig createWifiConfig()
   {
-    ChannelImpl channel = new ChannelImpl();
-    return channel;
+    WifiConfigImpl wifiConfig = new WifiConfigImpl();
+    return wifiConfig;
   }
 
   /**
@@ -280,10 +270,10 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public ChannelType createChannelType()
+  public Channel createChannel()
   {
-    ChannelTypeImpl channelType = new ChannelTypeImpl();
-    return channelType;
+    ChannelImpl channel = new ChannelImpl();
+    return channel;
   }
 
   /**
@@ -712,42 +702,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public WifiConfig createWifiConfig()
-  {
-    WifiConfigImpl wifiConfig = new WifiConfigImpl();
-    return wifiConfig;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public SerialConfig createSerialConfig()
-  {
-    SerialConfigImpl serialConfig = new SerialConfigImpl();
-    return serialConfig;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public MQTT createMQTT()
-  {
-    MQTTImpl mqtt = new MQTTImpl();
-    return mqtt;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public Char createChar()
   {
     CharImpl char_ = new CharImpl();
@@ -764,42 +718,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     ByteImpl byte_ = new ByteImpl();
     return byte_;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public org.xtext.mdsd.arduino.boardgenerator.ioT.Number createNumber()
-  {
-    NumberImpl number = new NumberImpl();
-    return number;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public org.xtext.mdsd.arduino.boardgenerator.ioT.String createString()
-  {
-    StringImpl string = new StringImpl();
-    return string;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Bool createBool()
-  {
-    BoolImpl bool = new BoolImpl();
-    return bool;
   }
 
   /**

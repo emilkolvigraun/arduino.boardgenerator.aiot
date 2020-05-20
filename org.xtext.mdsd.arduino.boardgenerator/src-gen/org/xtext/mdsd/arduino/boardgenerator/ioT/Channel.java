@@ -3,8 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import java.lang.String;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -16,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getChanneltype <em>Channeltype</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getName <em>Name</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getConfig <em>Config</em>}</li>
  * </ul>
@@ -27,28 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Channel extends EObject
 {
-  /**
-   * Returns the value of the '<em><b>Channeltype</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Channeltype</em>' containment reference.
-   * @see #setChanneltype(ChannelType)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getChannel_Channeltype()
-   * @model containment="true"
-   * @generated
-   */
-  ChannelType getChanneltype();
-
-  /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getChanneltype <em>Channeltype</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Channeltype</em>' containment reference.
-   * @see #getChanneltype()
-   * @generated
-   */
-  void setChanneltype(ChannelType value);
-
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->

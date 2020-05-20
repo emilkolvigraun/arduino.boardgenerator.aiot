@@ -8,34 +8,37 @@ generate ioT "http://www.xtext.org/mdsd/arduino/boardgenerator/IoT"
 // Channels are zero or more (in case they are imported)
 // Boards are zero or more   
 Model: 
-	includes+=Include* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard* board+=Board*;
+	includes+=Include* wifiConfig+=WifiConfig* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard* board+=Board*;
 
-// Includes = imports 
+// Includes = imports  
 // I don't want the developer to write a string, so this will be parsed
 Include:  
 	'include' importURI+=ID ('.' importURI+=ID)*;
 	 
-ImportObject:
+ImportObject: 
 	importURI=STRING;
  
 // I realize that the channel grammar is very loose.
 // The plan is to use the validator to verify that one or the other has been used.
-Channel:
-	'channel' channeltype=ChannelType name=ID (':' BEGIN
-		config=ChannelConfig
-	END)?; 
+ 
+WifiConfig: 
+	'wifi' name=ID ':' BEGIN
+		'ssid' ssid=STRING 
+		('pass' pass=STRING)?
+	END ;
 
-ChannelType:
-	{WifiConfig} 'wifi' | {SerialConfig} 'serial' | {MQTT} 'mqtt'
-;
+Channel:
+	'channel' name=ID (':' BEGIN 
+		config=ChannelConfig
+	END)?;   
  
 ChannelConfig:
 	Wifi | Serial | MqttClient
 ;
 
 Wifi:
-	'ssid' ssid=STRING
-	'pass' pass=STRING
+	'url'   url=STRING
+	'route' route=STRING
 ;
  
 Serial:
@@ -57,9 +60,9 @@ MqttClient:
 Function:
 	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)*  ')' '->' '(' output+=ID (',' output+=ID)*  ')'
 ;
- 
-FunctionInputType: 
-	{Number} 'number' value=ID | {String} 'string' value=ID | {Bool} 'bool' value=ID
+   
+FunctionInputType:  
+	 name=ID  
 ;
 
 // board can either extend another or is new
@@ -69,18 +72,21 @@ Board:
 // Sensor is one or more
 NewBoard:
 	name=ID ':' BEGIN
-		version=BoardVersion
+		version=BoardVersion 
+		('wifi' wifiSelect=[WifiConfig])? 
 		sensors+=Sensor+
 	END;
-
+ 
 BoardVersion:
-	'type' type=ID 
+	'type' type=ID  
 	'model' model=ID; 
  
 // Can extend another board, in that case needs only reference
 ExtendsBoard:
 	name=ID 'extends' abstractBoard=[AbstractBoard] (':' BEGIN
-		sensors+=Sensor+ END)?; 
+		('wifi' wifiSelect=[WifiConfig])?
+		sensors+=Sensor+ 
+		 END)?;   
 
 // ...
 AbstractBoard: 

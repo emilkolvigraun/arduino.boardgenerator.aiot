@@ -15,11 +15,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
@@ -75,7 +73,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
@@ -122,14 +119,14 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass channelEClass = null;
+  private EClass wifiConfigEClass = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass channelTypeEClass = null;
+  private EClass channelEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -381,27 +378,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass wifiConfigEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass serialConfigEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass mqttEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass charEClass = null;
 
   /**
@@ -410,27 +386,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   private EClass byteEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass numberEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass stringEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass boolEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -740,7 +695,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getModel_Channel()
+  public EReference getModel_WifiConfig()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(1);
   }
@@ -751,7 +706,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getModel_Function()
+  public EReference getModel_Channel()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(2);
   }
@@ -762,7 +717,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getModel_AbstractBoard()
+  public EReference getModel_Function()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(3);
   }
@@ -773,9 +728,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getModel_Board()
+  public EReference getModel_AbstractBoard()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getModel_Board()
+  {
+    return (EReference)modelEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -828,6 +794,50 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
+  public EClass getWifiConfig()
+  {
+    return wifiConfigEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getWifiConfig_Name()
+  {
+    return (EAttribute)wifiConfigEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getWifiConfig_Ssid()
+  {
+    return (EAttribute)wifiConfigEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getWifiConfig_Pass()
+  {
+    return (EAttribute)wifiConfigEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getChannel()
   {
     return channelEClass;
@@ -839,20 +849,9 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getChannel_Channeltype()
-  {
-    return (EReference)channelEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EAttribute getChannel_Name()
   {
-    return (EAttribute)channelEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)channelEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -863,18 +862,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
   @Override
   public EReference getChannel_Config()
   {
-    return (EReference)channelEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getChannelType()
-  {
-    return channelTypeEClass;
+    return (EReference)channelEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -905,7 +893,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getWifi_Ssid()
+  public EAttribute getWifi_Url()
   {
     return (EAttribute)wifiEClass.getEStructuralFeatures().get(0);
   }
@@ -916,7 +904,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getWifi_Pass()
+  public EAttribute getWifi_Route()
   {
     return (EAttribute)wifiEClass.getEStructuralFeatures().get(1);
   }
@@ -1081,7 +1069,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EAttribute getFunctionInputType_Value()
+  public EAttribute getFunctionInputType_Name()
   {
     return (EAttribute)functionInputTypeEClass.getEStructuralFeatures().get(0);
   }
@@ -1114,9 +1102,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EReference getBoard_Sensors()
+  public EReference getBoard_WifiSelect()
   {
     return (EReference)boardEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getBoard_Sensors()
+  {
+    return (EReference)boardEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -1796,39 +1795,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EClass getWifiConfig()
-  {
-    return wifiConfigEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getSerialConfig()
-  {
-    return serialConfigEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getMQTT()
-  {
-    return mqttEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getChar()
   {
     return charEClass;
@@ -1865,39 +1831,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
   public EAttribute getByte_Name()
   {
     return (EAttribute)byteEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getNumber()
-  {
-    return numberEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getString()
-  {
-    return stringEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getBool()
-  {
-    return boolEClass;
   }
 
   /**
@@ -2659,6 +2592,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     // Create classes and their features
     modelEClass = createEClass(MODEL);
     createEReference(modelEClass, MODEL__INCLUDES);
+    createEReference(modelEClass, MODEL__WIFI_CONFIG);
     createEReference(modelEClass, MODEL__CHANNEL);
     createEReference(modelEClass, MODEL__FUNCTION);
     createEReference(modelEClass, MODEL__ABSTRACT_BOARD);
@@ -2670,18 +2604,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     importObjectEClass = createEClass(IMPORT_OBJECT);
     createEAttribute(importObjectEClass, IMPORT_OBJECT__IMPORT_URI);
 
+    wifiConfigEClass = createEClass(WIFI_CONFIG);
+    createEAttribute(wifiConfigEClass, WIFI_CONFIG__NAME);
+    createEAttribute(wifiConfigEClass, WIFI_CONFIG__SSID);
+    createEAttribute(wifiConfigEClass, WIFI_CONFIG__PASS);
+
     channelEClass = createEClass(CHANNEL);
-    createEReference(channelEClass, CHANNEL__CHANNELTYPE);
     createEAttribute(channelEClass, CHANNEL__NAME);
     createEReference(channelEClass, CHANNEL__CONFIG);
-
-    channelTypeEClass = createEClass(CHANNEL_TYPE);
 
     channelConfigEClass = createEClass(CHANNEL_CONFIG);
 
     wifiEClass = createEClass(WIFI);
-    createEAttribute(wifiEClass, WIFI__SSID);
-    createEAttribute(wifiEClass, WIFI__PASS);
+    createEAttribute(wifiEClass, WIFI__URL);
+    createEAttribute(wifiEClass, WIFI__ROUTE);
 
     serialEClass = createEClass(SERIAL);
     createEAttribute(serialEClass, SERIAL__BAUD);
@@ -2701,10 +2637,11 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     createEAttribute(functionEClass, FUNCTION__OUTPUT);
 
     functionInputTypeEClass = createEClass(FUNCTION_INPUT_TYPE);
-    createEAttribute(functionInputTypeEClass, FUNCTION_INPUT_TYPE__VALUE);
+    createEAttribute(functionInputTypeEClass, FUNCTION_INPUT_TYPE__NAME);
 
     boardEClass = createEClass(BOARD);
     createEAttribute(boardEClass, BOARD__NAME);
+    createEReference(boardEClass, BOARD__WIFI_SELECT);
     createEReference(boardEClass, BOARD__SENSORS);
 
     newBoardEClass = createEClass(NEW_BOARD);
@@ -2795,23 +2732,11 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     booleanLiteralEClass = createEClass(BOOLEAN_LITERAL);
     createEAttribute(booleanLiteralEClass, BOOLEAN_LITERAL__BOOL);
 
-    wifiConfigEClass = createEClass(WIFI_CONFIG);
-
-    serialConfigEClass = createEClass(SERIAL_CONFIG);
-
-    mqttEClass = createEClass(MQTT);
-
     charEClass = createEClass(CHAR);
     createEAttribute(charEClass, CHAR__NAME);
 
     byteEClass = createEClass(BYTE);
     createEAttribute(byteEClass, BYTE__NAME);
-
-    numberEClass = createEClass(NUMBER);
-
-    stringEClass = createEClass(STRING);
-
-    boolEClass = createEClass(BOOL);
 
     secondsEClass = createEClass(SECONDS);
 
@@ -2957,14 +2882,8 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     stringLiteralEClass.getESuperTypes().add(this.getExpression());
     numberLiteralEClass.getESuperTypes().add(this.getExpression());
     booleanLiteralEClass.getESuperTypes().add(this.getExpression());
-    wifiConfigEClass.getESuperTypes().add(this.getChannelType());
-    serialConfigEClass.getESuperTypes().add(this.getChannelType());
-    mqttEClass.getESuperTypes().add(this.getChannelType());
     charEClass.getESuperTypes().add(this.getstopChar());
     byteEClass.getESuperTypes().add(this.getstopChar());
-    numberEClass.getESuperTypes().add(this.getFunctionInputType());
-    stringEClass.getESuperTypes().add(this.getFunctionInputType());
-    boolEClass.getESuperTypes().add(this.getFunctionInputType());
     secondsEClass.getESuperTypes().add(this.getResolution());
     millisEClass.getESuperTypes().add(this.getResolution());
     microsEClass.getESuperTypes().add(this.getResolution());
@@ -3000,6 +2919,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getModel_Includes(), this.getInclude(), null, "includes", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModel_WifiConfig(), this.getWifiConfig(), null, "wifiConfig", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Channel(), this.getChannel(), null, "channel", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Function(), this.getFunction(), null, "function", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_AbstractBoard(), this.getAbstractBoard(), null, "abstractBoard", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3011,18 +2931,20 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEClass(importObjectEClass, ImportObject.class, "ImportObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getImportObject_ImportURI(), ecorePackage.getEString(), "importURI", null, 0, 1, ImportObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(wifiConfigEClass, WifiConfig.class, "WifiConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getWifiConfig_Name(), ecorePackage.getEString(), "name", null, 0, 1, WifiConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getWifiConfig_Ssid(), ecorePackage.getEString(), "ssid", null, 0, 1, WifiConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getWifiConfig_Pass(), ecorePackage.getEString(), "pass", null, 0, 1, WifiConfig.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(channelEClass, Channel.class, "Channel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getChannel_Channeltype(), this.getChannelType(), null, "channeltype", null, 0, 1, Channel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getChannel_Name(), ecorePackage.getEString(), "name", null, 0, 1, Channel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getChannel_Config(), this.getChannelConfig(), null, "config", null, 0, 1, Channel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(channelTypeEClass, ChannelType.class, "ChannelType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(channelConfigEClass, ChannelConfig.class, "ChannelConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(wifiEClass, Wifi.class, "Wifi", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getWifi_Ssid(), ecorePackage.getEString(), "ssid", null, 0, 1, Wifi.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getWifi_Pass(), ecorePackage.getEString(), "pass", null, 0, 1, Wifi.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getWifi_Url(), ecorePackage.getEString(), "url", null, 0, 1, Wifi.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getWifi_Route(), ecorePackage.getEString(), "route", null, 0, 1, Wifi.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(serialEClass, Serial.class, "Serial", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getSerial_Baud(), ecorePackage.getEInt(), "baud", null, 0, 1, Serial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3042,10 +2964,11 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEAttribute(getFunction_Output(), ecorePackage.getEString(), "output", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(functionInputTypeEClass, FunctionInputType.class, "FunctionInputType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getFunctionInputType_Value(), ecorePackage.getEString(), "value", null, 0, 1, FunctionInputType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getFunctionInputType_Name(), ecorePackage.getEString(), "name", null, 0, 1, FunctionInputType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(boardEClass, Board.class, "Board", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBoard_Name(), ecorePackage.getEString(), "name", null, 0, 1, Board.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getBoard_WifiSelect(), this.getWifiConfig(), null, "wifiSelect", null, 0, 1, Board.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getBoard_Sensors(), this.getSensor(), null, "sensors", null, 0, -1, Board.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(newBoardEClass, NewBoard.class, "NewBoard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3136,23 +3059,11 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEClass(booleanLiteralEClass, BooleanLiteral.class, "BooleanLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBooleanLiteral_Bool(), ecorePackage.getEBoolean(), "bool", null, 0, 1, BooleanLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(wifiConfigEClass, WifiConfig.class, "WifiConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(serialConfigEClass, SerialConfig.class, "SerialConfig", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(mqttEClass, org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT.class, "MQTT", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
     initEClass(charEClass, Char.class, "Char", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getChar_Name(), ecorePackage.getEString(), "name", null, 0, 1, Char.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(byteEClass, org.xtext.mdsd.arduino.boardgenerator.ioT.Byte.class, "Byte", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getByte_Name(), ecorePackage.getEInt(), "name", null, 0, 1, org.xtext.mdsd.arduino.boardgenerator.ioT.Byte.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(numberEClass, org.xtext.mdsd.arduino.boardgenerator.ioT.Number.class, "Number", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(stringEClass, org.xtext.mdsd.arduino.boardgenerator.ioT.String.class, "String", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(boolEClass, Bool.class, "Bool", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(secondsEClass, Seconds.class, "Seconds", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -53,6 +53,11 @@ import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider
 import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 
 /**
  * This class contains custom validation rules. 
@@ -62,7 +67,7 @@ import static extension org.eclipse.xtext.EcoreUtil2.*
 class IoTValidator extends AbstractIoTValidator { 
 	  
 	public static val NO_SUPPORT_FOR_SENSOR = "org.xtext.mdsd.arduino.boardgenerator.NoSupportForSensor"
-	
+	public static val INVALID_TYPE = "org.xtext.mdsd.arduino.boardgenerator.InvalidType" 
 	
 	@Inject
 	IoTGlobalScopeProvider scopeProvider
@@ -142,37 +147,65 @@ class IoTValidator extends AbstractIoTValidator {
 	def validateFunction(External external){ 
 		var functionOutput = external.function.input.size() 
 		if(external.input.size() != functionOutput){
-			error('''input does not match declared function «external.function.name»«external.function.input.toString.replace('[', '(').replace(']', ')')»''', IoTPackage.eINSTANCE.external_Input)
+			val inputs = newArrayList()  
+			external.function.input.forEach[i | inputs.add(i.name)] 
+			error('''input does not match declared function «external.function.name»«inputs.toString.replace('[', '(').replace(']', ')')»''', IoTPackage.eINSTANCE.external_Function)
 		} 
 		var sensor = external.getContainerOfType(Sensor)
 		for (i:0 ..< functionOutput){  
 			if (external.input.size() < 1){
 				return
 			}
-			var inputType = (external.input.get(i) as Expression).type
-			var acceptedInputType = external.function.input.get(i).type 
-			 
-			if (acceptedInputType.isNumberType){
-				inputType.validateNumbers(IoTPackage.eINSTANCE.external_Input) 
-			} else { 
-				inputType.validateTypes(acceptedInputType, IoTPackage.eINSTANCE.external_Function)
-			}
-			  
-			if (sensor !== null){
-				
-				var functionOutputID = external.function.output.get(i)   
-				var index = sensor.vars.ids.asStringList.indexOf(functionOutputID.toString)
-				  
-				if (index > -1){
-					error('''funtion «external.function.name» not applicable in «sensor.name» because output variables not unique''', IoTPackage.eINSTANCE.external_Function)
+			try{
+				var inputType = (external.input.get(i) as Expression).type			
+				var acceptedInputType = external.function.input.get(i).type 
+				 
+				if (acceptedInputType.isNumberType){
+					inputType.validateNumbers(IoTPackage.eINSTANCE.external_Input) 
+				} else {  
+					inputType.validateTypes(acceptedInputType, IoTPackage.eINSTANCE.external_Input)
 				}
-				
-				if (functionOutputID.toString == sensor.vars.name.toString){ 
-					error('''funtion «external.function.name» not applicable in «sensor.name» because sensor variable not unique''', IoTPackage.eINSTANCE.external_Function)
+				   
+				if (sensor !== null){
+					
+					var functionOutputID = external.function.output.get(i)   
+					var index = sensor.vars.ids.asStringList.indexOf(functionOutputID.toString)
+					  
+					if (index > -1){
+						error('''funtion «external.function.name» not applicable in «sensor.name» because output variables not unique''', IoTPackage.eINSTANCE.external_Function)
+					}
+					
+					if (functionOutputID.toString == sensor.vars.name.toString){ 
+						error('''funtion «external.function.name» not applicable in «sensor.name» because sensor variable not unique''', IoTPackage.eINSTANCE.external_Function)
+		 			}
+					
 				}
-				
+			} catch (Exception e) {
+				return
 			}
 		} 
+	}
+	
+	@Check
+	def validateSensorHasWifiConnection(SensorOutput output){
+		val channels = output.channel
+		 
+		var includes = false
+		var wifiChannels = newArrayList()
+		for(Channel channel : channels){
+			if (channel.config instanceof Wifi || channel.config instanceof MqttClient)
+				includes = true
+				wifiChannels.add(channel.name)
+		}
+		
+		if (includes){  
+			var board = output.getContainerOfType(Board) 
+			val wifi = board.wifiSelect !== null   
+			if (!wifi){ 
+				error('''«wifiChannels.toString.replace(',', ' and').replace('[', '').replace(']', '')», is not applicable without a wifi connection''', IoTPackage.eINSTANCE.sensorOutput_Channel)
+			}
+		}
+		
 	}
 	 
 	@Check 
@@ -226,7 +259,29 @@ class IoTValidator extends AbstractIoTValidator {
 		val boards = board.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.board)
 		val dublicate = boards.listQualifiedNames.validateOccursOnce(board.name)
 		if (dublicate)  
-			error("board names must be universally unique", IoTPackage.Literals.BOARD__NAME)
+			error('''board name "«board.name»" is already taken''', IoTPackage.Literals.BOARD__NAME)
+	}
+	
+	@Check(CheckType.NORMAL) 
+	def validateChannelNamesUniversallyUnique(Channel channel){ 
+		val channels = channel.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.channel)
+		val dublicate = channels.listQualifiedNames.validateOccursOnce(channel.name) 
+		if (dublicate)   
+			error('''board name "«channel.name»" is already taken''', IoTPackage.Literals.CHANNEL__NAME)
+	} 
+	
+	@Check(CheckType.NORMAL) 
+	def validateFunctionNamesUniversallyUnique(Function function){ 
+		val functions = function.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.function)
+		val dublicate = functions.listQualifiedNames.validateOccursOnce(function.name) 
+		if (dublicate)     
+			error('''board name "«function.name»" is already taken''', IoTPackage.Literals.FUNCTION__NAME)
+	}
+	
+	@Check
+	def validateFunctionType(FunctionInputType functionType){
+		if (functionType.type.ifInvalid)  
+			error('''invalid type''', IoTPackage.eINSTANCE.functionInputType_Name, INVALID_TYPE, functionType.name)
 	}
 	
 	def asStringList(List<Variable> vars){
@@ -293,9 +348,9 @@ class IoTValidator extends AbstractIoTValidator {
 	}
 	 
 	@Check
-	def validateSensorVariables(SensorVariables sensorVars){
+	def validateSensorVariables(SensorVariables sensorVars){ 
 		if (sensorVars.ids.asStringList.contains(sensorVars.name)){ 
-	 		error("sensor variable must be unique in its context", IoTPackage.eINSTANCE.sensorVariables_Name)
+	 		error('''sensor variable "«sensorVars.name»" is already taken''', IoTPackage.eINSTANCE.sensorVariables_Name)
 	 	}
 	}
 	
@@ -357,8 +412,10 @@ class IoTValidator extends AbstractIoTValidator {
 	}  
 	
 	@Check
-	def validateChannel(Wifi channel){
-		warning("sensitive information should not be displayed in the code", IoTPackage.eINSTANCE.wifi_Pass)	
+	def validateChannel(WifiConfig channel){ 
+		if (channel.pass !== null){ 
+			warning("sensitive information should not be displayed in the code", IoTPackage.eINSTANCE.wifiConfig_Pass)				
+		}
 	}
 	
 	@Check 
@@ -458,18 +515,18 @@ class IoTValidator extends AbstractIoTValidator {
 
 	@Check
 	def checkExpression(GreaterThan greaterThan) {
-		if (greaterThan.left !== null)
+		if (greaterThan.left !== null && greaterThan.right !== null){
 			greaterThan.left.type.validateNumbers(IoTPackage.Literals.GREATER_THAN__LEFT)
-		if (greaterThan.right !== null)
 			greaterThan.right.type.validateNumbers(IoTPackage.Literals.GREATER_THAN__RIGHT)
+		}		
 	}
- 
+  
 	@Check
 	def checkExpression(GreaterThanEqual greaterThanEqual) {
-		if (greaterThanEqual.left !== null)
+		if (greaterThanEqual.left !== null && greaterThanEqual.right !== null){
 			greaterThanEqual.left.type.validateNumbers(IoTPackage.Literals.GREATER_THAN_EQUAL__LEFT)
-		if (greaterThanEqual.right !== null)
 			greaterThanEqual.right.type.validateNumbers(IoTPackage.Literals.GREATER_THAN_EQUAL__RIGHT)
+		}	
 	}
 
 	@Check

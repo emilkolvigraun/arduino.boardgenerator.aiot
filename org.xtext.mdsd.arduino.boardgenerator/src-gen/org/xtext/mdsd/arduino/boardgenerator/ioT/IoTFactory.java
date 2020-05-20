@@ -51,6 +51,15 @@ public interface IoTFactory extends EFactory
   ImportObject createImportObject();
 
   /**
+   * Returns a new object of class '<em>Wifi Config</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Wifi Config</em>'.
+   * @generated
+   */
+  WifiConfig createWifiConfig();
+
+  /**
    * Returns a new object of class '<em>Channel</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -58,15 +67,6 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   Channel createChannel();
-
-  /**
-   * Returns a new object of class '<em>Channel Type</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Channel Type</em>'.
-   * @generated
-   */
-  ChannelType createChannelType();
 
   /**
    * Returns a new object of class '<em>Channel Config</em>'.
@@ -384,33 +384,6 @@ public interface IoTFactory extends EFactory
   BooleanLiteral createBooleanLiteral();
 
   /**
-   * Returns a new object of class '<em>Wifi Config</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Wifi Config</em>'.
-   * @generated
-   */
-  WifiConfig createWifiConfig();
-
-  /**
-   * Returns a new object of class '<em>Serial Config</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Serial Config</em>'.
-   * @generated
-   */
-  SerialConfig createSerialConfig();
-
-  /**
-   * Returns a new object of class '<em>MQTT</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>MQTT</em>'.
-   * @generated
-   */
-  MQTT createMQTT();
-
-  /**
    * Returns a new object of class '<em>Char</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -427,33 +400,6 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   Byte createByte();
-
-  /**
-   * Returns a new object of class '<em>Number</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Number</em>'.
-   * @generated
-   */
-  Number createNumber();
-
-  /**
-   * Returns a new object of class '<em>String</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>String</em>'.
-   * @generated
-   */
-  String createString();
-
-  /**
-   * Returns a new object of class '<em>Bool</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Bool</em>'.
-   * @generated
-   */
-  Bool createBool();
 
   /**
    * Returns a new object of class '<em>Seconds</em>'.

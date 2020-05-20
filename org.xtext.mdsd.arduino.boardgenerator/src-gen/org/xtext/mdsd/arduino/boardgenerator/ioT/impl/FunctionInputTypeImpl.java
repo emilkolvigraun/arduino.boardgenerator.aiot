@@ -3,8 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
-import java.lang.String;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -23,7 +21,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.FunctionInputTypeImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.FunctionInputTypeImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
@@ -31,24 +29,24 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implements FunctionInputType
 {
   /**
-   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getValue()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected static final String VALUE_EDEFAULT = null;
+  protected static final String NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getValue()
+   * @see #getName()
    * @generated
    * @ordered
    */
-  protected String value = VALUE_EDEFAULT;
+  protected String name = NAME_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -77,9 +75,9 @@ public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implemen
    * @generated
    */
   @Override
-  public String getValue()
+  public String getName()
   {
-    return value;
+    return name;
   }
 
   /**
@@ -88,12 +86,12 @@ public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implemen
    * @generated
    */
   @Override
-  public void setValue(String newValue)
+  public void setName(String newName)
   {
-    String oldValue = value;
-    value = newValue;
+    String oldName = name;
+    name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.FUNCTION_INPUT_TYPE__VALUE, oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.FUNCTION_INPUT_TYPE__NAME, oldName, name));
   }
 
   /**
@@ -106,8 +104,8 @@ public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case IoTPackage.FUNCTION_INPUT_TYPE__VALUE:
-        return getValue();
+      case IoTPackage.FUNCTION_INPUT_TYPE__NAME:
+        return getName();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -122,8 +120,8 @@ public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case IoTPackage.FUNCTION_INPUT_TYPE__VALUE:
-        setValue((String)newValue);
+      case IoTPackage.FUNCTION_INPUT_TYPE__NAME:
+        setName((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -139,8 +137,8 @@ public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case IoTPackage.FUNCTION_INPUT_TYPE__VALUE:
-        setValue(VALUE_EDEFAULT);
+      case IoTPackage.FUNCTION_INPUT_TYPE__NAME:
+        setName(NAME_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -156,8 +154,8 @@ public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case IoTPackage.FUNCTION_INPUT_TYPE__VALUE:
-        return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+      case IoTPackage.FUNCTION_INPUT_TYPE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
     }
     return super.eIsSet(featureID);
   }
@@ -173,8 +171,8 @@ public class FunctionInputTypeImpl extends MinimalEObjectImpl.Container implemen
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (value: ");
-    result.append(value);
+    result.append(" (name: ");
+    result.append(name);
     result.append(')');
     return result.toString();
   }

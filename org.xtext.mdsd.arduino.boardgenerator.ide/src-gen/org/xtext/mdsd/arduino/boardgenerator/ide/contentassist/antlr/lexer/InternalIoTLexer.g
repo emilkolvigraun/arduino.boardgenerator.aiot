@@ -39,17 +39,11 @@ Filter : 'filter';
 
 Median : 'median';
 
-Number : 'number';
-
 Reduce : 'reduce';
 
 Sample : 'sample';
 
 Sensor : 'sensor';
-
-Serial : 'serial';
-
-String : 'string';
 
 Board : 'board';
 
@@ -57,21 +51,19 @@ Count : 'count';
 
 Model : 'model';
 
+Route : 'route';
+
 Stdev : 'stdev';
 
 Topic : 'topic';
 
 Baud : 'baud';
 
-Bool : 'bool';
-
 Byte : 'byte';
 
 Char : 'char';
 
 Mean : 'mean';
-
-Mqtt : 'mqtt';
 
 Pass : 'pass';
 
@@ -96,6 +88,8 @@ Map : 'map';
 Max : 'max';
 
 Min : 'min';
+
+Url : 'url';
 
 Var : 'var';
 
@@ -164,8 +158,6 @@ RULE_NINT : '-' ('0'|'1'..'9' ('0'..'9')*);
 RULE_DBL : RULE_INT? '.' ('0'..'9')+;
 
 RULE_NDBL : '-' RULE_INT? '.' ('0'..'9')+;
-
-RULE_SCI : (RULE_INT|RULE_DBL) ('e'|'E') '-'? RULE_INT;
 
 RULE_BOOLEAN : ('true'|'false'|'True'|'False');
 

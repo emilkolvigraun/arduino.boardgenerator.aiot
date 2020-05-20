@@ -3,8 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import java.lang.String;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -79,13 +77,22 @@ public interface IoTPackage extends EPackage
   int MODEL__INCLUDES = 0;
 
   /**
+   * The feature id for the '<em><b>Wifi Config</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODEL__WIFI_CONFIG = 1;
+
+  /**
    * The feature id for the '<em><b>Channel</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__CHANNEL = 1;
+  int MODEL__CHANNEL = 2;
 
   /**
    * The feature id for the '<em><b>Function</b></em>' containment reference list.
@@ -94,7 +101,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL__FUNCTION = 2;
+  int MODEL__FUNCTION = 3;
 
   /**
    * The feature id for the '<em><b>Abstract Board</b></em>' containment reference list.
@@ -103,7 +110,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL__ABSTRACT_BOARD = 3;
+  int MODEL__ABSTRACT_BOARD = 4;
 
   /**
    * The feature id for the '<em><b>Board</b></em>' containment reference list.
@@ -112,7 +119,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL__BOARD = 4;
+  int MODEL__BOARD = 5;
 
   /**
    * The number of structural features of the '<em>Model</em>' class.
@@ -121,7 +128,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MODEL_FEATURE_COUNT = 5;
+  int MODEL_FEATURE_COUNT = 6;
 
   /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IncludeImpl <em>Include</em>}' class.
@@ -180,23 +187,14 @@ public interface IoTPackage extends EPackage
   int IMPORT_OBJECT_FEATURE_COUNT = 1;
 
   /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl <em>Channel</em>}' class.
+   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl <em>Wifi Config</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChannel()
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWifiConfig()
    * @generated
    */
-  int CHANNEL = 3;
-
-  /**
-   * The feature id for the '<em><b>Channeltype</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int CHANNEL__CHANNELTYPE = 0;
+  int WIFI_CONFIG = 3;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -205,7 +203,53 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHANNEL__NAME = 1;
+  int WIFI_CONFIG__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Ssid</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int WIFI_CONFIG__SSID = 1;
+
+  /**
+   * The feature id for the '<em><b>Pass</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int WIFI_CONFIG__PASS = 2;
+
+  /**
+   * The number of structural features of the '<em>Wifi Config</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int WIFI_CONFIG_FEATURE_COUNT = 3;
+
+  /**
+   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl <em>Channel</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChannel()
+   * @generated
+   */
+  int CHANNEL = 4;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CHANNEL__NAME = 0;
 
   /**
    * The feature id for the '<em><b>Config</b></em>' containment reference.
@@ -214,7 +258,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHANNEL__CONFIG = 2;
+  int CHANNEL__CONFIG = 1;
 
   /**
    * The number of structural features of the '<em>Channel</em>' class.
@@ -223,26 +267,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHANNEL_FEATURE_COUNT = 3;
-
-  /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelTypeImpl <em>Channel Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelTypeImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChannelType()
-   * @generated
-   */
-  int CHANNEL_TYPE = 4;
-
-  /**
-   * The number of structural features of the '<em>Channel Type</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int CHANNEL_TYPE_FEATURE_COUNT = 0;
+  int CHANNEL_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelConfigImpl <em>Channel Config</em>}' class.
@@ -274,22 +299,22 @@ public interface IoTPackage extends EPackage
   int WIFI = 6;
 
   /**
-   * The feature id for the '<em><b>Ssid</b></em>' attribute.
+   * The feature id for the '<em><b>Url</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int WIFI__SSID = CHANNEL_CONFIG_FEATURE_COUNT + 0;
+  int WIFI__URL = CHANNEL_CONFIG_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Pass</b></em>' attribute.
+   * The feature id for the '<em><b>Route</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int WIFI__PASS = CHANNEL_CONFIG_FEATURE_COUNT + 1;
+  int WIFI__ROUTE = CHANNEL_CONFIG_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>Wifi</em>' class.
@@ -468,13 +493,13 @@ public interface IoTPackage extends EPackage
   int FUNCTION_INPUT_TYPE = 11;
 
   /**
-   * The feature id for the '<em><b>Value</b></em>' attribute.
+   * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_INPUT_TYPE__VALUE = 0;
+  int FUNCTION_INPUT_TYPE__NAME = 0;
 
   /**
    * The number of structural features of the '<em>Function Input Type</em>' class.
@@ -505,13 +530,22 @@ public interface IoTPackage extends EPackage
   int BOARD__NAME = 0;
 
   /**
+   * The feature id for the '<em><b>Wifi Select</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BOARD__WIFI_SELECT = 1;
+
+  /**
    * The feature id for the '<em><b>Sensors</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BOARD__SENSORS = 1;
+  int BOARD__SENSORS = 2;
 
   /**
    * The number of structural features of the '<em>Board</em>' class.
@@ -520,7 +554,7 @@ public interface IoTPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BOARD_FEATURE_COUNT = 2;
+  int BOARD_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.NewBoardImpl <em>New Board</em>}' class.
@@ -540,6 +574,15 @@ public interface IoTPackage extends EPackage
    * @ordered
    */
   int NEW_BOARD__NAME = BOARD__NAME;
+
+  /**
+   * The feature id for the '<em><b>Wifi Select</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NEW_BOARD__WIFI_SELECT = BOARD__WIFI_SELECT;
 
   /**
    * The feature id for the '<em><b>Sensors</b></em>' containment reference list.
@@ -623,6 +666,15 @@ public interface IoTPackage extends EPackage
    * @ordered
    */
   int EXTENDS_BOARD__NAME = BOARD__NAME;
+
+  /**
+   * The feature id for the '<em><b>Wifi Select</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EXTENDS_BOARD__WIFI_SELECT = BOARD__WIFI_SELECT;
 
   /**
    * The feature id for the '<em><b>Sensors</b></em>' containment reference list.
@@ -1432,63 +1484,6 @@ public interface IoTPackage extends EPackage
   int BOOLEAN_LITERAL_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl <em>Wifi Config</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWifiConfig()
-   * @generated
-   */
-  int WIFI_CONFIG = 40;
-
-  /**
-   * The number of structural features of the '<em>Wifi Config</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int WIFI_CONFIG_FEATURE_COUNT = CHANNEL_TYPE_FEATURE_COUNT + 0;
-
-  /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialConfigImpl <em>Serial Config</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialConfigImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSerialConfig()
-   * @generated
-   */
-  int SERIAL_CONFIG = 41;
-
-  /**
-   * The number of structural features of the '<em>Serial Config</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int SERIAL_CONFIG_FEATURE_COUNT = CHANNEL_TYPE_FEATURE_COUNT + 0;
-
-  /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MQTTImpl <em>MQTT</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MQTTImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMQTT()
-   * @generated
-   */
-  int MQTT = 42;
-
-  /**
-   * The number of structural features of the '<em>MQTT</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MQTT_FEATURE_COUNT = CHANNEL_TYPE_FEATURE_COUNT + 0;
-
-  /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CharImpl <em>Char</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1496,7 +1491,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChar()
    * @generated
    */
-  int CHAR = 43;
+  int CHAR = 40;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1524,7 +1519,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getByte()
    * @generated
    */
-  int BYTE = 44;
+  int BYTE = 41;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1545,90 +1540,6 @@ public interface IoTPackage extends EPackage
   int BYTE_FEATURE_COUNT = STOP_CHAR_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.NumberImpl <em>Number</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.NumberImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNumber()
-   * @generated
-   */
-  int NUMBER = 45;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NUMBER__VALUE = FUNCTION_INPUT_TYPE__VALUE;
-
-  /**
-   * The number of structural features of the '<em>Number</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NUMBER_FEATURE_COUNT = FUNCTION_INPUT_TYPE_FEATURE_COUNT + 0;
-
-  /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.StringImpl <em>String</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.StringImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getString()
-   * @generated
-   */
-  int STRING = 46;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int STRING__VALUE = FUNCTION_INPUT_TYPE__VALUE;
-
-  /**
-   * The number of structural features of the '<em>String</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int STRING_FEATURE_COUNT = FUNCTION_INPUT_TYPE_FEATURE_COUNT + 0;
-
-  /**
-   * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoolImpl <em>Bool</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoolImpl
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getBool()
-   * @generated
-   */
-  int BOOL = 47;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BOOL__VALUE = FUNCTION_INPUT_TYPE__VALUE;
-
-  /**
-   * The number of structural features of the '<em>Bool</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BOOL_FEATURE_COUNT = FUNCTION_INPUT_TYPE_FEATURE_COUNT + 0;
-
-  /**
    * The meta object id for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SecondsImpl <em>Seconds</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1636,7 +1547,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSeconds()
    * @generated
    */
-  int SECONDS = 48;
+  int SECONDS = 42;
 
   /**
    * The number of structural features of the '<em>Seconds</em>' class.
@@ -1655,7 +1566,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMillis()
    * @generated
    */
-  int MILLIS = 49;
+  int MILLIS = 43;
 
   /**
    * The number of structural features of the '<em>Millis</em>' class.
@@ -1674,7 +1585,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMicros()
    * @generated
    */
-  int MICROS = 50;
+  int MICROS = 44;
 
   /**
    * The number of structural features of the '<em>Micros</em>' class.
@@ -1693,7 +1604,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getFilter()
    * @generated
    */
-  int FILTER = 51;
+  int FILTER = 45;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1730,7 +1641,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getAbs()
    * @generated
    */
-  int ABS = 52;
+  int ABS = 46;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1767,7 +1678,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMap()
    * @generated
    */
-  int MAP = 53;
+  int MAP = 47;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1813,7 +1724,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWindow()
    * @generated
    */
-  int WINDOW = 54;
+  int WINDOW = 48;
 
   /**
    * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1859,7 +1770,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getReduce()
    * @generated
    */
-  int REDUCE = 55;
+  int REDUCE = 49;
 
   /**
    * The number of structural features of the '<em>Reduce</em>' class.
@@ -1878,7 +1789,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMean()
    * @generated
    */
-  int MEAN = 56;
+  int MEAN = 50;
 
   /**
    * The number of structural features of the '<em>Mean</em>' class.
@@ -1897,7 +1808,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMedian()
    * @generated
    */
-  int MEDIAN = 57;
+  int MEDIAN = 51;
 
   /**
    * The number of structural features of the '<em>Median</em>' class.
@@ -1916,7 +1827,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getStDev()
    * @generated
    */
-  int ST_DEV = 58;
+  int ST_DEV = 52;
 
   /**
    * The number of structural features of the '<em>St Dev</em>' class.
@@ -1935,7 +1846,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMin()
    * @generated
    */
-  int MIN = 59;
+  int MIN = 53;
 
   /**
    * The number of structural features of the '<em>Min</em>' class.
@@ -1954,7 +1865,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMax()
    * @generated
    */
-  int MAX = 60;
+  int MAX = 54;
 
   /**
    * The number of structural features of the '<em>Max</em>' class.
@@ -1973,7 +1884,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getCount()
    * @generated
    */
-  int COUNT = 61;
+  int COUNT = 55;
 
   /**
    * The number of structural features of the '<em>Count</em>' class.
@@ -1992,7 +1903,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getVar()
    * @generated
    */
-  int VAR = 62;
+  int VAR = 56;
 
   /**
    * The number of structural features of the '<em>Var</em>' class.
@@ -2011,7 +1922,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getConditional()
    * @generated
    */
-  int CONDITIONAL = 63;
+  int CONDITIONAL = 57;
 
   /**
    * The feature id for the '<em><b>Condition</b></em>' containment reference.
@@ -2057,7 +1968,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getOr()
    * @generated
    */
-  int OR = 64;
+  int OR = 58;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2094,7 +2005,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getAnd()
    * @generated
    */
-  int AND = 65;
+  int AND = 59;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2131,7 +2042,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getEqual()
    * @generated
    */
-  int EQUAL = 66;
+  int EQUAL = 60;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2168,7 +2079,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getUnequal()
    * @generated
    */
-  int UNEQUAL = 67;
+  int UNEQUAL = 61;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2205,7 +2116,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getLessThan()
    * @generated
    */
-  int LESS_THAN = 68;
+  int LESS_THAN = 62;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2242,7 +2153,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getLessThanEqual()
    * @generated
    */
-  int LESS_THAN_EQUAL = 69;
+  int LESS_THAN_EQUAL = 63;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2279,7 +2190,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getGreaterThan()
    * @generated
    */
-  int GREATER_THAN = 70;
+  int GREATER_THAN = 64;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2316,7 +2227,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getGreaterThanEqual()
    * @generated
    */
-  int GREATER_THAN_EQUAL = 71;
+  int GREATER_THAN_EQUAL = 65;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2353,7 +2264,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getPlus()
    * @generated
    */
-  int PLUS = 72;
+  int PLUS = 66;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2390,7 +2301,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMinus()
    * @generated
    */
-  int MINUS = 73;
+  int MINUS = 67;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2427,7 +2338,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMul()
    * @generated
    */
-  int MUL = 74;
+  int MUL = 68;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2464,7 +2375,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getDiv()
    * @generated
    */
-  int DIV = 75;
+  int DIV = 69;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -2501,7 +2412,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNegation()
    * @generated
    */
-  int NEGATION = 76;
+  int NEGATION = 70;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -2529,7 +2440,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getExponent()
    * @generated
    */
-  int EXPONENT = 77;
+  int EXPONENT = 71;
 
   /**
    * The feature id for the '<em><b>Base</b></em>' containment reference.
@@ -2566,7 +2477,7 @@ public interface IoTPackage extends EPackage
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNot()
    * @generated
    */
-  int NOT = 78;
+  int NOT = 72;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -2607,6 +2518,17 @@ public interface IoTPackage extends EPackage
    * @generated
    */
   EReference getModel_Includes();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getWifiConfig <em>Wifi Config</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Wifi Config</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getWifiConfig()
+   * @see #getModel()
+   * @generated
+   */
+  EReference getModel_WifiConfig();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getChannel <em>Channel</em>}'.
@@ -2695,6 +2617,49 @@ public interface IoTPackage extends EPackage
   EAttribute getImportObject_ImportURI();
 
   /**
+   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig <em>Wifi Config</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Wifi Config</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
+   * @generated
+   */
+  EClass getWifiConfig();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getName()
+   * @see #getWifiConfig()
+   * @generated
+   */
+  EAttribute getWifiConfig_Name();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getSsid <em>Ssid</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Ssid</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getSsid()
+   * @see #getWifiConfig()
+   * @generated
+   */
+  EAttribute getWifiConfig_Ssid();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getPass <em>Pass</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Pass</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getPass()
+   * @see #getWifiConfig()
+   * @generated
+   */
+  EAttribute getWifiConfig_Pass();
+
+  /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel <em>Channel</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2703,17 +2668,6 @@ public interface IoTPackage extends EPackage
    * @generated
    */
   EClass getChannel();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getChanneltype <em>Channeltype</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Channeltype</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getChanneltype()
-   * @see #getChannel()
-   * @generated
-   */
-  EReference getChannel_Channeltype();
 
   /**
    * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getName <em>Name</em>}'.
@@ -2738,16 +2692,6 @@ public interface IoTPackage extends EPackage
   EReference getChannel_Config();
 
   /**
-   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType <em>Channel Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Channel Type</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType
-   * @generated
-   */
-  EClass getChannelType();
-
-  /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig <em>Channel Config</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2768,26 +2712,26 @@ public interface IoTPackage extends EPackage
   EClass getWifi();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSsid <em>Ssid</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getUrl <em>Url</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Ssid</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSsid()
+   * @return the meta object for the attribute '<em>Url</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getUrl()
    * @see #getWifi()
    * @generated
    */
-  EAttribute getWifi_Ssid();
+  EAttribute getWifi_Url();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getPass <em>Pass</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getRoute <em>Route</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Pass</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getPass()
+   * @return the meta object for the attribute '<em>Route</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getRoute()
    * @see #getWifi()
    * @generated
    */
-  EAttribute getWifi_Pass();
+  EAttribute getWifi_Route();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Serial <em>Serial</em>}'.
@@ -2939,15 +2883,15 @@ public interface IoTPackage extends EPackage
   EClass getFunctionInputType();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType#getValue <em>Value</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Value</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType#getValue()
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType#getName()
    * @see #getFunctionInputType()
    * @generated
    */
-  EAttribute getFunctionInputType_Value();
+  EAttribute getFunctionInputType_Name();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board <em>Board</em>}'.
@@ -2969,6 +2913,17 @@ public interface IoTPackage extends EPackage
    * @generated
    */
   EAttribute getBoard_Name();
+
+  /**
+   * Returns the meta object for the reference '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board#getWifiSelect <em>Wifi Select</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Wifi Select</em>'.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Board#getWifiSelect()
+   * @see #getBoard()
+   * @generated
+   */
+  EReference getBoard_WifiSelect();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board#getSensors <em>Sensors</em>}'.
@@ -3626,36 +3581,6 @@ public interface IoTPackage extends EPackage
   EAttribute getBooleanLiteral_Bool();
 
   /**
-   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig <em>Wifi Config</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Wifi Config</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
-   * @generated
-   */
-  EClass getWifiConfig();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig <em>Serial Config</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Serial Config</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig
-   * @generated
-   */
-  EClass getSerialConfig();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT <em>MQTT</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>MQTT</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT
-   * @generated
-   */
-  EClass getMQTT();
-
-  /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Char <em>Char</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3696,36 +3621,6 @@ public interface IoTPackage extends EPackage
    * @generated
    */
   EAttribute getByte_Name();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Number <em>Number</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Number</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Number
-   * @generated
-   */
-  EClass getNumber();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.String <em>String</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>String</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.String
-   * @generated
-   */
-  EClass getString();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Bool <em>Bool</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Bool</em>'.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Bool
-   * @generated
-   */
-  EClass getBool();
 
   /**
    * Returns the meta object for class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds <em>Seconds</em>}'.
@@ -4464,6 +4359,14 @@ public interface IoTPackage extends EPackage
     EReference MODEL__INCLUDES = eINSTANCE.getModel_Includes();
 
     /**
+     * The meta object literal for the '<em><b>Wifi Config</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MODEL__WIFI_CONFIG = eINSTANCE.getModel_WifiConfig();
+
+    /**
      * The meta object literal for the '<em><b>Channel</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4532,6 +4435,40 @@ public interface IoTPackage extends EPackage
     EAttribute IMPORT_OBJECT__IMPORT_URI = eINSTANCE.getImportObject_ImportURI();
 
     /**
+     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl <em>Wifi Config</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl
+     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWifiConfig()
+     * @generated
+     */
+    EClass WIFI_CONFIG = eINSTANCE.getWifiConfig();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WIFI_CONFIG__NAME = eINSTANCE.getWifiConfig_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Ssid</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WIFI_CONFIG__SSID = eINSTANCE.getWifiConfig_Ssid();
+
+    /**
+     * The meta object literal for the '<em><b>Pass</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WIFI_CONFIG__PASS = eINSTANCE.getWifiConfig_Pass();
+
+    /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl <em>Channel</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4540,14 +4477,6 @@ public interface IoTPackage extends EPackage
      * @generated
      */
     EClass CHANNEL = eINSTANCE.getChannel();
-
-    /**
-     * The meta object literal for the '<em><b>Channeltype</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference CHANNEL__CHANNELTYPE = eINSTANCE.getChannel_Channeltype();
 
     /**
      * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -4564,16 +4493,6 @@ public interface IoTPackage extends EPackage
      * @generated
      */
     EReference CHANNEL__CONFIG = eINSTANCE.getChannel_Config();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelTypeImpl <em>Channel Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelTypeImpl
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getChannelType()
-     * @generated
-     */
-    EClass CHANNEL_TYPE = eINSTANCE.getChannelType();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelConfigImpl <em>Channel Config</em>}' class.
@@ -4596,20 +4515,20 @@ public interface IoTPackage extends EPackage
     EClass WIFI = eINSTANCE.getWifi();
 
     /**
-     * The meta object literal for the '<em><b>Ssid</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Url</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute WIFI__SSID = eINSTANCE.getWifi_Ssid();
+    EAttribute WIFI__URL = eINSTANCE.getWifi_Url();
 
     /**
-     * The meta object literal for the '<em><b>Pass</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Route</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute WIFI__PASS = eINSTANCE.getWifi_Pass();
+    EAttribute WIFI__ROUTE = eINSTANCE.getWifi_Route();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialImpl <em>Serial</em>}' class.
@@ -4734,12 +4653,12 @@ public interface IoTPackage extends EPackage
     EClass FUNCTION_INPUT_TYPE = eINSTANCE.getFunctionInputType();
 
     /**
-     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute FUNCTION_INPUT_TYPE__VALUE = eINSTANCE.getFunctionInputType_Value();
+    EAttribute FUNCTION_INPUT_TYPE__NAME = eINSTANCE.getFunctionInputType_Name();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardImpl <em>Board</em>}' class.
@@ -4758,6 +4677,14 @@ public interface IoTPackage extends EPackage
      * @generated
      */
     EAttribute BOARD__NAME = eINSTANCE.getBoard_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Wifi Select</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BOARD__WIFI_SELECT = eINSTANCE.getBoard_WifiSelect();
 
     /**
      * The meta object literal for the '<em><b>Sensors</b></em>' containment reference list feature.
@@ -5310,36 +5237,6 @@ public interface IoTPackage extends EPackage
     EAttribute BOOLEAN_LITERAL__BOOL = eINSTANCE.getBooleanLiteral_Bool();
 
     /**
-     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl <em>Wifi Config</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getWifiConfig()
-     * @generated
-     */
-    EClass WIFI_CONFIG = eINSTANCE.getWifiConfig();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialConfigImpl <em>Serial Config</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialConfigImpl
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getSerialConfig()
-     * @generated
-     */
-    EClass SERIAL_CONFIG = eINSTANCE.getSerialConfig();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MQTTImpl <em>MQTT</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.MQTTImpl
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getMQTT()
-     * @generated
-     */
-    EClass MQTT = eINSTANCE.getMQTT();
-
-    /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CharImpl <em>Char</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -5374,36 +5271,6 @@ public interface IoTPackage extends EPackage
      * @generated
      */
     EAttribute BYTE__NAME = eINSTANCE.getByte_Name();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.NumberImpl <em>Number</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.NumberImpl
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getNumber()
-     * @generated
-     */
-    EClass NUMBER = eINSTANCE.getNumber();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.StringImpl <em>String</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.StringImpl
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getString()
-     * @generated
-     */
-    EClass STRING = eINSTANCE.getString();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoolImpl <em>Bool</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoolImpl
-     * @see org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IoTPackageImpl#getBool()
-     * @generated
-     */
-    EClass BOOL = eINSTANCE.getBool();
 
     /**
      * The meta object literal for the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SecondsImpl <em>Seconds</em>}' class.

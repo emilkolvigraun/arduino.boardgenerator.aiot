@@ -19,6 +19,10 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.xtext.mdsd.arduino.boardgenerator.generator.GeneratorUtils;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 
 /**
  * Generates code from your model files on save.
@@ -72,14 +76,14 @@ public class IoTGenerator extends AbstractGenerator {
         StringConcatenation _builder_2 = new StringConcatenation();
         _builder_2.append(currentBoard);
         _builder_2.append("/config.json");
-        this.fsa.generateFile(_builder_2.toString(), content);
+        this.fsa.generateFile(_builder_2.toString(), this.generateConfigFile(IterableExtensions.<Channel>toList(channels)));
       }
     }
   }
   
   public String generateConfigFile(final List<Channel> channels) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{");
+    _builder.append("{ ");
     _builder.newLine();
     {
       for(final Channel channel : channels) {
@@ -88,16 +92,44 @@ public class IoTGenerator extends AbstractGenerator {
         _builder.append(_name);
         _builder.append("\":{");
         _builder.newLineIfNotEmpty();
-        _builder.append("\t \t\t\t\t");
-        _builder.newLine();
-        _builder.append("\t \t\t\t");
+        _builder.append("\t\t");
+        String _channelConfiguration = this.getChannelConfiguration(channel);
+        _builder.append(_channelConfiguration, "\t\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
         _builder.append("} ");
         _builder.newLine();
       }
     }
-    _builder.append("}");
+    _builder.append("} ");
     _builder.newLine();
     return _builder.toString();
+  }
+  
+  public String getChannelConfiguration(final Channel channel) {
+    Object _xblockexpression = null;
+    {
+      final ChannelConfig type = channel.getConfig();
+      Object _xifexpression = null;
+      if ((type instanceof Wifi)) {
+        StringConcatenation _builder = new StringConcatenation();
+        return _builder.toString();
+      } else {
+        Object _xifexpression_1 = null;
+        if ((type instanceof Serial)) {
+          _xifexpression_1 = null;
+        } else {
+          Object _xifexpression_2 = null;
+          if ((type instanceof MqttClient)) {
+            _xifexpression_2 = null;
+          }
+          _xifexpression_1 = _xifexpression_2;
+        }
+        _xifexpression = _xifexpression_1;
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return ((String)_xblockexpression);
   }
   
   public String generatorBoardCode(final Board board, final List<Channel> channels) {

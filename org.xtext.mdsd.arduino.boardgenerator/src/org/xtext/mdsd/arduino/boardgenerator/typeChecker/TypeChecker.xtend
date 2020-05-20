@@ -40,16 +40,20 @@ class TypeChecker {
 	}
 
 	def dispatch Type type(NumberLiteral number) {
-		val value = number.numb  
-		switch (value) {   
-			case value.contains('.'):
-				Type.DOUBLE
-			case value.contains('0x'):
-				Type.INT
-			case value.toLowerCase.contains('e'):
-				Type.DOUBLE
-			default:
-				Type.INT
+		try { 
+			val value = number.numb  
+			switch (value) {   
+				case value.contains('.'):
+					return Type.DOUBLE
+				case value.contains('0x'):
+					return Type.INT
+				case value.toLowerCase.contains('e'):
+					return Type.DOUBLE
+				default:
+					return Type.INT
+			} 
+		} catch (Exception e){ 
+			return Type.INVALID 
 		}
 	}
 
@@ -116,38 +120,62 @@ class TypeChecker {
 	}
 	
 	def dispatch Type type(Plus plus) {
-		if (plus.left.type == Type.STRING || plus.right.type == Type.STRING) {
-			Type.STRING
-		} else {
-			evaluateNumeralTypes(plus.left.type, plus.right.type)
+		try {
+			if (plus.left.type == Type.STRING || plus.right.type == Type.STRING) {
+				Type.STRING
+			} else {
+				evaluateNumeralTypes(plus.left.type, plus.right.type)
+			}
+		} catch (Exception e){ 
+			return Type.INVALID
 		}
 	}
 
 	def dispatch Type type(Minus minus) {
-		evaluateNumeralTypes(minus.left.type, minus.right.type)
+		try {
+			evaluateNumeralTypes(minus.left.type, minus.right.type)
+		} catch (Exception e){ 
+			return Type.INVALID
+		} 
 	}
 
 	def dispatch Type type(Mul multiply) {
-		evaluateNumeralTypes(multiply.left.type, multiply.right.type)
+		try {
+			evaluateNumeralTypes(multiply.left.type, multiply.right.type)
+		} catch (Exception e){
+			return Type.INVALID
+		}
 	}
 
 	def dispatch Type type(Div division) {
-		evaluateNumeralTypes(division.left.type, division.right.type)
+		try {
+			evaluateNumeralTypes(division.left.type, division.right.type)
+		} catch (Exception e){
+			return Type.INVALID
+		}
 	}
 
 	def dispatch Type type(Negation negation) {
-		if (! negation.value.type.isNumberType) {
-			Type.INVALID
-		} else {
-			negation.value.type
-		} 
+		try {
+			if (! negation.value.type.isNumberType) {
+				Type.INVALID
+			} else {
+				negation.value.type
+			} 
+		} catch (Exception e){
+			return Type.INVALID
+		}
 	} 
  
 	def dispatch Type type(Exponent exponent) {
-		if (evaluateNumeralTypes(exponent.base.type, exponent.power.type) == Type.INVALID) {
-			Type.INVALID
-		} else {
-			Type.DOUBLE
+		try {
+			if (evaluateNumeralTypes(exponent.base.type, exponent.power.type) == Type.INVALID) {
+				Type.INVALID
+			} else {
+				Type.DOUBLE
+			}
+		} catch (Exception e){
+			return Type.INVALID
 		}
 	}
 	
@@ -173,17 +201,24 @@ class TypeChecker {
 				type = expression.type			
 		}
 			
-		type
+		type 
 	}
 	 
 	def dispatch Type type(FunctionInputType functionType){
-		switch (functionType){ 
-			org.xtext.mdsd.arduino.boardgenerator.ioT.Number: return Type.NUMBER
-			org.xtext.mdsd.arduino.boardgenerator.ioT.String: return Type.STRING
-			org.xtext.mdsd.arduino.boardgenerator.ioT.Bool: return Type.BOOLEAN
+		val name = functionType.name.toString
+		switch (name){   
+			case "num" : return Type.NUMBER
+			case "str" : return Type.STRING 
+			case "bool": return Type.BOOLEAN
 			default: return Type.INVALID
 		}
 	}
+	
+	def boolean ifInvalid(Type type){
+		if (type == Type.INVALID)
+			return true
+		return false
+	} 
 	
 	
 }

@@ -24,6 +24,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +35,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getIncludes <em>Includes</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getWifiConfig <em>Wifi Config</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getChannel <em>Channel</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getFunction <em>Function</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ModelImpl#getAbstractBoard <em>Abstract Board</em>}</li>
@@ -53,6 +55,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @ordered
    */
   protected EList<Include> includes;
+
+  /**
+   * The cached value of the '{@link #getWifiConfig() <em>Wifi Config</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getWifiConfig()
+   * @generated
+   * @ordered
+   */
+  protected EList<WifiConfig> wifiConfig;
 
   /**
    * The cached value of the '{@link #getChannel() <em>Channel</em>}' containment reference list.
@@ -136,6 +148,21 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
+  public EList<WifiConfig> getWifiConfig()
+  {
+    if (wifiConfig == null)
+    {
+      wifiConfig = new EObjectContainmentEList<WifiConfig>(WifiConfig.class, this, IoTPackage.MODEL__WIFI_CONFIG);
+    }
+    return wifiConfig;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EList<Channel> getChannel()
   {
     if (channel == null)
@@ -202,6 +229,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case IoTPackage.MODEL__INCLUDES:
         return ((InternalEList<?>)getIncludes()).basicRemove(otherEnd, msgs);
+      case IoTPackage.MODEL__WIFI_CONFIG:
+        return ((InternalEList<?>)getWifiConfig()).basicRemove(otherEnd, msgs);
       case IoTPackage.MODEL__CHANNEL:
         return ((InternalEList<?>)getChannel()).basicRemove(otherEnd, msgs);
       case IoTPackage.MODEL__FUNCTION:
@@ -226,6 +255,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case IoTPackage.MODEL__INCLUDES:
         return getIncludes();
+      case IoTPackage.MODEL__WIFI_CONFIG:
+        return getWifiConfig();
       case IoTPackage.MODEL__CHANNEL:
         return getChannel();
       case IoTPackage.MODEL__FUNCTION:
@@ -252,6 +283,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
       case IoTPackage.MODEL__INCLUDES:
         getIncludes().clear();
         getIncludes().addAll((Collection<? extends Include>)newValue);
+        return;
+      case IoTPackage.MODEL__WIFI_CONFIG:
+        getWifiConfig().clear();
+        getWifiConfig().addAll((Collection<? extends WifiConfig>)newValue);
         return;
       case IoTPackage.MODEL__CHANNEL:
         getChannel().clear();
@@ -286,6 +321,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
       case IoTPackage.MODEL__INCLUDES:
         getIncludes().clear();
         return;
+      case IoTPackage.MODEL__WIFI_CONFIG:
+        getWifiConfig().clear();
+        return;
       case IoTPackage.MODEL__CHANNEL:
         getChannel().clear();
         return;
@@ -314,6 +352,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
     {
       case IoTPackage.MODEL__INCLUDES:
         return includes != null && !includes.isEmpty();
+      case IoTPackage.MODEL__WIFI_CONFIG:
+        return wifiConfig != null && !wifiConfig.isEmpty();
       case IoTPackage.MODEL__CHANNEL:
         return channel != null && !channel.isEmpty();
       case IoTPackage.MODEL__FUNCTION:

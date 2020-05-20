@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
@@ -47,36 +47,36 @@ public class TypeChecker {
   }
   
   protected TypeChecker.Type _type(final NumberLiteral number) {
-    TypeChecker.Type _xblockexpression = null;
-    {
+    try {
       final String value = number.getNumb();
-      TypeChecker.Type _switchResult = null;
       boolean _matched = false;
       boolean _contains = value.contains(".");
       if (_contains) {
         _matched=true;
-        _switchResult = TypeChecker.Type.DOUBLE;
+        return TypeChecker.Type.DOUBLE;
       }
       if (!_matched) {
         boolean _contains_1 = value.contains("0x");
         if (_contains_1) {
           _matched=true;
-          _switchResult = TypeChecker.Type.INT;
+          return TypeChecker.Type.INT;
         }
       }
       if (!_matched) {
         boolean _contains_2 = value.toLowerCase().contains("e");
         if (_contains_2) {
           _matched=true;
-          _switchResult = TypeChecker.Type.DOUBLE;
+          return TypeChecker.Type.DOUBLE;
         }
       }
-      if (!_matched) {
-        _switchResult = TypeChecker.Type.INT;
+      return TypeChecker.Type.INT;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return TypeChecker.Type.INVALID;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
       }
-      _xblockexpression = _switchResult;
     }
-    return _xblockexpression;
   }
   
   protected TypeChecker.Type _type(final StringLiteral str) {
@@ -197,49 +197,109 @@ public class TypeChecker {
   }
   
   protected TypeChecker.Type _type(final Plus plus) {
-    TypeChecker.Type _xifexpression = null;
-    if ((Objects.equal(this.type(plus.getLeft()), TypeChecker.Type.STRING) || Objects.equal(this.type(plus.getRight()), TypeChecker.Type.STRING))) {
-      _xifexpression = TypeChecker.Type.STRING;
-    } else {
-      _xifexpression = this.evaluateNumeralTypes(this.type(plus.getLeft()), this.type(plus.getRight()));
+    TypeChecker.Type _xtrycatchfinallyexpression = null;
+    try {
+      TypeChecker.Type _xifexpression = null;
+      if ((Objects.equal(this.type(plus.getLeft()), TypeChecker.Type.STRING) || Objects.equal(this.type(plus.getRight()), TypeChecker.Type.STRING))) {
+        _xifexpression = TypeChecker.Type.STRING;
+      } else {
+        _xifexpression = this.evaluateNumeralTypes(this.type(plus.getLeft()), this.type(plus.getRight()));
+      }
+      _xtrycatchfinallyexpression = _xifexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return TypeChecker.Type.INVALID;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
     }
-    return _xifexpression;
+    return _xtrycatchfinallyexpression;
   }
   
   protected TypeChecker.Type _type(final Minus minus) {
-    return this.evaluateNumeralTypes(this.type(minus.getLeft()), this.type(minus.getRight()));
+    TypeChecker.Type _xtrycatchfinallyexpression = null;
+    try {
+      _xtrycatchfinallyexpression = this.evaluateNumeralTypes(this.type(minus.getLeft()), this.type(minus.getRight()));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return TypeChecker.Type.INVALID;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
   }
   
   protected TypeChecker.Type _type(final Mul multiply) {
-    return this.evaluateNumeralTypes(this.type(multiply.getLeft()), this.type(multiply.getRight()));
+    TypeChecker.Type _xtrycatchfinallyexpression = null;
+    try {
+      _xtrycatchfinallyexpression = this.evaluateNumeralTypes(this.type(multiply.getLeft()), this.type(multiply.getRight()));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return TypeChecker.Type.INVALID;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
   }
   
   protected TypeChecker.Type _type(final Div division) {
-    return this.evaluateNumeralTypes(this.type(division.getLeft()), this.type(division.getRight()));
+    TypeChecker.Type _xtrycatchfinallyexpression = null;
+    try {
+      _xtrycatchfinallyexpression = this.evaluateNumeralTypes(this.type(division.getLeft()), this.type(division.getRight()));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return TypeChecker.Type.INVALID;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
   }
   
   protected TypeChecker.Type _type(final Negation negation) {
-    TypeChecker.Type _xifexpression = null;
-    boolean _isNumberType = this.isNumberType(this.type(negation.getValue()));
-    boolean _not = (!_isNumberType);
-    if (_not) {
-      _xifexpression = TypeChecker.Type.INVALID;
-    } else {
-      _xifexpression = this.type(negation.getValue());
+    TypeChecker.Type _xtrycatchfinallyexpression = null;
+    try {
+      TypeChecker.Type _xifexpression = null;
+      boolean _isNumberType = this.isNumberType(this.type(negation.getValue()));
+      boolean _not = (!_isNumberType);
+      if (_not) {
+        _xifexpression = TypeChecker.Type.INVALID;
+      } else {
+        _xifexpression = this.type(negation.getValue());
+      }
+      _xtrycatchfinallyexpression = _xifexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return TypeChecker.Type.INVALID;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
     }
-    return _xifexpression;
+    return _xtrycatchfinallyexpression;
   }
   
   protected TypeChecker.Type _type(final Exponent exponent) {
-    TypeChecker.Type _xifexpression = null;
-    TypeChecker.Type _evaluateNumeralTypes = this.evaluateNumeralTypes(this.type(exponent.getBase()), this.type(exponent.getPower()));
-    boolean _equals = Objects.equal(_evaluateNumeralTypes, TypeChecker.Type.INVALID);
-    if (_equals) {
-      _xifexpression = TypeChecker.Type.INVALID;
-    } else {
-      _xifexpression = TypeChecker.Type.DOUBLE;
+    TypeChecker.Type _xtrycatchfinallyexpression = null;
+    try {
+      TypeChecker.Type _xifexpression = null;
+      TypeChecker.Type _evaluateNumeralTypes = this.evaluateNumeralTypes(this.type(exponent.getBase()), this.type(exponent.getPower()));
+      boolean _equals = Objects.equal(_evaluateNumeralTypes, TypeChecker.Type.INVALID);
+      if (_equals) {
+        _xifexpression = TypeChecker.Type.INVALID;
+      } else {
+        _xifexpression = TypeChecker.Type.DOUBLE;
+      }
+      _xtrycatchfinallyexpression = _xifexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        return TypeChecker.Type.INVALID;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
     }
-    return _xifexpression;
+    return _xtrycatchfinallyexpression;
   }
   
   public EObject getPipelineChildOf(final EObject pipeline) {
@@ -279,24 +339,29 @@ public class TypeChecker {
   }
   
   protected TypeChecker.Type _type(final FunctionInputType functionType) {
-    boolean _matched = false;
-    if (functionType instanceof org.xtext.mdsd.arduino.boardgenerator.ioT.Number) {
-      _matched=true;
-      return TypeChecker.Type.NUMBER;
-    }
-    if (!_matched) {
-      if (functionType instanceof org.xtext.mdsd.arduino.boardgenerator.ioT.String) {
-        _matched=true;
-        return TypeChecker.Type.STRING;
+    final String name = functionType.getName().toString();
+    if (name != null) {
+      switch (name) {
+        case "num":
+          return TypeChecker.Type.NUMBER;
+        case "str":
+          return TypeChecker.Type.STRING;
+        case "bool":
+          return TypeChecker.Type.BOOLEAN;
+        default:
+          return TypeChecker.Type.INVALID;
       }
+    } else {
+      return TypeChecker.Type.INVALID;
     }
-    if (!_matched) {
-      if (functionType instanceof Bool) {
-        _matched=true;
-        return TypeChecker.Type.BOOLEAN;
-      }
+  }
+  
+  public boolean ifInvalid(final TypeChecker.Type type) {
+    boolean _equals = Objects.equal(type, TypeChecker.Type.INVALID);
+    if (_equals) {
+      return true;
     }
-    return TypeChecker.Type.INVALID;
+    return false;
   }
   
   public TypeChecker.Type type(final EObject bool) {

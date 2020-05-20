@@ -3,8 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import java.lang.String;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board#getWifiSelect <em>Wifi Select</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board#getSensors <em>Sensors</em>}</li>
  * </ul>
  *
@@ -49,6 +48,28 @@ public interface Board extends EObject
    * @generated
    */
   void setName(String value);
+
+  /**
+   * Returns the value of the '<em><b>Wifi Select</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Wifi Select</em>' reference.
+   * @see #setWifiSelect(WifiConfig)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getBoard_WifiSelect()
+   * @model
+   * @generated
+   */
+  WifiConfig getWifiSelect();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Board#getWifiSelect <em>Wifi Select</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Wifi Select</em>' reference.
+   * @see #getWifiSelect()
+   * @generated
+   */
+  void setWifiSelect(WifiConfig value);
 
   /**
    * Returns the value of the '<em><b>Sensors</b></em>' containment reference list.

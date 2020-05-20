@@ -8,7 +8,10 @@ import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration
 import org.xtext.mdsd.arduino.bordgenerator.ui.syntaxColoring.IoTHighlightingConfiguration
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider
 import org.xtext.mdsd.arduino.boardgenerator.hover.IoTHoverProvider
- 
+import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator
+import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator
+import org.xtext.mdsd.arduino.bordgenerator.ui.syntaxColoring.IoTSemanticHighlightConfiguration
+
 /** 
  * Use this class to register components to be used within the Eclipse IDE.
  */
@@ -22,4 +25,8 @@ class IoTUiModule extends AbstractIoTUiModule {
 	def Class<? extends IEObjectHoverProvider> bindIEObjectHoverProvider() {
 	    IoTHoverProvider
 	} 
+	 
+	def Class<? extends DefaultSemanticHighlightingCalculator> bindISemanticHighlightingCalculator(){
+		IoTSemanticHighlightConfiguration
+	}
 }

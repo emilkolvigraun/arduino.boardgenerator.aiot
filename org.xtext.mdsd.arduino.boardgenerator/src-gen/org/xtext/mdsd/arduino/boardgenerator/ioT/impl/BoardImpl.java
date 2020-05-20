@@ -3,8 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
-import java.lang.String;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -24,6 +22,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +33,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardImpl#getWifiSelect <em>Wifi Select</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardImpl#getSensors <em>Sensors</em>}</li>
  * </ul>
  *
@@ -60,6 +60,16 @@ public class BoardImpl extends MinimalEObjectImpl.Container implements Board
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getWifiSelect() <em>Wifi Select</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getWifiSelect()
+   * @generated
+   * @ordered
+   */
+  protected WifiConfig wifiSelect;
 
   /**
    * The cached value of the '{@link #getSensors() <em>Sensors</em>}' containment reference list.
@@ -123,6 +133,51 @@ public class BoardImpl extends MinimalEObjectImpl.Container implements Board
    * @generated
    */
   @Override
+  public WifiConfig getWifiSelect()
+  {
+    if (wifiSelect != null && wifiSelect.eIsProxy())
+    {
+      InternalEObject oldWifiSelect = (InternalEObject)wifiSelect;
+      wifiSelect = (WifiConfig)eResolveProxy(oldWifiSelect);
+      if (wifiSelect != oldWifiSelect)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, IoTPackage.BOARD__WIFI_SELECT, oldWifiSelect, wifiSelect));
+      }
+    }
+    return wifiSelect;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public WifiConfig basicGetWifiSelect()
+  {
+    return wifiSelect;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setWifiSelect(WifiConfig newWifiSelect)
+  {
+    WifiConfig oldWifiSelect = wifiSelect;
+    wifiSelect = newWifiSelect;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.BOARD__WIFI_SELECT, oldWifiSelect, wifiSelect));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EList<Sensor> getSensors()
   {
     if (sensors == null)
@@ -160,6 +215,9 @@ public class BoardImpl extends MinimalEObjectImpl.Container implements Board
     {
       case IoTPackage.BOARD__NAME:
         return getName();
+      case IoTPackage.BOARD__WIFI_SELECT:
+        if (resolve) return getWifiSelect();
+        return basicGetWifiSelect();
       case IoTPackage.BOARD__SENSORS:
         return getSensors();
     }
@@ -179,6 +237,9 @@ public class BoardImpl extends MinimalEObjectImpl.Container implements Board
     {
       case IoTPackage.BOARD__NAME:
         setName((String)newValue);
+        return;
+      case IoTPackage.BOARD__WIFI_SELECT:
+        setWifiSelect((WifiConfig)newValue);
         return;
       case IoTPackage.BOARD__SENSORS:
         getSensors().clear();
@@ -201,6 +262,9 @@ public class BoardImpl extends MinimalEObjectImpl.Container implements Board
       case IoTPackage.BOARD__NAME:
         setName(NAME_EDEFAULT);
         return;
+      case IoTPackage.BOARD__WIFI_SELECT:
+        setWifiSelect((WifiConfig)null);
+        return;
       case IoTPackage.BOARD__SENSORS:
         getSensors().clear();
         return;
@@ -220,6 +284,8 @@ public class BoardImpl extends MinimalEObjectImpl.Container implements Board
     {
       case IoTPackage.BOARD__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case IoTPackage.BOARD__WIFI_SELECT:
+        return wifiSelect != null;
       case IoTPackage.BOARD__SENSORS:
         return sensors != null && !sensors.isEmpty();
     }

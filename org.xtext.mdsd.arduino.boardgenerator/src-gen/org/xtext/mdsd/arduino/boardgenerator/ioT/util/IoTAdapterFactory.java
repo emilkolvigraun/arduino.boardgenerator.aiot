@@ -15,11 +15,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
@@ -44,7 +42,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
@@ -75,7 +72,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
@@ -167,14 +163,14 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createImportObjectAdapter();
       }
       @Override
+      public Adapter caseWifiConfig(WifiConfig object)
+      {
+        return createWifiConfigAdapter();
+      }
+      @Override
       public Adapter caseChannel(Channel object)
       {
         return createChannelAdapter();
-      }
-      @Override
-      public Adapter caseChannelType(ChannelType object)
-      {
-        return createChannelTypeAdapter();
       }
       @Override
       public Adapter caseChannelConfig(ChannelConfig object)
@@ -352,21 +348,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createBooleanLiteralAdapter();
       }
       @Override
-      public Adapter caseWifiConfig(WifiConfig object)
-      {
-        return createWifiConfigAdapter();
-      }
-      @Override
-      public Adapter caseSerialConfig(SerialConfig object)
-      {
-        return createSerialConfigAdapter();
-      }
-      @Override
-      public Adapter caseMQTT(MQTT object)
-      {
-        return createMQTTAdapter();
-      }
-      @Override
       public Adapter caseChar(Char object)
       {
         return createCharAdapter();
@@ -375,21 +356,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseByte(org.xtext.mdsd.arduino.boardgenerator.ioT.Byte object)
       {
         return createByteAdapter();
-      }
-      @Override
-      public Adapter caseNumber(org.xtext.mdsd.arduino.boardgenerator.ioT.Number object)
-      {
-        return createNumberAdapter();
-      }
-      @Override
-      public Adapter caseString(org.xtext.mdsd.arduino.boardgenerator.ioT.String object)
-      {
-        return createStringAdapter();
-      }
-      @Override
-      public Adapter caseBool(Bool object)
-      {
-        return createBoolAdapter();
       }
       @Override
       public Adapter caseSeconds(Seconds object)
@@ -614,6 +580,21 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig <em>Wifi Config</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
+   * @generated
+   */
+  public Adapter createWifiConfigAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel <em>Channel</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -624,21 +605,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createChannelAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType <em>Channel Type</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType
-   * @generated
-   */
-  public Adapter createChannelTypeAdapter()
   {
     return null;
   }
@@ -1169,51 +1135,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig <em>Wifi Config</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
-   * @generated
-   */
-  public Adapter createWifiConfigAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig <em>Serial Config</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig
-   * @generated
-   */
-  public Adapter createSerialConfigAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT <em>MQTT</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT
-   * @generated
-   */
-  public Adapter createMQTTAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Char <em>Char</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1239,51 +1160,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createByteAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Number <em>Number</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Number
-   * @generated
-   */
-  public Adapter createNumberAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.String <em>String</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.String
-   * @generated
-   */
-  public Adapter createStringAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Bool <em>Bool</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Bool
-   * @generated
-   */
-  public Adapter createBoolAdapter()
   {
     return null;
   }

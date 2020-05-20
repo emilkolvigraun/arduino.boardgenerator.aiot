@@ -3,7 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import java.lang.String;
 
 /**
  * <!-- begin-user-doc -->

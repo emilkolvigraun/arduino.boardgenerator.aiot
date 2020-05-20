@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getIncludes <em>Includes</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getWifiConfig <em>Wifi Config</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getChannel <em>Channel</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getFunction <em>Function</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Model#getAbstractBoard <em>Abstract Board</em>}</li>
@@ -40,6 +41,18 @@ public interface Model extends EObject
    * @generated
    */
   EList<Include> getIncludes();
+
+  /**
+   * Returns the value of the '<em><b>Wifi Config</b></em>' containment reference list.
+   * The list contents are of type {@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Wifi Config</em>' containment reference list.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getModel_WifiConfig()
+   * @model containment="true"
+   * @generated
+   */
+  EList<WifiConfig> getWifiConfig();
 
   /**
    * Returns the value of the '<em><b>Channel</b></em>' containment reference list.

@@ -3,8 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
-import java.lang.String;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -16,7 +14,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 
 /**
@@ -27,7 +24,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl#getChanneltype <em>Channeltype</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelImpl#getConfig <em>Config</em>}</li>
  * </ul>
@@ -36,16 +32,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
  */
 public class ChannelImpl extends MinimalEObjectImpl.Container implements Channel
 {
-  /**
-   * The cached value of the '{@link #getChanneltype() <em>Channeltype</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getChanneltype()
-   * @generated
-   * @ordered
-   */
-  protected ChannelType channeltype;
-
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -95,56 +81,6 @@ public class ChannelImpl extends MinimalEObjectImpl.Container implements Channel
   protected EClass eStaticClass()
   {
     return IoTPackage.Literals.CHANNEL;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ChannelType getChanneltype()
-  {
-    return channeltype;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetChanneltype(ChannelType newChanneltype, NotificationChain msgs)
-  {
-    ChannelType oldChanneltype = channeltype;
-    channeltype = newChanneltype;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.CHANNEL__CHANNELTYPE, oldChanneltype, newChanneltype);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setChanneltype(ChannelType newChanneltype)
-  {
-    if (newChanneltype != channeltype)
-    {
-      NotificationChain msgs = null;
-      if (channeltype != null)
-        msgs = ((InternalEObject)channeltype).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.CHANNEL__CHANNELTYPE, null, msgs);
-      if (newChanneltype != null)
-        msgs = ((InternalEObject)newChanneltype).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.CHANNEL__CHANNELTYPE, null, msgs);
-      msgs = basicSetChanneltype(newChanneltype, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.CHANNEL__CHANNELTYPE, newChanneltype, newChanneltype));
   }
 
   /**
@@ -232,8 +168,6 @@ public class ChannelImpl extends MinimalEObjectImpl.Container implements Channel
   {
     switch (featureID)
     {
-      case IoTPackage.CHANNEL__CHANNELTYPE:
-        return basicSetChanneltype(null, msgs);
       case IoTPackage.CHANNEL__CONFIG:
         return basicSetConfig(null, msgs);
     }
@@ -250,8 +184,6 @@ public class ChannelImpl extends MinimalEObjectImpl.Container implements Channel
   {
     switch (featureID)
     {
-      case IoTPackage.CHANNEL__CHANNELTYPE:
-        return getChanneltype();
       case IoTPackage.CHANNEL__NAME:
         return getName();
       case IoTPackage.CHANNEL__CONFIG:
@@ -270,9 +202,6 @@ public class ChannelImpl extends MinimalEObjectImpl.Container implements Channel
   {
     switch (featureID)
     {
-      case IoTPackage.CHANNEL__CHANNELTYPE:
-        setChanneltype((ChannelType)newValue);
-        return;
       case IoTPackage.CHANNEL__NAME:
         setName((String)newValue);
         return;
@@ -293,9 +222,6 @@ public class ChannelImpl extends MinimalEObjectImpl.Container implements Channel
   {
     switch (featureID)
     {
-      case IoTPackage.CHANNEL__CHANNELTYPE:
-        setChanneltype((ChannelType)null);
-        return;
       case IoTPackage.CHANNEL__NAME:
         setName(NAME_EDEFAULT);
         return;
@@ -316,8 +242,6 @@ public class ChannelImpl extends MinimalEObjectImpl.Container implements Channel
   {
     switch (featureID)
     {
-      case IoTPackage.CHANNEL__CHANNELTYPE:
-        return channeltype != null;
       case IoTPackage.CHANNEL__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case IoTPackage.CHANNEL__CONFIG:

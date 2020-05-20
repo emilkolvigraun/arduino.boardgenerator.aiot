@@ -11,6 +11,7 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.IoTValidator
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 
 /**
  * Custom quickfixes.
@@ -29,6 +30,28 @@ class IoTQuickfixProvider extends DefaultQuickfixProvider {
 					pins += '''«i», '''
 				}
 				context.xtextDocument.replace(NodeModelUtils.getNode(element).endOffset, 0, ''' («pins.substring(0, pins.length-2)»)''')
+			]) 
+	}
+	
+	@Fix(IoTValidator.INVALID_TYPE)
+	def invalidExternalType(Issue issue, IssueResolutionAcceptor acceptor){ 
+		acceptor.accept(issue, '''Change to string - "str"''',   
+			null, null, [element, context |      
+				var node = NodeModelUtils.getNode(element)
+				var ftype = element.getContainerOfType(FunctionInputType) 
+				context.xtextDocument.replace(node.endOffset-ftype.name.length, ftype.name.length, '''str''')
+			])   
+		acceptor.accept(issue, '''Change to number - "num"''',   
+			null, null, [element, context |      
+				var node = NodeModelUtils.getNode(element)  
+				var ftype = element.getContainerOfType(FunctionInputType)  
+				context.xtextDocument.replace(node.endOffset-ftype.name.length, ftype.name.length, '''num''')
+			])   
+		acceptor.accept(issue, '''Change to boolean - "bool"''',    
+			null, null, [element, context |     
+				var node = NodeModelUtils.getNode(element)  
+				var ftype = element.getContainerOfType(FunctionInputType)
+				context.xtextDocument.replace(node.endOffset-ftype.name.length, ftype.name.length, '''bool''')
 			]) 
 	}
 }

@@ -12,6 +12,9 @@ import com.google.inject.Inject
 import java.util.List
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
 
 /* Generates code from your model files on save.
  * 
@@ -43,21 +46,33 @@ class IoTGenerator extends AbstractGenerator {
 							 
 							«board.generatorBoardCode(channels.toList)»
 						 '''
-			fsa.generateFile('''«currentBoard»/Device.ino''',  content)	
-			fsa.generateFile('''«currentBoard»/config.json''', content)	 
+			fsa.generateFile('''«currentBoard»/Device.ino''',  content)	 
+			fsa.generateFile('''«currentBoard»/config.json''', channels.toList.generateConfigFile)	 
 		}
 	}  
 	
 	def String generateConfigFile(List<Channel> channels){
 		 '''
-		 	{
+		 	{ 
 		 	«FOR channel : channels»
 		 	"«channel.name»":{
-	 				
-	 			} 
+		 			«channel.channelConfiguration»
+		 		} 
 		 	«ENDFOR»
-		 	}
+		 	} 
 		 '''
+	}
+	 
+	def String getChannelConfiguration(Channel channel){
+		val type = channel.config  
+		if (type instanceof Wifi){
+			return  '''
+					'''		
+		} else if (type instanceof Serial){
+			
+		} else if (type instanceof MqttClient){
+			
+		}
 	}
 	
 	def String generatorBoardCode(Board board, List<Channel> channels){

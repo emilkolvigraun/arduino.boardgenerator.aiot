@@ -7,7 +7,6 @@ import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy
 import org.eclipse.xtext.scoping.IGlobalScopeProvider
 import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider
 import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTResourceDescriptionStrategy
-
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */

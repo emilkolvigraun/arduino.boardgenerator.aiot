@@ -13,11 +13,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Bool;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
@@ -42,7 +40,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
@@ -73,7 +70,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
@@ -170,17 +166,17 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case IoTPackage.WIFI_CONFIG:
+      {
+        WifiConfig wifiConfig = (WifiConfig)theEObject;
+        T result = caseWifiConfig(wifiConfig);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case IoTPackage.CHANNEL:
       {
         Channel channel = (Channel)theEObject;
         T result = caseChannel(channel);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.CHANNEL_TYPE:
-      {
-        ChannelType channelType = (ChannelType)theEObject;
-        T result = caseChannelType(channelType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -446,30 +442,6 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.WIFI_CONFIG:
-      {
-        WifiConfig wifiConfig = (WifiConfig)theEObject;
-        T result = caseWifiConfig(wifiConfig);
-        if (result == null) result = caseChannelType(wifiConfig);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.SERIAL_CONFIG:
-      {
-        SerialConfig serialConfig = (SerialConfig)theEObject;
-        T result = caseSerialConfig(serialConfig);
-        if (result == null) result = caseChannelType(serialConfig);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.MQTT:
-      {
-        MQTT mqtt = (MQTT)theEObject;
-        T result = caseMQTT(mqtt);
-        if (result == null) result = caseChannelType(mqtt);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case IoTPackage.CHAR:
       {
         Char char_ = (Char)theEObject;
@@ -483,30 +455,6 @@ public class IoTSwitch<T> extends Switch<T>
         org.xtext.mdsd.arduino.boardgenerator.ioT.Byte byte_ = (org.xtext.mdsd.arduino.boardgenerator.ioT.Byte)theEObject;
         T result = caseByte(byte_);
         if (result == null) result = casestopChar(byte_);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.NUMBER:
-      {
-        org.xtext.mdsd.arduino.boardgenerator.ioT.Number number = (org.xtext.mdsd.arduino.boardgenerator.ioT.Number)theEObject;
-        T result = caseNumber(number);
-        if (result == null) result = caseFunctionInputType(number);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.STRING:
-      {
-        org.xtext.mdsd.arduino.boardgenerator.ioT.String string = (org.xtext.mdsd.arduino.boardgenerator.ioT.String)theEObject;
-        T result = caseString(string);
-        if (result == null) result = caseFunctionInputType(string);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.BOOL:
-      {
-        Bool bool = (Bool)theEObject;
-        T result = caseBool(bool);
-        if (result == null) result = caseFunctionInputType(bool);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -815,6 +763,22 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Wifi Config</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Wifi Config</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseWifiConfig(WifiConfig object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Channel</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -826,22 +790,6 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseChannel(Channel object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Channel Type</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Channel Type</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseChannelType(ChannelType object)
   {
     return null;
   }
@@ -1407,54 +1355,6 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Wifi Config</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Wifi Config</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseWifiConfig(WifiConfig object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Serial Config</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Serial Config</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseSerialConfig(SerialConfig object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>MQTT</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>MQTT</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseMQTT(MQTT object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Char</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1482,54 +1382,6 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseByte(org.xtext.mdsd.arduino.boardgenerator.ioT.Byte object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Number</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Number</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseNumber(org.xtext.mdsd.arduino.boardgenerator.ioT.Number object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>String</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>String</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseString(org.xtext.mdsd.arduino.boardgenerator.ioT.String object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Bool</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Bool</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseBool(Bool object)
   {
     return null;
   }

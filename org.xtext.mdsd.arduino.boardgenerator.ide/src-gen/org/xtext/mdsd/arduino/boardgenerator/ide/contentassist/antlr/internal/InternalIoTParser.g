@@ -62,14 +62,13 @@ import org.xtext.mdsd.arduino.boardgenerator.services.IoTGrammarAccess;
 		tokenNameToValue.put("Map", "'map'");
 		tokenNameToValue.put("Max", "'max'");
 		tokenNameToValue.put("Min", "'min'");
+		tokenNameToValue.put("Url", "'url'");
 		tokenNameToValue.put("Var", "'var'");
 		tokenNameToValue.put("Vcc", "'vcc'");
 		tokenNameToValue.put("Baud", "'baud'");
-		tokenNameToValue.put("Bool", "'bool'");
 		tokenNameToValue.put("Byte", "'byte'");
 		tokenNameToValue.put("Char", "'char'");
 		tokenNameToValue.put("Mean", "'mean'");
-		tokenNameToValue.put("Mqtt", "'mqtt'");
 		tokenNameToValue.put("Pass", "'pass'");
 		tokenNameToValue.put("Pipe", "'pipe'");
 		tokenNameToValue.put("Port", "'port'");
@@ -80,17 +79,15 @@ import org.xtext.mdsd.arduino.boardgenerator.services.IoTGrammarAccess;
 		tokenNameToValue.put("Board", "'board'");
 		tokenNameToValue.put("Count", "'count'");
 		tokenNameToValue.put("Model", "'model'");
+		tokenNameToValue.put("Route", "'route'");
 		tokenNameToValue.put("Stdev", "'stdev'");
 		tokenNameToValue.put("Topic", "'topic'");
 		tokenNameToValue.put("Broker", "'broker'");
 		tokenNameToValue.put("Filter", "'filter'");
 		tokenNameToValue.put("Median", "'median'");
-		tokenNameToValue.put("Number", "'number'");
 		tokenNameToValue.put("Reduce", "'reduce'");
 		tokenNameToValue.put("Sample", "'sample'");
 		tokenNameToValue.put("Sensor", "'sensor'");
-		tokenNameToValue.put("Serial", "'serial'");
-		tokenNameToValue.put("String", "'string'");
 		tokenNameToValue.put("Channel", "'channel'");
 		tokenNameToValue.put("Command", "'command'");
 		tokenNameToValue.put("Extends", "'extends'");
@@ -172,6 +169,31 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+// Entry rule entryRuleWifiConfig
+entryRuleWifiConfig
+:
+{ before(grammarAccess.getWifiConfigRule()); }
+	 ruleWifiConfig
+{ after(grammarAccess.getWifiConfigRule()); } 
+	 EOF 
+;
+
+// Rule WifiConfig
+ruleWifiConfig 
+	@init {
+		int stackSize = keepStackSize();
+	}
+	:
+	(
+		{ before(grammarAccess.getWifiConfigAccess().getGroup()); }
+		(rule__WifiConfig__Group__0)
+		{ after(grammarAccess.getWifiConfigAccess().getGroup()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
 // Entry rule entryRuleChannel
 entryRuleChannel
 :
@@ -191,31 +213,6 @@ ruleChannel
 		{ before(grammarAccess.getChannelAccess().getGroup()); }
 		(rule__Channel__Group__0)
 		{ after(grammarAccess.getChannelAccess().getGroup()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-// Entry rule entryRuleChannelType
-entryRuleChannelType
-:
-{ before(grammarAccess.getChannelTypeRule()); }
-	 ruleChannelType
-{ after(grammarAccess.getChannelTypeRule()); } 
-	 EOF 
-;
-
-// Rule ChannelType
-ruleChannelType 
-	@init {
-		int stackSize = keepStackSize();
-	}
-	:
-	(
-		{ before(grammarAccess.getChannelTypeAccess().getAlternatives()); }
-		(rule__ChannelType__Alternatives)
-		{ after(grammarAccess.getChannelTypeAccess().getAlternatives()); }
 	)
 ;
 finally {
@@ -388,9 +385,9 @@ ruleFunctionInputType
 	}
 	:
 	(
-		{ before(grammarAccess.getFunctionInputTypeAccess().getAlternatives()); }
-		(rule__FunctionInputType__Alternatives)
-		{ after(grammarAccess.getFunctionInputTypeAccess().getAlternatives()); }
+		{ before(grammarAccess.getFunctionInputTypeAccess().getNameAssignment()); }
+		(rule__FunctionInputType__NameAssignment)
+		{ after(grammarAccess.getFunctionInputTypeAccess().getNameAssignment()); }
 	)
 ;
 finally {
@@ -1405,33 +1402,6 @@ finally {
 	myHiddenTokenState.restore();
 }
 
-rule__ChannelType__Alternatives
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getChannelTypeAccess().getGroup_0()); }
-		(rule__ChannelType__Group_0__0)
-		{ after(grammarAccess.getChannelTypeAccess().getGroup_0()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getChannelTypeAccess().getGroup_1()); }
-		(rule__ChannelType__Group_1__0)
-		{ after(grammarAccess.getChannelTypeAccess().getGroup_1()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getChannelTypeAccess().getGroup_2()); }
-		(rule__ChannelType__Group_2__0)
-		{ after(grammarAccess.getChannelTypeAccess().getGroup_2()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
 rule__ChannelConfig__Alternatives
 	@init {
 		int stackSize = keepStackSize();
@@ -1474,33 +1444,6 @@ rule__StopChar__Alternatives
 		{ before(grammarAccess.getStopCharAccess().getGroup_1()); }
 		(rule__StopChar__Group_1__0)
 		{ after(grammarAccess.getStopCharAccess().getGroup_1()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Alternatives
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getFunctionInputTypeAccess().getGroup_0()); }
-		(rule__FunctionInputType__Group_0__0)
-		{ after(grammarAccess.getFunctionInputTypeAccess().getGroup_0()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getFunctionInputTypeAccess().getGroup_1()); }
-		(rule__FunctionInputType__Group_1__0)
-		{ after(grammarAccess.getFunctionInputTypeAccess().getGroup_1()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getFunctionInputTypeAccess().getGroup_2()); }
-		(rule__FunctionInputType__Group_2__0)
-		{ after(grammarAccess.getFunctionInputTypeAccess().getGroup_2()); }
 	)
 ;
 finally {
@@ -1963,9 +1906,9 @@ rule__Model__Group__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getModelAccess().getChannelAssignment_1()); }
-	(rule__Model__ChannelAssignment_1)*
-	{ after(grammarAccess.getModelAccess().getChannelAssignment_1()); }
+	{ before(grammarAccess.getModelAccess().getWifiConfigAssignment_1()); }
+	(rule__Model__WifiConfigAssignment_1)*
+	{ after(grammarAccess.getModelAccess().getWifiConfigAssignment_1()); }
 )
 ;
 finally {
@@ -1990,9 +1933,9 @@ rule__Model__Group__2__Impl
 	}
 :
 (
-	{ before(grammarAccess.getModelAccess().getFunctionAssignment_2()); }
-	(rule__Model__FunctionAssignment_2)*
-	{ after(grammarAccess.getModelAccess().getFunctionAssignment_2()); }
+	{ before(grammarAccess.getModelAccess().getChannelAssignment_2()); }
+	(rule__Model__ChannelAssignment_2)*
+	{ after(grammarAccess.getModelAccess().getChannelAssignment_2()); }
 )
 ;
 finally {
@@ -2017,9 +1960,9 @@ rule__Model__Group__3__Impl
 	}
 :
 (
-	{ before(grammarAccess.getModelAccess().getAbstractBoardAssignment_3()); }
-	(rule__Model__AbstractBoardAssignment_3)*
-	{ after(grammarAccess.getModelAccess().getAbstractBoardAssignment_3()); }
+	{ before(grammarAccess.getModelAccess().getFunctionAssignment_3()); }
+	(rule__Model__FunctionAssignment_3)*
+	{ after(grammarAccess.getModelAccess().getFunctionAssignment_3()); }
 )
 ;
 finally {
@@ -2032,6 +1975,7 @@ rule__Model__Group__4
 	}
 :
 	rule__Model__Group__4__Impl
+	rule__Model__Group__5
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -2043,9 +1987,35 @@ rule__Model__Group__4__Impl
 	}
 :
 (
-	{ before(grammarAccess.getModelAccess().getBoardAssignment_4()); }
-	(rule__Model__BoardAssignment_4)*
-	{ after(grammarAccess.getModelAccess().getBoardAssignment_4()); }
+	{ before(grammarAccess.getModelAccess().getAbstractBoardAssignment_4()); }
+	(rule__Model__AbstractBoardAssignment_4)*
+	{ after(grammarAccess.getModelAccess().getAbstractBoardAssignment_4()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Model__Group__5
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__Model__Group__5__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Model__Group__5__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getModelAccess().getBoardAssignment_5()); }
+	(rule__Model__BoardAssignment_5)*
+	{ after(grammarAccess.getModelAccess().getBoardAssignment_5()); }
 )
 ;
 finally {
@@ -2188,6 +2158,276 @@ finally {
 }
 
 
+rule__WifiConfig__Group__0
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__0__Impl
+	rule__WifiConfig__Group__1
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__0__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getWifiKeyword_0()); }
+	Wifi
+	{ after(grammarAccess.getWifiConfigAccess().getWifiKeyword_0()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__1
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__1__Impl
+	rule__WifiConfig__Group__2
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__1__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getNameAssignment_1()); }
+	(rule__WifiConfig__NameAssignment_1)
+	{ after(grammarAccess.getWifiConfigAccess().getNameAssignment_1()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__2
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__2__Impl
+	rule__WifiConfig__Group__3
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__2__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getColonKeyword_2()); }
+	Colon
+	{ after(grammarAccess.getWifiConfigAccess().getColonKeyword_2()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__3__Impl
+	rule__WifiConfig__Group__4
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__3__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getBEGINTerminalRuleCall_3()); }
+	RULE_BEGIN
+	{ after(grammarAccess.getWifiConfigAccess().getBEGINTerminalRuleCall_3()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__4
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__4__Impl
+	rule__WifiConfig__Group__5
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__4__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getSsidKeyword_4()); }
+	Ssid
+	{ after(grammarAccess.getWifiConfigAccess().getSsidKeyword_4()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__5
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__5__Impl
+	rule__WifiConfig__Group__6
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__5__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getSsidAssignment_5()); }
+	(rule__WifiConfig__SsidAssignment_5)
+	{ after(grammarAccess.getWifiConfigAccess().getSsidAssignment_5()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__6
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__6__Impl
+	rule__WifiConfig__Group__7
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__6__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getGroup_6()); }
+	(rule__WifiConfig__Group_6__0)?
+	{ after(grammarAccess.getWifiConfigAccess().getGroup_6()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__7
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group__7__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group__7__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getENDTerminalRuleCall_7()); }
+	RULE_END
+	{ after(grammarAccess.getWifiConfigAccess().getENDTerminalRuleCall_7()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+rule__WifiConfig__Group_6__0
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group_6__0__Impl
+	rule__WifiConfig__Group_6__1
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group_6__0__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getPassKeyword_6_0()); }
+	Pass
+	{ after(grammarAccess.getWifiConfigAccess().getPassKeyword_6_0()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group_6__1
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__WifiConfig__Group_6__1__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__Group_6__1__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getWifiConfigAccess().getPassAssignment_6_1()); }
+	(rule__WifiConfig__PassAssignment_6_1)
+	{ after(grammarAccess.getWifiConfigAccess().getPassAssignment_6_1()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
 rule__Channel__Group__0
 	@init {
 		int stackSize = keepStackSize();
@@ -2233,9 +2473,9 @@ rule__Channel__Group__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getChannelAccess().getChanneltypeAssignment_1()); }
-	(rule__Channel__ChanneltypeAssignment_1)
-	{ after(grammarAccess.getChannelAccess().getChanneltypeAssignment_1()); }
+	{ before(grammarAccess.getChannelAccess().getNameAssignment_1()); }
+	(rule__Channel__NameAssignment_1)
+	{ after(grammarAccess.getChannelAccess().getNameAssignment_1()); }
 )
 ;
 finally {
@@ -2248,7 +2488,6 @@ rule__Channel__Group__2
 	}
 :
 	rule__Channel__Group__2__Impl
-	rule__Channel__Group__3
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -2260,35 +2499,9 @@ rule__Channel__Group__2__Impl
 	}
 :
 (
-	{ before(grammarAccess.getChannelAccess().getNameAssignment_2()); }
-	(rule__Channel__NameAssignment_2)
-	{ after(grammarAccess.getChannelAccess().getNameAssignment_2()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Channel__Group__3
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__Channel__Group__3__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Channel__Group__3__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getChannelAccess().getGroup_3()); }
-	(rule__Channel__Group_3__0)?
-	{ after(grammarAccess.getChannelAccess().getGroup_3()); }
+	{ before(grammarAccess.getChannelAccess().getGroup_2()); }
+	(rule__Channel__Group_2__0)?
+	{ after(grammarAccess.getChannelAccess().getGroup_2()); }
 )
 ;
 finally {
@@ -2296,269 +2509,107 @@ finally {
 }
 
 
-rule__Channel__Group_3__0
+rule__Channel__Group_2__0
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Channel__Group_3__0__Impl
-	rule__Channel__Group_3__1
+	rule__Channel__Group_2__0__Impl
+	rule__Channel__Group_2__1
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__Group_3__0__Impl
+rule__Channel__Group_2__0__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChannelAccess().getColonKeyword_3_0()); }
+	{ before(grammarAccess.getChannelAccess().getColonKeyword_2_0()); }
 	Colon
-	{ after(grammarAccess.getChannelAccess().getColonKeyword_3_0()); }
+	{ after(grammarAccess.getChannelAccess().getColonKeyword_2_0()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__Group_3__1
+rule__Channel__Group_2__1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Channel__Group_3__1__Impl
-	rule__Channel__Group_3__2
+	rule__Channel__Group_2__1__Impl
+	rule__Channel__Group_2__2
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__Group_3__1__Impl
+rule__Channel__Group_2__1__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChannelAccess().getBEGINTerminalRuleCall_3_1()); }
+	{ before(grammarAccess.getChannelAccess().getBEGINTerminalRuleCall_2_1()); }
 	RULE_BEGIN
-	{ after(grammarAccess.getChannelAccess().getBEGINTerminalRuleCall_3_1()); }
+	{ after(grammarAccess.getChannelAccess().getBEGINTerminalRuleCall_2_1()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__Group_3__2
+rule__Channel__Group_2__2
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Channel__Group_3__2__Impl
-	rule__Channel__Group_3__3
+	rule__Channel__Group_2__2__Impl
+	rule__Channel__Group_2__3
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__Group_3__2__Impl
+rule__Channel__Group_2__2__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChannelAccess().getConfigAssignment_3_2()); }
-	(rule__Channel__ConfigAssignment_3_2)
-	{ after(grammarAccess.getChannelAccess().getConfigAssignment_3_2()); }
+	{ before(grammarAccess.getChannelAccess().getConfigAssignment_2_2()); }
+	(rule__Channel__ConfigAssignment_2_2)
+	{ after(grammarAccess.getChannelAccess().getConfigAssignment_2_2()); }
 )
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__Group_3__3
+rule__Channel__Group_2__3
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
-	rule__Channel__Group_3__3__Impl
+	rule__Channel__Group_2__3__Impl
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__Group_3__3__Impl
+rule__Channel__Group_2__3__Impl
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 (
-	{ before(grammarAccess.getChannelAccess().getENDTerminalRuleCall_3_3()); }
+	{ before(grammarAccess.getChannelAccess().getENDTerminalRuleCall_2_3()); }
 	RULE_END
-	{ after(grammarAccess.getChannelAccess().getENDTerminalRuleCall_3_3()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-rule__ChannelType__Group_0__0
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__ChannelType__Group_0__0__Impl
-	rule__ChannelType__Group_0__1
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_0__0__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getChannelTypeAccess().getWifiConfigAction_0_0()); }
-	()
-	{ after(grammarAccess.getChannelTypeAccess().getWifiConfigAction_0_0()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_0__1
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__ChannelType__Group_0__1__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_0__1__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getChannelTypeAccess().getWifiKeyword_0_1()); }
-	Wifi
-	{ after(grammarAccess.getChannelTypeAccess().getWifiKeyword_0_1()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-rule__ChannelType__Group_1__0
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__ChannelType__Group_1__0__Impl
-	rule__ChannelType__Group_1__1
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_1__0__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getChannelTypeAccess().getSerialConfigAction_1_0()); }
-	()
-	{ after(grammarAccess.getChannelTypeAccess().getSerialConfigAction_1_0()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_1__1
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__ChannelType__Group_1__1__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_1__1__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getChannelTypeAccess().getSerialKeyword_1_1()); }
-	Serial
-	{ after(grammarAccess.getChannelTypeAccess().getSerialKeyword_1_1()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-rule__ChannelType__Group_2__0
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__ChannelType__Group_2__0__Impl
-	rule__ChannelType__Group_2__1
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_2__0__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getChannelTypeAccess().getMQTTAction_2_0()); }
-	()
-	{ after(grammarAccess.getChannelTypeAccess().getMQTTAction_2_0()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_2__1
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__ChannelType__Group_2__1__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ChannelType__Group_2__1__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getChannelTypeAccess().getMqttKeyword_2_1()); }
-	Mqtt
-	{ after(grammarAccess.getChannelTypeAccess().getMqttKeyword_2_1()); }
+	{ after(grammarAccess.getChannelAccess().getENDTerminalRuleCall_2_3()); }
 )
 ;
 finally {
@@ -2584,9 +2635,9 @@ rule__Wifi__Group__0__Impl
 	}
 :
 (
-	{ before(grammarAccess.getWifiAccess().getSsidKeyword_0()); }
-	Ssid
-	{ after(grammarAccess.getWifiAccess().getSsidKeyword_0()); }
+	{ before(grammarAccess.getWifiAccess().getUrlKeyword_0()); }
+	Url
+	{ after(grammarAccess.getWifiAccess().getUrlKeyword_0()); }
 )
 ;
 finally {
@@ -2611,9 +2662,9 @@ rule__Wifi__Group__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getWifiAccess().getSsidAssignment_1()); }
-	(rule__Wifi__SsidAssignment_1)
-	{ after(grammarAccess.getWifiAccess().getSsidAssignment_1()); }
+	{ before(grammarAccess.getWifiAccess().getUrlAssignment_1()); }
+	(rule__Wifi__UrlAssignment_1)
+	{ after(grammarAccess.getWifiAccess().getUrlAssignment_1()); }
 )
 ;
 finally {
@@ -2638,9 +2689,9 @@ rule__Wifi__Group__2__Impl
 	}
 :
 (
-	{ before(grammarAccess.getWifiAccess().getPassKeyword_2()); }
-	Pass
-	{ after(grammarAccess.getWifiAccess().getPassKeyword_2()); }
+	{ before(grammarAccess.getWifiAccess().getRouteKeyword_2()); }
+	Route
+	{ after(grammarAccess.getWifiAccess().getRouteKeyword_2()); }
 )
 ;
 finally {
@@ -2664,9 +2715,9 @@ rule__Wifi__Group__3__Impl
 	}
 :
 (
-	{ before(grammarAccess.getWifiAccess().getPassAssignment_3()); }
-	(rule__Wifi__PassAssignment_3)
-	{ after(grammarAccess.getWifiAccess().getPassAssignment_3()); }
+	{ before(grammarAccess.getWifiAccess().getRouteAssignment_3()); }
+	(rule__Wifi__RouteAssignment_3)
+	{ after(grammarAccess.getWifiAccess().getRouteAssignment_3()); }
 )
 ;
 finally {
@@ -3565,249 +3616,6 @@ finally {
 }
 
 
-rule__FunctionInputType__Group_0__0
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_0__0__Impl
-	rule__FunctionInputType__Group_0__1
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_0__0__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getNumberAction_0_0()); }
-	()
-	{ after(grammarAccess.getFunctionInputTypeAccess().getNumberAction_0_0()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_0__1
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_0__1__Impl
-	rule__FunctionInputType__Group_0__2
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_0__1__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getNumberKeyword_0_1()); }
-	Number
-	{ after(grammarAccess.getFunctionInputTypeAccess().getNumberKeyword_0_1()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_0__2
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_0__2__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_0__2__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getValueAssignment_0_2()); }
-	(rule__FunctionInputType__ValueAssignment_0_2)
-	{ after(grammarAccess.getFunctionInputTypeAccess().getValueAssignment_0_2()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-rule__FunctionInputType__Group_1__0
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_1__0__Impl
-	rule__FunctionInputType__Group_1__1
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_1__0__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getStringAction_1_0()); }
-	()
-	{ after(grammarAccess.getFunctionInputTypeAccess().getStringAction_1_0()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_1__1
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_1__1__Impl
-	rule__FunctionInputType__Group_1__2
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_1__1__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getStringKeyword_1_1()); }
-	String
-	{ after(grammarAccess.getFunctionInputTypeAccess().getStringKeyword_1_1()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_1__2
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_1__2__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_1__2__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getValueAssignment_1_2()); }
-	(rule__FunctionInputType__ValueAssignment_1_2)
-	{ after(grammarAccess.getFunctionInputTypeAccess().getValueAssignment_1_2()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-rule__FunctionInputType__Group_2__0
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_2__0__Impl
-	rule__FunctionInputType__Group_2__1
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_2__0__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getBoolAction_2_0()); }
-	()
-	{ after(grammarAccess.getFunctionInputTypeAccess().getBoolAction_2_0()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_2__1
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_2__1__Impl
-	rule__FunctionInputType__Group_2__2
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_2__1__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getBoolKeyword_2_1()); }
-	Bool
-	{ after(grammarAccess.getFunctionInputTypeAccess().getBoolKeyword_2_1()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_2__2
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__FunctionInputType__Group_2__2__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__Group_2__2__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getFunctionInputTypeAccess().getValueAssignment_2_2()); }
-	(rule__FunctionInputType__ValueAssignment_2_2)
-	{ after(grammarAccess.getFunctionInputTypeAccess().getValueAssignment_2_2()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
 rule__Board__Group__0
 	@init {
 		int stackSize = keepStackSize();
@@ -3988,16 +3796,9 @@ rule__NewBoard__Group__4__Impl
 	}
 :
 (
-	(
-		{ before(grammarAccess.getNewBoardAccess().getSensorsAssignment_4()); }
-		(rule__NewBoard__SensorsAssignment_4)
-		{ after(grammarAccess.getNewBoardAccess().getSensorsAssignment_4()); }
-	)
-	(
-		{ before(grammarAccess.getNewBoardAccess().getSensorsAssignment_4()); }
-		(rule__NewBoard__SensorsAssignment_4)*
-		{ after(grammarAccess.getNewBoardAccess().getSensorsAssignment_4()); }
-	)
+	{ before(grammarAccess.getNewBoardAccess().getGroup_4()); }
+	(rule__NewBoard__Group_4__0)?
+	{ after(grammarAccess.getNewBoardAccess().getGroup_4()); }
 )
 ;
 finally {
@@ -4010,6 +3811,7 @@ rule__NewBoard__Group__5
 	}
 :
 	rule__NewBoard__Group__5__Impl
+	rule__NewBoard__Group__6
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -4021,9 +3823,96 @@ rule__NewBoard__Group__5__Impl
 	}
 :
 (
-	{ before(grammarAccess.getNewBoardAccess().getENDTerminalRuleCall_5()); }
+	(
+		{ before(grammarAccess.getNewBoardAccess().getSensorsAssignment_5()); }
+		(rule__NewBoard__SensorsAssignment_5)
+		{ after(grammarAccess.getNewBoardAccess().getSensorsAssignment_5()); }
+	)
+	(
+		{ before(grammarAccess.getNewBoardAccess().getSensorsAssignment_5()); }
+		(rule__NewBoard__SensorsAssignment_5)*
+		{ after(grammarAccess.getNewBoardAccess().getSensorsAssignment_5()); }
+	)
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__NewBoard__Group__6
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__NewBoard__Group__6__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__NewBoard__Group__6__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getNewBoardAccess().getENDTerminalRuleCall_6()); }
 	RULE_END
-	{ after(grammarAccess.getNewBoardAccess().getENDTerminalRuleCall_5()); }
+	{ after(grammarAccess.getNewBoardAccess().getENDTerminalRuleCall_6()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+rule__NewBoard__Group_4__0
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__NewBoard__Group_4__0__Impl
+	rule__NewBoard__Group_4__1
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__NewBoard__Group_4__0__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getNewBoardAccess().getWifiKeyword_4_0()); }
+	Wifi
+	{ after(grammarAccess.getNewBoardAccess().getWifiKeyword_4_0()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__NewBoard__Group_4__1
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__NewBoard__Group_4__1__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__NewBoard__Group_4__1__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getNewBoardAccess().getWifiSelectAssignment_4_1()); }
+	(rule__NewBoard__WifiSelectAssignment_4_1)
+	{ after(grammarAccess.getNewBoardAccess().getWifiSelectAssignment_4_1()); }
 )
 ;
 finally {
@@ -4319,16 +4208,9 @@ rule__ExtendsBoard__Group_3__2__Impl
 	}
 :
 (
-	(
-		{ before(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_2()); }
-		(rule__ExtendsBoard__SensorsAssignment_3_2)
-		{ after(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_2()); }
-	)
-	(
-		{ before(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_2()); }
-		(rule__ExtendsBoard__SensorsAssignment_3_2)*
-		{ after(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_2()); }
-	)
+	{ before(grammarAccess.getExtendsBoardAccess().getGroup_3_2()); }
+	(rule__ExtendsBoard__Group_3_2__0)?
+	{ after(grammarAccess.getExtendsBoardAccess().getGroup_3_2()); }
 )
 ;
 finally {
@@ -4341,6 +4223,7 @@ rule__ExtendsBoard__Group_3__3
 	}
 :
 	rule__ExtendsBoard__Group_3__3__Impl
+	rule__ExtendsBoard__Group_3__4
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -4352,9 +4235,96 @@ rule__ExtendsBoard__Group_3__3__Impl
 	}
 :
 (
-	{ before(grammarAccess.getExtendsBoardAccess().getENDTerminalRuleCall_3_3()); }
+	(
+		{ before(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_3()); }
+		(rule__ExtendsBoard__SensorsAssignment_3_3)
+		{ after(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_3()); }
+	)
+	(
+		{ before(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_3()); }
+		(rule__ExtendsBoard__SensorsAssignment_3_3)*
+		{ after(grammarAccess.getExtendsBoardAccess().getSensorsAssignment_3_3()); }
+	)
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ExtendsBoard__Group_3__4
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__ExtendsBoard__Group_3__4__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ExtendsBoard__Group_3__4__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getExtendsBoardAccess().getENDTerminalRuleCall_3_4()); }
 	RULE_END
-	{ after(grammarAccess.getExtendsBoardAccess().getENDTerminalRuleCall_3_3()); }
+	{ after(grammarAccess.getExtendsBoardAccess().getENDTerminalRuleCall_3_4()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+rule__ExtendsBoard__Group_3_2__0
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__ExtendsBoard__Group_3_2__0__Impl
+	rule__ExtendsBoard__Group_3_2__1
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ExtendsBoard__Group_3_2__0__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getExtendsBoardAccess().getWifiKeyword_3_2_0()); }
+	Wifi
+	{ after(grammarAccess.getExtendsBoardAccess().getWifiKeyword_3_2_0()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ExtendsBoard__Group_3_2__1
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__ExtendsBoard__Group_3_2__1__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ExtendsBoard__Group_3_2__1__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getExtendsBoardAccess().getWifiSelectAssignment_3_2_1()); }
+	(rule__ExtendsBoard__WifiSelectAssignment_3_2_1)
+	{ after(grammarAccess.getExtendsBoardAccess().getWifiSelectAssignment_3_2_1()); }
 )
 ;
 finally {
@@ -9143,60 +9113,75 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Model__ChannelAssignment_1
+rule__Model__WifiConfigAssignment_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getModelAccess().getChannelChannelParserRuleCall_1_0()); }
+		{ before(grammarAccess.getModelAccess().getWifiConfigWifiConfigParserRuleCall_1_0()); }
+		ruleWifiConfig
+		{ after(grammarAccess.getModelAccess().getWifiConfigWifiConfigParserRuleCall_1_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Model__ChannelAssignment_2
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getModelAccess().getChannelChannelParserRuleCall_2_0()); }
 		ruleChannel
-		{ after(grammarAccess.getModelAccess().getChannelChannelParserRuleCall_1_0()); }
+		{ after(grammarAccess.getModelAccess().getChannelChannelParserRuleCall_2_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Model__FunctionAssignment_2
+rule__Model__FunctionAssignment_3
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getModelAccess().getFunctionFunctionParserRuleCall_2_0()); }
+		{ before(grammarAccess.getModelAccess().getFunctionFunctionParserRuleCall_3_0()); }
 		ruleFunction
-		{ after(grammarAccess.getModelAccess().getFunctionFunctionParserRuleCall_2_0()); }
+		{ after(grammarAccess.getModelAccess().getFunctionFunctionParserRuleCall_3_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Model__AbstractBoardAssignment_3
+rule__Model__AbstractBoardAssignment_4
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getModelAccess().getAbstractBoardAbstractBoardParserRuleCall_3_0()); }
+		{ before(grammarAccess.getModelAccess().getAbstractBoardAbstractBoardParserRuleCall_4_0()); }
 		ruleAbstractBoard
-		{ after(grammarAccess.getModelAccess().getAbstractBoardAbstractBoardParserRuleCall_3_0()); }
+		{ after(grammarAccess.getModelAccess().getAbstractBoardAbstractBoardParserRuleCall_4_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Model__BoardAssignment_4
+rule__Model__BoardAssignment_5
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getModelAccess().getBoardBoardParserRuleCall_4_0()); }
+		{ before(grammarAccess.getModelAccess().getBoardBoardParserRuleCall_5_0()); }
 		ruleBoard
-		{ after(grammarAccess.getModelAccess().getBoardBoardParserRuleCall_4_0()); }
+		{ after(grammarAccess.getModelAccess().getBoardBoardParserRuleCall_5_0()); }
 	)
 ;
 finally {
@@ -9233,75 +9218,105 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__ChanneltypeAssignment_1
+rule__WifiConfig__NameAssignment_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getChannelAccess().getChanneltypeChannelTypeParserRuleCall_1_0()); }
-		ruleChannelType
-		{ after(grammarAccess.getChannelAccess().getChanneltypeChannelTypeParserRuleCall_1_0()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Channel__NameAssignment_2
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getChannelAccess().getNameIDTerminalRuleCall_2_0()); }
+		{ before(grammarAccess.getWifiConfigAccess().getNameIDTerminalRuleCall_1_0()); }
 		RULE_ID
-		{ after(grammarAccess.getChannelAccess().getNameIDTerminalRuleCall_2_0()); }
+		{ after(grammarAccess.getWifiConfigAccess().getNameIDTerminalRuleCall_1_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Channel__ConfigAssignment_3_2
+rule__WifiConfig__SsidAssignment_5
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getChannelAccess().getConfigChannelConfigParserRuleCall_3_2_0()); }
+		{ before(grammarAccess.getWifiConfigAccess().getSsidSTRINGTerminalRuleCall_5_0()); }
+		RULE_STRING
+		{ after(grammarAccess.getWifiConfigAccess().getSsidSTRINGTerminalRuleCall_5_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__WifiConfig__PassAssignment_6_1
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getWifiConfigAccess().getPassSTRINGTerminalRuleCall_6_1_0()); }
+		RULE_STRING
+		{ after(grammarAccess.getWifiConfigAccess().getPassSTRINGTerminalRuleCall_6_1_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Channel__NameAssignment_1
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getChannelAccess().getNameIDTerminalRuleCall_1_0()); }
+		RULE_ID
+		{ after(grammarAccess.getChannelAccess().getNameIDTerminalRuleCall_1_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Channel__ConfigAssignment_2_2
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getChannelAccess().getConfigChannelConfigParserRuleCall_2_2_0()); }
 		ruleChannelConfig
-		{ after(grammarAccess.getChannelAccess().getConfigChannelConfigParserRuleCall_3_2_0()); }
+		{ after(grammarAccess.getChannelAccess().getConfigChannelConfigParserRuleCall_2_2_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Wifi__SsidAssignment_1
+rule__Wifi__UrlAssignment_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getWifiAccess().getSsidSTRINGTerminalRuleCall_1_0()); }
+		{ before(grammarAccess.getWifiAccess().getUrlSTRINGTerminalRuleCall_1_0()); }
 		RULE_STRING
-		{ after(grammarAccess.getWifiAccess().getSsidSTRINGTerminalRuleCall_1_0()); }
+		{ after(grammarAccess.getWifiAccess().getUrlSTRINGTerminalRuleCall_1_0()); }
 	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Wifi__PassAssignment_3
+rule__Wifi__RouteAssignment_3
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getWifiAccess().getPassSTRINGTerminalRuleCall_3_0()); }
+		{ before(grammarAccess.getWifiAccess().getRouteSTRINGTerminalRuleCall_3_0()); }
 		RULE_STRING
-		{ after(grammarAccess.getWifiAccess().getPassSTRINGTerminalRuleCall_3_0()); }
+		{ after(grammarAccess.getWifiAccess().getRouteSTRINGTerminalRuleCall_3_0()); }
 	)
 ;
 finally {
@@ -9503,45 +9518,15 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__FunctionInputType__ValueAssignment_0_2
+rule__FunctionInputType__NameAssignment
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_0_2_0()); }
+		{ before(grammarAccess.getFunctionInputTypeAccess().getNameIDTerminalRuleCall_0()); }
 		RULE_ID
-		{ after(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_0_2_0()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__ValueAssignment_1_2
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_1_2_0()); }
-		RULE_ID
-		{ after(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_1_2_0()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__FunctionInputType__ValueAssignment_2_2
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_2_2_0()); }
-		RULE_ID
-		{ after(grammarAccess.getFunctionInputTypeAccess().getValueIDTerminalRuleCall_2_2_0()); }
+		{ after(grammarAccess.getFunctionInputTypeAccess().getNameIDTerminalRuleCall_0()); }
 	)
 ;
 finally {
@@ -9578,15 +9563,34 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__NewBoard__SensorsAssignment_4
+rule__NewBoard__WifiSelectAssignment_4_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getNewBoardAccess().getSensorsSensorParserRuleCall_4_0()); }
+		{ before(grammarAccess.getNewBoardAccess().getWifiSelectWifiConfigCrossReference_4_1_0()); }
+		(
+			{ before(grammarAccess.getNewBoardAccess().getWifiSelectWifiConfigIDTerminalRuleCall_4_1_0_1()); }
+			RULE_ID
+			{ after(grammarAccess.getNewBoardAccess().getWifiSelectWifiConfigIDTerminalRuleCall_4_1_0_1()); }
+		)
+		{ after(grammarAccess.getNewBoardAccess().getWifiSelectWifiConfigCrossReference_4_1_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__NewBoard__SensorsAssignment_5
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getNewBoardAccess().getSensorsSensorParserRuleCall_5_0()); }
 		ruleSensor
-		{ after(grammarAccess.getNewBoardAccess().getSensorsSensorParserRuleCall_4_0()); }
+		{ after(grammarAccess.getNewBoardAccess().getSensorsSensorParserRuleCall_5_0()); }
 	)
 ;
 finally {
@@ -9657,15 +9661,34 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ExtendsBoard__SensorsAssignment_3_2
+rule__ExtendsBoard__WifiSelectAssignment_3_2_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getExtendsBoardAccess().getSensorsSensorParserRuleCall_3_2_0()); }
+		{ before(grammarAccess.getExtendsBoardAccess().getWifiSelectWifiConfigCrossReference_3_2_1_0()); }
+		(
+			{ before(grammarAccess.getExtendsBoardAccess().getWifiSelectWifiConfigIDTerminalRuleCall_3_2_1_0_1()); }
+			RULE_ID
+			{ after(grammarAccess.getExtendsBoardAccess().getWifiSelectWifiConfigIDTerminalRuleCall_3_2_1_0_1()); }
+		)
+		{ after(grammarAccess.getExtendsBoardAccess().getWifiSelectWifiConfigCrossReference_3_2_1_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__ExtendsBoard__SensorsAssignment_3_3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getExtendsBoardAccess().getSensorsSensorParserRuleCall_3_3_0()); }
 		ruleSensor
-		{ after(grammarAccess.getExtendsBoardAccess().getSensorsSensorParserRuleCall_3_2_0()); }
+		{ after(grammarAccess.getExtendsBoardAccess().getSensorsSensorParserRuleCall_3_3_0()); }
 	)
 ;
 finally {

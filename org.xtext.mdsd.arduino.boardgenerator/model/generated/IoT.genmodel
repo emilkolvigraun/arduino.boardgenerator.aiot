@@ -8,6 +8,7 @@
       fileExtensions="aiot" ecorePackage="IoT.ecore#/">
     <genClasses ecoreClass="IoT.ecore#//Model">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/includes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/wifiConfig"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/channel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/function"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Model/abstractBoard"/>
@@ -19,16 +20,19 @@
     <genClasses ecoreClass="IoT.ecore#//ImportObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ImportObject/importURI"/>
     </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//WifiConfig">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//WifiConfig/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//WifiConfig/ssid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//WifiConfig/pass"/>
+    </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Channel">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Channel/channeltype"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Channel/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Channel/config"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//ChannelType"/>
     <genClasses ecoreClass="IoT.ecore#//ChannelConfig"/>
     <genClasses ecoreClass="IoT.ecore#//Wifi">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/ssid"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/pass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/url"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/route"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Serial">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Serial/baud"/>
@@ -47,10 +51,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Function/output"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//FunctionInputType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//FunctionInputType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//FunctionInputType/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Board">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Board/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//Board/wifiSelect"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Board/sensors"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//NewBoard">
@@ -134,18 +139,12 @@
     <genClasses ecoreClass="IoT.ecore#//BooleanLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BooleanLiteral/bool"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//WifiConfig"/>
-    <genClasses ecoreClass="IoT.ecore#//SerialConfig"/>
-    <genClasses ecoreClass="IoT.ecore#//MQTT"/>
     <genClasses ecoreClass="IoT.ecore#//Char">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Char/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Byte">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Byte/name"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//Number"/>
-    <genClasses ecoreClass="IoT.ecore#//String"/>
-    <genClasses ecoreClass="IoT.ecore#//Bool"/>
     <genClasses ecoreClass="IoT.ecore#//Seconds"/>
     <genClasses ecoreClass="IoT.ecore#//Millis"/>
     <genClasses ecoreClass="IoT.ecore#//Micros"/>

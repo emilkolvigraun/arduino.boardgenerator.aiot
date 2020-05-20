@@ -1,6 +1,6 @@
 package org.xtext.mdsd.arduino.boardgenerator.hover
 
-import java.util.List
+import java.util.List 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.jface.internal.text.html.HTMLPrinter
 import org.eclipse.jface.text.IRegion
@@ -15,7 +15,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
@@ -24,12 +23,14 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
 
 class IoTHoverProvider extends DefaultEObjectHoverProvider {
 	 
@@ -101,11 +102,12 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 	
 	def String getChannelString(Channel channel){
 		var str = '''«channel.name» -> '''
-		switch (channel.channeltype){
-			WifiConfig: str += "<b>wifi</b>" 
-			SerialConfig: str += "<b>serial</b>"
-			MQTT: str += "<b>mqtt</b>" 
-		} 
+		val config = channel.config
+		switch (config){
+			case (config instanceof Wifi): str += "<b>wifi</b>"
+			case (config instanceof Serial): str += "<b>serial</b>"
+			case (config instanceof MqttClient): str += "<b>mqtt</b>" 
+		}  
 		str + '''<br> Class: <b>«channel.eClass().getName()»</b>'''
 	}
 	
@@ -127,6 +129,10 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 		if (sampler instanceof Command)
 			return '''command''' 
 		''''''
+	} 
+	
+	def String getWifiConfigString(WifiConfig config){
+		'''Class: <b>«config.eClass().getName()»</b><br>ssid: <b>«config.ssid»</b>'''
 	}
 	
 	def String getInstanceStr(EObject object){
@@ -155,6 +161,8 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 			return (object as ExternalSensor).externalSensorString }
 		if (object instanceof Function){ 
 			return (object as Function).functionString }
+		if (object instanceof WifiConfig){ 
+			return (object as WifiConfig).wifiConfigString }
 		if (object instanceof BoardVersion){ 
 			return '''Version: <b>«Boards.getBoardSupported((object as BoardVersion)).toString»</b>''' }
 		'''Class: <b>«object.eClass().getName()»</b>'''  

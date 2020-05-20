@@ -15,14 +15,14 @@ import org.eclipse.xtext.xbase.lib.ExclusiveRange;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MQTT;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
@@ -30,8 +30,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SerialConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 
@@ -190,25 +191,25 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
       _builder.append(_name);
       _builder.append(" -> ");
       String str = _builder.toString();
-      ChannelType _channeltype = channel.getChanneltype();
+      final ChannelConfig config = channel.getConfig();
       boolean _matched = false;
-      if (_channeltype instanceof WifiConfig) {
+      if ((config instanceof Wifi)) {
         _matched=true;
         String _str = str;
         str = (_str + "<b>wifi</b>");
       }
       if (!_matched) {
-        if (_channeltype instanceof SerialConfig) {
+        if ((config instanceof Serial)) {
           _matched=true;
-          String _str = str;
-          str = (_str + "<b>serial</b>");
+          String _str_1 = str;
+          str = (_str_1 + "<b>serial</b>");
         }
       }
       if (!_matched) {
-        if (_channeltype instanceof MQTT) {
+        if ((config instanceof MqttClient)) {
           _matched=true;
-          String _str = str;
-          str = (_str + "<b>mqtt</b>");
+          String _str_2 = str;
+          str = (_str_2 + "<b>mqtt</b>");
         }
       }
       StringConcatenation _builder_1 = new StringConcatenation();
@@ -285,6 +286,18 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
     return _xblockexpression;
   }
   
+  public String getWifiConfigString(final WifiConfig config) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("Class: <b>");
+    String _name = config.eClass().getName();
+    _builder.append(_name);
+    _builder.append("</b><br>ssid: <b>");
+    String _ssid = config.getSsid();
+    _builder.append(_ssid);
+    _builder.append("</b>");
+    return _builder.toString();
+  }
+  
   public String getInstanceStr(final EObject object) {
     String _xblockexpression = null;
     {
@@ -323,6 +336,9 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
       }
       if ((object instanceof Function)) {
         return this.getFunctionString(((Function) object));
+      }
+      if ((object instanceof WifiConfig)) {
+        return this.getWifiConfigString(((WifiConfig) object));
       }
       if ((object instanceof BoardVersion)) {
         StringConcatenation _builder = new StringConcatenation();

@@ -3,7 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import java.lang.String;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,8 +13,8 @@ import java.lang.String;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSsid <em>Ssid</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getPass <em>Pass</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getUrl <em>Url</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getRoute <em>Route</em>}</li>
  * </ul>
  *
  * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi()
@@ -25,47 +24,47 @@ import java.lang.String;
 public interface Wifi extends ChannelConfig
 {
   /**
-   * Returns the value of the '<em><b>Ssid</b></em>' attribute.
+   * Returns the value of the '<em><b>Url</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Ssid</em>' attribute.
-   * @see #setSsid(String)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Ssid()
+   * @return the value of the '<em>Url</em>' attribute.
+   * @see #setUrl(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Url()
    * @model
    * @generated
    */
-  String getSsid();
+  String getUrl();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSsid <em>Ssid</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getUrl <em>Url</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Ssid</em>' attribute.
-   * @see #getSsid()
+   * @param value the new value of the '<em>Url</em>' attribute.
+   * @see #getUrl()
    * @generated
    */
-  void setSsid(String value);
+  void setUrl(String value);
 
   /**
-   * Returns the value of the '<em><b>Pass</b></em>' attribute.
+   * Returns the value of the '<em><b>Route</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Pass</em>' attribute.
-   * @see #setPass(String)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Pass()
+   * @return the value of the '<em>Route</em>' attribute.
+   * @see #setRoute(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Route()
    * @model
    * @generated
    */
-  String getPass();
+  String getRoute();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getPass <em>Pass</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getRoute <em>Route</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Pass</em>' attribute.
-   * @see #getPass()
+   * @param value the new value of the '<em>Route</em>' attribute.
+   * @see #getRoute()
    * @generated
    */
-  void setPass(String value);
+  void setRoute(String value);
 
 } // Wifi

@@ -3,7 +3,12 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
+import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -12,11 +17,79 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Wifi Config</b></em>'.
  * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * </p>
+ * <ul>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl#getSsid <em>Ssid</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiConfigImpl#getPass <em>Pass</em>}</li>
+ * </ul>
  *
  * @generated
  */
-public class WifiConfigImpl extends ChannelTypeImpl implements WifiConfig
+public class WifiConfigImpl extends MinimalEObjectImpl.Container implements WifiConfig
 {
+  /**
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected static final String NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected String name = NAME_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getSsid() <em>Ssid</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getSsid()
+   * @generated
+   * @ordered
+   */
+  protected static final String SSID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getSsid() <em>Ssid</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getSsid()
+   * @generated
+   * @ordered
+   */
+  protected String ssid = SSID_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getPass() <em>Pass</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPass()
+   * @generated
+   * @ordered
+   */
+  protected static final String PASS_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getPass() <em>Pass</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPass()
+   * @generated
+   * @ordered
+   */
+  protected String pass = PASS_EDEFAULT;
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -36,6 +109,188 @@ public class WifiConfigImpl extends ChannelTypeImpl implements WifiConfig
   protected EClass eStaticClass()
   {
     return IoTPackage.Literals.WIFI_CONFIG;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setName(String newName)
+  {
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.WIFI_CONFIG__NAME, oldName, name));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String getSsid()
+  {
+    return ssid;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setSsid(String newSsid)
+  {
+    String oldSsid = ssid;
+    ssid = newSsid;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.WIFI_CONFIG__SSID, oldSsid, ssid));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String getPass()
+  {
+    return pass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setPass(String newPass)
+  {
+    String oldPass = pass;
+    pass = newPass;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.WIFI_CONFIG__PASS, oldPass, pass));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case IoTPackage.WIFI_CONFIG__NAME:
+        return getName();
+      case IoTPackage.WIFI_CONFIG__SSID:
+        return getSsid();
+      case IoTPackage.WIFI_CONFIG__PASS:
+        return getPass();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case IoTPackage.WIFI_CONFIG__NAME:
+        setName((String)newValue);
+        return;
+      case IoTPackage.WIFI_CONFIG__SSID:
+        setSsid((String)newValue);
+        return;
+      case IoTPackage.WIFI_CONFIG__PASS:
+        setPass((String)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case IoTPackage.WIFI_CONFIG__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case IoTPackage.WIFI_CONFIG__SSID:
+        setSsid(SSID_EDEFAULT);
+        return;
+      case IoTPackage.WIFI_CONFIG__PASS:
+        setPass(PASS_EDEFAULT);
+        return;
+    }
+    super.eUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case IoTPackage.WIFI_CONFIG__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case IoTPackage.WIFI_CONFIG__SSID:
+        return SSID_EDEFAULT == null ? ssid != null : !SSID_EDEFAULT.equals(ssid);
+      case IoTPackage.WIFI_CONFIG__PASS:
+        return PASS_EDEFAULT == null ? pass != null : !PASS_EDEFAULT.equals(pass);
+    }
+    return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (name: ");
+    result.append(name);
+    result.append(", ssid: ");
+    result.append(ssid);
+    result.append(", pass: ");
+    result.append(pass);
+    result.append(')');
+    return result.toString();
   }
 
 } //WifiConfigImpl

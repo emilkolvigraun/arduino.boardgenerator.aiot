@@ -3,17 +3,92 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Wifi Config</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getSsid <em>Ssid</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getPass <em>Pass</em>}</li>
+ * </ul>
  *
  * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifiConfig()
  * @model
  * @generated
  */
-public interface WifiConfig extends ChannelType
+public interface WifiConfig extends EObject
 {
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifiConfig_Name()
+   * @model
+   * @generated
+   */
+  String getName();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
+
+  /**
+   * Returns the value of the '<em><b>Ssid</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Ssid</em>' attribute.
+   * @see #setSsid(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifiConfig_Ssid()
+   * @model
+   * @generated
+   */
+  String getSsid();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getSsid <em>Ssid</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Ssid</em>' attribute.
+   * @see #getSsid()
+   * @generated
+   */
+  void setSsid(String value);
+
+  /**
+   * Returns the value of the '<em><b>Pass</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Pass</em>' attribute.
+   * @see #setPass(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifiConfig_Pass()
+   * @model
+   * @generated
+   */
+  String getPass();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig#getPass <em>Pass</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Pass</em>' attribute.
+   * @see #getPass()
+   * @generated
+   */
+  void setPass(String value);
+
 } // WifiConfig

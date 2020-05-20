@@ -5,6 +5,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Model">
     <eStructuralFeatures xsi:type="ecore:EReference" name="includes" upperBound="-1"
         eType="#//Include" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wifiConfig" upperBound="-1"
+        eType="#//WifiConfig" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="channel" upperBound="-1"
         eType="#//Channel" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="function" upperBound="-1"
@@ -21,18 +23,20 @@
   <eClassifiers xsi:type="ecore:EClass" name="ImportObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WifiConfig">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ssid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Channel">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="channeltype" eType="#//ChannelType"
-        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="config" eType="#//ChannelConfig"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ChannelType"/>
   <eClassifiers xsi:type="ecore:EClass" name="ChannelConfig"/>
   <eClassifiers xsi:type="ecore:EClass" name="Wifi" eSuperTypes="#//ChannelConfig">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ssid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="route" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Serial" eSuperTypes="#//ChannelConfig">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baud" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -54,10 +58,11 @@
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionInputType">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Board">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wifiSelect" eType="#//WifiConfig"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sensors" upperBound="-1"
         eType="#//Sensor" containment="true"/>
   </eClassifiers>
@@ -158,18 +163,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bool" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="WifiConfig" eSuperTypes="#//ChannelType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SerialConfig" eSuperTypes="#//ChannelType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MQTT" eSuperTypes="#//ChannelType"/>
   <eClassifiers xsi:type="ecore:EClass" name="Char" eSuperTypes="#//stopChar">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Byte" eSuperTypes="#//stopChar">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Number" eSuperTypes="#//FunctionInputType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="String" eSuperTypes="#//FunctionInputType"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Bool" eSuperTypes="#//FunctionInputType"/>
   <eClassifiers xsi:type="ecore:EClass" name="Seconds" eSuperTypes="#//Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="Millis" eSuperTypes="#//Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="Micros" eSuperTypes="#//Resolution"/>
