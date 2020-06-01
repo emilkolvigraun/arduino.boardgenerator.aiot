@@ -1,0 +1,6 @@
+int16_t temperature;
+if (hts221 == NULL){
+    return tbl;
+}
+iot_hts221_get_temperature(hts221, &temperature);
+return (float)temperature / 10;

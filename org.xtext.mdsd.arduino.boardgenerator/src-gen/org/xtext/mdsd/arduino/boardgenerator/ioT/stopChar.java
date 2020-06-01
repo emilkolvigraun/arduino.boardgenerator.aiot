@@ -3,18 +3,45 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>stop Char</b></em>'.
+ * A representation of the model object '<em><b>Stop Char</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar#getName <em>Name</em>}</li>
+ * </ul>
  *
- * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getstopChar()
+ * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getStopChar()
  * @model
  * @generated
  */
-public interface stopChar extends EObject
+public interface StopChar extends StopIdentifyer
 {
-} // stopChar
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getStopChar_Name()
+   * @model
+   * @generated
+   */
+  String getName();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
+
+} // StopChar

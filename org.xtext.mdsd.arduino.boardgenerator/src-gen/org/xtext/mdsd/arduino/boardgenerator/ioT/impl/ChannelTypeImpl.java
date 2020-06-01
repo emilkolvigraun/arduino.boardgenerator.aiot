@@ -8,24 +8,25 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Char</b></em>'.
+ * An implementation of the model object '<em><b>Channel Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CharImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ChannelTypeImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CharImpl extends stopCharImpl implements Char
+public class ChannelTypeImpl extends MinimalEObjectImpl.Container implements ChannelType
 {
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -52,7 +53,7 @@ public class CharImpl extends stopCharImpl implements Char
    * <!-- end-user-doc -->
    * @generated
    */
-  protected CharImpl()
+  protected ChannelTypeImpl()
   {
     super();
   }
@@ -65,7 +66,7 @@ public class CharImpl extends stopCharImpl implements Char
   @Override
   protected EClass eStaticClass()
   {
-    return IoTPackage.Literals.CHAR;
+    return IoTPackage.Literals.CHANNEL_TYPE;
   }
 
   /**
@@ -90,7 +91,7 @@ public class CharImpl extends stopCharImpl implements Char
     String oldName = name;
     name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.CHAR__NAME, oldName, name));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.CHANNEL_TYPE__NAME, oldName, name));
   }
 
   /**
@@ -103,7 +104,7 @@ public class CharImpl extends stopCharImpl implements Char
   {
     switch (featureID)
     {
-      case IoTPackage.CHAR__NAME:
+      case IoTPackage.CHANNEL_TYPE__NAME:
         return getName();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -119,7 +120,7 @@ public class CharImpl extends stopCharImpl implements Char
   {
     switch (featureID)
     {
-      case IoTPackage.CHAR__NAME:
+      case IoTPackage.CHANNEL_TYPE__NAME:
         setName((String)newValue);
         return;
     }
@@ -136,7 +137,7 @@ public class CharImpl extends stopCharImpl implements Char
   {
     switch (featureID)
     {
-      case IoTPackage.CHAR__NAME:
+      case IoTPackage.CHANNEL_TYPE__NAME:
         setName(NAME_EDEFAULT);
         return;
     }
@@ -153,7 +154,7 @@ public class CharImpl extends stopCharImpl implements Char
   {
     switch (featureID)
     {
-      case IoTPackage.CHAR__NAME:
+      case IoTPackage.CHANNEL_TYPE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
     }
     return super.eIsSet(featureID);
@@ -176,4 +177,4 @@ public class CharImpl extends stopCharImpl implements Char
     return result.toString();
   }
 
-} //CharImpl
+} //ChannelTypeImpl

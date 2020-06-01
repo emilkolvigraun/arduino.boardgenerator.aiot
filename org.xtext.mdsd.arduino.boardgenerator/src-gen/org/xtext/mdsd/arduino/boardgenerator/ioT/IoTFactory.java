@@ -69,6 +69,15 @@ public interface IoTFactory extends EFactory
   Channel createChannel();
 
   /**
+   * Returns a new object of class '<em>Channel Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Channel Type</em>'.
+   * @generated
+   */
+  ChannelType createChannelType();
+
+  /**
    * Returns a new object of class '<em>Channel Config</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -96,13 +105,31 @@ public interface IoTFactory extends EFactory
   Serial createSerial();
 
   /**
-   * Returns a new object of class '<em>stop Char</em>'.
+   * Returns a new object of class '<em>Stop Identifyer</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>stop Char</em>'.
+   * @return a new object of class '<em>Stop Identifyer</em>'.
    * @generated
    */
-  stopChar createstopChar();
+  StopIdentifyer createStopIdentifyer();
+
+  /**
+   * Returns a new object of class '<em>Stop Char</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Stop Char</em>'.
+   * @generated
+   */
+  StopChar createStopChar();
+
+  /**
+   * Returns a new object of class '<em>Stop Byte</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Stop Byte</em>'.
+   * @generated
+   */
+  StopByte createStopByte();
 
   /**
    * Returns a new object of class '<em>Mqtt Client</em>'.
@@ -382,24 +409,6 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   BooleanLiteral createBooleanLiteral();
-
-  /**
-   * Returns a new object of class '<em>Char</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Char</em>'.
-   * @generated
-   */
-  Char createChar();
-
-  /**
-   * Returns a new object of class '<em>Byte</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Byte</em>'.
-   * @generated
-   */
-  Byte createByte();
 
   /**
    * Returns a new object of class '<em>Seconds</em>'.

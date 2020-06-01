@@ -89,8 +89,6 @@ Max : 'max';
 
 Min : 'min';
 
-Url : 'url';
-
 Var : 'var';
 
 Vcc : 'vcc';
@@ -112,6 +110,8 @@ GreaterThanSignEqualsSign : '>=';
 As : 'as';
 
 Id : 'id';
+
+Ip : 'ip';
 
 VerticalLineVerticalLine : '||';
 

@@ -4,13 +4,16 @@
 package org.xtext.mdsd.arduino.boardgenerator.validation;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -26,11 +29,14 @@ import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
@@ -83,7 +89,9 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 public class IoTValidator extends AbstractIoTValidator {
   public static final String NO_SUPPORT_FOR_SENSOR = "org.xtext.mdsd.arduino.boardgenerator.NoSupportForSensor";
   
-  public static final String INVALID_TYPE = "org.xtext.mdsd.arduino.boardgenerator.InvalidType";
+  public static final String INVALID_FUNCTION_TYPE = "org.xtext.mdsd.arduino.boardgenerator.InvalidFunctionType";
+  
+  public static final String INVALID_CHANNEL_TYPE = "org.xtext.mdsd.arduino.boardgenerator.InvalidChannelType";
   
   @Inject
   private IoTGlobalScopeProvider scopeProvider;
@@ -283,21 +291,169 @@ public class IoTValidator extends AbstractIoTValidator {
     }
   }
   
+  public List<String> getBoardSerialChannels(final List<Sensor> sensors) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      final ArrayList<String> serialOutputs = CollectionLiterals.<String>newArrayList();
+      for (final Sensor sensor : sensors) {
+        final Consumer<SensorOutput> _function = (SensorOutput so) -> {
+          final Consumer<Channel> _function_1 = (Channel c) -> {
+            if ((this._typeChecker.ifSerialType(((Channel) c)) && (!serialOutputs.contains(((Channel) c).getName().toString())))) {
+              serialOutputs.add(((Channel) c).getName().toString());
+            }
+          };
+          so.getChannel().forEach(_function_1);
+        };
+        sensor.getOutput().forEach(_function);
+      }
+      _xblockexpression = serialOutputs;
+    }
+    return _xblockexpression;
+  }
+  
+  public List<String> getBoardMQTTChannels(final List<Sensor> sensors) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      final ArrayList<String> mqttOutputs = CollectionLiterals.<String>newArrayList();
+      for (final Sensor sensor : sensors) {
+        final Consumer<SensorOutput> _function = (SensorOutput so) -> {
+          final Consumer<Channel> _function_1 = (Channel c) -> {
+            if ((this._typeChecker.ifMQTTType(((Channel) c)) && (!mqttOutputs.contains(((Channel) c).getName().toString())))) {
+              mqttOutputs.add(((Channel) c).getName().toString());
+            }
+          };
+          so.getChannel().forEach(_function_1);
+        };
+        sensor.getOutput().forEach(_function);
+      }
+      _xblockexpression = mqttOutputs;
+    }
+    return _xblockexpression;
+  }
+  
+  public List<String> getBoardWiFiChannels(final List<Sensor> sensors) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      final ArrayList<String> serverOutputs = CollectionLiterals.<String>newArrayList();
+      for (final Sensor sensor : sensors) {
+        final Consumer<SensorOutput> _function = (SensorOutput so) -> {
+          final Consumer<Channel> _function_1 = (Channel c) -> {
+            if ((this._typeChecker.ifServerType(((Channel) c)) && (!serverOutputs.contains(((Channel) c).getName().toString())))) {
+              serverOutputs.add(((Channel) c).getName().toString());
+            }
+          };
+          so.getChannel().forEach(_function_1);
+        };
+        sensor.getOutput().forEach(_function);
+      }
+      _xblockexpression = serverOutputs;
+    }
+    return _xblockexpression;
+  }
+  
+  public void throwDifferentChannelsError(final int length, final String message, final EAttribute instance) {
+    if ((length > 1)) {
+      this.error(message, instance);
+    }
+  }
+  
+  @Check
+  public void validateAbstractBoard(final AbstractBoard board) {
+    int _size = this.getBoardSerialChannels(board.getSensors()).size();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("the use of different serial channels is prohibited");
+    this.throwDifferentChannelsError(_size, _builder.toString(), IoTPackage.eINSTANCE.getAbstractBoard_Name());
+    int _size_1 = this.getBoardMQTTChannels(board.getSensors()).size();
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("the use of different mqtt channels is prohibited");
+    this.throwDifferentChannelsError(_size_1, _builder_1.toString(), IoTPackage.eINSTANCE.getAbstractBoard_Name());
+    int _size_2 = this.getBoardWiFiChannels(board.getSensors()).size();
+    StringConcatenation _builder_2 = new StringConcatenation();
+    _builder_2.append("the use of different wifi channels is prohibited");
+    this.throwDifferentChannelsError(_size_2, _builder_2.toString(), IoTPackage.eINSTANCE.getAbstractBoard_Name());
+  }
+  
+  @Check
+  public void validateExtendsBoard(final ExtendsBoard board) {
+    EList<Sensor> _sensors = board.getSensors();
+    List<Sensor> _list = null;
+    if (_sensors!=null) {
+      _list=IterableExtensions.<Sensor>toList(_sensors);
+    }
+    List<Sensor> _list_1 = IterableExtensions.<Sensor>toList(board.getAbstractBoard().getSensors());
+    final Iterable<Sensor> sensors = Iterables.<Sensor>concat(_list, _list_1);
+    List<String> _boardSerialChannels = this.getBoardSerialChannels(IterableExtensions.<Sensor>toList(sensors));
+    int _size = new HashSet<String>(_boardSerialChannels).size();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("the use of different serial channels is prohibited");
+    this.throwDifferentChannelsError(_size, _builder.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+    int _size_1 = this.getBoardMQTTChannels(board.getSensors()).size();
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("the use of different mqtt channels is prohibited");
+    this.throwDifferentChannelsError(_size_1, _builder_1.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+    int _size_2 = this.getBoardWiFiChannels(board.getSensors()).size();
+    StringConcatenation _builder_2 = new StringConcatenation();
+    _builder_2.append("the use of different wifi channels is prohibited");
+    this.throwDifferentChannelsError(_size_2, _builder_2.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+    WifiConfig _wifiSelect = board.getWifiSelect();
+    boolean _tripleEquals = (_wifiSelect == null);
+    if (_tripleEquals) {
+      for (final Sensor sensor : sensors) {
+        final Consumer<SensorOutput> _function = (SensorOutput so) -> {
+          int _length = ((Object[])Conversions.unwrapArray(this.ifChannelsWifiDependent(IterableExtensions.<Channel>toList(so.getChannel())), Object.class)).length;
+          boolean _greaterThan = (_length > 0);
+          if (_greaterThan) {
+            StringConcatenation _builder_3 = new StringConcatenation();
+            String _name = board.getName();
+            _builder_3.append(_name);
+            _builder_3.append(" extends a board with a WiFi dependency");
+            this.error(_builder_3.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+          }
+        };
+        sensor.getOutput().forEach(_function);
+      }
+    }
+  }
+  
+  @Check
+  public void validateNewBoard(final NewBoard board) {
+    int _size = this.getBoardSerialChannels(board.getSensors()).size();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("the use of different serial channels is prohibited");
+    this.throwDifferentChannelsError(_size, _builder.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+    int _size_1 = this.getBoardMQTTChannels(board.getSensors()).size();
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("the use of different mqtt channels is prohibited");
+    this.throwDifferentChannelsError(_size_1, _builder_1.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+    int _size_2 = this.getBoardWiFiChannels(board.getSensors()).size();
+    StringConcatenation _builder_2 = new StringConcatenation();
+    _builder_2.append("the use of different wifi channels is prohibited");
+    this.throwDifferentChannelsError(_size_2, _builder_2.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+  }
+  
+  public List<String> ifChannelsWifiDependent(final List<Channel> channels) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      ArrayList<String> wifiChannels = CollectionLiterals.<String>newArrayList();
+      for (final Channel channel : channels) {
+        if ((((channel.getConfig() instanceof Wifi) || (channel.getConfig() instanceof MqttClient)) || ((channel.getCtype() != null) && Objects.equal(channel.getCtype().getName(), "cloud")))) {
+          wifiChannels.add(channel.getName());
+        }
+      }
+      _xblockexpression = wifiChannels;
+    }
+    return _xblockexpression;
+  }
+  
   @Check
   public void validateSensorHasWifiConnection(final SensorOutput output) {
     final EList<Channel> channels = output.getChannel();
-    boolean includes = false;
-    ArrayList<String> wifiChannels = CollectionLiterals.<String>newArrayList();
-    for (final Channel channel : channels) {
-      {
-        if (((channel.getConfig() instanceof Wifi) || (channel.getConfig() instanceof MqttClient))) {
-          includes = true;
-        }
-        wifiChannels.add(channel.getName());
-      }
-    }
-    if (includes) {
-      Board board = EcoreUtil2.<Board>getContainerOfType(output, Board.class);
+    Board board = EcoreUtil2.<Board>getContainerOfType(output, Board.class);
+    List<String> wifiChannels = this.ifChannelsWifiDependent(channels);
+    final List<String> _converted_wifiChannels = (List<String>)wifiChannels;
+    int _length = ((Object[])Conversions.unwrapArray(_converted_wifiChannels, Object.class)).length;
+    boolean _greaterThan = (_length > 0);
+    if (_greaterThan) {
       WifiConfig _wifiSelect = board.getWifiSelect();
       final boolean wifi = (_wifiSelect != null);
       if ((!wifi)) {
@@ -398,17 +554,44 @@ public class IoTValidator extends AbstractIoTValidator {
     }
   }
   
-  @Check(CheckType.NORMAL)
-  public void validateChannelNamesUniversallyUnique(final Channel channel) {
+  public boolean validateChannelType(final ChannelType channelType) {
+    final String name = channelType.getName();
+    final List<String> validNames = Arrays.<String>asList("mqtt", "serial", "cloud");
+    boolean _contains = validNames.contains(name);
+    boolean _not = (!_contains);
+    if (_not) {
+      return true;
+    }
+    return false;
+  }
+  
+  @Check
+  public void validateChannelSanity(final Channel channel) {
     final Iterable<IEObjectDescription> channels = this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(channel, Model.class), IoTPackage.eINSTANCE.getChannel());
     final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(channels), channel.getName());
     if (dublicate) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("board name \"");
+      _builder.append("channel name \"");
       String _name = channel.getName();
       _builder.append(_name);
       _builder.append("\" is already taken");
       this.error(_builder.toString(), IoTPackage.Literals.CHANNEL__NAME);
+    }
+    ChannelConfig _config = channel.getConfig();
+    final boolean configExists = (_config == null);
+    ChannelType _ctype = channel.getCtype();
+    final boolean typeExists = (_ctype == null);
+    boolean _xOr = this._typeChecker.xOr(typeExists, configExists);
+    boolean _not = (!_xOr);
+    if (_not) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("either type or configuration must be defined explicitly");
+      this.error(_builder_1.toString(), IoTPackage.Literals.CHANNEL__NAME);
+    }
+    if (((!typeExists) && this.validateChannelType(channel.getCtype()))) {
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("invalid channel type");
+      this.error(_builder_2.toString(), IoTPackage.Literals.CHANNEL__CTYPE, IoTValidator.INVALID_CHANNEL_TYPE, channel.getCtype().toString());
     }
   }
   
@@ -432,7 +615,7 @@ public class IoTValidator extends AbstractIoTValidator {
     if (_ifInvalid) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("invalid type");
-      this.error(_builder.toString(), IoTPackage.eINSTANCE.getFunctionInputType_Name(), IoTValidator.INVALID_TYPE, functionType.getName());
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getFunctionInputType_Name(), IoTValidator.INVALID_FUNCTION_TYPE, functionType.getName());
     }
   }
   
@@ -486,30 +669,39 @@ public class IoTValidator extends AbstractIoTValidator {
       this.info(_builder.toString(), IoTPackage.Literals.SENSOR__NAME);
       return;
     }
-    ExtendsBoard _containerOfType = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
-    AbstractBoard _abstractBoard = null;
-    if (_containerOfType!=null) {
-      _abstractBoard=_containerOfType.getAbstractBoard();
-    }
-    AbstractBoard extendsBoard = _abstractBoard;
-    if ((((!error) && (extendsBoard != null)) && this.appearsOnce(this.asStringListSensor(extendsBoard.getSensors()), sensor.getName()))) {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("overriding ");
-      String _name_1 = sensor.getName();
-      _builder_1.append(_name_1);
-      _builder_1.append(" in ");
-      String _name_2 = extendsBoard.getName();
-      _builder_1.append(_name_2);
-      this.info(_builder_1.toString(), IoTPackage.Literals.SENSOR__NAME);
+    ExtendsBoard extendsBoard = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
+    AbstractBoard abstractBoard = extendsBoard.getAbstractBoard();
+    if ((((!error) && (abstractBoard != null)) && this.appearsOnce(this.asStringListSensor(abstractBoard.getSensors()), sensor.getName()))) {
+      EList<Sensor> _sensors = extendsBoard.getSensors();
+      ArrayList<String> _asStringListSensor = null;
+      if (_sensors!=null) {
+        _asStringListSensor=this.asStringListSensor(_sensors);
+      }
+      boolean _appearsOnce = this.appearsOnce(_asStringListSensor, sensor.getName());
+      boolean _not = (!_appearsOnce);
+      if (_not) {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("sensor names must be unique within the context of a board");
+        this.error(_builder_1.toString(), IoTPackage.Literals.SENSOR__NAME);
+      } else {
+        StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append("overriding ");
+        String _name_1 = sensor.getName();
+        _builder_2.append(_name_1);
+        _builder_2.append(" in ");
+        String _name_2 = abstractBoard.getName();
+        _builder_2.append(_name_2);
+        this.info(_builder_2.toString(), IoTPackage.Literals.SENSOR__NAME);
+      }
       return;
     }
     NewBoard newBoard = EcoreUtil2.<NewBoard>getContainerOfType(sensor, NewBoard.class);
-    boolean _appearsOnce = this.appearsOnce(this.asStringListSensor(newBoard.getSensors()), sensor.getName());
-    boolean _not = (!_appearsOnce);
-    if (_not) {
-      StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("sensor names must be unique within the context of a board");
-      this.error(_builder_2.toString(), IoTPackage.Literals.SENSOR__NAME);
+    boolean _appearsOnce_1 = this.appearsOnce(this.asStringListSensor(newBoard.getSensors()), sensor.getName());
+    boolean _not_1 = (!_appearsOnce_1);
+    if (_not_1) {
+      StringConcatenation _builder_3 = new StringConcatenation();
+      _builder_3.append("sensor names must be unique within the context of a board");
+      this.error(_builder_3.toString(), IoTPackage.Literals.SENSOR__NAME);
     }
   }
   
@@ -638,7 +830,7 @@ public class IoTValidator extends AbstractIoTValidator {
   }
   
   @Check
-  public void validateChannel(final WifiConfig channel) {
+  public void validateWifiConfig(final WifiConfig channel) {
     String _pass = channel.getPass();
     boolean _tripleNotEquals = (_pass != null);
     if (_tripleNotEquals) {

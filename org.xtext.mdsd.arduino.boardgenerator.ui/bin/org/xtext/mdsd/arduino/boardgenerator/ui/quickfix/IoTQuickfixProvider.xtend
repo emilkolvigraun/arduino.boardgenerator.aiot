@@ -12,6 +12,7 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
 
 /**
  * Custom quickfixes.
@@ -33,7 +34,7 @@ class IoTQuickfixProvider extends DefaultQuickfixProvider {
 			]) 
 	}
 	
-	@Fix(IoTValidator.INVALID_TYPE)
+	@Fix(IoTValidator.INVALID_FUNCTION_TYPE)
 	def invalidExternalType(Issue issue, IssueResolutionAcceptor acceptor){ 
 		acceptor.accept(issue, '''Change to string - "str"''',   
 			null, null, [element, context |      
@@ -52,6 +53,28 @@ class IoTQuickfixProvider extends DefaultQuickfixProvider {
 				var node = NodeModelUtils.getNode(element)  
 				var ftype = element.getContainerOfType(FunctionInputType)
 				context.xtextDocument.replace(node.endOffset-ftype.name.length, ftype.name.length, '''bool''')
+			]) 
+	}
+	
+	@Fix(IoTValidator.INVALID_CHANNEL_TYPE)
+	def invalidChannelType(Issue issue, IssueResolutionAcceptor acceptor){ 
+		acceptor.accept(issue, '''Change to SERIAL - "serial"''',   
+			null, null, [element, context |      
+				var node = NodeModelUtils.getNode(element)
+				var channel = element.getContainerOfType(Channel)
+				context.xtextDocument.replace(node.endOffset-node.length, channel.ctype.name.length, '''serial''')
+			])     
+		acceptor.accept(issue, '''Change to CLOUD - "cloud"''',   
+			null, null, [element, context |       
+				var node = NodeModelUtils.getNode(element)
+				var channel = element.getContainerOfType(Channel)
+				context.xtextDocument.replace(node.endOffset-node.length, channel.ctype.name.length, '''cloud''')
+			])   
+		acceptor.accept(issue, '''Change to MQTT - "mqtt"''',     
+			null, null, [element, context |      
+				var node = NodeModelUtils.getNode(element) 
+				var channel = element.getContainerOfType(Channel)
+				context.xtextDocument.replace(node.endOffset-node.length, channel.ctype.name.length, '''mqtt''')
 			]) 
 	}
 }

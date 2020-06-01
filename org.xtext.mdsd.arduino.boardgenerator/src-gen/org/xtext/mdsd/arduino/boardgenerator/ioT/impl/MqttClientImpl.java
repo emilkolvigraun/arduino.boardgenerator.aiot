@@ -3,11 +3,17 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
@@ -91,24 +97,14 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
   protected String client = CLIENT_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getPub() <em>Pub</em>}' attribute.
+   * The cached value of the '{@link #getPub() <em>Pub</em>}' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getPub()
    * @generated
    * @ordered
    */
-  protected static final String PUB_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getPub() <em>Pub</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getPub()
-   * @generated
-   * @ordered
-   */
-  protected String pub = PUB_EDEFAULT;
+  protected EList<String> pub;
 
   /**
    * <!-- begin-user-doc -->
@@ -212,23 +208,13 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
    * @generated
    */
   @Override
-  public String getPub()
+  public EList<String> getPub()
   {
+    if (pub == null)
+    {
+      pub = new EDataTypeEList<String>(String.class, this, IoTPackage.MQTT_CLIENT__PUB);
+    }
     return pub;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setPub(String newPub)
-  {
-    String oldPub = pub;
-    pub = newPub;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.MQTT_CLIENT__PUB, oldPub, pub));
   }
 
   /**
@@ -258,6 +244,7 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -273,7 +260,8 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
         setClient((String)newValue);
         return;
       case IoTPackage.MQTT_CLIENT__PUB:
-        setPub((String)newValue);
+        getPub().clear();
+        getPub().addAll((Collection<? extends String>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -299,7 +287,7 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
         setClient(CLIENT_EDEFAULT);
         return;
       case IoTPackage.MQTT_CLIENT__PUB:
-        setPub(PUB_EDEFAULT);
+        getPub().clear();
         return;
     }
     super.eUnset(featureID);
@@ -322,7 +310,7 @@ public class MqttClientImpl extends ChannelConfigImpl implements MqttClient
       case IoTPackage.MQTT_CLIENT__CLIENT:
         return CLIENT_EDEFAULT == null ? client != null : !CLIENT_EDEFAULT.equals(client);
       case IoTPackage.MQTT_CLIENT__PUB:
-        return PUB_EDEFAULT == null ? pub != null : !PUB_EDEFAULT.equals(pub);
+        return pub != null && !pub.isEmpty();
     }
     return super.eIsSet(featureID);
   }

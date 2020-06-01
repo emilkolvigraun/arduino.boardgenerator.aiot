@@ -12,6 +12,8 @@ public class IoTHighlightingConfiguration extends DefaultHighlightingConfigurati
   
   public static final String EXTERNAL_TYPE_ID = "ExternalFunctionVariableType";
   
+  public static final String CHANNEL_TYPE_ID = "ChannelType";
+  
   @Override
   public void configure(final IHighlightingConfigurationAcceptor acceptor) {
     acceptor.acceptDefaultHighlighting(DefaultHighlightingConfiguration.KEYWORD_ID, "Keyword", this.keywordTextStyle());
@@ -24,6 +26,7 @@ public class IoTHighlightingConfiguration extends DefaultHighlightingConfigurati
     acceptor.acceptDefaultHighlighting(DefaultHighlightingConfiguration.INVALID_TOKEN_ID, "Invalid Symbol", this.errorTextStyle());
     acceptor.acceptDefaultHighlighting(IoTHighlightingConfiguration.EXTERNAL_ID, "External", this.externalTextStyle());
     acceptor.acceptDefaultHighlighting(IoTHighlightingConfiguration.EXTERNAL_TYPE_ID, "External Variable Type", this.typeTextStyle());
+    acceptor.acceptDefaultHighlighting(IoTHighlightingConfiguration.CHANNEL_TYPE_ID, "Channel Type", this.typeTextStyle());
   }
   
   @Override

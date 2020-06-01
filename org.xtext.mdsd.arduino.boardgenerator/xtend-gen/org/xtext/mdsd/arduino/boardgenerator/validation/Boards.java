@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
+import org.xtext.mdsd.arduino.boardgenerator.validation.SDParams;
 import org.xtext.mdsd.arduino.boardgenerator.validation.SupportedBoards;
 
 @SuppressWarnings("all")
@@ -14,6 +15,8 @@ public class Boards {
   private String model;
   
   private Map<String, Integer> sensors;
+  
+  private Map<String, Integer> sd;
   
   public static Boards getBoardSupported(final BoardVersion board) {
     Boards _xblockexpression = null;
@@ -39,6 +42,7 @@ public class Boards {
         switch (_lowerCase_1) {
           case "wrover":
             this.sensors = SupportedBoards.WROVER;
+            this.sd = SDParams.WROVER;
             break;
           default:
             this.sensors = null;
@@ -74,6 +78,16 @@ public class Boards {
       _xblockexpression = false;
     }
     return _xblockexpression;
+  }
+  
+  public int getSDMapping(final String param) {
+    Integer _xifexpression = null;
+    if ((this.sd == null)) {
+      _xifexpression = Integer.valueOf((-1));
+    } else {
+      _xifexpression = this.sd.getOrDefault(param, Integer.valueOf((-1)));
+    }
+    return (_xifexpression).intValue();
   }
   
   public int getVariableCount(final String sensor) {

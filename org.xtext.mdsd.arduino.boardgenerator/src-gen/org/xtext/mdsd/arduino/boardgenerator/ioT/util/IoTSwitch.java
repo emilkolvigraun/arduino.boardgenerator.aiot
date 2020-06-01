@@ -8,79 +8,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Micros;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Millis;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Not;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NumberLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Window;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -180,6 +108,13 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case IoTPackage.CHANNEL_TYPE:
+      {
+        ChannelType channelType = (ChannelType)theEObject;
+        T result = caseChannelType(channelType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case IoTPackage.CHANNEL_CONFIG:
       {
         ChannelConfig channelConfig = (ChannelConfig)theEObject;
@@ -203,10 +138,26 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case IoTPackage.STOP_IDENTIFYER:
+      {
+        StopIdentifyer stopIdentifyer = (StopIdentifyer)theEObject;
+        T result = caseStopIdentifyer(stopIdentifyer);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case IoTPackage.STOP_CHAR:
       {
-        stopChar stopChar = (stopChar)theEObject;
-        T result = casestopChar(stopChar);
+        StopChar stopChar = (StopChar)theEObject;
+        T result = caseStopChar(stopChar);
+        if (result == null) result = caseStopIdentifyer(stopChar);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.STOP_BYTE:
+      {
+        StopByte stopByte = (StopByte)theEObject;
+        T result = caseStopByte(stopByte);
+        if (result == null) result = caseStopIdentifyer(stopByte);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -439,22 +390,6 @@ public class IoTSwitch<T> extends Switch<T>
         BooleanLiteral booleanLiteral = (BooleanLiteral)theEObject;
         T result = caseBooleanLiteral(booleanLiteral);
         if (result == null) result = caseExpression(booleanLiteral);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.CHAR:
-      {
-        Char char_ = (Char)theEObject;
-        T result = caseChar(char_);
-        if (result == null) result = casestopChar(char_);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.BYTE:
-      {
-        org.xtext.mdsd.arduino.boardgenerator.ioT.Byte byte_ = (org.xtext.mdsd.arduino.boardgenerator.ioT.Byte)theEObject;
-        T result = caseByte(byte_);
-        if (result == null) result = casestopChar(byte_);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -795,6 +730,22 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Channel Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Channel Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseChannelType(ChannelType object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Channel Config</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -843,17 +794,49 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>stop Char</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Stop Identifyer</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>stop Char</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Stop Identifyer</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T casestopChar(stopChar object)
+  public T caseStopIdentifyer(StopIdentifyer object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Stop Char</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Stop Char</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseStopChar(StopChar object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Stop Byte</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Stop Byte</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseStopByte(StopByte object)
   {
     return null;
   }
@@ -1350,38 +1333,6 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseBooleanLiteral(BooleanLiteral object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Char</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Char</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseChar(Char object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Byte</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Byte</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseByte(org.xtext.mdsd.arduino.boardgenerator.ioT.Byte object)
   {
     return null;
   }

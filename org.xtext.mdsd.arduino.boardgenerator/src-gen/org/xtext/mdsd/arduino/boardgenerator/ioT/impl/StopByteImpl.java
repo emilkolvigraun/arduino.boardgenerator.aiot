@@ -10,21 +10,22 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Byte</b></em>'.
+ * An implementation of the model object '<em><b>Stop Byte</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.ByteImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.StopByteImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boardgenerator.ioT.Byte
+public class StopByteImpl extends StopIdentifyerImpl implements StopByte
 {
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -51,7 +52,7 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ByteImpl()
+  protected StopByteImpl()
   {
     super();
   }
@@ -64,7 +65,7 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
   @Override
   protected EClass eStaticClass()
   {
-    return IoTPackage.Literals.BYTE;
+    return IoTPackage.Literals.STOP_BYTE;
   }
 
   /**
@@ -89,7 +90,7 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
     int oldName = name;
     name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.BYTE__NAME, oldName, name));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.STOP_BYTE__NAME, oldName, name));
   }
 
   /**
@@ -102,7 +103,7 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
   {
     switch (featureID)
     {
-      case IoTPackage.BYTE__NAME:
+      case IoTPackage.STOP_BYTE__NAME:
         return getName();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -118,7 +119,7 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
   {
     switch (featureID)
     {
-      case IoTPackage.BYTE__NAME:
+      case IoTPackage.STOP_BYTE__NAME:
         setName((Integer)newValue);
         return;
     }
@@ -135,7 +136,7 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
   {
     switch (featureID)
     {
-      case IoTPackage.BYTE__NAME:
+      case IoTPackage.STOP_BYTE__NAME:
         setName(NAME_EDEFAULT);
         return;
     }
@@ -152,7 +153,7 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
   {
     switch (featureID)
     {
-      case IoTPackage.BYTE__NAME:
+      case IoTPackage.STOP_BYTE__NAME:
         return name != NAME_EDEFAULT;
     }
     return super.eIsSet(featureID);
@@ -175,4 +176,4 @@ public class ByteImpl extends stopCharImpl implements org.xtext.mdsd.arduino.boa
     return result.toString();
   }
 
-} //ByteImpl
+} //StopByteImpl

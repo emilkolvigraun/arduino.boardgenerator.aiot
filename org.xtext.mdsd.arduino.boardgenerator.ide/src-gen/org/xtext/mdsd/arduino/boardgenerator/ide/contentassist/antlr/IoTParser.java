@@ -34,7 +34,7 @@ public class IoTParser extends AbstractContentAssistParser {
 		
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, IoTGrammarAccess grammarAccess) {
 			builder.put(grammarAccess.getChannelConfigAccess().getAlternatives(), "rule__ChannelConfig__Alternatives");
-			builder.put(grammarAccess.getStopCharAccess().getAlternatives(), "rule__StopChar__Alternatives");
+			builder.put(grammarAccess.getStopIdentifyerAccess().getAlternatives(), "rule__StopIdentifyer__Alternatives");
 			builder.put(grammarAccess.getBoardAccess().getAlternatives_1(), "rule__Board__Alternatives_1");
 			builder.put(grammarAccess.getSensorTypeAccess().getAlternatives(), "rule__SensorType__Alternatives");
 			builder.put(grammarAccess.getSamplerAccess().getAlternatives(), "rule__Sampler__Alternatives");
@@ -56,12 +56,13 @@ public class IoTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getWifiConfigAccess().getGroup(), "rule__WifiConfig__Group__0");
 			builder.put(grammarAccess.getWifiConfigAccess().getGroup_6(), "rule__WifiConfig__Group_6__0");
 			builder.put(grammarAccess.getChannelAccess().getGroup(), "rule__Channel__Group__0");
-			builder.put(grammarAccess.getChannelAccess().getGroup_2(), "rule__Channel__Group_2__0");
+			builder.put(grammarAccess.getChannelAccess().getGroup_3(), "rule__Channel__Group_3__0");
 			builder.put(grammarAccess.getWifiAccess().getGroup(), "rule__Wifi__Group__0");
 			builder.put(grammarAccess.getSerialAccess().getGroup(), "rule__Serial__Group__0");
-			builder.put(grammarAccess.getStopCharAccess().getGroup_0(), "rule__StopChar__Group_0__0");
-			builder.put(grammarAccess.getStopCharAccess().getGroup_1(), "rule__StopChar__Group_1__0");
+			builder.put(grammarAccess.getStopCharAccess().getGroup(), "rule__StopChar__Group__0");
+			builder.put(grammarAccess.getStopByteAccess().getGroup(), "rule__StopByte__Group__0");
 			builder.put(grammarAccess.getMqttClientAccess().getGroup(), "rule__MqttClient__Group__0");
+			builder.put(grammarAccess.getMqttClientAccess().getGroup_9(), "rule__MqttClient__Group_9__0");
 			builder.put(grammarAccess.getFunctionAccess().getGroup(), "rule__Function__Group__0");
 			builder.put(grammarAccess.getFunctionAccess().getGroup_4(), "rule__Function__Group_4__0");
 			builder.put(grammarAccess.getFunctionAccess().getGroup_9(), "rule__Function__Group_9__0");
@@ -141,18 +142,22 @@ public class IoTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getWifiConfigAccess().getNameAssignment_1(), "rule__WifiConfig__NameAssignment_1");
 			builder.put(grammarAccess.getWifiConfigAccess().getSsidAssignment_5(), "rule__WifiConfig__SsidAssignment_5");
 			builder.put(grammarAccess.getWifiConfigAccess().getPassAssignment_6_1(), "rule__WifiConfig__PassAssignment_6_1");
-			builder.put(grammarAccess.getChannelAccess().getNameAssignment_1(), "rule__Channel__NameAssignment_1");
-			builder.put(grammarAccess.getChannelAccess().getConfigAssignment_2_2(), "rule__Channel__ConfigAssignment_2_2");
+			builder.put(grammarAccess.getChannelAccess().getCtypeAssignment_0(), "rule__Channel__CtypeAssignment_0");
+			builder.put(grammarAccess.getChannelAccess().getNameAssignment_2(), "rule__Channel__NameAssignment_2");
+			builder.put(grammarAccess.getChannelAccess().getConfigAssignment_3_2(), "rule__Channel__ConfigAssignment_3_2");
+			builder.put(grammarAccess.getChannelTypeAccess().getNameAssignment(), "rule__ChannelType__NameAssignment");
 			builder.put(grammarAccess.getWifiAccess().getUrlAssignment_1(), "rule__Wifi__UrlAssignment_1");
-			builder.put(grammarAccess.getWifiAccess().getRouteAssignment_3(), "rule__Wifi__RouteAssignment_3");
+			builder.put(grammarAccess.getWifiAccess().getSportAssignment_3(), "rule__Wifi__SportAssignment_3");
+			builder.put(grammarAccess.getWifiAccess().getRouteAssignment_5(), "rule__Wifi__RouteAssignment_5");
 			builder.put(grammarAccess.getSerialAccess().getBaudAssignment_1(), "rule__Serial__BaudAssignment_1");
-			builder.put(grammarAccess.getSerialAccess().getStopAssignment_3(), "rule__Serial__StopAssignment_3");
-			builder.put(grammarAccess.getStopCharAccess().getNameAssignment_0_2(), "rule__StopChar__NameAssignment_0_2");
-			builder.put(grammarAccess.getStopCharAccess().getNameAssignment_1_2(), "rule__StopChar__NameAssignment_1_2");
+			builder.put(grammarAccess.getSerialAccess().getStopTypeAssignment_3(), "rule__Serial__StopTypeAssignment_3");
+			builder.put(grammarAccess.getStopCharAccess().getNameAssignment_1(), "rule__StopChar__NameAssignment_1");
+			builder.put(grammarAccess.getStopByteAccess().getNameAssignment_1(), "rule__StopByte__NameAssignment_1");
 			builder.put(grammarAccess.getMqttClientAccess().getBrokerAssignment_1(), "rule__MqttClient__BrokerAssignment_1");
 			builder.put(grammarAccess.getMqttClientAccess().getPortAssignment_3(), "rule__MqttClient__PortAssignment_3");
 			builder.put(grammarAccess.getMqttClientAccess().getClientAssignment_5(), "rule__MqttClient__ClientAssignment_5");
-			builder.put(grammarAccess.getMqttClientAccess().getPubAssignment_7(), "rule__MqttClient__PubAssignment_7");
+			builder.put(grammarAccess.getMqttClientAccess().getPubAssignment_8(), "rule__MqttClient__PubAssignment_8");
+			builder.put(grammarAccess.getMqttClientAccess().getPubAssignment_9_1(), "rule__MqttClient__PubAssignment_9_1");
 			builder.put(grammarAccess.getFunctionAccess().getNameAssignment_1(), "rule__Function__NameAssignment_1");
 			builder.put(grammarAccess.getFunctionAccess().getInputAssignment_3(), "rule__Function__InputAssignment_3");
 			builder.put(grammarAccess.getFunctionAccess().getInputAssignment_4_1(), "rule__Function__InputAssignment_4_1");

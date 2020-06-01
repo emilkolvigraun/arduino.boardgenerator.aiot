@@ -9,6 +9,7 @@ class Boards {
 	String type
 	String model
 	Map<String, Integer> sensors
+	Map<String, Integer> sd
 
 	def static getBoardSupported(BoardVersion board) {
 		if (board === null){ 
@@ -26,7 +27,10 @@ class Boards {
 		if (type.toLowerCase() == "esp32"){
 			 
 			switch (model.toLowerCase()){
-				case "wrover": sensors = SupportedBoards.WROVER
+				case "wrover":{
+					sensors = SupportedBoards.WROVER
+					sd = SDParams.WROVER					
+				}  
 				default: sensors = null
 			}
 		} 
@@ -47,7 +51,15 @@ class Boards {
 			}
 		} 
 		false
-	} 
+	}  
+	
+	def int getSDMapping(String param){
+		if (this.sd === null) {
+			-1 
+		} else {
+			this.sd.getOrDefault(param, -1)
+		}
+	}
 	
 	// this is exactly the same as in the group project
 	def int getVariableCount(String sensor){

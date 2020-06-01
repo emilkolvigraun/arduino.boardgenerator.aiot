@@ -1,0 +1,4 @@
+bh1750 = iot_bh1750_create(i2c_bus, BH1750_I2C_ADDRESS);
+bh1750_cmd_measure_t cmd_measure = BH1750_CONTINUE_4LX_RES;
+iot_bh1750_power_on(bh1750); 
+iot_bh1750_set_measure_mode(bh1750, cmd_measure);	 

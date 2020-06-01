@@ -1,0 +1,9 @@
+hts221 = iot_hts221_create(i2c_bus, HTS221_I2C_ADDRESS);
+hts221_config_t hts221_config;
+hts221_config.avg_h = HTS221_AVGH_32;
+hts221_config.avg_t = HTS221_AVGT_16;
+hts221_config.odr = HTS221_ODR_1HZ;
+hts221_config.bdu_status = HTS221_DISABLE;
+hts221_config.heater_status = HTS221_DISABLE;
+iot_hts221_set_config(hts221, &hts221_config);
+iot_hts221_set_activate(hts221);

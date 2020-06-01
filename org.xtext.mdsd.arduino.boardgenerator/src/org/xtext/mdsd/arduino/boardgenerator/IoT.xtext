@@ -26,44 +26,47 @@ WifiConfig:
 		'ssid' ssid=STRING 
 		('pass' pass=STRING)?
 	END ;
-
-Channel:
-	'channel' name=ID (':' BEGIN 
+ 
+Channel:  
+	(ctype=ChannelType)? 'channel' name=ID (':' BEGIN 
 		config=ChannelConfig
 	END)?;   
  
+ChannelType: 
+	name=ID;
+ 
 ChannelConfig:
-	Wifi | Serial | MqttClient
-;
+	Wifi | Serial | MqttClient;
 
 Wifi:
-	'url'   url=STRING
-	'route' route=STRING
-;
+	'ip'    url=STRING
+	'port'  sport=INT
+	'route' route=STRING;
  
-Serial:
-	'baud' baud=INT
-	'stop' stop=stopChar
-; 
+Serial:  
+	'baud' baud=INT 
+	'stop' stopType=StopIdentifyer;  
+
+StopIdentifyer:
+	StopChar | StopByte;
+     
+StopChar:
+	'char' name=STRING;
  
-stopChar:
-	{Char} 'char' name=STRING | {Byte} 'byte' name=INT
-;
+StopByte:
+	'byte' name=INT;
 
 MqttClient: 
-	'broker'broker=STRING 
+	'broker'broker=STRING  
 	'port'	port=INT
 	'id'    client=STRING   
-	'topic' pub=STRING 
-;  
+	'topic' '[' pub+=STRING (',' pub+=STRING)? ']' ;  
   
 Function:
-	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)*  ')' '->' '(' output+=ID (',' output+=ID)*  ')'
-;
+	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)*  ')' '->' '(' output+=ID (',' output+=ID)*  ')';
    
 FunctionInputType:  
-	 name=ID  
-;
+	 name=ID  ;
 
 // board can either extend another or is new
 Board:
@@ -79,13 +82,13 @@ NewBoard:
  
 BoardVersion:
 	'type' type=ID  
-	'model' model=ID; 
- 
+	'model' model=ID;   
+  
 // Can extend another board, in that case needs only reference
 ExtendsBoard:
 	name=ID 'extends' abstractBoard=[AbstractBoard] (':' BEGIN
 		('wifi' wifiSelect=[WifiConfig])?
-		sensors+=Sensor+ 
+		(sensors+=Sensor+)?
 		 END)?;   
 
 // ...

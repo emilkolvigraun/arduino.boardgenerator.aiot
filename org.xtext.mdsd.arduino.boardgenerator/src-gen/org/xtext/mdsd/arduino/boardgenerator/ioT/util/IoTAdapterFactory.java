@@ -10,79 +10,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Micros;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Millis;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Not;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NumberLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Window;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -173,6 +101,11 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createChannelAdapter();
       }
       @Override
+      public Adapter caseChannelType(ChannelType object)
+      {
+        return createChannelTypeAdapter();
+      }
+      @Override
       public Adapter caseChannelConfig(ChannelConfig object)
       {
         return createChannelConfigAdapter();
@@ -188,9 +121,19 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createSerialAdapter();
       }
       @Override
-      public Adapter casestopChar(stopChar object)
+      public Adapter caseStopIdentifyer(StopIdentifyer object)
       {
-        return createstopCharAdapter();
+        return createStopIdentifyerAdapter();
+      }
+      @Override
+      public Adapter caseStopChar(StopChar object)
+      {
+        return createStopCharAdapter();
+      }
+      @Override
+      public Adapter caseStopByte(StopByte object)
+      {
+        return createStopByteAdapter();
       }
       @Override
       public Adapter caseMqttClient(MqttClient object)
@@ -346,16 +289,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseBooleanLiteral(BooleanLiteral object)
       {
         return createBooleanLiteralAdapter();
-      }
-      @Override
-      public Adapter caseChar(Char object)
-      {
-        return createCharAdapter();
-      }
-      @Override
-      public Adapter caseByte(org.xtext.mdsd.arduino.boardgenerator.ioT.Byte object)
-      {
-        return createByteAdapter();
       }
       @Override
       public Adapter caseSeconds(Seconds object)
@@ -610,6 +543,21 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType <em>Channel Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType
+   * @generated
+   */
+  public Adapter createChannelTypeAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig <em>Channel Config</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -655,16 +603,46 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar <em>stop Char</em>}'.
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer <em>Stop Identifyer</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer
    * @generated
    */
-  public Adapter createstopCharAdapter()
+  public Adapter createStopIdentifyerAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar <em>Stop Char</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar
+   * @generated
+   */
+  public Adapter createStopCharAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte <em>Stop Byte</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte
+   * @generated
+   */
+  public Adapter createStopByteAdapter()
   {
     return null;
   }
@@ -1130,36 +1108,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createBooleanLiteralAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Char <em>Char</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Char
-   * @generated
-   */
-  public Adapter createCharAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Byte <em>Byte</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Byte
-   * @generated
-   */
-  public Adapter createByteAdapter()
   {
     return null;
   }

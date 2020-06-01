@@ -16,6 +16,7 @@ import org.eclipse.xtext.ui.editor.quickfix.Fix;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
 import org.eclipse.xtext.validation.Issue;
 import org.eclipse.xtext.xbase.lib.ExclusiveRange;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.validation.IoTValidator;
@@ -58,7 +59,7 @@ public class IoTQuickfixProvider extends DefaultQuickfixProvider {
       null, null, _function);
   }
   
-  @Fix(IoTValidator.INVALID_TYPE)
+  @Fix(IoTValidator.INVALID_FUNCTION_TYPE)
   public void invalidExternalType(final Issue issue, final IssueResolutionAcceptor acceptor) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("Change to string - \"str\"");
@@ -104,6 +105,58 @@ public class IoTQuickfixProvider extends DefaultQuickfixProvider {
       int _length_1 = ftype.getName().length();
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("bool");
+      _xtextDocument.replace(_minus, _length_1, _builder_3.toString());
+    };
+    acceptor.accept(issue, _builder_2.toString(), 
+      null, null, _function_2);
+  }
+  
+  @Fix(IoTValidator.INVALID_CHANNEL_TYPE)
+  public void invalidChannelType(final Issue issue, final IssueResolutionAcceptor acceptor) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("Change to SERIAL - \"serial\"");
+    final ISemanticModification _function = (EObject element, IModificationContext context) -> {
+      ICompositeNode node = NodeModelUtils.getNode(element);
+      Channel channel = EcoreUtil2.<Channel>getContainerOfType(element, Channel.class);
+      IXtextDocument _xtextDocument = context.getXtextDocument();
+      int _endOffset = node.getEndOffset();
+      int _length = node.getLength();
+      int _minus = (_endOffset - _length);
+      int _length_1 = channel.getCtype().getName().length();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("serial");
+      _xtextDocument.replace(_minus, _length_1, _builder_1.toString());
+    };
+    acceptor.accept(issue, _builder.toString(), 
+      null, null, _function);
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append("Change to CLOUD - \"cloud\"");
+    final ISemanticModification _function_1 = (EObject element, IModificationContext context) -> {
+      ICompositeNode node = NodeModelUtils.getNode(element);
+      Channel channel = EcoreUtil2.<Channel>getContainerOfType(element, Channel.class);
+      IXtextDocument _xtextDocument = context.getXtextDocument();
+      int _endOffset = node.getEndOffset();
+      int _length = node.getLength();
+      int _minus = (_endOffset - _length);
+      int _length_1 = channel.getCtype().getName().length();
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("cloud");
+      _xtextDocument.replace(_minus, _length_1, _builder_2.toString());
+    };
+    acceptor.accept(issue, _builder_1.toString(), 
+      null, null, _function_1);
+    StringConcatenation _builder_2 = new StringConcatenation();
+    _builder_2.append("Change to MQTT - \"mqtt\"");
+    final ISemanticModification _function_2 = (EObject element, IModificationContext context) -> {
+      ICompositeNode node = NodeModelUtils.getNode(element);
+      Channel channel = EcoreUtil2.<Channel>getContainerOfType(element, Channel.class);
+      IXtextDocument _xtextDocument = context.getXtextDocument();
+      int _endOffset = node.getEndOffset();
+      int _length = node.getLength();
+      int _minus = (_endOffset - _length);
+      int _length_1 = channel.getCtype().getName().length();
+      StringConcatenation _builder_3 = new StringConcatenation();
+      _builder_3.append("mqtt");
       _xtextDocument.replace(_minus, _length_1, _builder_3.toString());
     };
     acceptor.accept(issue, _builder_2.toString(), 

@@ -14,6 +14,7 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getUrl <em>Url</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSport <em>Sport</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getRoute <em>Route</em>}</li>
  * </ul>
  *
@@ -44,6 +45,28 @@ public interface Wifi extends ChannelConfig
    * @generated
    */
   void setUrl(String value);
+
+  /**
+   * Returns the value of the '<em><b>Sport</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Sport</em>' attribute.
+   * @see #setSport(int)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Sport()
+   * @model
+   * @generated
+   */
+  int getSport();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSport <em>Sport</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Sport</em>' attribute.
+   * @see #getSport()
+   * @generated
+   */
+  void setSport(int value);
 
   /**
    * Returns the value of the '<em><b>Route</b></em>' attribute.

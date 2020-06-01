@@ -6,21 +6,21 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Byte</b></em>'.
+ * A representation of the model object '<em><b>Stop Byte</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Byte#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte#getName <em>Name</em>}</li>
  * </ul>
  *
- * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getByte()
+ * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getStopByte()
  * @model
  * @generated
  */
-public interface Byte extends stopChar
+public interface StopByte extends StopIdentifyer
 {
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
@@ -28,14 +28,14 @@ public interface Byte extends stopChar
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(int)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getByte_Name()
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getStopByte_Name()
    * @model
    * @generated
    */
   int getName();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Byte#getName <em>Name</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Name</em>' attribute.
@@ -44,4 +44,4 @@ public interface Byte extends stopChar
    */
   void setName(int value);
 
-} // Byte
+} // StopByte

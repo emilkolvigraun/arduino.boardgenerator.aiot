@@ -8,6 +8,7 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
@@ -38,6 +39,13 @@ public class IoTSemanticHighlightConfiguration extends DefaultSemanticHighlighti
       List<INode> _findNodesForFeature_2 = NodeModelUtils.findNodesForFeature(typ, IoTPackage.Literals.FUNCTION_INPUT_TYPE__NAME);
       for (final INode node_2 : _findNodesForFeature_2) {
         acceptor.addPosition(node_2.getOffset(), node_2.getLength(), IoTHighlightingConfiguration.EXTERNAL_TYPE_ID);
+      }
+    }
+    List<Channel> _allContentsOfType_3 = EcoreUtil2.<Channel>getAllContentsOfType(rootObject, Channel.class);
+    for (final Channel chan : _allContentsOfType_3) {
+      List<INode> _findNodesForFeature_3 = NodeModelUtils.findNodesForFeature(chan, IoTPackage.Literals.CHANNEL__CTYPE);
+      for (final INode node_3 : _findNodesForFeature_3) {
+        acceptor.addPosition(node_3.getOffset(), node_3.getLength(), IoTHighlightingConfiguration.CHANNEL_TYPE_ID);
       }
     }
     super.doProvideHighlightingFor(resource, acceptor);

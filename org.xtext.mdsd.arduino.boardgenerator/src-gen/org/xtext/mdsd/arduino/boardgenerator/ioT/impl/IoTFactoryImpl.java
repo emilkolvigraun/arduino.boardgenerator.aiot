@@ -11,80 +11,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Char;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ImportObject;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTFactory;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Micros;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Millis;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Not;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.NumberLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Window;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -143,10 +70,13 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.IMPORT_OBJECT: return createImportObject();
       case IoTPackage.WIFI_CONFIG: return createWifiConfig();
       case IoTPackage.CHANNEL: return createChannel();
+      case IoTPackage.CHANNEL_TYPE: return createChannelType();
       case IoTPackage.CHANNEL_CONFIG: return createChannelConfig();
       case IoTPackage.WIFI: return createWifi();
       case IoTPackage.SERIAL: return createSerial();
-      case IoTPackage.STOP_CHAR: return createstopChar();
+      case IoTPackage.STOP_IDENTIFYER: return createStopIdentifyer();
+      case IoTPackage.STOP_CHAR: return createStopChar();
+      case IoTPackage.STOP_BYTE: return createStopByte();
       case IoTPackage.MQTT_CLIENT: return createMqttClient();
       case IoTPackage.FUNCTION: return createFunction();
       case IoTPackage.FUNCTION_INPUT_TYPE: return createFunctionInputType();
@@ -178,8 +108,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.STRING_LITERAL: return createStringLiteral();
       case IoTPackage.NUMBER_LITERAL: return createNumberLiteral();
       case IoTPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
-      case IoTPackage.CHAR: return createChar();
-      case IoTPackage.BYTE: return createByte();
       case IoTPackage.SECONDS: return createSeconds();
       case IoTPackage.MILLIS: return createMillis();
       case IoTPackage.MICROS: return createMicros();
@@ -282,6 +210,18 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
+  public ChannelType createChannelType()
+  {
+    ChannelTypeImpl channelType = new ChannelTypeImpl();
+    return channelType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public ChannelConfig createChannelConfig()
   {
     ChannelConfigImpl channelConfig = new ChannelConfigImpl();
@@ -318,10 +258,34 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public stopChar createstopChar()
+  public StopIdentifyer createStopIdentifyer()
   {
-    stopCharImpl stopChar = new stopCharImpl();
+    StopIdentifyerImpl stopIdentifyer = new StopIdentifyerImpl();
+    return stopIdentifyer;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public StopChar createStopChar()
+  {
+    StopCharImpl stopChar = new StopCharImpl();
     return stopChar;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public StopByte createStopByte()
+  {
+    StopByteImpl stopByte = new StopByteImpl();
+    return stopByte;
   }
 
   /**
@@ -694,30 +658,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
     return booleanLiteral;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Char createChar()
-  {
-    CharImpl char_ = new CharImpl();
-    return char_;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public org.xtext.mdsd.arduino.boardgenerator.ioT.Byte createByte()
-  {
-    ByteImpl byte_ = new ByteImpl();
-    return byte_;
   }
 
   /**

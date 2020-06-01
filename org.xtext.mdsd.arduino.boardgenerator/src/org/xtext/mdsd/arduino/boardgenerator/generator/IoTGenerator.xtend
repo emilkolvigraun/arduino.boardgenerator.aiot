@@ -12,9 +12,18 @@ import com.google.inject.Inject
 import java.util.List
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import org.xtext.mdsd.arduino.boardgenerator.validation.Boards
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
+import java.util.HashMap
+import java.util.HashSet
+import java.io.StringWriter
+import sun.security.util.IOUtils
+import java.util.Scanner
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
 
 /* Generates code from your model files on save.
  * 
@@ -24,7 +33,10 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
 class IoTGenerator extends AbstractGenerator {
 	
 	@Inject  
-	extension GeneratorUtils
+	extension GeneratorUtils 
+	
+	@Inject   
+	extension BoardCodeGenerator
 	 
 	IFileSystemAccess2 fsa
 
@@ -37,45 +49,292 @@ class IoTGenerator extends AbstractGenerator {
 		for (Board board : boards){   
 		 	val currentBoard = board.name.toFirstUpper 
 		 	var channels = board.getChannelsInBoard  
-			val content = '''  
+		 	var wifiConfig = board.wifiSelect
+		 	val configFileStr = channels.toList.generateConfigFile(wifiConfig)
+		 	
+			val embeddedSensors = board.getBoardSensors.getSensorsForSensorManager(Boards.getBoardSupported(board.boardVersion), currentBoard)
+			if (embeddedSensors.keySet().length > 0){
+				embeddedSensors.exportSensorManager(currentBoard)
+			} 
+		 	
+		 	val boardContent = board.generateBoardCode(channels.toList, configFileStr.length, embeddedSensors.keySet().length)
+		 	
+			val content = '''   
 							/*  
-							* Generated Code  
+							* Generated Code AIOT
 							* Model : «board.boardVersion.model»
 							* Type  : «board.boardVersion.type»
+							* 
+							* If you are using another board than ESP32 wrover
+							* and you are using a significant number of channels
+							* and or servers, please assert that your board 
+							* has enough memory to support it during runtime.
+							*
+							* Similarly, if you are using long and complicated
+							* pipelines, you should consider some memory management.
 							*/
 							 
-							«board.generatorBoardCode(channels.toList)»
+							«boardContent»
 						 '''
-			fsa.generateFile('''«currentBoard»/Device.ino''',  content)	 
-			fsa.generateFile('''«currentBoard»/config.json''', channels.toList.generateConfigFile)	 
+			
+			fsa.generateFile('''«currentBoard»/config.json''', configFileStr)	  
+			fsa.generateFile('''«currentBoard»/«currentBoard».ino''',  content)	 
 		}
-	}  
+	}   
 	
-	def String generateConfigFile(List<Channel> channels){
+	def String generateConfigFile(List<Channel> channels, WifiConfig config){
 		 '''
-		 	{ 
-		 	«FOR channel : channels»
-		 	"«channel.name»":{
-		 			«channel.channelConfiguration»
-		 		} 
-		 	«ENDFOR»
-		 	} 
+	 	{	
+	 		«IF config !== null» 
+	 		"wifi" : {
+	 				"ssid":"«config.ssid»",
+	 				"pass":"«config.pass»"
+	 			}, 
+	 		«ENDIF»
+	 		«channels.generateChannels»
+	 	} 
 		 '''
+	} 
+	
+	def String generateChannels(List<Channel> channels){
+		var channelsStr = '''
+		«FOR channel : channels» 
+		"«channel.name»" : {
+				«channel.channelConfiguration»
+			},
+	 	«ENDFOR»
+	 	'''   
+	 	  
+	 	channelsStr.length > 0 ? channelsStr.substring(0, channelsStr.length-3)
 	}
 	 
 	def String getChannelConfiguration(Channel channel){
-		val type = channel.config  
-		if (type instanceof Wifi){
-			return  '''
-					'''		
-		} else if (type instanceof Serial){
-			
-		} else if (type instanceof MqttClient){
-			
-		}
+		val channelConfig = channel.config    
+		val channelType = channel.ctype?.name
+		if (channelConfig instanceof Wifi || channelType == "cloud"){
+			try {
+				return	''' 
+						"ip"   : "«(channelConfig as Wifi).url»",
+						"port"   : "«(channelConfig as Wifi).sport.toString»",
+						"route" : "«(channelConfig as Wifi).route»"
+						'''		
+			} catch (Exception e){  
+				return ''' 
+						"ip"   : "",
+						"port"   : "",
+						"route" : "" 
+					   '''
+			}
+		} else if (channelConfig instanceof Serial || channelType == "serial"){ 
+			try {
+				return	'''    
+						"baud" : "«(channelConfig as Serial).baud.toString»",
+						"stop" : "«(channelConfig as Serial).stopCharName»" 
+						'''			
+			} catch (Exception e){
+				return 	'''     
+						"baud" : "",
+						"stop" : "" 
+						'''	 
+			}
+		} else if (channelConfig instanceof MqttClient || channelType == "mqtt"){ 
+			try {
+				return	''' 
+						"broker" : "«(channelConfig as MqttClient).broker»",
+						"port"   : "«(channelConfig as MqttClient).port.toString»",
+						"id"     : "«(channelConfig as MqttClient).client»", 
+						"topic"  : "«(channelConfig as MqttClient).pub »"
+						'''				
+			} catch (Exception e){
+				return 	''' 
+						"broker" : "",
+						"port"   : "",
+						"id"     : "", 
+						"topic"  : ""
+						'''	
+			}	
+		}  
+		'''REQUIRES ATTENTION''' 
+	}    
+	
+	def HashMap<String, HashMap<String, List<Variable>>> getSensorsForSensorManager(List<Sensor> sensors, Boards board, String currentBoard){
+		val embeddedSensors = new HashMap<String, HashMap<String, List<Variable>>>();
+		sensors.forEach[s | 
+			if (board.supportsSensor(s.sensortype.name)){
+				(s.sensortype.name+".c").importLibrary(currentBoard)
+				(s.sensortype.name+".h").importLibrary(currentBoard)
+				val sensorDef = new HashMap<String, List<Variable>>();
+				sensorDef.put(s.sensortype.name, s.vars.ids)
+				embeddedSensors.put(s.name, sensorDef) 
+			} 
+		]  
+		embeddedSensors 
+	}  
+	 
+	def exportSensorManager(HashMap<String, HashMap<String, List<Variable>>> embeddedSensors, String currentBoard){
+		fsa.generateFile('''«currentBoard»/src/sensor_manager.h''', embeddedSensors.keySet().toList.generateSensorManagerH(embeddedSensors))
+		fsa.generateFile('''«currentBoard»/src/sensor_manager.c''', embeddedSensors.generateSensorManagerC)
+		"i2c_bus.c".importLibrary(currentBoard)
+		"iot_i2c_bus.h".importLibrary(currentBoard)
 	}
 	
-	def String generatorBoardCode(Board board, List<Channel> channels){
-		""
+	def String generateSensorManagerH(List<String> sensors, HashMap<String, HashMap<String, List<Variable>>> embeddedSensors){ 
+		
+		
+	
+		'''
+		#ifndef SENSOR_MANAGER_H
+		#define SENSOR_MANAGER_H
+		
+		#ifdef __cplusplus
+		extern "C"
+		{
+			#endif
+			«FOR sensor : embeddedSensors.keySet()»
+			«embeddedSensors.get(sensor).getStruct(sensor)»
+			«ENDFOR» 
+			void  init_sensors();
+			«FOR sensor : sensors»
+			«sensor»Tuple get_«sensor»();
+			«ENDFOR»
+			
+			#ifdef __cplusplus
+		}
+		#endif
+		#endif
+		'''
+	}  
+	
+	def String getStruct(HashMap<String, List<Variable>> sensorInfo, String sensorName){
+		val name = sensorInfo.keySet().get(0)
+		val variables = sensorInfo.get(name)
+		val indexes = variables.variablesIndexes 
+		'''
+		struct «sensorName»Tuple {
+			float tuple[«indexes.size().toString»];
+		};'''
 	}
+	   
+	def importLibrary(String filename, String currentBoard){
+		try (val stream = IoTGenerator.classLoader.getResourceAsStream("/drivers/"+filename)) {
+			fsa.generateFile('''«currentBoard»/src/sensors/«filename»''', stream)
+		}
+	}  
+	
+	def String includeSensorInclude(List<HashMap<String, List<Variable>>> env){
+		var includes = ""
+		var included = newArrayList()
+		for (HashMap m : env) {
+			for (String key : m.keySet().toList){
+				if (!included.contains(key))
+					includes += '''
+					#include "sensors/«key».h"
+					'''
+					included.add(key)
+			}			
+		}
+		includes
+	}
+	 
+	def String generateSensorManagerC(HashMap<String, HashMap<String, List<Variable>>> embeddedSensors){ 
+		val sensorHandles = newArrayList()
+		for (HashMap m : embeddedSensors.values.toList){
+			sensorHandles.add(m.keySet().toList.get(0))
+		}
+		'''
+		#include <stdio.h>
+		#include <math.h>
+		#include "driver/i2c.h"
+		 
+		«embeddedSensors.values.toList.includeSensorInclude»
+		 
+		#define I2C_MASTER_SCL_IO  26     /*!< gpio number for I2C master clock */
+		#define I2C_MASTER_SDA_IO  25 	  /*!< gpio number for I2C master data  */
+		#define I2C_MASTER_FREQ_HZ 100000 /*!< I2C master clock frequency */
+		 
+		static i2c_bus_handle_t i2c_bus = NULL;
+		«FOR sensor : new HashSet<String>(sensorHandles)»
+		static «sensor»_handle_t «sensor»   = NULL;
+		«ENDFOR»
+		
+		static void i2c_master_init() {
+		    int i2c_master_port = I2C_NUM_0;
+		    i2c_config_t conf;
+		    conf.mode = I2C_MODE_MASTER;
+		    conf.sda_io_num = I2C_MASTER_SDA_IO;
+		    conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
+		    conf.scl_io_num = I2C_MASTER_SCL_IO;
+		    conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
+		    conf.master.clk_speed = I2C_MASTER_FREQ_HZ;
+		    i2c_bus = iot_i2c_bus_create(i2c_master_port, &conf);
+		}
+		 
+		«embeddedSensors.values.toList.generateLoadLibraryFiles»
+		void init_sensors() { 
+			i2c_master_init();
+			«FOR sensor : embeddedSensors.values.toList»
+			init_«sensor.keySet().get(0)»_sensor();
+			«ENDFOR» 
+		}
+		 
+		«FOR sensor : embeddedSensors.keySet()»
+		«embeddedSensors.get(sensor).generateSensorGet(sensor)»
+		«ENDFOR» 
+		'''  
+	} 
+	
+	def String generateLoadLibraryFiles(List<HashMap<String, List<Variable>>> values){
+		var includes = ""
+		var included = newArrayList()
+		for (HashMap m : values) { 
+			for (String key : m.keySet().toList){
+				if (!included.contains(key))
+					includes += '''
+					void init_«key»_sensor() {
+						«("/init/"+key+".txt").loadLibraryFile»
+					}
+					 
+					'''
+					included.add(key)
+			}			
+		} 
+		includes
+	}
+	
+	def String loadLibraryFile(String file){
+		var s = new Scanner(IoTGenerator.classLoader.getResourceAsStream(file)).useDelimiter("\\A")
+		s.hasNext() ? s.next() : ""
+	} 
+	
+	def String formatGetFile(String fileContent, int index){
+		val file = fileContent.split('\n')
+		val ending = file.get(file.length-1)
+		'''
+		«FOR line : file»
+		«IF line != ending»«line»«ENDIF»
+		«ENDFOR»
+		tbl.tuple[«index.toString»] = «ending.replace('return ', '')»
+		'''
+	}
+	
+	def String generateSensorGet(HashMap<String, List<Variable>> sensorInfo, String sensorName){
+		val name = sensorInfo.keySet().get(0)
+		val variables = sensorInfo.get(name)
+		val indexes = variables.variablesIndexes 
+		
+		'''
+		«sensorInfo.getStruct(sensorName)»
+		 
+		struct «sensorName»Tuple get_«sensorName»(){
+			struct «sensorName»Tuple tbl;
+			«FOR i : indexes»
+			
+			«("/get/"+name+"_"+i.toString+".txt").loadLibraryFile.formatGetFile(i)»
+			«ENDFOR»
+			
+			return tbl;
+		}
+		 
+		'''
+	} 
 }

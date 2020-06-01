@@ -2,7 +2,7 @@ package org.xtext.mdsd.arduino.boardgenerator.validation
 
 import java.util.Map
 
-class SupportedBoards {
+class SupportedBoards { 
 	 
 	 // esp32 boards
 	public static final Map<String, Integer> WROVER = #{

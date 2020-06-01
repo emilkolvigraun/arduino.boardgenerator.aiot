@@ -27,6 +27,10 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 
 import static extension org.eclipse.xtext.EcoreUtil2.* import org.eclipse.emf.ecore.EObject
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
 
 class TypeChecker {
 
@@ -36,6 +40,13 @@ class TypeChecker {
 		BOOLEAN,
 		STRING,
 		NUMBER,
+		INVALID
+	}
+	
+	enum ChannelType {
+		MQTT,
+		SERIAL,
+		CLOUD,
 		INVALID
 	}
 
@@ -214,11 +225,65 @@ class TypeChecker {
 		}
 	}
 	
-	def boolean ifInvalid(Type type){
+	def dispatch boolean ifInvalid(Type type){
 		if (type == Type.INVALID)
 			return true
-		return false
+		false 
+	}  
+	
+	def dispatch boolean ifInvalid(ChannelType type){
+		if (type == ChannelType.INVALID)
+			return true
+		false 
+	}   
+	
+	def boolean ifSerialType(Channel channel){
+		if (channel.getChannelType == ChannelType.SERIAL)
+			return true
+		false
 	} 
 	
+	def boolean ifMQTTType(Channel channel){
+		if (channel.getChannelType == ChannelType.MQTT)
+			return true
+		false
+	} 
 	
+	def boolean ifServerType(Channel channel){
+		if (channel.getChannelType == ChannelType.CLOUD)
+			return true
+		false
+	} 
+	
+	def ChannelType getChannelType(Channel channel){
+		 val type = channel.ctype?.name
+		 if (type !== null){
+		 	if (type == "mqtt")
+		 		return ChannelType.MQTT
+	 		else if (type == "cloud")
+	 			return ChannelType.CLOUD
+ 			else if (type == "serial")
+ 				return ChannelType.SERIAL
+			else
+				return ChannelType.INVALID
+		 } else {
+		 	val config = channel.config
+		 	 
+		 	if(config instanceof Wifi)
+		 		return ChannelType.CLOUD
+	 		else if (config instanceof Serial)
+	 			return ChannelType.SERIAL
+ 			else if (config instanceof MqttClient)
+ 				return ChannelType.MQTT
+			else 
+				return ChannelType.INVALID
+		 }
+	}
+	 
+	def boolean xOr (boolean first, boolean second){
+		if (first == second ){
+			return false
+		}  
+		return true
+	} 
 }

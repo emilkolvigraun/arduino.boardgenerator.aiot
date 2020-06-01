@@ -10,6 +10,7 @@ import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.AbstractElementAlias;
+import org.eclipse.xtext.serializer.analysis.GrammarAlias.GroupAlias;
 import org.eclipse.xtext.serializer.analysis.GrammarAlias.TokenAlias;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynNavigable;
 import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISynTransition;
@@ -20,12 +21,14 @@ import org.xtext.mdsd.arduino.boardgenerator.services.IoTGrammarAccess;
 public class IoTSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected IoTGrammarAccess grammarAccess;
+	protected AbstractElementAlias match_ExtendsBoard___ColonKeyword_3_0_BEGINTerminalRuleCall_3_1_ENDTerminalRuleCall_3_4__q;
 	protected AbstractElementAlias match_Primary_LeftParenthesisKeyword_0_0_a;
 	protected AbstractElementAlias match_Primary_LeftParenthesisKeyword_0_0_p;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (IoTGrammarAccess) access;
+		match_ExtendsBoard___ColonKeyword_3_0_BEGINTerminalRuleCall_3_1_ENDTerminalRuleCall_3_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getExtendsBoardAccess().getColonKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getExtendsBoardAccess().getBEGINTerminalRuleCall_3_1()), new TokenAlias(false, false, grammarAccess.getExtendsBoardAccess().getENDTerminalRuleCall_3_4()));
 		match_Primary_LeftParenthesisKeyword_0_0_a = new TokenAlias(true, true, grammarAccess.getPrimaryAccess().getLeftParenthesisKeyword_0_0());
 		match_Primary_LeftParenthesisKeyword_0_0_p = new TokenAlias(true, false, grammarAccess.getPrimaryAccess().getLeftParenthesisKeyword_0_0());
 	}
@@ -57,7 +60,9 @@ public class IoTSyntacticSequencer extends AbstractSyntacticSequencer {
 		List<INode> transitionNodes = collectNodes(fromNode, toNode);
 		for (AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
-			if (match_Primary_LeftParenthesisKeyword_0_0_a.equals(syntax))
+			if (match_ExtendsBoard___ColonKeyword_3_0_BEGINTerminalRuleCall_3_1_ENDTerminalRuleCall_3_4__q.equals(syntax))
+				emit_ExtendsBoard___ColonKeyword_3_0_BEGINTerminalRuleCall_3_1_ENDTerminalRuleCall_3_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_Primary_LeftParenthesisKeyword_0_0_a.equals(syntax))
 				emit_Primary_LeftParenthesisKeyword_0_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_Primary_LeftParenthesisKeyword_0_0_p.equals(syntax))
 				emit_Primary_LeftParenthesisKeyword_0_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
@@ -65,6 +70,17 @@ public class IoTSyntacticSequencer extends AbstractSyntacticSequencer {
 		}
 	}
 
+	/**
+	 * Ambiguous syntax:
+	 *     (':' BEGIN END)?
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     abstractBoard=[AbstractBoard|ID] (ambiguity) (rule end)
+	 */
+	protected void emit_ExtendsBoard___ColonKeyword_3_0_BEGINTerminalRuleCall_3_1_ENDTerminalRuleCall_3_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
 	/**
 	 * Ambiguous syntax:
 	 *     '('*

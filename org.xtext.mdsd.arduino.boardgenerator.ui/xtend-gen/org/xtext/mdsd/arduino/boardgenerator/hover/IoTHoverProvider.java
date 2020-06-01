@@ -192,24 +192,44 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
       _builder.append(" -> ");
       String str = _builder.toString();
       final ChannelConfig config = channel.getConfig();
-      boolean _matched = false;
-      if ((config instanceof Wifi)) {
-        _matched=true;
-        String _str = str;
-        str = (_str + "<b>wifi</b>");
-      }
-      if (!_matched) {
-        if ((config instanceof Serial)) {
+      if ((config != null)) {
+        boolean _matched = false;
+        if ((config instanceof Wifi)) {
           _matched=true;
-          String _str_1 = str;
-          str = (_str_1 + "<b>serial</b>");
+          String _str = str;
+          str = (_str + "<b>cloud</b>");
         }
-      }
-      if (!_matched) {
-        if ((config instanceof MqttClient)) {
-          _matched=true;
-          String _str_2 = str;
-          str = (_str_2 + "<b>mqtt</b>");
+        if (!_matched) {
+          if ((config instanceof Serial)) {
+            _matched=true;
+            String _str_1 = str;
+            str = (_str_1 + "<b>serial</b>");
+          }
+        }
+        if (!_matched) {
+          if ((config instanceof MqttClient)) {
+            _matched=true;
+            String _str_2 = str;
+            str = (_str_2 + "<b>mqtt</b>");
+          }
+        }
+      } else {
+        final String type = channel.getCtype().getName();
+        if (type != null) {
+          switch (type) {
+            case "cloud":
+              String _str_3 = str;
+              str = (_str_3 + "<b>cloud</b>");
+              break;
+            case "serial":
+              String _str_4 = str;
+              str = (_str_4 + "<b>serial</b>");
+              break;
+            case "mqtt":
+              String _str_5 = str;
+              str = (_str_5 + "<b>mqtt</b>");
+              break;
+          }
         }
       }
       StringConcatenation _builder_1 = new StringConcatenation();

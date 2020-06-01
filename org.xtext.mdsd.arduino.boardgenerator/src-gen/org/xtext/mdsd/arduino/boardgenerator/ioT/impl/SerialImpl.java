@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.stopChar;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialImpl#getBaud <em>Baud</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialImpl#getStop <em>Stop</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SerialImpl#getStopType <em>Stop Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -52,14 +52,14 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
   protected int baud = BAUD_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getStop() <em>Stop</em>}' containment reference.
+   * The cached value of the '{@link #getStopType() <em>Stop Type</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getStop()
+   * @see #getStopType()
    * @generated
    * @ordered
    */
-  protected stopChar stop;
+  protected StopIdentifyer stopType;
 
   /**
    * <!-- begin-user-doc -->
@@ -113,9 +113,9 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
    * @generated
    */
   @Override
-  public stopChar getStop()
+  public StopIdentifyer getStopType()
   {
-    return stop;
+    return stopType;
   }
 
   /**
@@ -123,13 +123,13 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetStop(stopChar newStop, NotificationChain msgs)
+  public NotificationChain basicSetStopType(StopIdentifyer newStopType, NotificationChain msgs)
   {
-    stopChar oldStop = stop;
-    stop = newStop;
+    StopIdentifyer oldStopType = stopType;
+    stopType = newStopType;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.SERIAL__STOP, oldStop, newStop);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.SERIAL__STOP_TYPE, oldStopType, newStopType);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -141,20 +141,20 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
    * @generated
    */
   @Override
-  public void setStop(stopChar newStop)
+  public void setStopType(StopIdentifyer newStopType)
   {
-    if (newStop != stop)
+    if (newStopType != stopType)
     {
       NotificationChain msgs = null;
-      if (stop != null)
-        msgs = ((InternalEObject)stop).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SERIAL__STOP, null, msgs);
-      if (newStop != null)
-        msgs = ((InternalEObject)newStop).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SERIAL__STOP, null, msgs);
-      msgs = basicSetStop(newStop, msgs);
+      if (stopType != null)
+        msgs = ((InternalEObject)stopType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SERIAL__STOP_TYPE, null, msgs);
+      if (newStopType != null)
+        msgs = ((InternalEObject)newStopType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SERIAL__STOP_TYPE, null, msgs);
+      msgs = basicSetStopType(newStopType, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SERIAL__STOP, newStop, newStop));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SERIAL__STOP_TYPE, newStopType, newStopType));
   }
 
   /**
@@ -167,8 +167,8 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
   {
     switch (featureID)
     {
-      case IoTPackage.SERIAL__STOP:
-        return basicSetStop(null, msgs);
+      case IoTPackage.SERIAL__STOP_TYPE:
+        return basicSetStopType(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -185,8 +185,8 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
     {
       case IoTPackage.SERIAL__BAUD:
         return getBaud();
-      case IoTPackage.SERIAL__STOP:
-        return getStop();
+      case IoTPackage.SERIAL__STOP_TYPE:
+        return getStopType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -204,8 +204,8 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
       case IoTPackage.SERIAL__BAUD:
         setBaud((Integer)newValue);
         return;
-      case IoTPackage.SERIAL__STOP:
-        setStop((stopChar)newValue);
+      case IoTPackage.SERIAL__STOP_TYPE:
+        setStopType((StopIdentifyer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -224,8 +224,8 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
       case IoTPackage.SERIAL__BAUD:
         setBaud(BAUD_EDEFAULT);
         return;
-      case IoTPackage.SERIAL__STOP:
-        setStop((stopChar)null);
+      case IoTPackage.SERIAL__STOP_TYPE:
+        setStopType((StopIdentifyer)null);
         return;
     }
     super.eUnset(featureID);
@@ -243,8 +243,8 @@ public class SerialImpl extends ChannelConfigImpl implements Serial
     {
       case IoTPackage.SERIAL__BAUD:
         return baud != BAUD_EDEFAULT;
-      case IoTPackage.SERIAL__STOP:
-        return stop != null;
+      case IoTPackage.SERIAL__STOP_TYPE:
+        return stopType != null;
     }
     return super.eIsSet(featureID);
   }

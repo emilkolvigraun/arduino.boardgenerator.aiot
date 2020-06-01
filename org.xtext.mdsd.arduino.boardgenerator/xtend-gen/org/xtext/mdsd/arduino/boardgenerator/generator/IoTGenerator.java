@@ -3,26 +3,43 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.generator;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Consumer;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
+import org.xtext.mdsd.arduino.boardgenerator.generator.BoardCodeGenerator;
 import org.xtext.mdsd.arduino.boardgenerator.generator.GeneratorUtils;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
+import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 
 /**
  * Generates code from your model files on save.
@@ -34,6 +51,10 @@ public class IoTGenerator extends AbstractGenerator {
   @Inject
   @Extension
   private GeneratorUtils _generatorUtils;
+  
+  @Inject
+  @Extension
+  private BoardCodeGenerator _boardCodeGenerator;
   
   private IFileSystemAccess2 fsa;
   
@@ -48,10 +69,19 @@ public class IoTGenerator extends AbstractGenerator {
       {
         final String currentBoard = StringExtensions.toFirstUpper(board.getName());
         Set<Channel> channels = this._generatorUtils.getChannelsInBoard(board);
+        WifiConfig wifiConfig = board.getWifiSelect();
+        final String configFileStr = this.generateConfigFile(IterableExtensions.<Channel>toList(channels), wifiConfig);
+        final HashMap<String, HashMap<String, List<Variable>>> embeddedSensors = this.getSensorsForSensorManager(this._generatorUtils.getBoardSensors(board), Boards.getBoardSupported(this._generatorUtils.getBoardVersion(board)), currentBoard);
+        int _length = ((Object[])Conversions.unwrapArray(embeddedSensors.keySet(), Object.class)).length;
+        boolean _greaterThan = (_length > 0);
+        if (_greaterThan) {
+          this.exportSensorManager(embeddedSensors, currentBoard);
+        }
+        final String boardContent = this._boardCodeGenerator.generateBoardCode(board, IterableExtensions.<Channel>toList(channels), configFileStr.length(), ((Object[])Conversions.unwrapArray(embeddedSensors.keySet(), Object.class)).length);
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("/*  ");
         _builder.newLine();
-        _builder.append("* Generated Code  ");
+        _builder.append("* Generated Code AIOT");
         _builder.newLine();
         _builder.append("* Model : ");
         String _model = this._generatorUtils.getBoardVersion(board).getModel();
@@ -61,78 +91,633 @@ public class IoTGenerator extends AbstractGenerator {
         String _type = this._generatorUtils.getBoardVersion(board).getType();
         _builder.append(_type);
         _builder.newLineIfNotEmpty();
+        _builder.append("* ");
+        _builder.newLine();
+        _builder.append("* If you are using another board than ESP32 wrover");
+        _builder.newLine();
+        _builder.append("* and you are using a significant number of channels");
+        _builder.newLine();
+        _builder.append("* and or servers, please assert that your board ");
+        _builder.newLine();
+        _builder.append("* has enough memory to support it during runtime.");
+        _builder.newLine();
+        _builder.append("*");
+        _builder.newLine();
+        _builder.append("* Similarly, if you are using long and complicated");
+        _builder.newLine();
+        _builder.append("* pipelines, you should consider some memory management.");
+        _builder.newLine();
         _builder.append("*/");
         _builder.newLine();
         _builder.append(" ");
         _builder.newLine();
-        String _generatorBoardCode = this.generatorBoardCode(board, IterableExtensions.<Channel>toList(channels));
-        _builder.append(_generatorBoardCode);
+        _builder.append(boardContent);
         _builder.newLineIfNotEmpty();
         final String content = _builder.toString();
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append(currentBoard);
-        _builder_1.append("/Device.ino");
-        this.fsa.generateFile(_builder_1.toString(), content);
+        _builder_1.append("/config.json");
+        this.fsa.generateFile(_builder_1.toString(), configFileStr);
         StringConcatenation _builder_2 = new StringConcatenation();
         _builder_2.append(currentBoard);
-        _builder_2.append("/config.json");
-        this.fsa.generateFile(_builder_2.toString(), this.generateConfigFile(IterableExtensions.<Channel>toList(channels)));
+        _builder_2.append("/");
+        _builder_2.append(currentBoard);
+        _builder_2.append(".ino");
+        this.fsa.generateFile(_builder_2.toString(), content);
       }
     }
   }
   
-  public String generateConfigFile(final List<Channel> channels) {
+  public String generateConfigFile(final List<Channel> channels, final WifiConfig config) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{ ");
+    _builder.append("{\t");
     _builder.newLine();
     {
-      for(final Channel channel : channels) {
-        _builder.append("\"");
-        String _name = channel.getName();
-        _builder.append(_name);
-        _builder.append("\":{");
-        _builder.newLineIfNotEmpty();
+      if ((config != null)) {
+        _builder.append("\t");
+        _builder.append("\"wifi\" : {");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.append("\t\t");
-        String _channelConfiguration = this.getChannelConfiguration(channel);
-        _builder.append(_channelConfiguration, "\t\t");
+        _builder.append("\"ssid\":\"");
+        String _ssid = config.getSsid();
+        _builder.append(_ssid, "\t\t\t");
+        _builder.append("\",");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        _builder.append("} ");
+        _builder.append("\t\t");
+        _builder.append("\"pass\":\"");
+        String _pass = config.getPass();
+        _builder.append(_pass, "\t\t\t");
+        _builder.append("\"");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append("}, ");
         _builder.newLine();
       }
     }
+    _builder.append("\t");
+    String _generateChannels = this.generateChannels(channels);
+    _builder.append(_generateChannels, "\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("} ");
     _builder.newLine();
     return _builder.toString();
   }
   
-  public String getChannelConfiguration(final Channel channel) {
-    Object _xblockexpression = null;
+  public String generateChannels(final List<Channel> channels) {
+    String _xblockexpression = null;
     {
-      final ChannelConfig type = channel.getConfig();
-      Object _xifexpression = null;
-      if ((type instanceof Wifi)) {
-        StringConcatenation _builder = new StringConcatenation();
-        return _builder.toString();
-      } else {
-        Object _xifexpression_1 = null;
-        if ((type instanceof Serial)) {
-          _xifexpression_1 = null;
-        } else {
-          Object _xifexpression_2 = null;
-          if ((type instanceof MqttClient)) {
-            _xifexpression_2 = null;
-          }
-          _xifexpression_1 = _xifexpression_2;
+      StringConcatenation _builder = new StringConcatenation();
+      {
+        for(final Channel channel : channels) {
+          _builder.append("\"");
+          String _name = channel.getName();
+          _builder.append(_name);
+          _builder.append("\" : {");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t\t");
+          String _channelConfiguration = this.getChannelConfiguration(channel);
+          _builder.append(_channelConfiguration, "\t\t");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t");
+          _builder.append("},");
+          _builder.newLine();
         }
-        _xifexpression = _xifexpression_1;
+      }
+      String channelsStr = _builder.toString();
+      String _xifexpression = null;
+      int _length = channelsStr.length();
+      boolean _greaterThan = (_length > 0);
+      if (_greaterThan) {
+        int _length_1 = channelsStr.length();
+        int _minus = (_length_1 - 3);
+        _xifexpression = channelsStr.substring(0, _minus);
       }
       _xblockexpression = _xifexpression;
     }
-    return ((String)_xblockexpression);
+    return _xblockexpression;
   }
   
-  public String generatorBoardCode(final Board board, final List<Channel> channels) {
-    return "";
+  public String getChannelConfiguration(final Channel channel) {
+    String _xblockexpression = null;
+    {
+      final ChannelConfig channelConfig = channel.getConfig();
+      ChannelType _ctype = channel.getCtype();
+      String _name = null;
+      if (_ctype!=null) {
+        _name=_ctype.getName();
+      }
+      final String channelType = _name;
+      if (((channelConfig instanceof Wifi) || Objects.equal(channelType, "cloud"))) {
+        try {
+          StringConcatenation _builder = new StringConcatenation();
+          _builder.append("\"ip\"   : \"");
+          String _url = ((Wifi) channelConfig).getUrl();
+          _builder.append(_url);
+          _builder.append("\",");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\"port\"   : \"");
+          String _string = Integer.valueOf(((Wifi) channelConfig).getSport()).toString();
+          _builder.append(_string);
+          _builder.append("\",");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\"route\" : \"");
+          String _route = ((Wifi) channelConfig).getRoute();
+          _builder.append(_route);
+          _builder.append("\"");
+          _builder.newLineIfNotEmpty();
+          return _builder.toString();
+        } catch (final Throwable _t) {
+          if (_t instanceof Exception) {
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("\"ip\"   : \"\",");
+            _builder_1.newLine();
+            _builder_1.append("\"port\"   : \"\",");
+            _builder_1.newLine();
+            _builder_1.append("\"route\" : \"\" ");
+            _builder_1.newLine();
+            return _builder_1.toString();
+          } else {
+            throw Exceptions.sneakyThrow(_t);
+          }
+        }
+      } else {
+        if (((channelConfig instanceof Serial) || Objects.equal(channelType, "serial"))) {
+          try {
+            StringConcatenation _builder = new StringConcatenation();
+            _builder.append("\"baud\" : \"");
+            String _string = Integer.valueOf(((Serial) channelConfig).getBaud()).toString();
+            _builder.append(_string);
+            _builder.append("\",");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\"stop\" : \"");
+            String _stopCharName = this._generatorUtils.getStopCharName(((Serial) channelConfig));
+            _builder.append(_stopCharName);
+            _builder.append("\" ");
+            _builder.newLineIfNotEmpty();
+            return _builder.toString();
+          } catch (final Throwable _t) {
+            if (_t instanceof Exception) {
+              StringConcatenation _builder_1 = new StringConcatenation();
+              _builder_1.append("\"baud\" : \"\",");
+              _builder_1.newLine();
+              _builder_1.append("\"stop\" : \"\" ");
+              _builder_1.newLine();
+              return _builder_1.toString();
+            } else {
+              throw Exceptions.sneakyThrow(_t);
+            }
+          }
+        } else {
+          if (((channelConfig instanceof MqttClient) || Objects.equal(channelType, "mqtt"))) {
+            try {
+              StringConcatenation _builder = new StringConcatenation();
+              _builder.append("\"broker\" : \"");
+              String _broker = ((MqttClient) channelConfig).getBroker();
+              _builder.append(_broker);
+              _builder.append("\",");
+              _builder.newLineIfNotEmpty();
+              _builder.append("\"port\"   : \"");
+              String _string = Integer.valueOf(((MqttClient) channelConfig).getPort()).toString();
+              _builder.append(_string);
+              _builder.append("\",");
+              _builder.newLineIfNotEmpty();
+              _builder.append("\"id\"     : \"");
+              String _client = ((MqttClient) channelConfig).getClient();
+              _builder.append(_client);
+              _builder.append("\", ");
+              _builder.newLineIfNotEmpty();
+              _builder.append("\"topic\"  : \"");
+              EList<String> _pub = ((MqttClient) channelConfig).getPub();
+              _builder.append(_pub);
+              _builder.append("\"");
+              _builder.newLineIfNotEmpty();
+              return _builder.toString();
+            } catch (final Throwable _t) {
+              if (_t instanceof Exception) {
+                StringConcatenation _builder_1 = new StringConcatenation();
+                _builder_1.append("\"broker\" : \"\",");
+                _builder_1.newLine();
+                _builder_1.append("\"port\"   : \"\",");
+                _builder_1.newLine();
+                _builder_1.append("\"id\"     : \"\", ");
+                _builder_1.newLine();
+                _builder_1.append("\"topic\"  : \"\"");
+                _builder_1.newLine();
+                return _builder_1.toString();
+              } else {
+                throw Exceptions.sneakyThrow(_t);
+              }
+            }
+          }
+        }
+      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("REQUIRES ATTENTION");
+      _xblockexpression = _builder.toString();
+    }
+    return _xblockexpression;
+  }
+  
+  public HashMap<String, HashMap<String, List<Variable>>> getSensorsForSensorManager(final List<Sensor> sensors, final Boards board, final String currentBoard) {
+    HashMap<String, HashMap<String, List<Variable>>> _xblockexpression = null;
+    {
+      final HashMap<String, HashMap<String, List<Variable>>> embeddedSensors = new HashMap<String, HashMap<String, List<Variable>>>();
+      final Consumer<Sensor> _function = (Sensor s) -> {
+        boolean _supportsSensor = board.supportsSensor(s.getSensortype().getName());
+        if (_supportsSensor) {
+          String _name = s.getSensortype().getName();
+          this.importLibrary((_name + ".c"), currentBoard);
+          String _name_1 = s.getSensortype().getName();
+          this.importLibrary((_name_1 + ".h"), currentBoard);
+          final HashMap<String, List<Variable>> sensorDef = new HashMap<String, List<Variable>>();
+          sensorDef.put(s.getSensortype().getName(), s.getVars().getIds());
+          embeddedSensors.put(s.getName(), sensorDef);
+        }
+      };
+      sensors.forEach(_function);
+      _xblockexpression = embeddedSensors;
+    }
+    return _xblockexpression;
+  }
+  
+  public void exportSensorManager(final HashMap<String, HashMap<String, List<Variable>>> embeddedSensors, final String currentBoard) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append(currentBoard);
+    _builder.append("/src/sensor_manager.h");
+    this.fsa.generateFile(_builder.toString(), this.generateSensorManagerH(IterableExtensions.<String>toList(embeddedSensors.keySet()), embeddedSensors));
+    StringConcatenation _builder_1 = new StringConcatenation();
+    _builder_1.append(currentBoard);
+    _builder_1.append("/src/sensor_manager.c");
+    this.fsa.generateFile(_builder_1.toString(), this.generateSensorManagerC(embeddedSensors));
+    this.importLibrary("i2c_bus.c", currentBoard);
+    this.importLibrary("iot_i2c_bus.h", currentBoard);
+  }
+  
+  public String generateSensorManagerH(final List<String> sensors, final HashMap<String, HashMap<String, List<Variable>>> embeddedSensors) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("#ifndef SENSOR_MANAGER_H");
+    _builder.newLine();
+    _builder.append("#define SENSOR_MANAGER_H");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("#ifdef __cplusplus");
+    _builder.newLine();
+    _builder.append("extern \"C\"");
+    _builder.newLine();
+    _builder.append("{");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("#endif");
+    _builder.newLine();
+    {
+      Set<String> _keySet = embeddedSensors.keySet();
+      for(final String sensor : _keySet) {
+        _builder.append("\t");
+        String _struct = this.getStruct(embeddedSensors.get(sensor), sensor);
+        _builder.append(_struct, "\t");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t");
+    _builder.append("void  init_sensors();");
+    _builder.newLine();
+    {
+      for(final String sensor_1 : sensors) {
+        _builder.append("\t");
+        _builder.append(sensor_1, "\t");
+        _builder.append("Tuple get_");
+        _builder.append(sensor_1, "\t");
+        _builder.append("();");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("#ifdef __cplusplus");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("#endif");
+    _builder.newLine();
+    _builder.append("#endif");
+    _builder.newLine();
+    return _builder.toString();
+  }
+  
+  public String getStruct(final HashMap<String, List<Variable>> sensorInfo, final String sensorName) {
+    String _xblockexpression = null;
+    {
+      final String name = ((String[])Conversions.unwrapArray(sensorInfo.keySet(), String.class))[0];
+      final List<Variable> variables = sensorInfo.get(name);
+      final List<Integer> indexes = this._generatorUtils.getVariablesIndexes(variables);
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("struct ");
+      _builder.append(sensorName);
+      _builder.append("Tuple {");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.append("float tuple[");
+      String _string = Integer.valueOf(indexes.size()).toString();
+      _builder.append(_string, "\t");
+      _builder.append("];");
+      _builder.newLineIfNotEmpty();
+      _builder.append("};");
+      _xblockexpression = _builder.toString();
+    }
+    return _xblockexpression;
+  }
+  
+  public void importLibrary(final String filename, final String currentBoard) {
+    try {
+      try (final InputStream stream = IoTGenerator.class.getClassLoader().getResourceAsStream(("/drivers/" + filename))) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append(currentBoard);
+        _builder.append("/src/sensors/");
+        _builder.append(filename);
+        this.fsa.generateFile(_builder.toString(), stream);
+      }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  public String includeSensorInclude(final List<HashMap<String, List<Variable>>> env) {
+    String _xblockexpression = null;
+    {
+      String includes = "";
+      ArrayList<String> included = CollectionLiterals.<String>newArrayList();
+      for (final HashMap m : env) {
+        List<String> _list = IterableExtensions.<String>toList(m.keySet());
+        for (final String key : _list) {
+          {
+            boolean _contains = included.contains(key);
+            boolean _not = (!_contains);
+            if (_not) {
+              String _includes = includes;
+              StringConcatenation _builder = new StringConcatenation();
+              _builder.append("#include \"sensors/");
+              _builder.append(key);
+              _builder.append(".h\"");
+              _builder.newLineIfNotEmpty();
+              includes = (_includes + _builder);
+            }
+            included.add(key);
+          }
+        }
+      }
+      _xblockexpression = includes;
+    }
+    return _xblockexpression;
+  }
+  
+  public String generateSensorManagerC(final HashMap<String, HashMap<String, List<Variable>>> embeddedSensors) {
+    String _xblockexpression = null;
+    {
+      final ArrayList<String> sensorHandles = CollectionLiterals.<String>newArrayList();
+      List<HashMap<String, List<Variable>>> _list = IterableExtensions.<HashMap<String, List<Variable>>>toList(embeddedSensors.values());
+      for (final HashMap m : _list) {
+        sensorHandles.add(IterableExtensions.<String>toList(m.keySet()).get(0));
+      }
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("#include <stdio.h>");
+      _builder.newLine();
+      _builder.append("#include <math.h>");
+      _builder.newLine();
+      _builder.append("#include \"driver/i2c.h\"");
+      _builder.newLine();
+      _builder.append(" ");
+      _builder.newLine();
+      String _includeSensorInclude = this.includeSensorInclude(IterableExtensions.<HashMap<String, List<Variable>>>toList(embeddedSensors.values()));
+      _builder.append(_includeSensorInclude);
+      _builder.newLineIfNotEmpty();
+      _builder.append(" ");
+      _builder.newLine();
+      _builder.append("#define I2C_MASTER_SCL_IO  26     /*!< gpio number for I2C master clock */");
+      _builder.newLine();
+      _builder.append("#define I2C_MASTER_SDA_IO  25 \t  /*!< gpio number for I2C master data  */");
+      _builder.newLine();
+      _builder.append("#define I2C_MASTER_FREQ_HZ 100000 /*!< I2C master clock frequency */");
+      _builder.newLine();
+      _builder.append(" ");
+      _builder.newLine();
+      _builder.append("static i2c_bus_handle_t i2c_bus = NULL;");
+      _builder.newLine();
+      {
+        HashSet<String> _hashSet = new HashSet<String>(sensorHandles);
+        for(final String sensor : _hashSet) {
+          _builder.append("static ");
+          _builder.append(sensor);
+          _builder.append("_handle_t ");
+          _builder.append(sensor);
+          _builder.append("   = NULL;");
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _builder.newLine();
+      _builder.append("static void i2c_master_init() {");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("int i2c_master_port = I2C_NUM_0;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("i2c_config_t conf;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("conf.mode = I2C_MODE_MASTER;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("conf.sda_io_num = I2C_MASTER_SDA_IO;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("conf.sda_pullup_en = GPIO_PULLUP_ENABLE;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("conf.scl_io_num = I2C_MASTER_SCL_IO;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("conf.scl_pullup_en = GPIO_PULLUP_ENABLE;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("conf.master.clk_speed = I2C_MASTER_FREQ_HZ;");
+      _builder.newLine();
+      _builder.append("    ");
+      _builder.append("i2c_bus = iot_i2c_bus_create(i2c_master_port, &conf);");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append(" ");
+      _builder.newLine();
+      String _generateLoadLibraryFiles = this.generateLoadLibraryFiles(IterableExtensions.<HashMap<String, List<Variable>>>toList(embeddedSensors.values()));
+      _builder.append(_generateLoadLibraryFiles);
+      _builder.newLineIfNotEmpty();
+      _builder.append("void init_sensors() { ");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("i2c_master_init();");
+      _builder.newLine();
+      {
+        List<HashMap<String, List<Variable>>> _list_1 = IterableExtensions.<HashMap<String, List<Variable>>>toList(embeddedSensors.values());
+        for(final HashMap<String, List<Variable>> sensor_1 : _list_1) {
+          _builder.append("\t");
+          _builder.append("init_");
+          String _get = ((String[])Conversions.unwrapArray(sensor_1.keySet(), String.class))[0];
+          _builder.append(_get, "\t");
+          _builder.append("_sensor();");
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append(" ");
+      _builder.newLine();
+      {
+        Set<String> _keySet = embeddedSensors.keySet();
+        for(final String sensor_2 : _keySet) {
+          String _generateSensorGet = this.generateSensorGet(embeddedSensors.get(sensor_2), sensor_2);
+          _builder.append(_generateSensorGet);
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _xblockexpression = _builder.toString();
+    }
+    return _xblockexpression;
+  }
+  
+  public String generateLoadLibraryFiles(final List<HashMap<String, List<Variable>>> values) {
+    String _xblockexpression = null;
+    {
+      String includes = "";
+      ArrayList<String> included = CollectionLiterals.<String>newArrayList();
+      for (final HashMap m : values) {
+        List<String> _list = IterableExtensions.<String>toList(m.keySet());
+        for (final String key : _list) {
+          {
+            boolean _contains = included.contains(key);
+            boolean _not = (!_contains);
+            if (_not) {
+              String _includes = includes;
+              StringConcatenation _builder = new StringConcatenation();
+              _builder.append("void init_");
+              _builder.append(key);
+              _builder.append("_sensor() {");
+              _builder.newLineIfNotEmpty();
+              _builder.append("\t");
+              String _loadLibraryFile = this.loadLibraryFile((("/init/" + key) + ".txt"));
+              _builder.append(_loadLibraryFile, "\t");
+              _builder.newLineIfNotEmpty();
+              _builder.append("}");
+              _builder.newLine();
+              _builder.append(" ");
+              _builder.newLine();
+              includes = (_includes + _builder);
+            }
+            included.add(key);
+          }
+        }
+      }
+      _xblockexpression = includes;
+    }
+    return _xblockexpression;
+  }
+  
+  public String loadLibraryFile(final String file) {
+    String _xblockexpression = null;
+    {
+      InputStream _resourceAsStream = IoTGenerator.class.getClassLoader().getResourceAsStream(file);
+      Scanner s = new Scanner(_resourceAsStream).useDelimiter("\\A");
+      String _xifexpression = null;
+      boolean _hasNext = s.hasNext();
+      if (_hasNext) {
+        _xifexpression = s.next();
+      } else {
+        _xifexpression = "";
+      }
+      _xblockexpression = _xifexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  public String formatGetFile(final String fileContent, final int index) {
+    String _xblockexpression = null;
+    {
+      final String[] file = fileContent.split("\n");
+      int _length = file.length;
+      int _minus = (_length - 1);
+      final String ending = file[_minus];
+      StringConcatenation _builder = new StringConcatenation();
+      {
+        for(final String line : file) {
+          {
+            boolean _notEquals = (!Objects.equal(line, ending));
+            if (_notEquals) {
+              _builder.append(line);
+            }
+          }
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _builder.append("tbl.tuple[");
+      String _string = Integer.valueOf(index).toString();
+      _builder.append(_string);
+      _builder.append("] = ");
+      String _replace = ending.replace("return ", "");
+      _builder.append(_replace);
+      _builder.newLineIfNotEmpty();
+      _xblockexpression = _builder.toString();
+    }
+    return _xblockexpression;
+  }
+  
+  public String generateSensorGet(final HashMap<String, List<Variable>> sensorInfo, final String sensorName) {
+    String _xblockexpression = null;
+    {
+      final String name = ((String[])Conversions.unwrapArray(sensorInfo.keySet(), String.class))[0];
+      final List<Variable> variables = sensorInfo.get(name);
+      final List<Integer> indexes = this._generatorUtils.getVariablesIndexes(variables);
+      StringConcatenation _builder = new StringConcatenation();
+      String _struct = this.getStruct(sensorInfo, sensorName);
+      _builder.append(_struct);
+      _builder.newLineIfNotEmpty();
+      _builder.append(" ");
+      _builder.newLine();
+      _builder.append("struct ");
+      _builder.append(sensorName);
+      _builder.append("Tuple get_");
+      _builder.append(sensorName);
+      _builder.append("(){");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.append("struct ");
+      _builder.append(sensorName, "\t");
+      _builder.append("Tuple tbl;");
+      _builder.newLineIfNotEmpty();
+      {
+        for(final Integer i : indexes) {
+          _builder.append("\t");
+          _builder.newLine();
+          _builder.append("\t");
+          String _string = i.toString();
+          String _plus = ((("/get/" + name) + "_") + _string);
+          String _formatGetFile = this.formatGetFile(this.loadLibraryFile((_plus + ".txt")), (i).intValue());
+          _builder.append(_formatGetFile, "\t");
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("return tbl;");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append(" ");
+      _builder.newLine();
+      _xblockexpression = _builder.toString();
+    }
+    return _xblockexpression;
   }
 }

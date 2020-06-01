@@ -6,6 +6,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
@@ -19,15 +21,18 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NumberLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
 
 @SuppressWarnings("all")
@@ -42,6 +47,16 @@ public class TypeChecker {
     STRING,
     
     NUMBER,
+    
+    INVALID;
+  }
+  
+  public enum ChannelType {
+    MQTT,
+    
+    SERIAL,
+    
+    CLOUD,
     
     INVALID;
   }
@@ -356,12 +371,116 @@ public class TypeChecker {
     }
   }
   
-  public boolean ifInvalid(final TypeChecker.Type type) {
-    boolean _equals = Objects.equal(type, TypeChecker.Type.INVALID);
-    if (_equals) {
-      return true;
+  protected boolean _ifInvalid(final TypeChecker.Type type) {
+    boolean _xblockexpression = false;
+    {
+      boolean _equals = Objects.equal(type, TypeChecker.Type.INVALID);
+      if (_equals) {
+        return true;
+      }
+      _xblockexpression = false;
     }
-    return false;
+    return _xblockexpression;
+  }
+  
+  protected boolean _ifInvalid(final TypeChecker.ChannelType type) {
+    boolean _xblockexpression = false;
+    {
+      boolean _equals = Objects.equal(type, TypeChecker.ChannelType.INVALID);
+      if (_equals) {
+        return true;
+      }
+      _xblockexpression = false;
+    }
+    return _xblockexpression;
+  }
+  
+  public boolean ifSerialType(final Channel channel) {
+    boolean _xblockexpression = false;
+    {
+      TypeChecker.ChannelType _channelType = this.getChannelType(channel);
+      boolean _equals = Objects.equal(_channelType, TypeChecker.ChannelType.SERIAL);
+      if (_equals) {
+        return true;
+      }
+      _xblockexpression = false;
+    }
+    return _xblockexpression;
+  }
+  
+  public boolean ifMQTTType(final Channel channel) {
+    boolean _xblockexpression = false;
+    {
+      TypeChecker.ChannelType _channelType = this.getChannelType(channel);
+      boolean _equals = Objects.equal(_channelType, TypeChecker.ChannelType.MQTT);
+      if (_equals) {
+        return true;
+      }
+      _xblockexpression = false;
+    }
+    return _xblockexpression;
+  }
+  
+  public boolean ifServerType(final Channel channel) {
+    boolean _xblockexpression = false;
+    {
+      TypeChecker.ChannelType _channelType = this.getChannelType(channel);
+      boolean _equals = Objects.equal(_channelType, TypeChecker.ChannelType.CLOUD);
+      if (_equals) {
+        return true;
+      }
+      _xblockexpression = false;
+    }
+    return _xblockexpression;
+  }
+  
+  public TypeChecker.ChannelType getChannelType(final Channel channel) {
+    org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType _ctype = channel.getCtype();
+    String _name = null;
+    if (_ctype!=null) {
+      _name=_ctype.getName();
+    }
+    final String type = _name;
+    if ((type != null)) {
+      boolean _equals = Objects.equal(type, "mqtt");
+      if (_equals) {
+        return TypeChecker.ChannelType.MQTT;
+      } else {
+        boolean _equals_1 = Objects.equal(type, "cloud");
+        if (_equals_1) {
+          return TypeChecker.ChannelType.CLOUD;
+        } else {
+          boolean _equals_2 = Objects.equal(type, "serial");
+          if (_equals_2) {
+            return TypeChecker.ChannelType.SERIAL;
+          } else {
+            return TypeChecker.ChannelType.INVALID;
+          }
+        }
+      }
+    } else {
+      final ChannelConfig config = channel.getConfig();
+      if ((config instanceof Wifi)) {
+        return TypeChecker.ChannelType.CLOUD;
+      } else {
+        if ((config instanceof Serial)) {
+          return TypeChecker.ChannelType.SERIAL;
+        } else {
+          if ((config instanceof MqttClient)) {
+            return TypeChecker.ChannelType.MQTT;
+          } else {
+            return TypeChecker.ChannelType.INVALID;
+          }
+        }
+      }
+    }
+  }
+  
+  public boolean xOr(final boolean first, final boolean second) {
+    if ((first == second)) {
+      return false;
+    }
+    return true;
   }
   
   public TypeChecker.Type type(final EObject bool) {
@@ -394,6 +513,17 @@ public class TypeChecker {
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(bool).toString());
+    }
+  }
+  
+  public boolean ifInvalid(final Enum<?> type) {
+    if (type instanceof TypeChecker.ChannelType) {
+      return _ifInvalid((TypeChecker.ChannelType)type);
+    } else if (type instanceof TypeChecker.Type) {
+      return _ifInvalid((TypeChecker.Type)type);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(type).toString());
     }
   }
 }

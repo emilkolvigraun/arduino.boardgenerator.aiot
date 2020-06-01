@@ -26,19 +26,30 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//WifiConfig/pass"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Channel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Channel/ctype"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Channel/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Channel/config"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//ChannelType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ChannelType/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//ChannelConfig"/>
     <genClasses ecoreClass="IoT.ecore#//Wifi">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/url"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/sport"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/route"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Serial">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Serial/baud"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Serial/stop"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Serial/stopType"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//stopChar"/>
+    <genClasses ecoreClass="IoT.ecore#//StopIdentifyer"/>
+    <genClasses ecoreClass="IoT.ecore#//StopChar">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//StopChar/name"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//StopByte">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//StopByte/name"/>
+    </genClasses>
     <genClasses ecoreClass="IoT.ecore#//MqttClient">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/broker"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/port"/>
@@ -138,12 +149,6 @@
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//BooleanLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BooleanLiteral/bool"/>
-    </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//Char">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Char/name"/>
-    </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//Byte">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Byte/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Seconds"/>
     <genClasses ecoreClass="IoT.ecore#//Millis"/>

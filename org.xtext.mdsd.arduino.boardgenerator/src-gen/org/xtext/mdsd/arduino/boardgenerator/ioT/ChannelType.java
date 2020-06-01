@@ -3,24 +3,25 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Char</b></em>'.
+ * A representation of the model object '<em><b>Channel Type</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Char#getName <em>Name</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType#getName <em>Name</em>}</li>
  * </ul>
  *
- * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getChar()
+ * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getChannelType()
  * @model
  * @generated
  */
-public interface Char extends stopChar
+public interface ChannelType extends EObject
 {
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
@@ -28,14 +29,14 @@ public interface Char extends stopChar
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getChar_Name()
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getChannelType_Name()
    * @model
    * @generated
    */
   String getName();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Char#getName <em>Name</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Name</em>' attribute.
@@ -44,4 +45,4 @@ public interface Char extends stopChar
    */
   void setName(String value);
 
-} // Char
+} // ChannelType

@@ -21,6 +21,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiImpl#getUrl <em>Url</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiImpl#getSport <em>Sport</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiImpl#getRoute <em>Route</em>}</li>
  * </ul>
  *
@@ -47,6 +48,26 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
    * @ordered
    */
   protected String url = URL_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getSport() <em>Sport</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getSport()
+   * @generated
+   * @ordered
+   */
+  protected static final int SPORT_EDEFAULT = 0;
+
+  /**
+   * The cached value of the '{@link #getSport() <em>Sport</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getSport()
+   * @generated
+   * @ordered
+   */
+  protected int sport = SPORT_EDEFAULT;
 
   /**
    * The default value of the '{@link #getRoute() <em>Route</em>}' attribute.
@@ -120,6 +141,31 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
    * @generated
    */
   @Override
+  public int getSport()
+  {
+    return sport;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setSport(int newSport)
+  {
+    int oldSport = sport;
+    sport = newSport;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.WIFI__SPORT, oldSport, sport));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public String getRoute()
   {
     return route;
@@ -151,6 +197,8 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     {
       case IoTPackage.WIFI__URL:
         return getUrl();
+      case IoTPackage.WIFI__SPORT:
+        return getSport();
       case IoTPackage.WIFI__ROUTE:
         return getRoute();
     }
@@ -169,6 +217,9 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     {
       case IoTPackage.WIFI__URL:
         setUrl((String)newValue);
+        return;
+      case IoTPackage.WIFI__SPORT:
+        setSport((Integer)newValue);
         return;
       case IoTPackage.WIFI__ROUTE:
         setRoute((String)newValue);
@@ -190,6 +241,9 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
       case IoTPackage.WIFI__URL:
         setUrl(URL_EDEFAULT);
         return;
+      case IoTPackage.WIFI__SPORT:
+        setSport(SPORT_EDEFAULT);
+        return;
       case IoTPackage.WIFI__ROUTE:
         setRoute(ROUTE_EDEFAULT);
         return;
@@ -209,6 +263,8 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     {
       case IoTPackage.WIFI__URL:
         return URL_EDEFAULT == null ? url != null : !URL_EDEFAULT.equals(url);
+      case IoTPackage.WIFI__SPORT:
+        return sport != SPORT_EDEFAULT;
       case IoTPackage.WIFI__ROUTE:
         return ROUTE_EDEFAULT == null ? route != null : !ROUTE_EDEFAULT.equals(route);
     }
@@ -228,6 +284,8 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (url: ");
     result.append(url);
+    result.append(", sport: ");
+    result.append(sport);
     result.append(", route: ");
     result.append(route);
     result.append(')');

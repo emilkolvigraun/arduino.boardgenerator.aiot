@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getCtype <em>Ctype</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getName <em>Name</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getConfig <em>Config</em>}</li>
  * </ul>
@@ -24,6 +25,28 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Channel extends EObject
 {
+  /**
+   * Returns the value of the '<em><b>Ctype</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Ctype</em>' containment reference.
+   * @see #setCtype(ChannelType)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getChannel_Ctype()
+   * @model containment="true"
+   * @generated
+   */
+  ChannelType getCtype();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Channel#getCtype <em>Ctype</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Ctype</em>' containment reference.
+   * @see #getCtype()
+   * @generated
+   */
+  void setCtype(ChannelType value);
+
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
