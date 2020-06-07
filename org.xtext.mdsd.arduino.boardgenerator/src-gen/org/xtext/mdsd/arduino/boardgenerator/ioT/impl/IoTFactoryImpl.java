@@ -99,7 +99,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.DATA_OUTPUT: return createDataOutput();
       case IoTPackage.PIPELINE: return createPipeline();
       case IoTPackage.EXTERNAL: return createExternal();
-      case IoTPackage.TUPLE_PIPELINE: return createTuplePipeline();
       case IoTPackage.MAP_PIPELINE: return createMapPipeline();
       case IoTPackage.WINDOW_PIPELINE: return createWindowPipeline();
       case IoTPackage.EXECUTE_PIPELINE: return createExecutePipeline();
@@ -111,18 +110,12 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.SECONDS: return createSeconds();
       case IoTPackage.MILLIS: return createMillis();
       case IoTPackage.MICROS: return createMicros();
-      case IoTPackage.FILTER: return createFilter();
-      case IoTPackage.ABS: return createAbs();
       case IoTPackage.MAP: return createMap();
       case IoTPackage.WINDOW: return createWindow();
-      case IoTPackage.REDUCE: return createReduce();
       case IoTPackage.MEAN: return createMean();
       case IoTPackage.MEDIAN: return createMedian();
-      case IoTPackage.ST_DEV: return createStDev();
       case IoTPackage.MIN: return createMin();
       case IoTPackage.MAX: return createMax();
-      case IoTPackage.COUNT: return createCount();
-      case IoTPackage.VAR: return createVar();
       case IoTPackage.CONDITIONAL: return createConditional();
       case IoTPackage.OR: return createOr();
       case IoTPackage.AND: return createAnd();
@@ -558,18 +551,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public TuplePipeline createTuplePipeline()
-  {
-    TuplePipelineImpl tuplePipeline = new TuplePipelineImpl();
-    return tuplePipeline;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public MapPipeline createMapPipeline()
   {
     MapPipelineImpl mapPipeline = new MapPipelineImpl();
@@ -702,30 +683,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public Filter createFilter()
-  {
-    FilterImpl filter = new FilterImpl();
-    return filter;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Abs createAbs()
-  {
-    AbsImpl abs = new AbsImpl();
-    return abs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public Map createMap()
   {
     MapImpl map = new MapImpl();
@@ -742,18 +699,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     WindowImpl window = new WindowImpl();
     return window;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Reduce createReduce()
-  {
-    ReduceImpl reduce = new ReduceImpl();
-    return reduce;
   }
 
   /**
@@ -786,18 +731,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public StDev createStDev()
-  {
-    StDevImpl stDev = new StDevImpl();
-    return stDev;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public Min createMin()
   {
     MinImpl min = new MinImpl();
@@ -814,30 +747,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     MaxImpl max = new MaxImpl();
     return max;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Count createCount()
-  {
-    CountImpl count = new CountImpl();
-    return count;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Var createVar()
-  {
-    VarImpl var = new VarImpl();
-    return var;
   }
 
   /**

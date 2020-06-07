@@ -246,11 +246,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createExternalAdapter();
       }
       @Override
-      public Adapter caseTuplePipeline(TuplePipeline object)
-      {
-        return createTuplePipelineAdapter();
-      }
-      @Override
       public Adapter caseMapPipeline(MapPipeline object)
       {
         return createMapPipelineAdapter();
@@ -306,16 +301,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createMicrosAdapter();
       }
       @Override
-      public Adapter caseFilter(Filter object)
-      {
-        return createFilterAdapter();
-      }
-      @Override
-      public Adapter caseAbs(Abs object)
-      {
-        return createAbsAdapter();
-      }
-      @Override
       public Adapter caseMap(Map object)
       {
         return createMapAdapter();
@@ -324,11 +309,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseWindow(Window object)
       {
         return createWindowAdapter();
-      }
-      @Override
-      public Adapter caseReduce(Reduce object)
-      {
-        return createReduceAdapter();
       }
       @Override
       public Adapter caseMean(Mean object)
@@ -341,11 +321,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createMedianAdapter();
       }
       @Override
-      public Adapter caseStDev(StDev object)
-      {
-        return createStDevAdapter();
-      }
-      @Override
       public Adapter caseMin(Min object)
       {
         return createMinAdapter();
@@ -354,16 +329,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseMax(Max object)
       {
         return createMaxAdapter();
-      }
-      @Override
-      public Adapter caseCount(Count object)
-      {
-        return createCountAdapter();
-      }
-      @Override
-      public Adapter caseVar(Var object)
-      {
-        return createVarAdapter();
       }
       @Override
       public Adapter caseConditional(Conditional object)
@@ -978,21 +943,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline <em>Tuple Pipeline</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline
-   * @generated
-   */
-  public Adapter createTuplePipelineAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline <em>Map Pipeline</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1158,36 +1108,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Filter <em>Filter</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Filter
-   * @generated
-   */
-  public Adapter createFilterAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Abs <em>Abs</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Abs
-   * @generated
-   */
-  public Adapter createAbsAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Map <em>Map</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1213,21 +1133,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createWindowAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce <em>Reduce</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce
-   * @generated
-   */
-  public Adapter createReduceAdapter()
   {
     return null;
   }
@@ -1263,21 +1168,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StDev <em>St Dev</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.StDev
-   * @generated
-   */
-  public Adapter createStDevAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Min <em>Min</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -1303,36 +1193,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createMaxAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Count <em>Count</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Count
-   * @generated
-   */
-  public Adapter createCountAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Var <em>Var</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Var
-   * @generated
-   */
-  public Adapter createVarAdapter()
   {
     return null;
   }

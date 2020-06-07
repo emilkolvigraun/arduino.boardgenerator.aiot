@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
@@ -21,7 +20,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
@@ -31,7 +29,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
@@ -63,7 +60,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
@@ -73,14 +69,11 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.TuplePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -338,13 +331,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass tuplePipelineEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass mapPipelineEClass = null;
 
   /**
@@ -422,20 +408,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass filterEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass absEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass mapEClass = null;
 
   /**
@@ -444,13 +416,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   private EClass windowEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass reduceEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -471,13 +436,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass stDevEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   private EClass minEClass = null;
 
   /**
@@ -486,20 +444,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   private EClass maxEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass countEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass varEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -1738,28 +1682,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EClass getTuplePipeline()
-  {
-    return tuplePipelineEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getTuplePipeline_Expression()
-  {
-    return (EReference)tuplePipelineEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getMapPipeline()
   {
     return mapPipelineEClass;
@@ -1925,28 +1847,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EClass getFilter()
-  {
-    return filterEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getAbs()
-  {
-    return absEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getMap()
   {
     return mapEClass;
@@ -2013,17 +1913,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EClass getReduce()
-  {
-    return reduceEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getMean()
   {
     return meanEClass;
@@ -2046,17 +1935,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
    * @generated
    */
   @Override
-  public EClass getStDev()
-  {
-    return stDevEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getMin()
   {
     return minEClass;
@@ -2071,28 +1949,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
   public EClass getMax()
   {
     return maxEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getCount()
-  {
-    return countEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EClass getVar()
-  {
-    return varEClass;
   }
 
   /**
@@ -2773,9 +2629,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     createEReference(externalEClass, EXTERNAL__FUNCTION);
     createEReference(externalEClass, EXTERNAL__INPUT);
 
-    tuplePipelineEClass = createEClass(TUPLE_PIPELINE);
-    createEReference(tuplePipelineEClass, TUPLE_PIPELINE__EXPRESSION);
-
     mapPipelineEClass = createEClass(MAP_PIPELINE);
 
     windowPipelineEClass = createEClass(WINDOW_PIPELINE);
@@ -2802,10 +2655,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     microsEClass = createEClass(MICROS);
 
-    filterEClass = createEClass(FILTER);
-
-    absEClass = createEClass(ABS);
-
     mapEClass = createEClass(MAP);
     createEReference(mapEClass, MAP__EXPRESSION);
     createEReference(mapEClass, MAP__OUTPUT);
@@ -2814,21 +2663,13 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     createEAttribute(windowEClass, WINDOW__WIDTH);
     createEReference(windowEClass, WINDOW__EXECUTE);
 
-    reduceEClass = createEClass(REDUCE);
-
     meanEClass = createEClass(MEAN);
 
     medianEClass = createEClass(MEDIAN);
 
-    stDevEClass = createEClass(ST_DEV);
-
     minEClass = createEClass(MIN);
 
     maxEClass = createEClass(MAX);
-
-    countEClass = createEClass(COUNT);
-
-    varEClass = createEClass(VAR);
 
     conditionalEClass = createEClass(CONDITIONAL);
     createEReference(conditionalEClass, CONDITIONAL__CONDITION);
@@ -2935,7 +2776,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     commandEClass.getESuperTypes().add(this.getSampler());
     frequencyEClass.getESuperTypes().add(this.getSampler());
     externalEClass.getESuperTypes().add(this.getPipeline());
-    tuplePipelineEClass.getESuperTypes().add(this.getPipeline());
     mapPipelineEClass.getESuperTypes().add(this.getPipeline());
     windowPipelineEClass.getESuperTypes().add(this.getPipeline());
     referenceEClass.getESuperTypes().add(this.getExpression());
@@ -2945,18 +2785,12 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     secondsEClass.getESuperTypes().add(this.getResolution());
     millisEClass.getESuperTypes().add(this.getResolution());
     microsEClass.getESuperTypes().add(this.getResolution());
-    filterEClass.getESuperTypes().add(this.getTuplePipeline());
-    absEClass.getESuperTypes().add(this.getTuplePipeline());
     mapEClass.getESuperTypes().add(this.getMapPipeline());
     windowEClass.getESuperTypes().add(this.getWindowPipeline());
-    reduceEClass.getESuperTypes().add(this.getExecutePipeline());
     meanEClass.getESuperTypes().add(this.getExecutePipeline());
     medianEClass.getESuperTypes().add(this.getExecutePipeline());
-    stDevEClass.getESuperTypes().add(this.getExecutePipeline());
     minEClass.getESuperTypes().add(this.getExecutePipeline());
     maxEClass.getESuperTypes().add(this.getExecutePipeline());
-    countEClass.getESuperTypes().add(this.getExecutePipeline());
-    varEClass.getESuperTypes().add(this.getExecutePipeline());
     conditionalEClass.getESuperTypes().add(this.getExpression());
     orEClass.getESuperTypes().add(this.getExpression());
     andEClass.getESuperTypes().add(this.getExpression());
@@ -3025,7 +2859,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEAttribute(getMqttClient_Broker(), ecorePackage.getEString(), "broker", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMqttClient_Port(), ecorePackage.getEInt(), "port", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMqttClient_Client(), ecorePackage.getEString(), "client", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMqttClient_Pub(), ecorePackage.getEString(), "pub", null, 0, -1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMqttClient_Pub(), ecorePackage.getEString(), "pub", null, 0, 1, MqttClient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(functionEClass, Function.class, "Function", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getFunction_Name(), ecorePackage.getEString(), "name", null, 0, 1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3059,7 +2893,7 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEAttribute(getSensor_Name(), ecorePackage.getEString(), "name", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getSensor_Sensortype(), this.getSensorType(), null, "sensortype", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getSensor_Vars(), this.getSensorVariables(), null, "vars", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getSensor_Sampler(), this.getSampler(), null, "sampler", null, 0, -1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getSensor_Sampler(), this.getSampler(), null, "sampler", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getSensor_Vcc(), ecorePackage.getEInt(), "vcc", null, 0, 1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getSensor_Output(), this.getSensorOutput(), null, "output", null, 0, -1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -3105,9 +2939,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEReference(getExternal_Function(), this.getFunction(), null, "function", null, 0, 1, External.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getExternal_Input(), this.getExpression(), null, "input", null, 0, -1, External.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(tuplePipelineEClass, TuplePipeline.class, "TuplePipeline", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getTuplePipeline_Expression(), this.getExpression(), null, "expression", null, 0, 1, TuplePipeline.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
     initEClass(mapPipelineEClass, MapPipeline.class, "MapPipeline", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(windowPipelineEClass, WindowPipeline.class, "WindowPipeline", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -3134,10 +2965,6 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
 
     initEClass(microsEClass, Micros.class, "Micros", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(filterEClass, Filter.class, "Filter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(absEClass, Abs.class, "Abs", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
     initEClass(mapEClass, Map.class, "Map", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getMap_Expression(), this.getExpression(), null, "expression", null, 0, 1, Map.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMap_Output(), this.getVariable(), null, "output", null, 0, 1, Map.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3146,21 +2973,13 @@ public class IoTPackageImpl extends EPackageImpl implements IoTPackage
     initEAttribute(getWindow_Width(), ecorePackage.getEInt(), "width", null, 0, 1, Window.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getWindow_Execute(), this.getExecutePipeline(), null, "execute", null, 0, 1, Window.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(reduceEClass, Reduce.class, "Reduce", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
     initEClass(meanEClass, Mean.class, "Mean", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(medianEClass, Median.class, "Median", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(stDevEClass, StDev.class, "StDev", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
     initEClass(minEClass, Min.class, "Min", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(maxEClass, Max.class, "Max", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(countEClass, Count.class, "Count", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-    initEClass(varEClass, Var.class, "Var", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(conditionalEClass, Conditional.class, "Conditional", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getConditional_Condition(), this.getExpression(), null, "condition", null, 0, 1, Conditional.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

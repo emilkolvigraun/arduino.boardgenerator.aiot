@@ -18,9 +18,16 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar;
@@ -31,6 +38,36 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorOutputImpl;
 
 @SuppressWarnings("all")
 public class GeneratorUtils extends EcoreUtil {
+  public List<Sensor> getSensorsSampleByFrequency(final List<Sensor> sensors) {
+    List<Sensor> _xblockexpression = null;
+    {
+      final ArrayList<Sensor> freqSensors = CollectionLiterals.<Sensor>newArrayList();
+      final Consumer<Sensor> _function = (Sensor s) -> {
+        if (((s.getSampler() != null) && (s.getSampler() instanceof Frequency))) {
+          freqSensors.add(s);
+        }
+      };
+      sensors.forEach(_function);
+      _xblockexpression = IterableExtensions.<Sensor>toList(freqSensors);
+    }
+    return _xblockexpression;
+  }
+  
+  public List<Sensor> getSensorsSampleByCommand(final List<Sensor> sensors) {
+    List<Sensor> _xblockexpression = null;
+    {
+      final ArrayList<Sensor> commSensors = CollectionLiterals.<Sensor>newArrayList();
+      final Consumer<Sensor> _function = (Sensor s) -> {
+        if (((s.getSampler() != null) && (s.getSampler() instanceof Command))) {
+          commSensors.add(s);
+        }
+      };
+      sensors.forEach(_function);
+      _xblockexpression = IterableExtensions.<Sensor>toList(commSensors);
+    }
+    return _xblockexpression;
+  }
+  
   public String getStopCharName(final Serial ser) {
     String _xblockexpression = null;
     {
@@ -112,6 +149,20 @@ public class GeneratorUtils extends EcoreUtil {
     return _xifexpression;
   }
   
+  public boolean anySensorExternal(final List<Sensor> sensors) {
+    boolean _xblockexpression = false;
+    {
+      for (final Sensor sensor : sensors) {
+        SensorType _sensortype = sensor.getSensortype();
+        if ((_sensortype instanceof ExternalSensor)) {
+          return true;
+        }
+      }
+      _xblockexpression = false;
+    }
+    return _xblockexpression;
+  }
+  
   public Set<Channel> getChannelsInBoard(final Board board) {
     Set<Channel> _xblockexpression = null;
     {
@@ -131,15 +182,72 @@ public class GeneratorUtils extends EcoreUtil {
     return _xblockexpression;
   }
   
+  public Set<External> getExternalsInBoard(final Board board) {
+    Set<External> _xblockexpression = null;
+    {
+      Iterable<EObject> _xifexpression = null;
+      if ((board instanceof ExtendsBoard)) {
+        List<EObject> _includesTypes = this.includesTypes(((ExtendsBoard)board).getAbstractBoard().eContents(), SensorImpl.class);
+        List<EObject> _includesTypes_1 = this.includesTypes(((ExtendsBoard)board).eContents(), SensorImpl.class);
+        _xifexpression = Iterables.<EObject>concat(_includesTypes, _includesTypes_1);
+      } else {
+        _xifexpression = this.includesTypes(board.eContents(), SensorImpl.class);
+      }
+      Iterable<EObject> contains = _xifexpression;
+      contains = this.forEachIncludeTypes(IterableExtensions.<EObject>toList(contains), SensorOutputImpl.class);
+      Set<External> externals = this.extractExternalsFromSensorOutput(IterableExtensions.<EObject>toList(contains));
+      _xblockexpression = externals;
+    }
+    return _xblockexpression;
+  }
+  
   public Set<Channel> extractChannelsFromSensorOutput(final List<EObject> sensors) {
     HashSet<Channel> _xblockexpression = null;
     {
       final ArrayList<Channel> channels = CollectionLiterals.<Channel>newArrayList();
       final Consumer<EObject> _function = (EObject s) -> {
+        final Consumer<Channel> _function_1 = (Channel c) -> {
+          channels.add(c);
+        };
+        ((SensorOutputImpl) s).getChannel().forEach(_function_1);
+      };
+      sensors.forEach(_function);
+      _xblockexpression = new HashSet<Channel>(channels);
+    }
+    return _xblockexpression;
+  }
+  
+  public Set<External> extractExternalsFromSensorOutput(final List<EObject> sensors) {
+    HashSet<External> _xblockexpression = null;
+    {
+      final ArrayList<External> externals = CollectionLiterals.<External>newArrayList();
+      final Consumer<EObject> _function = (EObject s) -> {
+        Pipeline pipeline = ((SensorOutputImpl) s).getOutput().getPipeline();
+        while ((pipeline != null)) {
+          {
+            if ((pipeline instanceof External)) {
+              externals.add(((External) pipeline));
+            }
+            pipeline = pipeline.getNext();
+          }
+        }
+      };
+      sensors.forEach(_function);
+      List<External> _list = IterableExtensions.<External>toList(externals);
+      _xblockexpression = new HashSet<External>(_list);
+    }
+    return _xblockexpression;
+  }
+  
+  public Set<Channel> getUniqueChannelsFromSensorOutput(final List<SensorOutput> sensors) {
+    HashSet<Channel> _xblockexpression = null;
+    {
+      final ArrayList<Channel> channels = CollectionLiterals.<Channel>newArrayList();
+      final Consumer<SensorOutput> _function = (SensorOutput s) -> {
         final Function1<Channel, Boolean> _function_1 = (Channel c) -> {
           return Boolean.valueOf(channels.add(c));
         };
-        IterableExtensions.<Channel>forall(((SensorOutputImpl) s).getChannel(), _function_1);
+        IterableExtensions.<Channel>forall(((SensorOutput) s).getChannel(), _function_1);
       };
       sensors.forEach(_function);
       _xblockexpression = new HashSet<Channel>(channels);

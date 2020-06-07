@@ -35,11 +35,7 @@ Seconds : 'seconds';
 
 Broker : 'broker';
 
-Filter : 'filter';
-
 Median : 'median';
-
-Reduce : 'reduce';
 
 Sample : 'sample';
 
@@ -47,13 +43,9 @@ Sensor : 'sensor';
 
 Board : 'board';
 
-Count : 'count';
-
 Model : 'model';
 
 Route : 'route';
-
-Stdev : 'stdev';
 
 Topic : 'topic';
 
@@ -79,8 +71,6 @@ Type : 'type';
 
 Wifi : 'wifi';
 
-Abs : 'abs';
-
 And : 'and';
 
 Map : 'map';
@@ -88,8 +78,6 @@ Map : 'map';
 Max : 'max';
 
 Min : 'min';
-
-Var : 'var';
 
 Vcc : 'vcc';
 
@@ -159,7 +147,7 @@ RULE_DBL : RULE_INT? '.' ('0'..'9')+;
 
 RULE_NDBL : '-' RULE_INT? '.' ('0'..'9')+;
 
-RULE_BOOLEAN : ('true'|'false'|'True'|'False');
+RULE_BOOLEAN : ('true'|'false');
 
 RULE_SL_COMMENT : '#' ~(('\n'|'\r'))* ('\r'? '\n')?;
 

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.function.Consumer;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
@@ -289,10 +288,9 @@ public class IoTGenerator extends AbstractGenerator {
               _builder.append(_client);
               _builder.append("\", ");
               _builder.newLineIfNotEmpty();
-              _builder.append("\"topic\"  : \"");
-              EList<String> _pub = ((MqttClient) channelConfig).getPub();
+              _builder.append("\"topic\"  : ");
+              String _pub = ((MqttClient) channelConfig).getPub();
               _builder.append(_pub);
-              _builder.append("\"");
               _builder.newLineIfNotEmpty();
               return _builder.toString();
             } catch (final Throwable _t) {

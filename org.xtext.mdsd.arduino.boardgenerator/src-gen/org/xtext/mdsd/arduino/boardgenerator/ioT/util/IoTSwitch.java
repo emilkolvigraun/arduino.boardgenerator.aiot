@@ -323,14 +323,6 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.TUPLE_PIPELINE:
-      {
-        TuplePipeline tuplePipeline = (TuplePipeline)theEObject;
-        T result = caseTuplePipeline(tuplePipeline);
-        if (result == null) result = casePipeline(tuplePipeline);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case IoTPackage.MAP_PIPELINE:
       {
         MapPipeline mapPipeline = (MapPipeline)theEObject;
@@ -417,24 +409,6 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.FILTER:
-      {
-        Filter filter = (Filter)theEObject;
-        T result = caseFilter(filter);
-        if (result == null) result = caseTuplePipeline(filter);
-        if (result == null) result = casePipeline(filter);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.ABS:
-      {
-        Abs abs = (Abs)theEObject;
-        T result = caseAbs(abs);
-        if (result == null) result = caseTuplePipeline(abs);
-        if (result == null) result = casePipeline(abs);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case IoTPackage.MAP:
       {
         Map map = (Map)theEObject;
@@ -450,14 +424,6 @@ public class IoTSwitch<T> extends Switch<T>
         T result = caseWindow(window);
         if (result == null) result = caseWindowPipeline(window);
         if (result == null) result = casePipeline(window);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.REDUCE:
-      {
-        Reduce reduce = (Reduce)theEObject;
-        T result = caseReduce(reduce);
-        if (result == null) result = caseExecutePipeline(reduce);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -477,14 +443,6 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.ST_DEV:
-      {
-        StDev stDev = (StDev)theEObject;
-        T result = caseStDev(stDev);
-        if (result == null) result = caseExecutePipeline(stDev);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case IoTPackage.MIN:
       {
         Min min = (Min)theEObject;
@@ -498,22 +456,6 @@ public class IoTSwitch<T> extends Switch<T>
         Max max = (Max)theEObject;
         T result = caseMax(max);
         if (result == null) result = caseExecutePipeline(max);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.COUNT:
-      {
-        Count count = (Count)theEObject;
-        T result = caseCount(count);
-        if (result == null) result = caseExecutePipeline(count);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.VAR:
-      {
-        Var var = (Var)theEObject;
-        T result = caseVar(var);
-        if (result == null) result = caseExecutePipeline(var);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -1194,22 +1136,6 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Tuple Pipeline</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Tuple Pipeline</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseTuplePipeline(TuplePipeline object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Map Pipeline</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1386,38 +1312,6 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Filter</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Filter</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseFilter(Filter object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Abs</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Abs</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseAbs(Abs object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Map</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1445,22 +1339,6 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseWindow(Window object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Reduce</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Reduce</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseReduce(Reduce object)
   {
     return null;
   }
@@ -1498,22 +1376,6 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>St Dev</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>St Dev</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseStDev(StDev object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Min</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1541,38 +1403,6 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseMax(Max object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Count</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Count</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseCount(Count object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Var</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Var</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseVar(Var object)
   {
     return null;
   }

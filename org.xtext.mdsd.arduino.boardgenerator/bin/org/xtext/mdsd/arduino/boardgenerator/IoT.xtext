@@ -60,7 +60,7 @@ MqttClient:
 	'broker'broker=STRING  
 	'port'	port=INT
 	'id'    client=STRING   
-	'topic' '[' pub+=STRING (',' pub+=STRING)? ']' ;  
+	'topic' pub=STRING;  
   
 Function:
 	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)*  ')' '->' '(' output+=ID (',' output+=ID)*  ')';
@@ -100,7 +100,7 @@ AbstractBoard:
 
 Sensor:
 	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN
-		('sample' sampler+=Sampler)?  
+		('sample' sampler=Sampler)?  
 		('vcc' vcc=INT)? 
 		output+=SensorOutput+ 
 	END;
@@ -123,7 +123,7 @@ Variable:
 Sampler:
 	Command | Frequency;
 
-Command:
+Command: 
 	'command' command=STRING topic=STRING?;
 
 Frequency: 
@@ -139,15 +139,12 @@ DataOutput:
 	sensorvar=[SensorVariables] (pipeline=Pipeline)?; 
 
 Pipeline: 
-	'.' (TuplePipeline | MapPipeline | WindowPipeline | External ) (next=Pipeline)?; 
- 
+	'.' (MapPipeline | WindowPipeline | External ) (next=Pipeline)?; 
+  
 // external function can be added
 // validator verifyes whether input is valid
 External:  
 	function=[Function] '[' input+=Expression (',' input+=Expression)* ']'; 
-
-TuplePipeline:
-	({Filter} 'filter' | {Abs} 'abs') '[' expression=Expression ']';
 	
 MapPipeline:
 	{Map} 'map' '[' expression=Expression '->' output=Variable ']';
@@ -155,15 +152,11 @@ MapPipeline:
 WindowPipeline:
 	{Window} 'byWindow' '[' width=INT ']' '.' execute=ExecutePipeline;
 
-ExecutePipeline:
-	{Reduce}'reduce'| 
+ExecutePipeline: 
 	{Mean} 	'mean' 	|
 	{Median}'median'|
-	{StDev} 'stdev' |
 	{Min} 	'min' 	|
-	{Max} 	'max' 	|
-	{Count} 'count'	|
-	{Var} 	'var'	;
+	{Max} 	'max' 	;
 
 // The expression rules are loose allowing for meaningless expressions to be
 // formed. Well-typedness will be ensured using validators
@@ -238,7 +231,7 @@ terminal NDBL returns ecore::EDouble:
 	'-' (INT? '.'('0'..'9')+);
  
 terminal BOOLEAN returns ecore::EBoolean: 
-	'true' | 'false' | 'True' | 'False';
+	'true' | 'false';
 
 @Override 
 terminal SL_COMMENT : '#' !('\n'|'\r')* ('\r'? '\n')?;

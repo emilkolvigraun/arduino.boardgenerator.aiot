@@ -87,14 +87,14 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
   protected SensorVariables vars;
 
   /**
-   * The cached value of the '{@link #getSampler() <em>Sampler</em>}' containment reference list.
+   * The cached value of the '{@link #getSampler() <em>Sampler</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getSampler()
    * @generated
    * @ordered
    */
-  protected EList<Sampler> sampler;
+  protected Sampler sampler;
 
   /**
    * The default value of the '{@link #getVcc() <em>Vcc</em>}' attribute.
@@ -278,13 +278,48 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
    * @generated
    */
   @Override
-  public EList<Sampler> getSampler()
+  public Sampler getSampler()
   {
-    if (sampler == null)
-    {
-      sampler = new EObjectContainmentEList<Sampler>(Sampler.class, this, IoTPackage.SENSOR__SAMPLER);
-    }
     return sampler;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetSampler(Sampler newSampler, NotificationChain msgs)
+  {
+    Sampler oldSampler = sampler;
+    sampler = newSampler;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR__SAMPLER, oldSampler, newSampler);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setSampler(Sampler newSampler)
+  {
+    if (newSampler != sampler)
+    {
+      NotificationChain msgs = null;
+      if (sampler != null)
+        msgs = ((InternalEObject)sampler).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SENSOR__SAMPLER, null, msgs);
+      if (newSampler != null)
+        msgs = ((InternalEObject)newSampler).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SENSOR__SAMPLER, null, msgs);
+      msgs = basicSetSampler(newSampler, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR__SAMPLER, newSampler, newSampler));
   }
 
   /**
@@ -342,7 +377,7 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
       case IoTPackage.SENSOR__VARS:
         return basicSetVars(null, msgs);
       case IoTPackage.SENSOR__SAMPLER:
-        return ((InternalEList<?>)getSampler()).basicRemove(otherEnd, msgs);
+        return basicSetSampler(null, msgs);
       case IoTPackage.SENSOR__OUTPUT:
         return ((InternalEList<?>)getOutput()).basicRemove(otherEnd, msgs);
     }
@@ -396,8 +431,7 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
         setVars((SensorVariables)newValue);
         return;
       case IoTPackage.SENSOR__SAMPLER:
-        getSampler().clear();
-        getSampler().addAll((Collection<? extends Sampler>)newValue);
+        setSampler((Sampler)newValue);
         return;
       case IoTPackage.SENSOR__VCC:
         setVcc((Integer)newValue);
@@ -430,7 +464,7 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
         setVars((SensorVariables)null);
         return;
       case IoTPackage.SENSOR__SAMPLER:
-        getSampler().clear();
+        setSampler((Sampler)null);
         return;
       case IoTPackage.SENSOR__VCC:
         setVcc(VCC_EDEFAULT);
@@ -459,7 +493,7 @@ public class SensorImpl extends MinimalEObjectImpl.Container implements Sensor
       case IoTPackage.SENSOR__VARS:
         return vars != null;
       case IoTPackage.SENSOR__SAMPLER:
-        return sampler != null && !sampler.isEmpty();
+        return sampler != null;
       case IoTPackage.SENSOR__VCC:
         return vcc != VCC_EDEFAULT;
       case IoTPackage.SENSOR__OUTPUT:

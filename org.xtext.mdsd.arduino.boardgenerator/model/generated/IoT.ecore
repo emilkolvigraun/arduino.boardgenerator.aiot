@@ -60,8 +60,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="broker" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="client" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pub" unique="false" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pub" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Function">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -103,8 +102,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="vars" eType="#//SensorVariables"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sampler" upperBound="-1"
-        eType="#//Sampler" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sampler" eType="#//Sampler"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="vcc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="output" upperBound="-1"
         eType="#//SensorOutput" containment="true"/>
@@ -156,10 +155,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
         eType="#//Expression" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TuplePipeline" eSuperTypes="#//Pipeline">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression"
-        containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MapPipeline" eSuperTypes="#//Pipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="WindowPipeline" eSuperTypes="#//Pipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExecutePipeline"/>
@@ -179,8 +174,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Seconds" eSuperTypes="#//Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="Millis" eSuperTypes="#//Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="Micros" eSuperTypes="#//Resolution"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Filter" eSuperTypes="#//TuplePipeline"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Abs" eSuperTypes="#//TuplePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Map" eSuperTypes="#//MapPipeline">
     <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Expression"
         containment="true"/>
@@ -192,14 +185,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="execute" eType="#//ExecutePipeline"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Reduce" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Mean" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Median" eSuperTypes="#//ExecutePipeline"/>
-  <eClassifiers xsi:type="ecore:EClass" name="StDev" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Min" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Max" eSuperTypes="#//ExecutePipeline"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Count" eSuperTypes="#//ExecutePipeline"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Var" eSuperTypes="#//ExecutePipeline"/>
   <eClassifiers xsi:type="ecore:EClass" name="Conditional" eSuperTypes="#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Expression"
         containment="true"/>

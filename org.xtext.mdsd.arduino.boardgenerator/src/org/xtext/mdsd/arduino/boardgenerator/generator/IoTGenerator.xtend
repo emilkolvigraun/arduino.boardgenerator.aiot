@@ -124,7 +124,7 @@ class IoTGenerator extends AbstractGenerator {
 						"port"   : "",
 						"route" : "" 
 					   '''
-			}
+			}  
 		} else if (channelConfig instanceof Serial || channelType == "serial"){ 
 			try {
 				return	'''    
@@ -143,7 +143,7 @@ class IoTGenerator extends AbstractGenerator {
 						"broker" : "«(channelConfig as MqttClient).broker»",
 						"port"   : "«(channelConfig as MqttClient).port.toString»",
 						"id"     : "«(channelConfig as MqttClient).client»", 
-						"topic"  : "«(channelConfig as MqttClient).pub »"
+						"topic"  : «(channelConfig as MqttClient).pub»
 						'''				
 			} catch (Exception e){
 				return 	''' 
@@ -155,7 +155,7 @@ class IoTGenerator extends AbstractGenerator {
 			}	
 		}  
 		'''REQUIRES ATTENTION''' 
-	}    
+	}      
 	
 	def HashMap<String, HashMap<String, List<Variable>>> getSensorsForSensorManager(List<Sensor> sensors, Boards board, String currentBoard){
 		val embeddedSensors = new HashMap<String, HashMap<String, List<Variable>>>();
@@ -179,9 +179,6 @@ class IoTGenerator extends AbstractGenerator {
 	}
 	
 	def String generateSensorManagerH(List<String> sensors, HashMap<String, HashMap<String, List<Variable>>> embeddedSensors){ 
-		
-		
-	
 		'''
 		#ifndef SENSOR_MANAGER_H
 		#define SENSOR_MANAGER_H

@@ -97,16 +97,26 @@ public interface Sensor extends EObject
   void setVars(SensorVariables value);
 
   /**
-   * Returns the value of the '<em><b>Sampler</b></em>' containment reference list.
-   * The list contents are of type {@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler}.
+   * Returns the value of the '<em><b>Sampler</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Sampler</em>' containment reference list.
+   * @return the value of the '<em>Sampler</em>' containment reference.
+   * @see #setSampler(Sampler)
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensor_Sampler()
    * @model containment="true"
    * @generated
    */
-  EList<Sampler> getSampler();
+  Sampler getSampler();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor#getSampler <em>Sampler</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Sampler</em>' containment reference.
+   * @see #getSampler()
+   * @generated
+   */
+  void setSampler(Sampler value);
 
   /**
    * Returns the value of the '<em><b>Vcc</b></em>' attribute.

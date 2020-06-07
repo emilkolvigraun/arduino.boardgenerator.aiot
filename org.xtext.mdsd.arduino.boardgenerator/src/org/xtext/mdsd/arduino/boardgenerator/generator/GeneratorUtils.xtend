@@ -18,9 +18,26 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte
 import java.util.HashMap
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Command
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External
+import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
 
 class GeneratorUtils extends EcoreUtil { 
 	 
+	def List<Sensor> getSensorsSampleByFrequency(List<Sensor> sensors){
+		val freqSensors = newArrayList()
+		sensors.forEach[s | s.sampler !== null && s.sampler instanceof Frequency ? freqSensors.add(s)]
+		freqSensors.toList
+	}  
+	
+	def List<Sensor> getSensorsSampleByCommand(List<Sensor> sensors){
+		val commSensors = newArrayList()
+		sensors.forEach[s | s.sampler !== null && s.sampler instanceof Command ? commSensors.add(s)]
+		commSensors.toList
+	}    
+	  
 	def String getStopCharName(Serial ser){
 		var stop = ser.stopType 
 		if (stop instanceof StopByte) 
@@ -56,7 +73,15 @@ class GeneratorUtils extends EcoreUtil {
 			(board as ExtendsBoard).sensors?.forEach[s | map.put(s.name, s)]
 			map.values.toList
 		} else
-			newArrayList()		 
+			newArrayList()		  
+   	}
+   	
+   	def boolean anySensorExternal(List<Sensor> sensors){
+   		for (Sensor sensor : sensors){
+   			if (sensor.sensortype instanceof ExternalSensor)
+   				return true
+   		}
+   		false
    	}
 	   
 	 def Set<Channel> getChannelsInBoard(Board board){
@@ -67,9 +92,33 @@ class GeneratorUtils extends EcoreUtil {
 	 	chans	   
 	 }    
 	 
+	 def Set<External> getExternalsInBoard(Board board){
+	 	var contains = board instanceof ExtendsBoard ? board.abstractBoard.eContents.includesTypes(SensorImpl)+board.eContents.includesTypes(SensorImpl) : board.eContents.includesTypes(SensorImpl) 
+	 	contains = contains.toList.forEachIncludeTypes(SensorOutputImpl) 
+	 	var externals = contains.toList.extractExternalsFromSensorOutput   
+	 	externals
+	 } 
+	  
 	 def Set<Channel> extractChannelsFromSensorOutput(List<EObject> sensors){
 	 	val channels = newArrayList()  
-	 	sensors.forEach[ s | (s as SensorOutputImpl).channel.forall[c | channels.add(c) ]] 
+	 	sensors.forEach[ s | (s as SensorOutputImpl).channel.forEach[c | channels.add(c) ]] 
+	 	new HashSet<Channel>(channels)   
+	 } 
+	 
+	 def Set<External> extractExternalsFromSensorOutput(List<EObject> sensors){
+	 	val externals = newArrayList()
+	 	sensors.forEach[s | var pipeline = (s as SensorOutputImpl).output.pipeline
+	 		while (pipeline !== null){
+	 			pipeline instanceof External ? externals.add(pipeline as External) 
+				pipeline = pipeline.next	 			
+	 		}]
+	 	
+	 	new HashSet<External>(externals.toList)
+	 }  
+	  
+	 def Set<Channel> getUniqueChannelsFromSensorOutput(List<SensorOutput> sensors){
+	 	val channels = newArrayList()  
+	 	sensors.forEach[ s | (s as SensorOutput).channel.forall[c | channels.add(c) ]] 
 	 	new HashSet<Channel>(channels)  
 	 } 
 	 
@@ -90,6 +139,5 @@ class GeneratorUtils extends EcoreUtil {
 	 	}  
 	 	classes
 	 }	
-
 }
 

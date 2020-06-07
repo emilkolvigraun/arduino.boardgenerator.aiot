@@ -40,7 +40,6 @@ public class IoTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSamplerAccess().getAlternatives(), "rule__Sampler__Alternatives");
 			builder.put(grammarAccess.getResolutionAccess().getAlternatives(), "rule__Resolution__Alternatives");
 			builder.put(grammarAccess.getPipelineAccess().getAlternatives_1(), "rule__Pipeline__Alternatives_1");
-			builder.put(grammarAccess.getTuplePipelineAccess().getAlternatives_0(), "rule__TuplePipeline__Alternatives_0");
 			builder.put(grammarAccess.getExecutePipelineAccess().getAlternatives(), "rule__ExecutePipeline__Alternatives");
 			builder.put(grammarAccess.getEqualityAccess().getAlternatives_1(), "rule__Equality__Alternatives_1");
 			builder.put(grammarAccess.getComparisonAccess().getAlternatives_1(), "rule__Comparison__Alternatives_1");
@@ -62,7 +61,6 @@ public class IoTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getStopCharAccess().getGroup(), "rule__StopChar__Group__0");
 			builder.put(grammarAccess.getStopByteAccess().getGroup(), "rule__StopByte__Group__0");
 			builder.put(grammarAccess.getMqttClientAccess().getGroup(), "rule__MqttClient__Group__0");
-			builder.put(grammarAccess.getMqttClientAccess().getGroup_9(), "rule__MqttClient__Group_9__0");
 			builder.put(grammarAccess.getFunctionAccess().getGroup(), "rule__Function__Group__0");
 			builder.put(grammarAccess.getFunctionAccess().getGroup_4(), "rule__Function__Group_4__0");
 			builder.put(grammarAccess.getFunctionAccess().getGroup_9(), "rule__Function__Group_9__0");
@@ -92,19 +90,12 @@ public class IoTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getPipelineAccess().getGroup(), "rule__Pipeline__Group__0");
 			builder.put(grammarAccess.getExternalAccess().getGroup(), "rule__External__Group__0");
 			builder.put(grammarAccess.getExternalAccess().getGroup_3(), "rule__External__Group_3__0");
-			builder.put(grammarAccess.getTuplePipelineAccess().getGroup(), "rule__TuplePipeline__Group__0");
-			builder.put(grammarAccess.getTuplePipelineAccess().getGroup_0_0(), "rule__TuplePipeline__Group_0_0__0");
-			builder.put(grammarAccess.getTuplePipelineAccess().getGroup_0_1(), "rule__TuplePipeline__Group_0_1__0");
 			builder.put(grammarAccess.getMapPipelineAccess().getGroup(), "rule__MapPipeline__Group__0");
 			builder.put(grammarAccess.getWindowPipelineAccess().getGroup(), "rule__WindowPipeline__Group__0");
 			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_0(), "rule__ExecutePipeline__Group_0__0");
 			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_1(), "rule__ExecutePipeline__Group_1__0");
 			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_2(), "rule__ExecutePipeline__Group_2__0");
 			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_3(), "rule__ExecutePipeline__Group_3__0");
-			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_4(), "rule__ExecutePipeline__Group_4__0");
-			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_5(), "rule__ExecutePipeline__Group_5__0");
-			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_6(), "rule__ExecutePipeline__Group_6__0");
-			builder.put(grammarAccess.getExecutePipelineAccess().getGroup_7(), "rule__ExecutePipeline__Group_7__0");
 			builder.put(grammarAccess.getConditionalAccess().getGroup(), "rule__Conditional__Group__0");
 			builder.put(grammarAccess.getConditionalAccess().getGroup_1(), "rule__Conditional__Group_1__0");
 			builder.put(grammarAccess.getOrAccess().getGroup(), "rule__Or__Group__0");
@@ -156,8 +147,7 @@ public class IoTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMqttClientAccess().getBrokerAssignment_1(), "rule__MqttClient__BrokerAssignment_1");
 			builder.put(grammarAccess.getMqttClientAccess().getPortAssignment_3(), "rule__MqttClient__PortAssignment_3");
 			builder.put(grammarAccess.getMqttClientAccess().getClientAssignment_5(), "rule__MqttClient__ClientAssignment_5");
-			builder.put(grammarAccess.getMqttClientAccess().getPubAssignment_8(), "rule__MqttClient__PubAssignment_8");
-			builder.put(grammarAccess.getMqttClientAccess().getPubAssignment_9_1(), "rule__MqttClient__PubAssignment_9_1");
+			builder.put(grammarAccess.getMqttClientAccess().getPubAssignment_7(), "rule__MqttClient__PubAssignment_7");
 			builder.put(grammarAccess.getFunctionAccess().getNameAssignment_1(), "rule__Function__NameAssignment_1");
 			builder.put(grammarAccess.getFunctionAccess().getInputAssignment_3(), "rule__Function__InputAssignment_3");
 			builder.put(grammarAccess.getFunctionAccess().getInputAssignment_4_1(), "rule__Function__InputAssignment_4_1");
@@ -204,7 +194,6 @@ public class IoTParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getExternalAccess().getFunctionAssignment_0(), "rule__External__FunctionAssignment_0");
 			builder.put(grammarAccess.getExternalAccess().getInputAssignment_2(), "rule__External__InputAssignment_2");
 			builder.put(grammarAccess.getExternalAccess().getInputAssignment_3_1(), "rule__External__InputAssignment_3_1");
-			builder.put(grammarAccess.getTuplePipelineAccess().getExpressionAssignment_2(), "rule__TuplePipeline__ExpressionAssignment_2");
 			builder.put(grammarAccess.getMapPipelineAccess().getExpressionAssignment_3(), "rule__MapPipeline__ExpressionAssignment_3");
 			builder.put(grammarAccess.getMapPipelineAccess().getOutputAssignment_5(), "rule__MapPipeline__OutputAssignment_5");
 			builder.put(grammarAccess.getWindowPipelineAccess().getWidthAssignment_3(), "rule__WindowPipeline__WidthAssignment_3");

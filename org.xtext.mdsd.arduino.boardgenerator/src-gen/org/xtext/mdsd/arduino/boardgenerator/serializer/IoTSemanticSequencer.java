@@ -14,7 +14,6 @@ import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Abs;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
@@ -23,7 +22,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
@@ -31,7 +29,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
@@ -60,19 +57,16 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.NumberLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Reduce;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
@@ -93,16 +87,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		Set<Parameter> parameters = context.getEnabledBooleanParameters();
 		if (epackage == IoTPackage.eINSTANCE)
 			switch (semanticObject.eClass().getClassifierID()) {
-			case IoTPackage.ABS:
-				if (rule == grammarAccess.getPipelineRule()) {
-					sequence_Pipeline_TuplePipeline(context, (Abs) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getTuplePipelineRule()) {
-					sequence_TuplePipeline(context, (Abs) semanticObject); 
-					return; 
-				}
-				else break;
 			case IoTPackage.ABSTRACT_BOARD:
 				sequence_AbstractBoard(context, (AbstractBoard) semanticObject); 
 				return; 
@@ -126,9 +110,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				return; 
 			case IoTPackage.CONDITIONAL:
 				sequence_Conditional(context, (Conditional) semanticObject); 
-				return; 
-			case IoTPackage.COUNT:
-				sequence_ExecutePipeline(context, (Count) semanticObject); 
 				return; 
 			case IoTPackage.DATA_OUTPUT:
 				sequence_DataOutput(context, (DataOutput) semanticObject); 
@@ -158,16 +139,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case IoTPackage.EXTERNAL_SENSOR:
 				sequence_ExternalSensor(context, (ExternalSensor) semanticObject); 
 				return; 
-			case IoTPackage.FILTER:
-				if (rule == grammarAccess.getPipelineRule()) {
-					sequence_Pipeline_TuplePipeline(context, (Filter) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getTuplePipelineRule()) {
-					sequence_TuplePipeline(context, (Filter) semanticObject); 
-					return; 
-				}
-				else break;
 			case IoTPackage.FREQUENCY:
 				sequence_Frequency(context, (Frequency) semanticObject); 
 				return; 
@@ -256,9 +227,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case IoTPackage.PLUS:
 				sequence_SubAdd(context, (Plus) semanticObject); 
 				return; 
-			case IoTPackage.REDUCE:
-				sequence_ExecutePipeline(context, (Reduce) semanticObject); 
-				return; 
 			case IoTPackage.REFERENCE:
 				sequence_Reference(context, (Reference) semanticObject); 
 				return; 
@@ -277,9 +245,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case IoTPackage.SERIAL:
 				sequence_Serial(context, (Serial) semanticObject); 
 				return; 
-			case IoTPackage.ST_DEV:
-				sequence_ExecutePipeline(context, (StDev) semanticObject); 
-				return; 
 			case IoTPackage.STOP_BYTE:
 				sequence_StopByte(context, (StopByte) semanticObject); 
 				return; 
@@ -291,9 +256,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				return; 
 			case IoTPackage.UNEQUAL:
 				sequence_Equality(context, (Unequal) semanticObject); 
-				return; 
-			case IoTPackage.VAR:
-				sequence_ExecutePipeline(context, (Var) semanticObject); 
 				return; 
 			case IoTPackage.VARIABLE:
 				sequence_Variable(context, (Variable) semanticObject); 
@@ -824,18 +786,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     ExecutePipeline returns Count
-	 *
-	 * Constraint:
-	 *     {Count}
-	 */
-	protected void sequence_ExecutePipeline(ISerializationContext context, Count semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     ExecutePipeline returns Max
 	 *
 	 * Constraint:
@@ -878,42 +828,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     {Min}
 	 */
 	protected void sequence_ExecutePipeline(ISerializationContext context, Min semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ExecutePipeline returns Reduce
-	 *
-	 * Constraint:
-	 *     {Reduce}
-	 */
-	protected void sequence_ExecutePipeline(ISerializationContext context, Reduce semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ExecutePipeline returns StDev
-	 *
-	 * Constraint:
-	 *     {StDev}
-	 */
-	protected void sequence_ExecutePipeline(ISerializationContext context, StDev semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ExecutePipeline returns Var
-	 *
-	 * Constraint:
-	 *     {Var}
-	 */
-	protected void sequence_ExecutePipeline(ISerializationContext context, Var semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1166,10 +1080,25 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     MqttClient returns MqttClient
 	 *
 	 * Constraint:
-	 *     (broker=STRING port=INT client=STRING pub+=STRING pub+=STRING?)
+	 *     (broker=STRING port=INT client=STRING pub=STRING)
 	 */
 	protected void sequence_MqttClient(ISerializationContext context, MqttClient semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__BROKER) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__BROKER));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PORT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PORT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__CLIENT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__CLIENT));
+			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PUB) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.MQTT_CLIENT__PUB));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getMqttClientAccess().getBrokerSTRINGTerminalRuleCall_1_0(), semanticObject.getBroker());
+		feeder.accept(grammarAccess.getMqttClientAccess().getPortINTTerminalRuleCall_3_0(), semanticObject.getPort());
+		feeder.accept(grammarAccess.getMqttClientAccess().getClientSTRINGTerminalRuleCall_5_0(), semanticObject.getClient());
+		feeder.accept(grammarAccess.getMqttClientAccess().getPubSTRINGTerminalRuleCall_7_0(), semanticObject.getPub());
+		feeder.finish();
 	}
 	
 	
@@ -1475,30 +1404,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     Pipeline returns Abs
-	 *
-	 * Constraint:
-	 *     (expression=Expression next=Pipeline?)
-	 */
-	protected void sequence_Pipeline_TuplePipeline(ISerializationContext context, Abs semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Pipeline returns Filter
-	 *
-	 * Constraint:
-	 *     (expression=Expression next=Pipeline?)
-	 */
-	protected void sequence_Pipeline_TuplePipeline(ISerializationContext context, Filter semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     Pipeline returns Window
 	 *
 	 * Constraint:
@@ -1622,7 +1527,7 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *         name=ID 
 	 *         sensortype=SensorType 
 	 *         vars=SensorVariables 
-	 *         sampler+=Sampler? 
+	 *         sampler=Sampler? 
 	 *         vcc=INT? 
 	 *         output+=SensorOutput+
 	 *     )
@@ -1824,42 +1729,6 @@ public class IoTSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getSubAddAccess().getPlusLeftAction_1_0_0(), semanticObject.getLeft());
 		feeder.accept(grammarAccess.getSubAddAccess().getRightMulDivParserRuleCall_1_0_2_0(), semanticObject.getRight());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     TuplePipeline returns Abs
-	 *
-	 * Constraint:
-	 *     expression=Expression
-	 */
-	protected void sequence_TuplePipeline(ISerializationContext context, Abs semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getTuplePipelineAccess().getExpressionExpressionParserRuleCall_2_0(), semanticObject.getExpression());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     TuplePipeline returns Filter
-	 *
-	 * Constraint:
-	 *     expression=Expression
-	 */
-	protected void sequence_TuplePipeline(ISerializationContext context, Filter semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getTuplePipelineAccess().getExpressionExpressionParserRuleCall_2_0(), semanticObject.getExpression());
 		feeder.finish();
 	}
 	

@@ -330,15 +330,6 @@ public interface IoTFactory extends EFactory
   External createExternal();
 
   /**
-   * Returns a new object of class '<em>Tuple Pipeline</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Tuple Pipeline</em>'.
-   * @generated
-   */
-  TuplePipeline createTuplePipeline();
-
-  /**
    * Returns a new object of class '<em>Map Pipeline</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -438,24 +429,6 @@ public interface IoTFactory extends EFactory
   Micros createMicros();
 
   /**
-   * Returns a new object of class '<em>Filter</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Filter</em>'.
-   * @generated
-   */
-  Filter createFilter();
-
-  /**
-   * Returns a new object of class '<em>Abs</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Abs</em>'.
-   * @generated
-   */
-  Abs createAbs();
-
-  /**
    * Returns a new object of class '<em>Map</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -472,15 +445,6 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   Window createWindow();
-
-  /**
-   * Returns a new object of class '<em>Reduce</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Reduce</em>'.
-   * @generated
-   */
-  Reduce createReduce();
 
   /**
    * Returns a new object of class '<em>Mean</em>'.
@@ -501,15 +465,6 @@ public interface IoTFactory extends EFactory
   Median createMedian();
 
   /**
-   * Returns a new object of class '<em>St Dev</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>St Dev</em>'.
-   * @generated
-   */
-  StDev createStDev();
-
-  /**
    * Returns a new object of class '<em>Min</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -526,24 +481,6 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   Max createMax();
-
-  /**
-   * Returns a new object of class '<em>Count</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Count</em>'.
-   * @generated
-   */
-  Count createCount();
-
-  /**
-   * Returns a new object of class '<em>Var</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Var</em>'.
-   * @generated
-   */
-  Var createVar();
 
   /**
    * Returns a new object of class '<em>Conditional</em>'.

@@ -3,7 +3,6 @@
  */
 package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -93,15 +92,25 @@ public interface MqttClient extends ChannelConfig
   void setClient(String value);
 
   /**
-   * Returns the value of the '<em><b>Pub</b></em>' attribute list.
-   * The list contents are of type {@link java.lang.String}.
+   * Returns the value of the '<em><b>Pub</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Pub</em>' attribute list.
+   * @return the value of the '<em>Pub</em>' attribute.
+   * @see #setPub(String)
    * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getMqttClient_Pub()
-   * @model unique="false"
+   * @model
    * @generated
    */
-  EList<String> getPub();
+  String getPub();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient#getPub <em>Pub</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Pub</em>' attribute.
+   * @see #getPub()
+   * @generated
+   */
+  void setPub(String value);
 
 } // MqttClient

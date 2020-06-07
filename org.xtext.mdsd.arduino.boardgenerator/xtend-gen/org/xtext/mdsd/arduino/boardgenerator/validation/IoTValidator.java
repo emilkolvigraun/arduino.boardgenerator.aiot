@@ -45,7 +45,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan;
@@ -54,6 +53,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThan;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.LessThanEqual;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
@@ -485,6 +485,12 @@ public class IoTValidator extends AbstractIoTValidator {
       _builder.append("byWindow cannot be followed by another pipeline");
       this.error(_builder.toString(), IoTPackage.eINSTANCE.getPipeline_Next());
     }
+    MapPipeline map = EcoreUtil2.<MapPipeline>getContainerOfType(pipeline, MapPipeline.class);
+    if (((map != null) && (!this._typeChecker.isNumberType(this._typeChecker.type(((Map) map).getExpression()))))) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("byWindow can only be used on numbers");
+      this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getPipeline_Next());
+    }
   }
   
   public Iterable<IEObjectDescription> getGlobalEObjectsOfType(final Model model, final EClass type) {
@@ -739,16 +745,81 @@ public class IoTValidator extends AbstractIoTValidator {
     }
   }
   
+  public List<Sensor> appendIfNotOverwritten(final List<Sensor> sensors1, final List<Sensor> sensors2) {
+    ArrayList<Sensor> _xblockexpression = null;
+    {
+      final ArrayList<String> nsensorsNames = CollectionLiterals.<String>newArrayList();
+      final ArrayList<Sensor> nsensors = CollectionLiterals.<Sensor>newArrayList();
+      final Consumer<Sensor> _function = (Sensor s) -> {
+        nsensorsNames.add(s.getName());
+        nsensors.add(s);
+      };
+      sensors1.forEach(_function);
+      final Consumer<Sensor> _function_1 = (Sensor s) -> {
+        boolean _contains = nsensorsNames.contains(s.getName());
+        boolean _not = (!_contains);
+        if (_not) {
+          nsensors.add(s);
+        }
+      };
+      sensors2.forEach(_function_1);
+      _xblockexpression = nsensors;
+    }
+    return _xblockexpression;
+  }
+  
+  public List<String> extractSensorOutputVarName(final List<Sensor> sensors) {
+    ArrayList<String> _xblockexpression = null;
+    {
+      final ArrayList<String> vars = CollectionLiterals.<String>newArrayList();
+      final Consumer<Sensor> _function = (Sensor s) -> {
+        vars.add(s.getVars().getName());
+      };
+      sensors.forEach(_function);
+      _xblockexpression = vars;
+    }
+    return _xblockexpression;
+  }
+  
   @Check
   public void validateSensorVariables(final SensorVariables sensorVars) {
-    boolean _contains = this.asStringList(sensorVars.getIds()).contains(sensorVars.getName());
-    if (_contains) {
+    final Board board = EcoreUtil2.<Board>getContainerOfType(sensorVars, Board.class);
+    List<Sensor> _xifexpression = null;
+    if ((board instanceof ExtendsBoard)) {
+      _xifexpression = this.appendIfNotOverwritten(((ExtendsBoard)board).getSensors(), ((ExtendsBoard) board).getAbstractBoard().getSensors());
+    } else {
+      EList<Sensor> _sensors = null;
+      if (board!=null) {
+        _sensors=board.getSensors();
+      }
+      _xifexpression = _sensors;
+    }
+    List<String> _extractSensorOutputVarName = null;
+    if (_xifexpression!=null) {
+      _extractSensorOutputVarName=this.extractSensorOutputVarName(_xifexpression);
+    }
+    List<String> sensorv = _extractSensorOutputVarName;
+    if ((board == null)) {
+      sensorv = this.extractSensorOutputVarName(EcoreUtil2.<AbstractBoard>getContainerOfType(sensorVars, AbstractBoard.class).getSensors());
+    }
+    boolean _appearsOnce = this.appearsOnce(sensorv, sensorVars.getName());
+    boolean _not = (!_appearsOnce);
+    if (_not) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("sensor variable \"");
+      _builder.append("tuple variable \"");
       String _name = sensorVars.getName();
       _builder.append(_name);
       _builder.append("\" is already taken");
       this.error(_builder.toString(), IoTPackage.eINSTANCE.getSensorVariables_Name());
+    }
+    boolean _contains = this.asStringList(sensorVars.getIds()).contains(sensorVars.getName());
+    if (_contains) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("tuple variable \"");
+      String _name_1 = sensorVars.getName();
+      _builder_1.append(_name_1);
+      _builder_1.append("\" cannot be used as value");
+      this.error(_builder_1.toString(), IoTPackage.eINSTANCE.getSensorVariables_Name());
     }
   }
   
@@ -881,12 +952,6 @@ public class IoTValidator extends AbstractIoTValidator {
       _builder.append(type);
       this.error(_builder.toString(), error);
     }
-  }
-  
-  @Check
-  public void validateFilterExpression(final Filter filter) {
-    this.validateTypes(this._typeChecker.type(filter.getExpression()), TypeChecker.Type.BOOLEAN, 
-      IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION);
   }
   
   @Check

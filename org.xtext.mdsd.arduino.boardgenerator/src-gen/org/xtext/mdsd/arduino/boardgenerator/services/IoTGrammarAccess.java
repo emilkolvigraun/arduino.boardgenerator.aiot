@@ -469,23 +469,17 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cClientAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cClientSTRINGTerminalRuleCall_5_0 = (RuleCall)cClientAssignment_5.eContents().get(0);
 		private final Keyword cTopicKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Keyword cLeftSquareBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		private final Assignment cPubAssignment_8 = (Assignment)cGroup.eContents().get(8);
-		private final RuleCall cPubSTRINGTerminalRuleCall_8_0 = (RuleCall)cPubAssignment_8.eContents().get(0);
-		private final Group cGroup_9 = (Group)cGroup.eContents().get(9);
-		private final Keyword cCommaKeyword_9_0 = (Keyword)cGroup_9.eContents().get(0);
-		private final Assignment cPubAssignment_9_1 = (Assignment)cGroup_9.eContents().get(1);
-		private final RuleCall cPubSTRINGTerminalRuleCall_9_1_0 = (RuleCall)cPubAssignment_9_1.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_10 = (Keyword)cGroup.eContents().get(10);
+		private final Assignment cPubAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cPubSTRINGTerminalRuleCall_7_0 = (RuleCall)cPubAssignment_7.eContents().get(0);
 		
 		//MqttClient:
 		//	'broker' broker=STRING
 		//	'port' port=INT
 		//	'id' client=STRING
-		//	'topic' '[' pub+=STRING (',' pub+=STRING)? ']';
+		//	'topic' pub=STRING;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'broker' broker=STRING 'port' port=INT 'id' client=STRING 'topic' '[' pub+=STRING (',' pub+=STRING)? ']'
+		//'broker' broker=STRING 'port' port=INT 'id' client=STRING 'topic' pub=STRING
 		public Group getGroup() { return cGroup; }
 		
 		//'broker'
@@ -518,29 +512,11 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//'topic'
 		public Keyword getTopicKeyword_6() { return cTopicKeyword_6; }
 		
-		//'['
-		public Keyword getLeftSquareBracketKeyword_7() { return cLeftSquareBracketKeyword_7; }
-		
-		//pub+=STRING
-		public Assignment getPubAssignment_8() { return cPubAssignment_8; }
+		//pub=STRING
+		public Assignment getPubAssignment_7() { return cPubAssignment_7; }
 		
 		//STRING
-		public RuleCall getPubSTRINGTerminalRuleCall_8_0() { return cPubSTRINGTerminalRuleCall_8_0; }
-		
-		//(',' pub+=STRING)?
-		public Group getGroup_9() { return cGroup_9; }
-		
-		//','
-		public Keyword getCommaKeyword_9_0() { return cCommaKeyword_9_0; }
-		
-		//pub+=STRING
-		public Assignment getPubAssignment_9_1() { return cPubAssignment_9_1; }
-		
-		//STRING
-		public RuleCall getPubSTRINGTerminalRuleCall_9_1_0() { return cPubSTRINGTerminalRuleCall_9_1_0; }
-		
-		//']'
-		public Keyword getRightSquareBracketKeyword_10() { return cRightSquareBracketKeyword_10; }
+		public RuleCall getPubSTRINGTerminalRuleCall_7_0() { return cPubSTRINGTerminalRuleCall_7_0; }
 	}
 	public class FunctionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Function");
@@ -953,13 +929,13 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cENDTerminalRuleCall_11 = (RuleCall)cGroup.eContents().get(11);
 		
 		//Sensor:
-		//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)? ('vcc'
+		//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler=Sampler)? ('vcc'
 		//	vcc=INT)?
 		//	output+=SensorOutput+
 		//	END;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)? ('vcc'
+		//'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler=Sampler)? ('vcc'
 		//vcc=INT)? output+=SensorOutput+ END
 		public Group getGroup() { return cGroup; }
 		
@@ -996,13 +972,13 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//BEGIN
 		public RuleCall getBEGINTerminalRuleCall_7() { return cBEGINTerminalRuleCall_7; }
 		
-		//('sample' sampler+=Sampler)?
+		//('sample' sampler=Sampler)?
 		public Group getGroup_8() { return cGroup_8; }
 		
 		//'sample'
 		public Keyword getSampleKeyword_8_0() { return cSampleKeyword_8_0; }
 		
-		//sampler+=Sampler
+		//sampler=Sampler
 		public Assignment getSamplerAssignment_8_1() { return cSamplerAssignment_8_1; }
 		
 		//Sampler
@@ -1403,37 +1379,33 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cFullStopKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final RuleCall cTuplePipelineParserRuleCall_1_0 = (RuleCall)cAlternatives_1.eContents().get(0);
-		private final RuleCall cMapPipelineParserRuleCall_1_1 = (RuleCall)cAlternatives_1.eContents().get(1);
-		private final RuleCall cWindowPipelineParserRuleCall_1_2 = (RuleCall)cAlternatives_1.eContents().get(2);
-		private final RuleCall cExternalParserRuleCall_1_3 = (RuleCall)cAlternatives_1.eContents().get(3);
+		private final RuleCall cMapPipelineParserRuleCall_1_0 = (RuleCall)cAlternatives_1.eContents().get(0);
+		private final RuleCall cWindowPipelineParserRuleCall_1_1 = (RuleCall)cAlternatives_1.eContents().get(1);
+		private final RuleCall cExternalParserRuleCall_1_2 = (RuleCall)cAlternatives_1.eContents().get(2);
 		private final Assignment cNextAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cNextPipelineParserRuleCall_2_0 = (RuleCall)cNextAssignment_2.eContents().get(0);
 		
 		//Pipeline:
-		//	'.' (TuplePipeline | MapPipeline | WindowPipeline | External) next=Pipeline?;
+		//	'.' (MapPipeline | WindowPipeline | External) next=Pipeline?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'.' (TuplePipeline | MapPipeline | WindowPipeline | External) next=Pipeline?
+		//'.' (MapPipeline | WindowPipeline | External) next=Pipeline?
 		public Group getGroup() { return cGroup; }
 		
 		//'.'
 		public Keyword getFullStopKeyword_0() { return cFullStopKeyword_0; }
 		
-		//(TuplePipeline | MapPipeline | WindowPipeline | External)
+		//(MapPipeline | WindowPipeline | External)
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 		
-		//TuplePipeline
-		public RuleCall getTuplePipelineParserRuleCall_1_0() { return cTuplePipelineParserRuleCall_1_0; }
-		
 		//MapPipeline
-		public RuleCall getMapPipelineParserRuleCall_1_1() { return cMapPipelineParserRuleCall_1_1; }
+		public RuleCall getMapPipelineParserRuleCall_1_0() { return cMapPipelineParserRuleCall_1_0; }
 		
 		//WindowPipeline
-		public RuleCall getWindowPipelineParserRuleCall_1_2() { return cWindowPipelineParserRuleCall_1_2; }
+		public RuleCall getWindowPipelineParserRuleCall_1_1() { return cWindowPipelineParserRuleCall_1_1; }
 		
 		//External
-		public RuleCall getExternalParserRuleCall_1_3() { return cExternalParserRuleCall_1_3; }
+		public RuleCall getExternalParserRuleCall_1_2() { return cExternalParserRuleCall_1_2; }
 		
 		//next=Pipeline?
 		public Assignment getNextAssignment_2() { return cNextAssignment_2; }
@@ -1497,61 +1469,6 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//']'
 		public Keyword getRightSquareBracketKeyword_4() { return cRightSquareBracketKeyword_4; }
-	}
-	public class TuplePipelineElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.TuplePipeline");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
-		private final Group cGroup_0_0 = (Group)cAlternatives_0.eContents().get(0);
-		private final Action cFilterAction_0_0_0 = (Action)cGroup_0_0.eContents().get(0);
-		private final Keyword cFilterKeyword_0_0_1 = (Keyword)cGroup_0_0.eContents().get(1);
-		private final Group cGroup_0_1 = (Group)cAlternatives_0.eContents().get(1);
-		private final Action cAbsAction_0_1_0 = (Action)cGroup_0_1.eContents().get(0);
-		private final Keyword cAbsKeyword_0_1_1 = (Keyword)cGroup_0_1.eContents().get(1);
-		private final Keyword cLeftSquareBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cExpressionAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cExpressionExpressionParserRuleCall_2_0 = (RuleCall)cExpressionAssignment_2.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		
-		//TuplePipeline:
-		//	({Filter} 'filter' | {Abs} 'abs') '[' expression=Expression ']';
-		@Override public ParserRule getRule() { return rule; }
-		
-		//({Filter} 'filter' | {Abs} 'abs') '[' expression=Expression ']'
-		public Group getGroup() { return cGroup; }
-		
-		//({Filter} 'filter' | {Abs} 'abs')
-		public Alternatives getAlternatives_0() { return cAlternatives_0; }
-		
-		//{Filter} 'filter'
-		public Group getGroup_0_0() { return cGroup_0_0; }
-		
-		//{Filter}
-		public Action getFilterAction_0_0_0() { return cFilterAction_0_0_0; }
-		
-		//'filter'
-		public Keyword getFilterKeyword_0_0_1() { return cFilterKeyword_0_0_1; }
-		
-		//{Abs} 'abs'
-		public Group getGroup_0_1() { return cGroup_0_1; }
-		
-		//{Abs}
-		public Action getAbsAction_0_1_0() { return cAbsAction_0_1_0; }
-		
-		//'abs'
-		public Keyword getAbsKeyword_0_1_1() { return cAbsKeyword_0_1_1; }
-		
-		//'['
-		public Keyword getLeftSquareBracketKeyword_1() { return cLeftSquareBracketKeyword_1; }
-		
-		//expression=Expression
-		public Assignment getExpressionAssignment_2() { return cExpressionAssignment_2; }
-		
-		//Expression
-		public RuleCall getExpressionExpressionParserRuleCall_2_0() { return cExpressionExpressionParserRuleCall_2_0; }
-		
-		//']'
-		public Keyword getRightSquareBracketKeyword_3() { return cRightSquareBracketKeyword_3; }
 	}
 	public class MapPipelineElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.MapPipeline");
@@ -1651,110 +1568,60 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.ExecutePipeline");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
-		private final Action cReduceAction_0_0 = (Action)cGroup_0.eContents().get(0);
-		private final Keyword cReduceKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Action cMeanAction_0_0 = (Action)cGroup_0.eContents().get(0);
+		private final Keyword cMeanKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
 		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final Action cMeanAction_1_0 = (Action)cGroup_1.eContents().get(0);
-		private final Keyword cMeanKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Action cMedianAction_1_0 = (Action)cGroup_1.eContents().get(0);
+		private final Keyword cMedianKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
 		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
-		private final Action cMedianAction_2_0 = (Action)cGroup_2.eContents().get(0);
-		private final Keyword cMedianKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
+		private final Action cMinAction_2_0 = (Action)cGroup_2.eContents().get(0);
+		private final Keyword cMinKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
 		private final Group cGroup_3 = (Group)cAlternatives.eContents().get(3);
-		private final Action cStDevAction_3_0 = (Action)cGroup_3.eContents().get(0);
-		private final Keyword cStdevKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
-		private final Group cGroup_4 = (Group)cAlternatives.eContents().get(4);
-		private final Action cMinAction_4_0 = (Action)cGroup_4.eContents().get(0);
-		private final Keyword cMinKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
-		private final Group cGroup_5 = (Group)cAlternatives.eContents().get(5);
-		private final Action cMaxAction_5_0 = (Action)cGroup_5.eContents().get(0);
-		private final Keyword cMaxKeyword_5_1 = (Keyword)cGroup_5.eContents().get(1);
-		private final Group cGroup_6 = (Group)cAlternatives.eContents().get(6);
-		private final Action cCountAction_6_0 = (Action)cGroup_6.eContents().get(0);
-		private final Keyword cCountKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
-		private final Group cGroup_7 = (Group)cAlternatives.eContents().get(7);
-		private final Action cVarAction_7_0 = (Action)cGroup_7.eContents().get(0);
-		private final Keyword cVarKeyword_7_1 = (Keyword)cGroup_7.eContents().get(1);
+		private final Action cMaxAction_3_0 = (Action)cGroup_3.eContents().get(0);
+		private final Keyword cMaxKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
 		
 		//ExecutePipeline:
-		//	{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count} 'count'
-		//	| {Var} 'var';
+		//	{Mean} 'mean' | {Median} 'median' | {Min} 'min' | {Max} 'max';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count} 'count' |
-		//{Var} 'var'
+		//{Mean} 'mean' | {Median} 'median' | {Min} 'min' | {Max} 'max'
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//{Reduce} 'reduce'
+		//{Mean} 'mean'
 		public Group getGroup_0() { return cGroup_0; }
 		
-		//{Reduce}
-		public Action getReduceAction_0_0() { return cReduceAction_0_0; }
-		
-		//'reduce'
-		public Keyword getReduceKeyword_0_1() { return cReduceKeyword_0_1; }
-		
-		//{Mean} 'mean'
-		public Group getGroup_1() { return cGroup_1; }
-		
 		//{Mean}
-		public Action getMeanAction_1_0() { return cMeanAction_1_0; }
+		public Action getMeanAction_0_0() { return cMeanAction_0_0; }
 		
 		//'mean'
-		public Keyword getMeanKeyword_1_1() { return cMeanKeyword_1_1; }
+		public Keyword getMeanKeyword_0_1() { return cMeanKeyword_0_1; }
 		
 		//{Median} 'median'
-		public Group getGroup_2() { return cGroup_2; }
+		public Group getGroup_1() { return cGroup_1; }
 		
 		//{Median}
-		public Action getMedianAction_2_0() { return cMedianAction_2_0; }
+		public Action getMedianAction_1_0() { return cMedianAction_1_0; }
 		
 		//'median'
-		public Keyword getMedianKeyword_2_1() { return cMedianKeyword_2_1; }
-		
-		//{StDev} 'stdev'
-		public Group getGroup_3() { return cGroup_3; }
-		
-		//{StDev}
-		public Action getStDevAction_3_0() { return cStDevAction_3_0; }
-		
-		//'stdev'
-		public Keyword getStdevKeyword_3_1() { return cStdevKeyword_3_1; }
+		public Keyword getMedianKeyword_1_1() { return cMedianKeyword_1_1; }
 		
 		//{Min} 'min'
-		public Group getGroup_4() { return cGroup_4; }
+		public Group getGroup_2() { return cGroup_2; }
 		
 		//{Min}
-		public Action getMinAction_4_0() { return cMinAction_4_0; }
+		public Action getMinAction_2_0() { return cMinAction_2_0; }
 		
 		//'min'
-		public Keyword getMinKeyword_4_1() { return cMinKeyword_4_1; }
+		public Keyword getMinKeyword_2_1() { return cMinKeyword_2_1; }
 		
 		//{Max} 'max'
-		public Group getGroup_5() { return cGroup_5; }
+		public Group getGroup_3() { return cGroup_3; }
 		
 		//{Max}
-		public Action getMaxAction_5_0() { return cMaxAction_5_0; }
+		public Action getMaxAction_3_0() { return cMaxAction_3_0; }
 		
 		//'max'
-		public Keyword getMaxKeyword_5_1() { return cMaxKeyword_5_1; }
-		
-		//{Count} 'count'
-		public Group getGroup_6() { return cGroup_6; }
-		
-		//{Count}
-		public Action getCountAction_6_0() { return cCountAction_6_0; }
-		
-		//'count'
-		public Keyword getCountKeyword_6_1() { return cCountKeyword_6_1; }
-		
-		//{Var} 'var'
-		public Group getGroup_7() { return cGroup_7; }
-		
-		//{Var}
-		public Action getVarAction_7_0() { return cVarAction_7_0; }
-		
-		//'var'
-		public Keyword getVarKeyword_7_1() { return cVarKeyword_7_1; }
+		public Keyword getMaxKeyword_3_1() { return cMaxKeyword_3_1; }
 	}
 	public class ExpressionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Expression");
@@ -2441,7 +2308,6 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	private final DataOutputElements pDataOutput;
 	private final PipelineElements pPipeline;
 	private final ExternalElements pExternal;
-	private final TuplePipelineElements pTuplePipeline;
 	private final MapPipelineElements pMapPipeline;
 	private final WindowPipelineElements pWindowPipeline;
 	private final ExecutePipelineElements pExecutePipeline;
@@ -2515,7 +2381,6 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		this.pDataOutput = new DataOutputElements();
 		this.pPipeline = new PipelineElements();
 		this.pExternal = new ExternalElements();
-		this.pTuplePipeline = new TuplePipelineElements();
 		this.pMapPipeline = new MapPipelineElements();
 		this.pWindowPipeline = new WindowPipelineElements();
 		this.pExecutePipeline = new ExecutePipelineElements();
@@ -2713,7 +2578,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	//	'broker' broker=STRING
 	//	'port' port=INT
 	//	'id' client=STRING
-	//	'topic' '[' pub+=STRING (',' pub+=STRING)? ']';
+	//	'topic' pub=STRING;
 	public MqttClientElements getMqttClientAccess() {
 		return pMqttClient;
 	}
@@ -2807,7 +2672,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Sensor:
-	//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler+=Sampler)? ('vcc'
+	//	'sensor' name=ID '=' sensortype=SensorType 'as' vars=SensorVariables ':' BEGIN ('sample' sampler=Sampler)? ('vcc'
 	//	vcc=INT)?
 	//	output+=SensorOutput+
 	//	END;
@@ -2930,7 +2795,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Pipeline:
-	//	'.' (TuplePipeline | MapPipeline | WindowPipeline | External) next=Pipeline?;
+	//	'.' (MapPipeline | WindowPipeline | External) next=Pipeline?;
 	public PipelineElements getPipelineAccess() {
 		return pPipeline;
 	}
@@ -2949,16 +2814,6 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getExternalRule() {
 		return getExternalAccess().getRule();
-	}
-	
-	//TuplePipeline:
-	//	({Filter} 'filter' | {Abs} 'abs') '[' expression=Expression ']';
-	public TuplePipelineElements getTuplePipelineAccess() {
-		return pTuplePipeline;
-	}
-	
-	public ParserRule getTuplePipelineRule() {
-		return getTuplePipelineAccess().getRule();
 	}
 	
 	//MapPipeline:
@@ -2982,8 +2837,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//ExecutePipeline:
-	//	{Reduce} 'reduce' | {Mean} 'mean' | {Median} 'median' | {StDev} 'stdev' | {Min} 'min' | {Max} 'max' | {Count} 'count'
-	//	| {Var} 'var';
+	//	{Mean} 'mean' | {Median} 'median' | {Min} 'min' | {Max} 'max';
 	public ExecutePipelineElements getExecutePipelineAccess() {
 		return pExecutePipeline;
 	}
@@ -3198,7 +3052,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//terminal BOOLEAN returns ecore::EBoolean:
-	//	'true' | 'false' | 'True' | 'False';
+	//	'true' | 'false';
 	public TerminalRule getBOOLEANRule() {
 		return tBOOLEAN;
 	}

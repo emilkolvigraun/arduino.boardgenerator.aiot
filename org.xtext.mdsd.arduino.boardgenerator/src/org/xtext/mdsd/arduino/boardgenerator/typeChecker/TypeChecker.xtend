@@ -8,17 +8,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Count
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Max
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Median
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Min
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Var
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus 
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent
@@ -118,12 +110,7 @@ class TypeChecker {
 				val mapPipeline = (pipe as Map)
 				type = mapPipeline.expression.type
 			} else {
-				switch(pipe){
-					case Max, Mean, Median, Min, StDev, Var, WindowPipeline:
-						type = Type.DOUBLE
-					case Count:
-						type = Type.INT
-				}
+				type = Type.DOUBLE
 			}
 			pipe = pipe.next
 		}
@@ -211,7 +198,7 @@ class TypeChecker {
 			if (expression !== null || map.output !== null)  
 				type = expression.type			
 		}
-			
+			 
 		type 
 	}
 	 
@@ -223,6 +210,14 @@ class TypeChecker {
 			case "bool": return Type.BOOLEAN
 			default: return Type.INVALID
 		}
+	}
+	
+	def String ctype(Type type){
+		if (type == Type.BOOLEAN)
+			return "bool"
+		if (type == Type.INT)
+			return "int"
+		return "float"
 	}
 	
 	def dispatch boolean ifInvalid(Type type){

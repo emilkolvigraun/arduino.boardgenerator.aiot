@@ -24,7 +24,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Filter
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThan
 import org.xtext.mdsd.arduino.boardgenerator.ioT.GreaterThanEqual
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage
@@ -61,6 +60,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType
 import java.util.Arrays
 import org.eclipse.emf.ecore.EAttribute
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline
 
 /**
  * This class contains custom validation rules. 
@@ -300,6 +300,10 @@ class IoTValidator extends AbstractIoTValidator {
 		if (next !== null){ 
 			error('''byWindow cannot be followed by another pipeline''', IoTPackage.eINSTANCE.pipeline_Next)
 		}
+		var map = pipeline.getContainerOfType(MapPipeline)
+		if (map !== null && !(map as Map).expression.type.isNumberType){
+			error('''byWindow can only be used on numbers''', IoTPackage.eINSTANCE.pipeline_Next)
+		}  
 	}
 	
 	def Iterable<IEObjectDescription> getGlobalEObjectsOfType(Model model, EClass type){
@@ -448,14 +452,37 @@ class IoTValidator extends AbstractIoTValidator {
 				error('''«sensor» outputs «board.getVariableCount(sensor)» variables''', ref)
 			} 
 	}
-	 
+	
+	def List<Sensor> appendIfNotOverwritten(List<Sensor> sensors1, List<Sensor> sensors2){
+		val nsensorsNames = newArrayList()
+		val nsensors = newArrayList()
+		sensors1.forEach[s | nsensorsNames.add(s.name) nsensors.add(s)]
+		sensors2.forEach[s | if (!nsensorsNames.contains(s.name)) nsensors.add(s)]
+		nsensors
+	}  
+	
+	def List<String> extractSensorOutputVarName(List<Sensor> sensors){
+		val vars = newArrayList()
+		sensors.forEach[s | vars.add(s.vars.name)]
+		vars
+	}
+	   
 	@Check
 	def validateSensorVariables(SensorVariables sensorVars){ 
+		val board = sensorVars.getContainerOfType(Board)
+		var sensorv = (board instanceof ExtendsBoard ? board.sensors.appendIfNotOverwritten((board as ExtendsBoard).abstractBoard.sensors) : board?.sensors)?.extractSensorOutputVarName 
+		if (board === null){
+			sensorv = sensorVars.getContainerOfType(AbstractBoard).sensors.extractSensorOutputVarName
+		}     
+		if (!sensorv.appearsOnce(sensorVars.name)){
+			error('''tuple variable "«sensorVars.name»" is already taken''', IoTPackage.eINSTANCE.sensorVariables_Name)
+		} 
+		  
 		if (sensorVars.ids.asStringList.contains(sensorVars.name)){ 
-	 		error('''sensor variable "«sensorVars.name»" is already taken''', IoTPackage.eINSTANCE.sensorVariables_Name)
+	 		error('''tuple variable "«sensorVars.name»" cannot be used as value''', IoTPackage.eINSTANCE.sensorVariables_Name)
 	 	}
-	}
-	
+	}  
+	 
 	@Check
 	def validateOnboardSensorVariables(Sensor sensor){
 		 
@@ -554,18 +581,12 @@ class IoTValidator extends AbstractIoTValidator {
 	}
 
 	@Check
-	def validateFilterExpression(Filter filter) {
-		filter.expression.type.validateTypes(TypeChecker.Type.BOOLEAN,
-			IoTPackage.Literals.TUPLE_PIPELINE__EXPRESSION)
-	} 
-
-	@Check
 	def checkExpression(Conditional conditional) {
 		if (conditional.condition !== null)
 			conditional.condition.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.CONDITIONAL__CONDITION)  
 		if (conditional.incorrect !== null)
 			conditional.incorrect.type.validateTypes(conditional.correct.type, IoTPackage.Literals.CONDITIONAL__INCORRECT)
-	}
+	} 
 
 	@Check
 	def checkExpression(Or or) {

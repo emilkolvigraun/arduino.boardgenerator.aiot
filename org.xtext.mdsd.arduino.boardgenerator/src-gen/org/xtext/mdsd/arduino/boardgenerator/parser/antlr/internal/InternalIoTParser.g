@@ -876,56 +876,24 @@ ruleMqttClient returns [EObject current=null]
 		{
 			newLeafNode(otherlv_6, grammarAccess.getMqttClientAccess().getTopicKeyword_6());
 		}
-		otherlv_7=LeftSquareBracket
-		{
-			newLeafNode(otherlv_7, grammarAccess.getMqttClientAccess().getLeftSquareBracketKeyword_7());
-		}
 		(
 			(
-				lv_pub_8_0=RULE_STRING
+				lv_pub_7_0=RULE_STRING
 				{
-					newLeafNode(lv_pub_8_0, grammarAccess.getMqttClientAccess().getPubSTRINGTerminalRuleCall_8_0());
+					newLeafNode(lv_pub_7_0, grammarAccess.getMqttClientAccess().getPubSTRINGTerminalRuleCall_7_0());
 				}
 				{
 					if ($current==null) {
 						$current = createModelElement(grammarAccess.getMqttClientRule());
 					}
-					addWithLastConsumed(
+					setWithLastConsumed(
 						$current,
 						"pub",
-						lv_pub_8_0,
+						lv_pub_7_0,
 						"org.eclipse.xtext.common.Terminals.STRING");
 				}
 			)
 		)
-		(
-			otherlv_9=Comma
-			{
-				newLeafNode(otherlv_9, grammarAccess.getMqttClientAccess().getCommaKeyword_9_0());
-			}
-			(
-				(
-					lv_pub_10_0=RULE_STRING
-					{
-						newLeafNode(lv_pub_10_0, grammarAccess.getMqttClientAccess().getPubSTRINGTerminalRuleCall_9_1_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getMqttClientRule());
-						}
-						addWithLastConsumed(
-							$current,
-							"pub",
-							lv_pub_10_0,
-							"org.eclipse.xtext.common.Terminals.STRING");
-					}
-				)
-			)
-		)?
-		otherlv_11=RightSquareBracket
-		{
-			newLeafNode(otherlv_11, grammarAccess.getMqttClientAccess().getRightSquareBracketKeyword_10());
-		}
 	)
 ;
 
@@ -1630,7 +1598,7 @@ ruleSensor returns [EObject current=null]
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getSensorRule());
 						}
-						add(
+						set(
 							$current,
 							"sampler",
 							lv_sampler_9_0,
@@ -2338,38 +2306,29 @@ rulePipeline returns [EObject current=null]
 		}
 		(
 			{
-				newCompositeNode(grammarAccess.getPipelineAccess().getTuplePipelineParserRuleCall_1_0());
+				newCompositeNode(grammarAccess.getPipelineAccess().getMapPipelineParserRuleCall_1_0());
 			}
-			this_TuplePipeline_1=ruleTuplePipeline
+			this_MapPipeline_1=ruleMapPipeline
 			{
-				$current = $this_TuplePipeline_1.current;
+				$current = $this_MapPipeline_1.current;
 				afterParserOrEnumRuleCall();
 			}
 			    |
 			{
-				newCompositeNode(grammarAccess.getPipelineAccess().getMapPipelineParserRuleCall_1_1());
+				newCompositeNode(grammarAccess.getPipelineAccess().getWindowPipelineParserRuleCall_1_1());
 			}
-			this_MapPipeline_2=ruleMapPipeline
+			this_WindowPipeline_2=ruleWindowPipeline
 			{
-				$current = $this_MapPipeline_2.current;
+				$current = $this_WindowPipeline_2.current;
 				afterParserOrEnumRuleCall();
 			}
 			    |
 			{
-				newCompositeNode(grammarAccess.getPipelineAccess().getWindowPipelineParserRuleCall_1_2());
+				newCompositeNode(grammarAccess.getPipelineAccess().getExternalParserRuleCall_1_2());
 			}
-			this_WindowPipeline_3=ruleWindowPipeline
+			this_External_3=ruleExternal
 			{
-				$current = $this_WindowPipeline_3.current;
-				afterParserOrEnumRuleCall();
-			}
-			    |
-			{
-				newCompositeNode(grammarAccess.getPipelineAccess().getExternalParserRuleCall_1_3());
-			}
-			this_External_4=ruleExternal
-			{
-				$current = $this_External_4.current;
+				$current = $this_External_3.current;
 				afterParserOrEnumRuleCall();
 			}
 		)
@@ -2378,7 +2337,7 @@ rulePipeline returns [EObject current=null]
 				{
 					newCompositeNode(grammarAccess.getPipelineAccess().getNextPipelineParserRuleCall_2_0());
 				}
-				lv_next_5_0=rulePipeline
+				lv_next_4_0=rulePipeline
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getPipelineRule());
@@ -2386,7 +2345,7 @@ rulePipeline returns [EObject current=null]
 					set(
 						$current,
 						"next",
-						lv_next_5_0,
+						lv_next_4_0,
 						"org.xtext.mdsd.arduino.boardgenerator.IoT.Pipeline");
 					afterParserOrEnumRuleCall();
 				}
@@ -2475,81 +2434,6 @@ ruleExternal returns [EObject current=null]
 		otherlv_5=RightSquareBracket
 		{
 			newLeafNode(otherlv_5, grammarAccess.getExternalAccess().getRightSquareBracketKeyword_4());
-		}
-	)
-;
-
-// Entry rule entryRuleTuplePipeline
-entryRuleTuplePipeline returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getTuplePipelineRule()); }
-	iv_ruleTuplePipeline=ruleTuplePipeline
-	{ $current=$iv_ruleTuplePipeline.current; }
-	EOF;
-
-// Rule TuplePipeline
-ruleTuplePipeline returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		(
-			(
-				(
-					{
-						$current = forceCreateModelElement(
-							grammarAccess.getTuplePipelineAccess().getFilterAction_0_0_0(),
-							$current);
-					}
-				)
-				otherlv_1=Filter
-				{
-					newLeafNode(otherlv_1, grammarAccess.getTuplePipelineAccess().getFilterKeyword_0_0_1());
-				}
-			)
-			    |
-			(
-				(
-					{
-						$current = forceCreateModelElement(
-							grammarAccess.getTuplePipelineAccess().getAbsAction_0_1_0(),
-							$current);
-					}
-				)
-				otherlv_3=Abs
-				{
-					newLeafNode(otherlv_3, grammarAccess.getTuplePipelineAccess().getAbsKeyword_0_1_1());
-				}
-			)
-		)
-		otherlv_4=LeftSquareBracket
-		{
-			newLeafNode(otherlv_4, grammarAccess.getTuplePipelineAccess().getLeftSquareBracketKeyword_1());
-		}
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getTuplePipelineAccess().getExpressionExpressionParserRuleCall_2_0());
-				}
-				lv_expression_5_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getTuplePipelineRule());
-					}
-					set(
-						$current,
-						"expression",
-						lv_expression_5_0,
-						"org.xtext.mdsd.arduino.boardgenerator.IoT.Expression");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)
-		otherlv_6=RightSquareBracket
-		{
-			newLeafNode(otherlv_6, grammarAccess.getTuplePipelineAccess().getRightSquareBracketKeyword_3());
 		}
 	)
 ;
@@ -2733,13 +2617,13 @@ ruleExecutePipeline returns [EObject current=null]
 			(
 				{
 					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getReduceAction_0_0(),
+						grammarAccess.getExecutePipelineAccess().getMeanAction_0_0(),
 						$current);
 				}
 			)
-			otherlv_1=Reduce
+			otherlv_1=Mean
 			{
-				newLeafNode(otherlv_1, grammarAccess.getExecutePipelineAccess().getReduceKeyword_0_1());
+				newLeafNode(otherlv_1, grammarAccess.getExecutePipelineAccess().getMeanKeyword_0_1());
 			}
 		)
 		    |
@@ -2747,13 +2631,13 @@ ruleExecutePipeline returns [EObject current=null]
 			(
 				{
 					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getMeanAction_1_0(),
+						grammarAccess.getExecutePipelineAccess().getMedianAction_1_0(),
 						$current);
 				}
 			)
-			otherlv_3=Mean
+			otherlv_3=Median
 			{
-				newLeafNode(otherlv_3, grammarAccess.getExecutePipelineAccess().getMeanKeyword_1_1());
+				newLeafNode(otherlv_3, grammarAccess.getExecutePipelineAccess().getMedianKeyword_1_1());
 			}
 		)
 		    |
@@ -2761,13 +2645,13 @@ ruleExecutePipeline returns [EObject current=null]
 			(
 				{
 					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getMedianAction_2_0(),
+						grammarAccess.getExecutePipelineAccess().getMinAction_2_0(),
 						$current);
 				}
 			)
-			otherlv_5=Median
+			otherlv_5=Min
 			{
-				newLeafNode(otherlv_5, grammarAccess.getExecutePipelineAccess().getMedianKeyword_2_1());
+				newLeafNode(otherlv_5, grammarAccess.getExecutePipelineAccess().getMinKeyword_2_1());
 			}
 		)
 		    |
@@ -2775,69 +2659,13 @@ ruleExecutePipeline returns [EObject current=null]
 			(
 				{
 					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getStDevAction_3_0(),
+						grammarAccess.getExecutePipelineAccess().getMaxAction_3_0(),
 						$current);
 				}
 			)
-			otherlv_7=Stdev
+			otherlv_7=Max
 			{
-				newLeafNode(otherlv_7, grammarAccess.getExecutePipelineAccess().getStdevKeyword_3_1());
-			}
-		)
-		    |
-		(
-			(
-				{
-					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getMinAction_4_0(),
-						$current);
-				}
-			)
-			otherlv_9=Min
-			{
-				newLeafNode(otherlv_9, grammarAccess.getExecutePipelineAccess().getMinKeyword_4_1());
-			}
-		)
-		    |
-		(
-			(
-				{
-					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getMaxAction_5_0(),
-						$current);
-				}
-			)
-			otherlv_11=Max
-			{
-				newLeafNode(otherlv_11, grammarAccess.getExecutePipelineAccess().getMaxKeyword_5_1());
-			}
-		)
-		    |
-		(
-			(
-				{
-					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getCountAction_6_0(),
-						$current);
-				}
-			)
-			otherlv_13=Count
-			{
-				newLeafNode(otherlv_13, grammarAccess.getExecutePipelineAccess().getCountKeyword_6_1());
-			}
-		)
-		    |
-		(
-			(
-				{
-					$current = forceCreateModelElement(
-						grammarAccess.getExecutePipelineAccess().getVarAction_7_0(),
-						$current);
-				}
-			)
-			otherlv_15=Var
-			{
-				newLeafNode(otherlv_15, grammarAccess.getExecutePipelineAccess().getVarKeyword_7_1());
+				newLeafNode(otherlv_7, grammarAccess.getExecutePipelineAccess().getMaxKeyword_3_1());
 			}
 		)
 	)

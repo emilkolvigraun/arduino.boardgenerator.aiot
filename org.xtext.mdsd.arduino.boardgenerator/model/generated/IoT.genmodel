@@ -131,9 +131,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//External/function"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//External/input"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//TuplePipeline">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//TuplePipeline/expression"/>
-    </genClasses>
     <genClasses ecoreClass="IoT.ecore#//MapPipeline"/>
     <genClasses ecoreClass="IoT.ecore#//WindowPipeline"/>
     <genClasses ecoreClass="IoT.ecore#//ExecutePipeline"/>
@@ -153,8 +150,6 @@
     <genClasses ecoreClass="IoT.ecore#//Seconds"/>
     <genClasses ecoreClass="IoT.ecore#//Millis"/>
     <genClasses ecoreClass="IoT.ecore#//Micros"/>
-    <genClasses ecoreClass="IoT.ecore#//Filter"/>
-    <genClasses ecoreClass="IoT.ecore#//Abs"/>
     <genClasses ecoreClass="IoT.ecore#//Map">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Map/expression"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Map/output"/>
@@ -163,14 +158,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Window/width"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Window/execute"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//Reduce"/>
     <genClasses ecoreClass="IoT.ecore#//Mean"/>
     <genClasses ecoreClass="IoT.ecore#//Median"/>
-    <genClasses ecoreClass="IoT.ecore#//StDev"/>
     <genClasses ecoreClass="IoT.ecore#//Min"/>
     <genClasses ecoreClass="IoT.ecore#//Max"/>
-    <genClasses ecoreClass="IoT.ecore#//Count"/>
-    <genClasses ecoreClass="IoT.ecore#//Var"/>
     <genClasses ecoreClass="IoT.ecore#//Conditional">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Conditional/condition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Conditional/correct"/>

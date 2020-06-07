@@ -9,17 +9,12 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Count;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Minus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
@@ -29,11 +24,8 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StDev;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Var;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
 
 @SuppressWarnings("all")
 public class TypeChecker {
@@ -161,49 +153,7 @@ public class TypeChecker {
           final Map mapPipeline = ((Map) pipe);
           type = this.type(mapPipeline.getExpression());
         } else {
-          boolean _matched = false;
-          if (Objects.equal(pipe, Max.class)) {
-            _matched=true;
-          }
-          if (!_matched) {
-            if (pipe instanceof Mean) {
-              _matched=true;
-            }
-          }
-          if (!_matched) {
-            if (pipe instanceof Median) {
-              _matched=true;
-            }
-          }
-          if (!_matched) {
-            if (pipe instanceof Min) {
-              _matched=true;
-            }
-          }
-          if (!_matched) {
-            if (pipe instanceof StDev) {
-              _matched=true;
-            }
-          }
-          if (!_matched) {
-            if (pipe instanceof Var) {
-              _matched=true;
-            }
-          }
-          if (!_matched) {
-            if (pipe instanceof WindowPipeline) {
-              _matched=true;
-            }
-          }
-          if (_matched) {
-            type = TypeChecker.Type.DOUBLE;
-          }
-          if (!_matched) {
-            if (Objects.equal(pipe, Count.class)) {
-              _matched=true;
-              type = TypeChecker.Type.INT;
-            }
-          }
+          type = TypeChecker.Type.DOUBLE;
         }
         pipe = pipe.getNext();
       }
@@ -369,6 +319,18 @@ public class TypeChecker {
     } else {
       return TypeChecker.Type.INVALID;
     }
+  }
+  
+  public String ctype(final TypeChecker.Type type) {
+    boolean _equals = Objects.equal(type, TypeChecker.Type.BOOLEAN);
+    if (_equals) {
+      return "bool";
+    }
+    boolean _equals_1 = Objects.equal(type, TypeChecker.Type.INT);
+    if (_equals_1) {
+      return "int";
+    }
+    return "float";
   }
   
   protected boolean _ifInvalid(final TypeChecker.Type type) {
