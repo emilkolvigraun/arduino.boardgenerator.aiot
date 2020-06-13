@@ -67,9 +67,6 @@ class IoTGenerator extends AbstractGenerator {
 							* and you are using a significant number of channels
 							* and or servers, please assert that your board 
 							* has enough memory to support it during runtime.
-							*
-							* Similarly, if you are using long and complicated
-							* pipelines, you should consider some memory management.
 							*/
 							 
 							«boardContent»

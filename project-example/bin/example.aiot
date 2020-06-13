@@ -9,8 +9,8 @@ function process(num, num, str) -> (a, b)
 board board0 extends esp32wrover 
   
 board board1 extends esp32wrover: 
-	wifi home      
-	     
+	wifi home       
+	      
 	# implements a new sensor and uses the
 	# external function                          
 	# an info message is dispatched to inform the

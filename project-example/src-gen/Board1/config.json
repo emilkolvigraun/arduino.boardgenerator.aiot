@@ -3,13 +3,13 @@
 			"ssid":"Obi LAN Kenobi",
 			"pass":"password"
 		}, 
+	"serial" : {
+			"baud" : "115200"
+		},
 	"client" : {
 			"broker" : "192.168.1.133",
 			"port"   : "1830",
 			"id"     : "id", 
 			"topic"  : "topic"
-		},
-	"serial" : {
-			"baud" : "115200"
 		}
 } 

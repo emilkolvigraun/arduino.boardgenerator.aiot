@@ -117,12 +117,6 @@ public class IoTGenerator extends AbstractGenerator {
         _builder.newLine();
         _builder.append("* has enough memory to support it during runtime.");
         _builder.newLine();
-        _builder.append("*");
-        _builder.newLine();
-        _builder.append("* Similarly, if you are using long and complicated");
-        _builder.newLine();
-        _builder.append("* pipelines, you should consider some memory management.");
-        _builder.newLine();
         _builder.append("*/");
         _builder.newLine();
         _builder.append(" ");

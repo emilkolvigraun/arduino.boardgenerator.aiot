@@ -7,9 +7,6 @@
 * and you are using a significant number of channels
 * and or servers, please assert that your board 
 * has enough memory to support it during runtime.
-*
-* Similarly, if you are using long and complicated
-* pipelines, you should consider some memory management.
 */
  
  
@@ -96,7 +93,6 @@ void setup () {
 		delay(1);
 		
 		pinMode(1, OUTPUT);
-		digitalWrite(1, HIGH);
 		
 		
 	}

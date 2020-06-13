@@ -7,9 +7,6 @@
 * and you are using a significant number of channels
 * and or servers, please assert that your board 
 * has enough memory to support it during runtime.
-*
-* Similarly, if you are using long and complicated
-* pipelines, you should consider some memory management.
 */
  
 #include <WiFi.h>
@@ -41,9 +38,9 @@ bool booted = false;
 const double temperatureUpdateTimer = 10000;
 double temperatureLastUpdate = 0.0; 
  
+ 
 WiFiClient mqttWifiClient;
 PubSubClient clientClient(mqttWifiClient);
- 
  
 bool init_SD_card () {
 	SPI.begin(14, 2, 15, 13);
@@ -119,13 +116,13 @@ void connectClient(){
 	}
 }
  
+void transmitSerial(String message){
+	Serial.println(message);
+}
+ 
 void transmitClient(String message){
 	const char* topic = configJsonFile["client"]["topic"];
 	clientClient.publish(topic, message.c_str());
-}
- 
-void transmitSerial(String message){
-	Serial.println(message);
 }
  
 struct wearableTuple {
@@ -140,17 +137,6 @@ struct wearableTuple get_wearable(){
 }
  
 // EXTERNAL FUNCTION : BEGIN
-struct processTuple {
-	float tuple[2];
-};
-
-struct processTuple process(float x0, float x1, String x2){
-	// REQUIRES IMPLEMENTATION OR RETURNS EMPTY STRUCT
-	struct processTuple tbl;
-	return tbl;
-}
-// EXTERNAL FUNCTION : END
-// EXTERNAL FUNCTION : BEGIN
 struct externalTuple {
 	float tuple[1];
 };
@@ -158,6 +144,17 @@ struct externalTuple {
 struct externalTuple external(float x0, bool x1){
 	// REQUIRES IMPLEMENTATION OR RETURNS EMPTY STRUCT
 	struct externalTuple tbl;
+	return tbl;
+}
+// EXTERNAL FUNCTION : END
+// EXTERNAL FUNCTION : BEGIN
+struct processTuple {
+	float tuple[2];
+};
+
+struct processTuple process(float x0, float x1, String x2){
+	// REQUIRES IMPLEMENTATION OR RETURNS EMPTY STRUCT
+	struct processTuple tbl;
 	return tbl;
 }
 // EXTERNAL FUNCTION : END
@@ -204,7 +201,6 @@ void setup () {
 		delay(1);
 		
 		pinMode(0, OUTPUT);
-		digitalWrite(0, HIGH);
 		
 		init_wifi();
 		
