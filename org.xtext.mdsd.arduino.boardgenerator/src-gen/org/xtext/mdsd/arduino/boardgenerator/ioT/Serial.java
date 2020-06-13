@@ -14,7 +14,6 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Serial#getBaud <em>Baud</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Serial#getStopType <em>Stop Type</em>}</li>
  * </ul>
  *
  * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSerial()
@@ -44,27 +43,5 @@ public interface Serial extends ChannelConfig
    * @generated
    */
   void setBaud(int value);
-
-  /**
-   * Returns the value of the '<em><b>Stop Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Stop Type</em>' containment reference.
-   * @see #setStopType(StopIdentifyer)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSerial_StopType()
-   * @model containment="true"
-   * @generated
-   */
-  StopIdentifyer getStopType();
-
-  /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Serial#getStopType <em>Stop Type</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Stop Type</em>' containment reference.
-   * @see #getStopType()
-   * @generated
-   */
-  void setStopType(StopIdentifyer value);
 
 } // Serial

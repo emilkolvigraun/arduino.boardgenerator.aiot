@@ -3,12 +3,14 @@ package org.xtext.mdsd.arduino.boardgenerator.validation;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import java.util.Map
 import java.util.Set
+import java.util.List
 
 class Boards {
 	
 	String type
 	String model
 	Map<String, Integer> sensors
+	Map<String, String>  info
 	Map<String, Integer> sd
 
 	def static getBoardSupported(BoardVersion board) {
@@ -29,14 +31,23 @@ class Boards {
 			switch (model.toLowerCase()){
 				case "wrover":{
 					sensors = SupportedBoards.WROVER
-					sd = SDParams.WROVER					
+					info = SupportedBoards.WROVER_INFO				
+					sd = SDParams.WROVER	 
 				}  
-				default: sensors = null
+				default: {
+					sensors = null
+					sd = null
+					info = null	
+				}
 			}
 		} 
 		
 		this.type = type
 		this.model = model
+	}
+	 
+	def List<Integer> getSDParameters(){
+		this.sd?.values.toList
 	}
 	
 	def Set<String> getSensors(){
@@ -69,6 +80,21 @@ class Boards {
 			this.sensors.getOrDefault(sensor, -1)
 		}
 	}
+	 
+	def boolean isNull(){
+		if (sd === null && sensors === null){
+			return true
+		}
+		false
+	}
+	
+	def String infoMessage(){
+		var _info = ""
+		for (String key : info.keySet){
+			_info += key+":"+info.get(key).toString+", "
+		}
+		_info.substring(0, _info.length()-2) 
+	} 
 	 
 	override toString(){
 		'''Board(«type»:«model»)'''

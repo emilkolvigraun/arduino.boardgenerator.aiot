@@ -19,9 +19,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +32,8 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorOutputImpl#getOutput <em>Output</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorOutputImpl#getSensorvar <em>Sensorvar</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorOutputImpl#getPipeline <em>Pipeline</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorOutputImpl#getChannel <em>Channel</em>}</li>
  * </ul>
  *
@@ -40,14 +42,24 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 public class SensorOutputImpl extends MinimalEObjectImpl.Container implements SensorOutput
 {
   /**
-   * The cached value of the '{@link #getOutput() <em>Output</em>}' containment reference.
+   * The cached value of the '{@link #getSensorvar() <em>Sensorvar</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getOutput()
+   * @see #getSensorvar()
    * @generated
    * @ordered
    */
-  protected DataOutput output;
+  protected SensorVariables sensorvar;
+
+  /**
+   * The cached value of the '{@link #getPipeline() <em>Pipeline</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPipeline()
+   * @generated
+   * @ordered
+   */
+  protected Pipeline pipeline;
 
   /**
    * The cached value of the '{@link #getChannel() <em>Channel</em>}' reference list.
@@ -86,9 +98,19 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
    * @generated
    */
   @Override
-  public DataOutput getOutput()
+  public SensorVariables getSensorvar()
   {
-    return output;
+    if (sensorvar != null && sensorvar.eIsProxy())
+    {
+      InternalEObject oldSensorvar = (InternalEObject)sensorvar;
+      sensorvar = (SensorVariables)eResolveProxy(oldSensorvar);
+      if (sensorvar != oldSensorvar)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, IoTPackage.SENSOR_OUTPUT__SENSORVAR, oldSensorvar, sensorvar));
+      }
+    }
+    return sensorvar;
   }
 
   /**
@@ -96,13 +118,48 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetOutput(DataOutput newOutput, NotificationChain msgs)
+  public SensorVariables basicGetSensorvar()
   {
-    DataOutput oldOutput = output;
-    output = newOutput;
+    return sensorvar;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setSensorvar(SensorVariables newSensorvar)
+  {
+    SensorVariables oldSensorvar = sensorvar;
+    sensorvar = newSensorvar;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR_OUTPUT__SENSORVAR, oldSensorvar, sensorvar));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Pipeline getPipeline()
+  {
+    return pipeline;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetPipeline(Pipeline newPipeline, NotificationChain msgs)
+  {
+    Pipeline oldPipeline = pipeline;
+    pipeline = newPipeline;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR_OUTPUT__OUTPUT, oldOutput, newOutput);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR_OUTPUT__PIPELINE, oldPipeline, newPipeline);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -114,20 +171,20 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
    * @generated
    */
   @Override
-  public void setOutput(DataOutput newOutput)
+  public void setPipeline(Pipeline newPipeline)
   {
-    if (newOutput != output)
+    if (newPipeline != pipeline)
     {
       NotificationChain msgs = null;
-      if (output != null)
-        msgs = ((InternalEObject)output).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SENSOR_OUTPUT__OUTPUT, null, msgs);
-      if (newOutput != null)
-        msgs = ((InternalEObject)newOutput).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SENSOR_OUTPUT__OUTPUT, null, msgs);
-      msgs = basicSetOutput(newOutput, msgs);
+      if (pipeline != null)
+        msgs = ((InternalEObject)pipeline).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SENSOR_OUTPUT__PIPELINE, null, msgs);
+      if (newPipeline != null)
+        msgs = ((InternalEObject)newPipeline).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.SENSOR_OUTPUT__PIPELINE, null, msgs);
+      msgs = basicSetPipeline(newPipeline, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR_OUTPUT__OUTPUT, newOutput, newOutput));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.SENSOR_OUTPUT__PIPELINE, newPipeline, newPipeline));
   }
 
   /**
@@ -155,8 +212,8 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_OUTPUT__OUTPUT:
-        return basicSetOutput(null, msgs);
+      case IoTPackage.SENSOR_OUTPUT__PIPELINE:
+        return basicSetPipeline(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -171,8 +228,11 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_OUTPUT__OUTPUT:
-        return getOutput();
+      case IoTPackage.SENSOR_OUTPUT__SENSORVAR:
+        if (resolve) return getSensorvar();
+        return basicGetSensorvar();
+      case IoTPackage.SENSOR_OUTPUT__PIPELINE:
+        return getPipeline();
       case IoTPackage.SENSOR_OUTPUT__CHANNEL:
         return getChannel();
     }
@@ -190,8 +250,11 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_OUTPUT__OUTPUT:
-        setOutput((DataOutput)newValue);
+      case IoTPackage.SENSOR_OUTPUT__SENSORVAR:
+        setSensorvar((SensorVariables)newValue);
+        return;
+      case IoTPackage.SENSOR_OUTPUT__PIPELINE:
+        setPipeline((Pipeline)newValue);
         return;
       case IoTPackage.SENSOR_OUTPUT__CHANNEL:
         getChannel().clear();
@@ -211,8 +274,11 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_OUTPUT__OUTPUT:
-        setOutput((DataOutput)null);
+      case IoTPackage.SENSOR_OUTPUT__SENSORVAR:
+        setSensorvar((SensorVariables)null);
+        return;
+      case IoTPackage.SENSOR_OUTPUT__PIPELINE:
+        setPipeline((Pipeline)null);
         return;
       case IoTPackage.SENSOR_OUTPUT__CHANNEL:
         getChannel().clear();
@@ -231,8 +297,10 @@ public class SensorOutputImpl extends MinimalEObjectImpl.Container implements Se
   {
     switch (featureID)
     {
-      case IoTPackage.SENSOR_OUTPUT__OUTPUT:
-        return output != null;
+      case IoTPackage.SENSOR_OUTPUT__SENSORVAR:
+        return sensorvar != null;
+      case IoTPackage.SENSOR_OUTPUT__PIPELINE:
+        return pipeline != null;
       case IoTPackage.SENSOR_OUTPUT__CHANNEL:
         return channel != null && !channel.isEmpty();
     }

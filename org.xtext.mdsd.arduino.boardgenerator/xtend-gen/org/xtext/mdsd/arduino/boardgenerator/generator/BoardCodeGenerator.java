@@ -20,29 +20,33 @@ import org.xtext.mdsd.arduino.boardgenerator.generator.GeneratorUtils;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExecutePipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Interval;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Max;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Median;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Micros;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Millis;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Min;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Window;
 import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker;
@@ -169,14 +173,14 @@ public class BoardCodeGenerator {
           _builder.append(_name);
           _builder.append("UpdateTimer = ");
           Sampler _sampler = sensor.getSampler();
-          String _string = Integer.valueOf(((Frequency) _sampler).getFrequency()).toString();
-          _builder.append(_string);
+          String _intervalByResolution = this.getIntervalByResolution(((Interval) _sampler));
+          _builder.append(_intervalByResolution);
           _builder.append(";");
           _builder.newLineIfNotEmpty();
           _builder.append("double ");
           String _name_1 = sensor.getName();
           _builder.append(_name_1);
-          _builder.append("LastUpdate = 0.0;");
+          _builder.append("LastUpdate = 0.0; ");
           _builder.newLineIfNotEmpty();
           _builder.append(" ");
           _builder.newLine();
@@ -189,8 +193,8 @@ public class BoardCodeGenerator {
           _builder.append(_name_2);
           _builder.append("Command = \"");
           Sampler _sampler_1 = sensor_1.getSampler();
-          String _string_1 = ((Command) _sampler_1).getCommand().toString();
-          _builder.append(_string_1);
+          String _string = ((Command) _sampler_1).getCommand().toString();
+          _builder.append(_string);
           _builder.append("\";");
           _builder.newLineIfNotEmpty();
           _builder.append(" ");
@@ -282,6 +286,15 @@ public class BoardCodeGenerator {
           _builder.newLine();
         }
       }
+      String _generateTransferFunctions = this.generateTransferFunctions(globalUniqueChannels);
+      _builder.append(_generateTransferFunctions);
+      _builder.newLineIfNotEmpty();
+      String _generateExternalSensorsGet = this.generateExternalSensorsGet(sensors);
+      _builder.append(_generateExternalSensorsGet);
+      _builder.newLineIfNotEmpty();
+      String _generateExternalFunctions = this.generateExternalFunctions(IterableExtensions.<External>toList(externals));
+      _builder.append(_generateExternalFunctions);
+      _builder.newLineIfNotEmpty();
       {
         Set<String> _keySet_1 = this.windows.keySet();
         for(final String s : _keySet_1) {
@@ -292,15 +305,6 @@ public class BoardCodeGenerator {
           _builder.newLine();
         }
       }
-      String _generateTransferFunctions = this.generateTransferFunctions(globalUniqueChannels);
-      _builder.append(_generateTransferFunctions);
-      _builder.newLineIfNotEmpty();
-      String _generateExternalSensorsGet = this.generateExternalSensorsGet(sensors);
-      _builder.append(_generateExternalSensorsGet);
-      _builder.newLineIfNotEmpty();
-      String _generateExternalFunctions = this.generateExternalFunctions(IterableExtensions.<External>toList(externals));
-      _builder.append(_generateExternalFunctions);
-      _builder.newLineIfNotEmpty();
       _builder.append("void setup () {");
       _builder.newLine();
       _builder.append(" ");
@@ -312,7 +316,7 @@ public class BoardCodeGenerator {
       _builder.append("booted = true;");
       _builder.newLine();
       _builder.append("\t\t");
-      String _serialBegin = this.getSerialBegin(channels);
+      String _serialBegin = this.getSerialBegin(channels, sensors);
       _builder.append(_serialBegin, "\t\t");
       _builder.newLineIfNotEmpty();
       _builder.append("\t\t");
@@ -389,6 +393,26 @@ public class BoardCodeGenerator {
       _xblockexpression = _builder.toString();
     }
     return _xblockexpression;
+  }
+  
+  public String getIntervalByResolution(final Interval interval) {
+    Resolution _resolution = interval.getResolution();
+    if ((_resolution instanceof Seconds)) {
+      int _interval = interval.getInterval();
+      return Integer.valueOf((_interval * 1000)).toString();
+    }
+    Resolution _resolution_1 = interval.getResolution();
+    if ((_resolution_1 instanceof Millis)) {
+      int _interval_1 = interval.getInterval();
+      return Integer.valueOf((_interval_1 / 1000)).toString();
+    }
+    Resolution _resolution_2 = interval.getResolution();
+    if ((_resolution_2 instanceof Micros)) {
+      int _interval_2 = interval.getInterval();
+      int _divide = (_interval_2 / 1000);
+      return Integer.valueOf((_divide / 1000)).toString();
+    }
+    return Integer.valueOf(interval.getInterval()).toString();
   }
   
   public String getExecuteFunction(final ExecutePipeline pipe, final String type, final String name) {
@@ -639,6 +663,8 @@ public class BoardCodeGenerator {
     StringConcatenation _builder = new StringConcatenation();
     {
       for(final External external : externals) {
+        _builder.append("// EXTERNAL FUNCTION : BEGIN");
+        _builder.newLine();
         _builder.append("struct ");
         String _name = external.getFunction().getName();
         _builder.append(_name);
@@ -677,6 +703,8 @@ public class BoardCodeGenerator {
         _builder.append("return tbl;");
         _builder.newLine();
         _builder.append("}");
+        _builder.newLine();
+        _builder.append("// EXTERNAL FUNCTION : END");
         _builder.newLine();
       }
     }
@@ -764,11 +792,6 @@ public class BoardCodeGenerator {
           _builder.append(_string);
           _builder.append(", OUTPUT);");
           _builder.newLineIfNotEmpty();
-          _builder.append("digitalWrite(");
-          String _string_1 = Integer.valueOf(sensor.getVcc()).toString();
-          _builder.append(_string_1);
-          _builder.append(", HIGH);");
-          _builder.newLineIfNotEmpty();
           initStr = (_initStr + _builder);
         }
       }
@@ -818,7 +841,7 @@ public class BoardCodeGenerator {
       String prevType = _builder.toString();
       for (final SensorOutput sensorOutput : sensorOutputs) {
         {
-          Pipeline pipeline = sensorOutput.getOutput().getPipeline();
+          Pipeline pipeline = sensorOutput.getPipeline();
           while ((pipeline != null)) {
             {
               boolean _matched = false;
@@ -1009,7 +1032,7 @@ public class BoardCodeGenerator {
   
   public String generateSensorDataSample(final Sensor sensor) {
     final Sampler sampler = sensor.getSampler();
-    if (((sampler != null) && (sampler instanceof Frequency))) {
+    if (((sampler != null) && (sampler instanceof Interval))) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("if (systemTime - ");
       String _name = sensor.getName();
@@ -1078,7 +1101,7 @@ public class BoardCodeGenerator {
     String _xblockexpression = null;
     {
       final ChannelConfig config = channel.getConfig();
-      if (((config instanceof Wifi) || this.typeChecker.ifServerType(channel))) {
+      if (((config instanceof Cloud) || this.typeChecker.ifServerType(channel))) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("void transmit");
         String _firstUpper = StringExtensions.toFirstUpper(channel.getName());
@@ -1193,7 +1216,7 @@ public class BoardCodeGenerator {
     String _xblockexpression = null;
     {
       final ChannelConfig config = channel.getConfig();
-      if (((config instanceof Wifi) || this.typeChecker.ifServerType(channel))) {
+      if (((config instanceof Cloud) || this.typeChecker.ifServerType(channel))) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("connect");
         String _firstUpper = StringExtensions.toFirstUpper(channel.getName());
@@ -1260,7 +1283,7 @@ public class BoardCodeGenerator {
     String _xblockexpression = null;
     {
       final ChannelConfig config = channel.getConfig();
-      if (((config instanceof Wifi) || this.typeChecker.ifServerType(channel))) {
+      if (((config instanceof Cloud) || this.typeChecker.ifServerType(channel))) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("IPAddress get");
         String _firstUpper = StringExtensions.toFirstUpper(channel.getName());
@@ -1499,9 +1522,25 @@ public class BoardCodeGenerator {
     return _xblockexpression;
   }
   
-  public String getSerialBegin(final List<Channel> channels) {
+  public String getSerialBegin(final List<Channel> channels, final List<Sensor> sensors) {
     String _xblockexpression = null;
     {
+      for (final Sensor sensor : sensors) {
+        {
+          final Sampler sampler = sensor.getSampler();
+          if ((((sampler != null) && (sampler instanceof Command)) && (((Command) sampler).getBaud() > 0))) {
+            StringConcatenation _builder = new StringConcatenation();
+            _builder.append("Serial.begin(");
+            int _baud = ((Command) sampler).getBaud();
+            _builder.append(_baud);
+            _builder.append(");");
+            _builder.newLineIfNotEmpty();
+            _builder.append("delay(1);");
+            _builder.newLine();
+            return _builder.toString();
+          }
+        }
+      }
       for (final Channel channel : channels) {
         boolean _ifSerialType = this.typeChecker.ifSerialType(channel);
         if (_ifSerialType) {
@@ -1648,28 +1687,35 @@ public class BoardCodeGenerator {
     String _xblockexpression = null;
     {
       final Boards supportedBoard = Boards.getBoardSupported(this._generatorUtils.getBoardVersion(board));
+      int clk = supportedBoard.getSDMapping("sd_clk");
+      int sdo = supportedBoard.getSDMapping("sd_do");
+      int di = supportedBoard.getSDMapping("sd_di");
+      int cs = supportedBoard.getSDMapping("sd_cs");
+      boolean _isNull = supportedBoard.isNull();
+      if (_isNull) {
+        clk = this._generatorUtils.getBoardVersion(board).getSdconfig().getClk();
+        sdo = this._generatorUtils.getBoardVersion(board).getSdconfig().getSdo();
+        di = this._generatorUtils.getBoardVersion(board).getSdconfig().getDi();
+        cs = this._generatorUtils.getBoardVersion(board).getSdconfig().getCs();
+      }
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("bool init_SD_card () {");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("SPI.begin(");
-      int _sDMapping = supportedBoard.getSDMapping("sd_clk");
-      _builder.append(_sDMapping, "\t");
+      _builder.append(clk, "\t");
       _builder.append(", ");
-      int _sDMapping_1 = supportedBoard.getSDMapping("sd_do");
-      _builder.append(_sDMapping_1, "\t");
+      _builder.append(sdo, "\t");
       _builder.append(", ");
-      int _sDMapping_2 = supportedBoard.getSDMapping("sd_di");
-      _builder.append(_sDMapping_2, "\t");
+      _builder.append(di, "\t");
       _builder.append(", ");
-      int _sDMapping_3 = supportedBoard.getSDMapping("sd_cs");
-      _builder.append(_sDMapping_3, "\t");
+      _builder.append(cs, "\t");
       _builder.append(");");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       _builder.append("if (!SD.begin(");
-      int _sDMapping_4 = supportedBoard.getSDMapping("sd_cs");
-      _builder.append(_sDMapping_4, "\t");
+      int _sDMapping = supportedBoard.getSDMapping("sd_cs");
+      _builder.append(_sDMapping, "\t");
       _builder.append(")) {");
       _builder.newLineIfNotEmpty();
       _builder.append("\t\t");

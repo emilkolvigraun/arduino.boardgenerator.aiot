@@ -34,7 +34,7 @@ class IoTResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy 
 		  
 		for (Include include : includes){   
 			val str = include.importURI.join("/") + ".aiot"
-			var importObj = new Reference(str)  
+			var importObj = new ImportReference(str)    
 			uris.add(uriResolver.apply(importObj))	
 		} 
 		val userData = new HashMap<String,String>
@@ -43,7 +43,7 @@ class IoTResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy 
 	}	
 }
 
-class Reference extends ImportObjectImpl {
+class ImportReference extends ImportObjectImpl {
 	
 	new (String importUri){
 		this.importURI = importUri;

@@ -16,7 +16,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getOutput <em>Output</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getSensorvar <em>Sensorvar</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getPipeline <em>Pipeline</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getChannel <em>Channel</em>}</li>
  * </ul>
  *
@@ -27,26 +28,48 @@ import org.eclipse.emf.ecore.EObject;
 public interface SensorOutput extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Output</b></em>' containment reference.
+   * Returns the value of the '<em><b>Sensorvar</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Output</em>' containment reference.
-   * @see #setOutput(DataOutput)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensorOutput_Output()
+   * @return the value of the '<em>Sensorvar</em>' reference.
+   * @see #setSensorvar(SensorVariables)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensorOutput_Sensorvar()
+   * @model
+   * @generated
+   */
+  SensorVariables getSensorvar();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getSensorvar <em>Sensorvar</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Sensorvar</em>' reference.
+   * @see #getSensorvar()
+   * @generated
+   */
+  void setSensorvar(SensorVariables value);
+
+  /**
+   * Returns the value of the '<em><b>Pipeline</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Pipeline</em>' containment reference.
+   * @see #setPipeline(Pipeline)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getSensorOutput_Pipeline()
    * @model containment="true"
    * @generated
    */
-  DataOutput getOutput();
+  Pipeline getPipeline();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getOutput <em>Output</em>}' containment reference.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput#getPipeline <em>Pipeline</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Output</em>' containment reference.
-   * @see #getOutput()
+   * @param value the new value of the '<em>Pipeline</em>' containment reference.
+   * @see #getPipeline()
    * @generated
    */
-  void setOutput(DataOutput value);
+  void setPipeline(Pipeline value);
 
   /**
    * Returns the value of the '<em><b>Channel</b></em>' reference list.

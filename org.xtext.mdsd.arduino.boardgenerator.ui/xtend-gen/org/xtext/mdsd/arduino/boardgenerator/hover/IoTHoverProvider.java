@@ -16,15 +16,16 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.EmbeddedSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Interval;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
@@ -32,7 +33,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 
@@ -131,7 +131,7 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
             String _str = str;
             str = (_str + (((("<b>" + name) + "</b> -> pin: <b>") + pin) + "</b><br>"));
           }
-          if (((sensorType instanceof OnboardSensor) && (!Objects.equal(name, "_")))) {
+          if (((sensorType instanceof EmbeddedSensor) && (!Objects.equal(name, "_")))) {
             String _str_1 = str;
             String _string = i.toString();
             String _plus = ((("Output: <b>" + name) + "</b> -> index: <b>") + _string);
@@ -194,7 +194,7 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
       final ChannelConfig config = channel.getConfig();
       if ((config != null)) {
         boolean _matched = false;
-        if ((config instanceof Wifi)) {
+        if ((config instanceof Cloud)) {
           _matched=true;
           String _str = str;
           str = (_str + "<b>cloud</b>");
@@ -260,7 +260,7 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
     return _builder.toString();
   }
   
-  public String getOnboardSensorString(final OnboardSensor sensor) {
+  public String getEmbeddedSensorString(final EmbeddedSensor sensor) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("Sensor: <b>");
     String _name = sensor.getName();
@@ -290,7 +290,7 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
   public String getSampleString(final Sampler sampler) {
     String _xblockexpression = null;
     {
-      if ((sampler instanceof Frequency)) {
+      if ((sampler instanceof Interval)) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("frequency");
         return _builder.toString();
@@ -348,8 +348,8 @@ public class IoTHoverProvider extends DefaultEObjectHoverProvider {
       if ((object instanceof Reference)) {
         return this.getReferenceString(((Reference) object));
       }
-      if ((object instanceof OnboardSensor)) {
-        return this.getOnboardSensorString(((OnboardSensor) object));
+      if ((object instanceof EmbeddedSensor)) {
+        return this.getEmbeddedSensorString(((EmbeddedSensor) object));
       }
       if ((object instanceof ExternalSensor)) {
         return this.getExternalSensorString(((ExternalSensor) object));

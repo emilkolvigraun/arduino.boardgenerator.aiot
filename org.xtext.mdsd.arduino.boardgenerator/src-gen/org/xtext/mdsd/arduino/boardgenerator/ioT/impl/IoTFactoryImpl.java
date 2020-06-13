@@ -72,31 +72,26 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.CHANNEL: return createChannel();
       case IoTPackage.CHANNEL_TYPE: return createChannelType();
       case IoTPackage.CHANNEL_CONFIG: return createChannelConfig();
-      case IoTPackage.WIFI: return createWifi();
+      case IoTPackage.CLOUD: return createCloud();
       case IoTPackage.SERIAL: return createSerial();
-      case IoTPackage.STOP_IDENTIFYER: return createStopIdentifyer();
-      case IoTPackage.STOP_CHAR: return createStopChar();
-      case IoTPackage.STOP_BYTE: return createStopByte();
       case IoTPackage.MQTT_CLIENT: return createMqttClient();
       case IoTPackage.FUNCTION: return createFunction();
       case IoTPackage.FUNCTION_INPUT_TYPE: return createFunctionInputType();
       case IoTPackage.BOARD: return createBoard();
       case IoTPackage.NEW_BOARD: return createNewBoard();
       case IoTPackage.BOARD_VERSION: return createBoardVersion();
+      case IoTPackage.SD_CONFIG: return createSDConfig();
       case IoTPackage.EXTENDS_BOARD: return createExtendsBoard();
       case IoTPackage.ABSTRACT_BOARD: return createAbstractBoard();
       case IoTPackage.SENSOR: return createSensor();
       case IoTPackage.SENSOR_TYPE: return createSensorType();
       case IoTPackage.EXTERNAL_SENSOR: return createExternalSensor();
-      case IoTPackage.ONBOARD_SENSOR: return createOnboardSensor();
+      case IoTPackage.EMBEDDED_SENSOR: return createEmbeddedSensor();
       case IoTPackage.SENSOR_VARIABLES: return createSensorVariables();
       case IoTPackage.VARIABLE: return createVariable();
       case IoTPackage.SAMPLER: return createSampler();
-      case IoTPackage.COMMAND: return createCommand();
-      case IoTPackage.FREQUENCY: return createFrequency();
       case IoTPackage.RESOLUTION: return createResolution();
       case IoTPackage.SENSOR_OUTPUT: return createSensorOutput();
-      case IoTPackage.DATA_OUTPUT: return createDataOutput();
       case IoTPackage.PIPELINE: return createPipeline();
       case IoTPackage.EXTERNAL: return createExternal();
       case IoTPackage.MAP_PIPELINE: return createMapPipeline();
@@ -107,6 +102,8 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
       case IoTPackage.STRING_LITERAL: return createStringLiteral();
       case IoTPackage.NUMBER_LITERAL: return createNumberLiteral();
       case IoTPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
+      case IoTPackage.COMMAND: return createCommand();
+      case IoTPackage.INTERVAL: return createInterval();
       case IoTPackage.SECONDS: return createSeconds();
       case IoTPackage.MILLIS: return createMillis();
       case IoTPackage.MICROS: return createMicros();
@@ -227,10 +224,10 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public Wifi createWifi()
+  public Cloud createCloud()
   {
-    WifiImpl wifi = new WifiImpl();
-    return wifi;
+    CloudImpl cloud = new CloudImpl();
+    return cloud;
   }
 
   /**
@@ -243,42 +240,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     SerialImpl serial = new SerialImpl();
     return serial;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public StopIdentifyer createStopIdentifyer()
-  {
-    StopIdentifyerImpl stopIdentifyer = new StopIdentifyerImpl();
-    return stopIdentifyer;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public StopChar createStopChar()
-  {
-    StopCharImpl stopChar = new StopCharImpl();
-    return stopChar;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public StopByte createStopByte()
-  {
-    StopByteImpl stopByte = new StopByteImpl();
-    return stopByte;
   }
 
   /**
@@ -359,6 +320,18 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
+  public SDConfig createSDConfig()
+  {
+    SDConfigImpl sdConfig = new SDConfigImpl();
+    return sdConfig;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public ExtendsBoard createExtendsBoard()
   {
     ExtendsBoardImpl extendsBoard = new ExtendsBoardImpl();
@@ -419,10 +392,10 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public OnboardSensor createOnboardSensor()
+  public EmbeddedSensor createEmbeddedSensor()
   {
-    OnboardSensorImpl onboardSensor = new OnboardSensorImpl();
-    return onboardSensor;
+    EmbeddedSensorImpl embeddedSensor = new EmbeddedSensorImpl();
+    return embeddedSensor;
   }
 
   /**
@@ -467,30 +440,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
    * @generated
    */
   @Override
-  public Command createCommand()
-  {
-    CommandImpl command = new CommandImpl();
-    return command;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Frequency createFrequency()
-  {
-    FrequencyImpl frequency = new FrequencyImpl();
-    return frequency;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public Resolution createResolution()
   {
     ResolutionImpl resolution = new ResolutionImpl();
@@ -507,18 +456,6 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     SensorOutputImpl sensorOutput = new SensorOutputImpl();
     return sensorOutput;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public DataOutput createDataOutput()
-  {
-    DataOutputImpl dataOutput = new DataOutputImpl();
-    return dataOutput;
   }
 
   /**
@@ -639,6 +576,30 @@ public class IoTFactoryImpl extends EFactoryImpl implements IoTFactory
   {
     BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
     return booleanLiteral;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Command createCommand()
+  {
+    CommandImpl command = new CommandImpl();
+    return command;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Interval createInterval()
+  {
+    IntervalImpl interval = new IntervalImpl();
+    return interval;
   }
 
   /**

@@ -87,13 +87,13 @@ public interface IoTFactory extends EFactory
   ChannelConfig createChannelConfig();
 
   /**
-   * Returns a new object of class '<em>Wifi</em>'.
+   * Returns a new object of class '<em>Cloud</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Wifi</em>'.
+   * @return a new object of class '<em>Cloud</em>'.
    * @generated
    */
-  Wifi createWifi();
+  Cloud createCloud();
 
   /**
    * Returns a new object of class '<em>Serial</em>'.
@@ -103,33 +103,6 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   Serial createSerial();
-
-  /**
-   * Returns a new object of class '<em>Stop Identifyer</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Stop Identifyer</em>'.
-   * @generated
-   */
-  StopIdentifyer createStopIdentifyer();
-
-  /**
-   * Returns a new object of class '<em>Stop Char</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Stop Char</em>'.
-   * @generated
-   */
-  StopChar createStopChar();
-
-  /**
-   * Returns a new object of class '<em>Stop Byte</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Stop Byte</em>'.
-   * @generated
-   */
-  StopByte createStopByte();
 
   /**
    * Returns a new object of class '<em>Mqtt Client</em>'.
@@ -186,6 +159,15 @@ public interface IoTFactory extends EFactory
   BoardVersion createBoardVersion();
 
   /**
+   * Returns a new object of class '<em>SD Config</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>SD Config</em>'.
+   * @generated
+   */
+  SDConfig createSDConfig();
+
+  /**
    * Returns a new object of class '<em>Extends Board</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -231,13 +213,13 @@ public interface IoTFactory extends EFactory
   ExternalSensor createExternalSensor();
 
   /**
-   * Returns a new object of class '<em>Onboard Sensor</em>'.
+   * Returns a new object of class '<em>Embedded Sensor</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Onboard Sensor</em>'.
+   * @return a new object of class '<em>Embedded Sensor</em>'.
    * @generated
    */
-  OnboardSensor createOnboardSensor();
+  EmbeddedSensor createEmbeddedSensor();
 
   /**
    * Returns a new object of class '<em>Sensor Variables</em>'.
@@ -267,24 +249,6 @@ public interface IoTFactory extends EFactory
   Sampler createSampler();
 
   /**
-   * Returns a new object of class '<em>Command</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Command</em>'.
-   * @generated
-   */
-  Command createCommand();
-
-  /**
-   * Returns a new object of class '<em>Frequency</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Frequency</em>'.
-   * @generated
-   */
-  Frequency createFrequency();
-
-  /**
    * Returns a new object of class '<em>Resolution</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -301,15 +265,6 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   SensorOutput createSensorOutput();
-
-  /**
-   * Returns a new object of class '<em>Data Output</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Data Output</em>'.
-   * @generated
-   */
-  DataOutput createDataOutput();
 
   /**
    * Returns a new object of class '<em>Pipeline</em>'.
@@ -400,6 +355,24 @@ public interface IoTFactory extends EFactory
    * @generated
    */
   BooleanLiteral createBooleanLiteral();
+
+  /**
+   * Returns a new object of class '<em>Command</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Command</em>'.
+   * @generated
+   */
+  Command createCommand();
+
+  /**
+   * Returns a new object of class '<em>Interval</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Interval</em>'.
+   * @generated
+   */
+  Interval createInterval();
 
   /**
    * Returns a new object of class '<em>Seconds</em>'.

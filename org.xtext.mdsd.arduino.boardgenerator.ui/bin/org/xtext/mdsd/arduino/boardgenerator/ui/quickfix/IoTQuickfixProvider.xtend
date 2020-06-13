@@ -11,12 +11,12 @@ import org.xtext.mdsd.arduino.boardgenerator.validation.IoTValidator
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 
 /**
- * Custom quickfixes.
- *
+ * Custom quickfixes. 
+ * 
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#quick-fixes
  */
 class IoTQuickfixProvider extends DefaultQuickfixProvider {
@@ -32,7 +32,7 @@ class IoTQuickfixProvider extends DefaultQuickfixProvider {
 				}
 				context.xtextDocument.replace(NodeModelUtils.getNode(element).endOffset, 0, ''' («pins.substring(0, pins.length-2)»)''')
 			]) 
-	}
+	} 
 	
 	@Fix(IoTValidator.INVALID_FUNCTION_TYPE)
 	def invalidExternalType(Issue issue, IssueResolutionAcceptor acceptor){ 
@@ -49,7 +49,7 @@ class IoTQuickfixProvider extends DefaultQuickfixProvider {
 				context.xtextDocument.replace(node.endOffset-ftype.name.length, ftype.name.length, '''num''')
 			])   
 		acceptor.accept(issue, '''Change to boolean - "bool"''',    
-			null, null, [element, context |     
+			null, null, [element, context |       
 				var node = NodeModelUtils.getNode(element)  
 				var ftype = element.getContainerOfType(FunctionInputType)
 				context.xtextDocument.replace(node.endOffset-ftype.name.length, ftype.name.length, '''bool''')

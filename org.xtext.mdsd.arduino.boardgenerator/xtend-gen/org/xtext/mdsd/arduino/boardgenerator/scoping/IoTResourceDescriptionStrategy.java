@@ -15,7 +15,7 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Include;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Model;
-import org.xtext.mdsd.arduino.boardgenerator.scoping.Reference;
+import org.xtext.mdsd.arduino.boardgenerator.scoping.ImportReference;
 
 @SuppressWarnings("all")
 public class IoTResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy {
@@ -43,7 +43,7 @@ public class IoTResourceDescriptionStrategy extends DefaultResourceDescriptionSt
       {
         String _join = IterableExtensions.join(include.getImportURI(), "/");
         final String str = (_join + ".aiot");
-        Reference importObj = new Reference(str);
+        ImportReference importObj = new ImportReference(str);
         uris.add(this.uriResolver.apply(importObj));
       }
     }

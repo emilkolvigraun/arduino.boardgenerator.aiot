@@ -13,17 +13,15 @@ import java.util.List
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
 import java.util.HashMap
 import java.util.HashSet
-import java.io.StringWriter
-import sun.security.util.IOUtils
-import java.util.Scanner
+import java.util.Scanner 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud
 
 /* Generates code from your model files on save.
  * 
@@ -58,12 +56,12 @@ class IoTGenerator extends AbstractGenerator {
 			} 
 		 	
 		 	val boardContent = board.generateBoardCode(channels.toList, configFileStr.length, embeddedSensors.keySet().length)
-		 	
+		 	 
 			val content = '''   
 							/*  
 							* Generated Code AIOT
-							* Model : «board.boardVersion.model»
-							* Type  : «board.boardVersion.type»
+							* Model : «IF board.boardVersion !== null»«board.boardVersion.model»«ELSE»unknown«ENDIF»
+							* Type  : «IF board.boardVersion !== null»«board.boardVersion.type»«ELSE»unknown«ENDIF»
 							* 
 							* If you are using another board than ESP32 wrover
 							* and you are using a significant number of channels
@@ -111,12 +109,12 @@ class IoTGenerator extends AbstractGenerator {
 	def String getChannelConfiguration(Channel channel){
 		val channelConfig = channel.config    
 		val channelType = channel.ctype?.name
-		if (channelConfig instanceof Wifi || channelType == "cloud"){
+		if (channelConfig instanceof Cloud || channelType == "cloud"){
 			try {
 				return	''' 
-						"ip"   : "«(channelConfig as Wifi).url»",
-						"port"   : "«(channelConfig as Wifi).sport.toString»",
-						"route" : "«(channelConfig as Wifi).route»"
+						"ip"   : "«(channelConfig as Cloud).url»",
+						"port"   : "«(channelConfig as Cloud).sport.toString»",
+						"route" : "«(channelConfig as Cloud).route»"
 						'''		
 			} catch (Exception e){  
 				return ''' 
@@ -128,13 +126,11 @@ class IoTGenerator extends AbstractGenerator {
 		} else if (channelConfig instanceof Serial || channelType == "serial"){ 
 			try {
 				return	'''    
-						"baud" : "«(channelConfig as Serial).baud.toString»",
-						"stop" : "«(channelConfig as Serial).stopCharName»" 
+						"baud" : "«(channelConfig as Serial).baud.toString»"
 						'''			
-			} catch (Exception e){
+			} catch (Exception e){ 
 				return 	'''     
-						"baud" : "",
-						"stop" : "" 
+						"baud" : ""
 						'''	 
 			}
 		} else if (channelConfig instanceof MqttClient || channelType == "mqtt"){ 
@@ -143,7 +139,7 @@ class IoTGenerator extends AbstractGenerator {
 						"broker" : "«(channelConfig as MqttClient).broker»",
 						"port"   : "«(channelConfig as MqttClient).port.toString»",
 						"id"     : "«(channelConfig as MqttClient).client»", 
-						"topic"  : «(channelConfig as MqttClient).pub»
+						"topic"  : "«(channelConfig as MqttClient).pub»"
 						'''				
 			} catch (Exception e){
 				return 	''' 
@@ -155,7 +151,7 @@ class IoTGenerator extends AbstractGenerator {
 			}	
 		}  
 		'''REQUIRES ATTENTION''' 
-	}      
+	}       
 	
 	def HashMap<String, HashMap<String, List<Variable>>> getSensorsForSensorManager(List<Sensor> sensors, Boards board, String currentBoard){
 		val embeddedSensors = new HashMap<String, HashMap<String, List<Variable>>>();

@@ -34,21 +34,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ChannelType/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//ChannelConfig"/>
-    <genClasses ecoreClass="IoT.ecore#//Wifi">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/url"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/sport"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Wifi/route"/>
+    <genClasses ecoreClass="IoT.ecore#//Cloud">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Cloud/url"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Cloud/sport"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Cloud/route"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Serial">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Serial/baud"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Serial/stopType"/>
-    </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//StopIdentifyer"/>
-    <genClasses ecoreClass="IoT.ecore#//StopChar">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//StopChar/name"/>
-    </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//StopByte">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//StopByte/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//MqttClient">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//MqttClient/broker"/>
@@ -73,8 +65,15 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//NewBoard/version"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//BoardVersion">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//BoardVersion/sdconfig"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BoardVersion/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BoardVersion/model"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//SDConfig">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SDConfig/clk"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SDConfig/sdo"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SDConfig/di"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SDConfig/cs"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//ExtendsBoard">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//ExtendsBoard/abstractBoard"/>
@@ -98,7 +97,7 @@
     <genClasses ecoreClass="IoT.ecore#//ExternalSensor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//ExternalSensor/pins"/>
     </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//OnboardSensor"/>
+    <genClasses ecoreClass="IoT.ecore#//EmbeddedSensor"/>
     <genClasses ecoreClass="IoT.ecore#//SensorVariables">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//SensorVariables/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorVariables/ids"/>
@@ -107,22 +106,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Variable/name"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Sampler"/>
-    <genClasses ecoreClass="IoT.ecore#//Command">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Command/command"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Command/topic"/>
-    </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//Frequency">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Frequency/frequency"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Frequency/resolution"/>
-    </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Resolution"/>
     <genClasses ecoreClass="IoT.ecore#//SensorOutput">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorOutput/output"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorOutput/sensorvar"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorOutput/pipeline"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//SensorOutput/channel"/>
-    </genClasses>
-    <genClasses ecoreClass="IoT.ecore#//DataOutput">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference IoT.ecore#//DataOutput/sensorvar"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//DataOutput/pipeline"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Pipeline">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Pipeline/next"/>
@@ -146,6 +134,14 @@
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//BooleanLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//BooleanLiteral/bool"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Command">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Command/command"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Command/baud"/>
+    </genClasses>
+    <genClasses ecoreClass="IoT.ecore#//Interval">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute IoT.ecore#//Interval/interval"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference IoT.ecore#//Interval/resolution"/>
     </genClasses>
     <genClasses ecoreClass="IoT.ecore#//Seconds"/>
     <genClasses ecoreClass="IoT.ecore#//Millis"/>

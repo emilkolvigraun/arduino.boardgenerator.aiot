@@ -4,14 +4,17 @@
 package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SDConfig;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +24,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardVersionImpl#getSdconfig <em>Sdconfig</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardVersionImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.BoardVersionImpl#getModel <em>Model</em>}</li>
  * </ul>
@@ -29,6 +33,16 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
  */
 public class BoardVersionImpl extends MinimalEObjectImpl.Container implements BoardVersion
 {
+  /**
+   * The cached value of the '{@link #getSdconfig() <em>Sdconfig</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getSdconfig()
+   * @generated
+   * @ordered
+   */
+  protected SDConfig sdconfig;
+
   /**
    * The default value of the '{@link #getType() <em>Type</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -96,6 +110,56 @@ public class BoardVersionImpl extends MinimalEObjectImpl.Container implements Bo
    * @generated
    */
   @Override
+  public SDConfig getSdconfig()
+  {
+    return sdconfig;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetSdconfig(SDConfig newSdconfig, NotificationChain msgs)
+  {
+    SDConfig oldSdconfig = sdconfig;
+    sdconfig = newSdconfig;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.BOARD_VERSION__SDCONFIG, oldSdconfig, newSdconfig);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setSdconfig(SDConfig newSdconfig)
+  {
+    if (newSdconfig != sdconfig)
+    {
+      NotificationChain msgs = null;
+      if (sdconfig != null)
+        msgs = ((InternalEObject)sdconfig).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.BOARD_VERSION__SDCONFIG, null, msgs);
+      if (newSdconfig != null)
+        msgs = ((InternalEObject)newSdconfig).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.BOARD_VERSION__SDCONFIG, null, msgs);
+      msgs = basicSetSdconfig(newSdconfig, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.BOARD_VERSION__SDCONFIG, newSdconfig, newSdconfig));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public String getType()
   {
     return type;
@@ -146,10 +210,28 @@ public class BoardVersionImpl extends MinimalEObjectImpl.Container implements Bo
    * @generated
    */
   @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case IoTPackage.BOARD_VERSION__SDCONFIG:
+        return basicSetSdconfig(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
     {
+      case IoTPackage.BOARD_VERSION__SDCONFIG:
+        return getSdconfig();
       case IoTPackage.BOARD_VERSION__TYPE:
         return getType();
       case IoTPackage.BOARD_VERSION__MODEL:
@@ -168,6 +250,9 @@ public class BoardVersionImpl extends MinimalEObjectImpl.Container implements Bo
   {
     switch (featureID)
     {
+      case IoTPackage.BOARD_VERSION__SDCONFIG:
+        setSdconfig((SDConfig)newValue);
+        return;
       case IoTPackage.BOARD_VERSION__TYPE:
         setType((String)newValue);
         return;
@@ -188,6 +273,9 @@ public class BoardVersionImpl extends MinimalEObjectImpl.Container implements Bo
   {
     switch (featureID)
     {
+      case IoTPackage.BOARD_VERSION__SDCONFIG:
+        setSdconfig((SDConfig)null);
+        return;
       case IoTPackage.BOARD_VERSION__TYPE:
         setType(TYPE_EDEFAULT);
         return;
@@ -208,6 +296,8 @@ public class BoardVersionImpl extends MinimalEObjectImpl.Container implements Bo
   {
     switch (featureID)
     {
+      case IoTPackage.BOARD_VERSION__SDCONFIG:
+        return sdconfig != null;
       case IoTPackage.BOARD_VERSION__TYPE:
         return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
       case IoTPackage.BOARD_VERSION__MODEL:

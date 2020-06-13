@@ -15,13 +15,13 @@ Microseconds : 'microseconds';
 
 Milliseconds : 'milliseconds';
 
-Frequency : 'frequency';
-
 Abstract : 'abstract';
 
 ByWindow : 'byWindow';
 
 Function : 'function';
+
+Interval : 'interval';
 
 Channel : 'channel';
 
@@ -51,10 +51,6 @@ Topic : 'topic';
 
 Baud : 'baud';
 
-Byte : 'byte';
-
-Char : 'char';
-
 Mean : 'mean';
 
 Pass : 'pass';
@@ -64,8 +60,6 @@ Pipe : 'pipe';
 Port : 'port';
 
 Ssid : 'ssid';
-
-Stop : 'stop';
 
 Type : 'type';
 
@@ -94,6 +88,8 @@ LessThanSignEqualsSign : '<=';
 EqualsSignEqualsSign : '==';
 
 GreaterThanSignEqualsSign : '>=';
+
+SD : 'SD';
 
 As : 'as';
 

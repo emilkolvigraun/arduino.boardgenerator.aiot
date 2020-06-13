@@ -8,9 +8,9 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.xtext.nodemodel.INode
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage
-import org.xtext.mdsd.arduino.boardgenerator.ioT.External
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
+import org.xtext.mdsd.arduino.boardgenerator.ioT.External 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 
 class IoTSemanticHighlightConfiguration extends DefaultSemanticHighlightingCalculator{
 	
@@ -30,12 +30,12 @@ class IoTSemanticHighlightConfiguration extends DefaultSemanticHighlightingCalcu
 				acceptor.addPosition(node.getOffset(), node.getLength(), IoTHighlightingConfiguration.EXTERNAL_ID)
 			}  
 		}  
-		  
+		    
 		for (FunctionInputType typ : EcoreUtil2.getAllContentsOfType(rootObject, FunctionInputType)){  
 			for (INode node : NodeModelUtils.findNodesForFeature(typ, IoTPackage.Literals.FUNCTION_INPUT_TYPE__NAME)){
 				acceptor.addPosition(node.getOffset(), node.getLength(), IoTHighlightingConfiguration.EXTERNAL_TYPE_ID)
 			}  
-		} 
+		}   
 		
 		for (Channel chan : EcoreUtil2.getAllContentsOfType(rootObject, Channel)){  
 			for (INode node : NodeModelUtils.findNodesForFeature(chan, IoTPackage.Literals.CHANNEL__CTYPE)){

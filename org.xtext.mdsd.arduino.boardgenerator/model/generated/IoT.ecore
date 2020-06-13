@@ -39,22 +39,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ChannelConfig"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Wifi" eSuperTypes="#//ChannelConfig">
+  <eClassifiers xsi:type="ecore:EClass" name="Cloud" eSuperTypes="#//ChannelConfig">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sport" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="route" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Serial" eSuperTypes="#//ChannelConfig">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baud" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stopType" eType="#//StopIdentifyer"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StopIdentifyer"/>
-  <eClassifiers xsi:type="ecore:EClass" name="StopChar" eSuperTypes="#//StopIdentifyer">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StopByte" eSuperTypes="#//StopIdentifyer">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MqttClient" eSuperTypes="#//ChannelConfig">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="broker" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -83,8 +74,16 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BoardVersion">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sdconfig" eType="#//SDConfig"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SDConfig">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clk" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sdo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="di" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtendsBoard" eSuperTypes="#//Board">
     <eStructuralFeatures xsi:type="ecore:EReference" name="abstractBoard" eType="#//AbstractBoard"/>
@@ -115,7 +114,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pins" unique="false" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OnboardSensor" eSuperTypes="#//SensorType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EmbeddedSensor" eSuperTypes="#//SensorType"/>
   <eClassifiers xsi:type="ecore:EClass" name="SensorVariables">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ids" upperBound="-1" eType="#//Variable"
@@ -125,26 +124,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Sampler"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Command" eSuperTypes="#//Sampler">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Frequency" eSuperTypes="#//Sampler">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="resolution" eType="#//Resolution"
-        containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="SensorOutput">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//DataOutput"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" unique="false"
-        upperBound="-1" eType="#//Channel"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DataOutput">
     <eStructuralFeatures xsi:type="ecore:EReference" name="sensorvar" eType="#//SensorVariables"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pipeline" eType="#//Pipeline"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" unique="false"
+        upperBound="-1" eType="#//Channel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pipeline">
     <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//Pipeline"
@@ -170,6 +156,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bool" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Command" eSuperTypes="#//Sampler">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="baud" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interval" eSuperTypes="#//Sampler">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interval" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolution" eType="#//Resolution"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Seconds" eSuperTypes="#//Resolution"/>
   <eClassifiers xsi:type="ecore:EClass" name="Millis" eSuperTypes="#//Resolution"/>

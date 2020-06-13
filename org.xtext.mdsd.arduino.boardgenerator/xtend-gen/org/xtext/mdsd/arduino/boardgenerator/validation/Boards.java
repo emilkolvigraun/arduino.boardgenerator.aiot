@@ -1,9 +1,12 @@
 package org.xtext.mdsd.arduino.boardgenerator.validation;
 
 import com.google.common.base.Objects;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.validation.SDParams;
 import org.xtext.mdsd.arduino.boardgenerator.validation.SupportedBoards;
@@ -15,6 +18,8 @@ public class Boards {
   private String model;
   
   private Map<String, Integer> sensors;
+  
+  private Map<String, String> info;
   
   private Map<String, Integer> sd;
   
@@ -42,18 +47,36 @@ public class Boards {
         switch (_lowerCase_1) {
           case "wrover":
             this.sensors = SupportedBoards.WROVER;
+            this.info = SupportedBoards.WROVER_INFO;
             this.sd = SDParams.WROVER;
             break;
           default:
-            this.sensors = null;
+            {
+              this.sensors = null;
+              this.sd = null;
+              this.info = null;
+            }
             break;
         }
       } else {
-        this.sensors = null;
+        {
+          this.sensors = null;
+          this.sd = null;
+          this.info = null;
+        }
       }
     }
     this.type = type;
     this.model = model;
+  }
+  
+  public List<Integer> getSDParameters() {
+    Map<String, Integer> _sd = this.sd;
+    Collection<Integer> _values = null;
+    if (_sd!=null) {
+      _values=_sd.values();
+    }
+    return IterableExtensions.<Integer>toList(_values);
   }
   
   public Set<String> getSensors() {
@@ -98,6 +121,36 @@ public class Boards {
       _xifexpression = this.sensors.getOrDefault(sensor, Integer.valueOf((-1)));
     }
     return (_xifexpression).intValue();
+  }
+  
+  public boolean isNull() {
+    boolean _xblockexpression = false;
+    {
+      if (((this.sd == null) && (this.sensors == null))) {
+        return true;
+      }
+      _xblockexpression = false;
+    }
+    return _xblockexpression;
+  }
+  
+  public String infoMessage() {
+    String _xblockexpression = null;
+    {
+      String _info = "";
+      Set<String> _keySet = this.info.keySet();
+      for (final String key : _keySet) {
+        String __info = _info;
+        String _string = this.info.get(key).toString();
+        String _plus = ((key + ":") + _string);
+        String _plus_1 = (_plus + ", ");
+        _info = (__info + _plus_1);
+      }
+      int _length = _info.length();
+      int _minus = (_length - 2);
+      _xblockexpression = _info.substring(0, _minus);
+    }
+    return _xblockexpression;
   }
   
   @Override

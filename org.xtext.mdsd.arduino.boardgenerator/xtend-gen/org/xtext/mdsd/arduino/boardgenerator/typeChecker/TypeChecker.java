@@ -8,6 +8,7 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BooleanLiteral;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
@@ -25,7 +26,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.StringLiteral;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 
 @SuppressWarnings("all")
 public class TypeChecker {
@@ -304,7 +304,7 @@ public class TypeChecker {
   }
   
   protected TypeChecker.Type _type(final FunctionInputType functionType) {
-    final String name = functionType.getName().toString();
+    final String name = functionType.getName();
     if (name != null) {
       switch (name) {
         case "num":
@@ -422,7 +422,7 @@ public class TypeChecker {
       }
     } else {
       final ChannelConfig config = channel.getConfig();
-      if ((config instanceof Wifi)) {
+      if ((config instanceof Cloud)) {
         return TypeChecker.ChannelType.CLOUD;
       } else {
         if ((config instanceof Serial)) {
@@ -438,7 +438,7 @@ public class TypeChecker {
     }
   }
   
-  public boolean xOr(final boolean first, final boolean second) {
+  public boolean and(final boolean first, final boolean second) {
     if ((first == second)) {
       return false;
     }

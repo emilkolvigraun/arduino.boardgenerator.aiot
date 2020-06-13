@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -22,16 +21,12 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Interval;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorOutputImpl;
@@ -43,7 +38,7 @@ public class GeneratorUtils extends EcoreUtil {
     {
       final ArrayList<Sensor> freqSensors = CollectionLiterals.<Sensor>newArrayList();
       final Consumer<Sensor> _function = (Sensor s) -> {
-        if (((s.getSampler() != null) && (s.getSampler() instanceof Frequency))) {
+        if (((s.getSampler() != null) && (s.getSampler() instanceof Interval))) {
           freqSensors.add(s);
         }
       };
@@ -64,22 +59,6 @@ public class GeneratorUtils extends EcoreUtil {
       };
       sensors.forEach(_function);
       _xblockexpression = IterableExtensions.<Sensor>toList(commSensors);
-    }
-    return _xblockexpression;
-  }
-  
-  public String getStopCharName(final Serial ser) {
-    String _xblockexpression = null;
-    {
-      StopIdentifyer stop = ser.getStopType();
-      if ((stop instanceof StopByte)) {
-        return Integer.valueOf(((StopByte)stop).getName()).toString();
-      }
-      if ((stop instanceof StopChar)) {
-        return ((StopChar)stop).getName().toString();
-      }
-      StringConcatenation _builder = new StringConcatenation();
-      _xblockexpression = _builder.toString();
     }
     return _xblockexpression;
   }
@@ -222,7 +201,7 @@ public class GeneratorUtils extends EcoreUtil {
     {
       final ArrayList<External> externals = CollectionLiterals.<External>newArrayList();
       final Consumer<EObject> _function = (EObject s) -> {
-        Pipeline pipeline = ((SensorOutputImpl) s).getOutput().getPipeline();
+        Pipeline pipeline = ((SensorOutputImpl) s).getPipeline();
         while ((pipeline != null)) {
           {
             if ((pipeline instanceof External)) {

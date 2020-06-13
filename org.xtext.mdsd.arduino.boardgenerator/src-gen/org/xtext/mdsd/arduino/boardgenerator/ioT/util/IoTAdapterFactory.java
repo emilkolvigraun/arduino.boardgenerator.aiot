@@ -111,29 +111,14 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createChannelConfigAdapter();
       }
       @Override
-      public Adapter caseWifi(Wifi object)
+      public Adapter caseCloud(Cloud object)
       {
-        return createWifiAdapter();
+        return createCloudAdapter();
       }
       @Override
       public Adapter caseSerial(Serial object)
       {
         return createSerialAdapter();
-      }
-      @Override
-      public Adapter caseStopIdentifyer(StopIdentifyer object)
-      {
-        return createStopIdentifyerAdapter();
-      }
-      @Override
-      public Adapter caseStopChar(StopChar object)
-      {
-        return createStopCharAdapter();
-      }
-      @Override
-      public Adapter caseStopByte(StopByte object)
-      {
-        return createStopByteAdapter();
       }
       @Override
       public Adapter caseMqttClient(MqttClient object)
@@ -166,6 +151,11 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createBoardVersionAdapter();
       }
       @Override
+      public Adapter caseSDConfig(SDConfig object)
+      {
+        return createSDConfigAdapter();
+      }
+      @Override
       public Adapter caseExtendsBoard(ExtendsBoard object)
       {
         return createExtendsBoardAdapter();
@@ -191,9 +181,9 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createExternalSensorAdapter();
       }
       @Override
-      public Adapter caseOnboardSensor(OnboardSensor object)
+      public Adapter caseEmbeddedSensor(EmbeddedSensor object)
       {
-        return createOnboardSensorAdapter();
+        return createEmbeddedSensorAdapter();
       }
       @Override
       public Adapter caseSensorVariables(SensorVariables object)
@@ -211,16 +201,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
         return createSamplerAdapter();
       }
       @Override
-      public Adapter caseCommand(Command object)
-      {
-        return createCommandAdapter();
-      }
-      @Override
-      public Adapter caseFrequency(Frequency object)
-      {
-        return createFrequencyAdapter();
-      }
-      @Override
       public Adapter caseResolution(Resolution object)
       {
         return createResolutionAdapter();
@@ -229,11 +209,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseSensorOutput(SensorOutput object)
       {
         return createSensorOutputAdapter();
-      }
-      @Override
-      public Adapter caseDataOutput(DataOutput object)
-      {
-        return createDataOutputAdapter();
       }
       @Override
       public Adapter casePipeline(Pipeline object)
@@ -284,6 +259,16 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
       public Adapter caseBooleanLiteral(BooleanLiteral object)
       {
         return createBooleanLiteralAdapter();
+      }
+      @Override
+      public Adapter caseCommand(Command object)
+      {
+        return createCommandAdapter();
+      }
+      @Override
+      public Adapter caseInterval(Interval object)
+      {
+        return createIntervalAdapter();
       }
       @Override
       public Adapter caseSeconds(Seconds object)
@@ -538,16 +523,16 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi <em>Wifi</em>}'.
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud <em>Cloud</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud
    * @generated
    */
-  public Adapter createWifiAdapter()
+  public Adapter createCloudAdapter()
   {
     return null;
   }
@@ -563,51 +548,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createSerialAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer <em>Stop Identifyer</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer
-   * @generated
-   */
-  public Adapter createStopIdentifyerAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar <em>Stop Char</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar
-   * @generated
-   */
-  public Adapter createStopCharAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte <em>Stop Byte</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte
-   * @generated
-   */
-  public Adapter createStopByteAdapter()
   {
     return null;
   }
@@ -703,6 +643,21 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.SDConfig <em>SD Config</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.SDConfig
+   * @generated
+   */
+  public Adapter createSDConfigAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard <em>Extends Board</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -778,16 +733,16 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor <em>Onboard Sensor</em>}'.
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.EmbeddedSensor <em>Embedded Sensor</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.EmbeddedSensor
    * @generated
    */
-  public Adapter createOnboardSensorAdapter()
+  public Adapter createEmbeddedSensorAdapter()
   {
     return null;
   }
@@ -838,36 +793,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command <em>Command</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Command
-   * @generated
-   */
-  public Adapter createCommandAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency <em>Frequency</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency
-   * @generated
-   */
-  public Adapter createFrequencyAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution <em>Resolution</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -893,21 +818,6 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createSensorOutputAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput <em>Data Output</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.DataOutput
-   * @generated
-   */
-  public Adapter createDataOutputAdapter()
   {
     return null;
   }
@@ -1058,6 +968,36 @@ public class IoTAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createBooleanLiteralAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command <em>Command</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Command
+   * @generated
+   */
+  public Adapter createCommandAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Interval <em>Interval</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.Interval
+   * @generated
+   */
+  public Adapter createIntervalAdapter()
   {
     return null;
   }

@@ -13,39 +13,27 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorImpl
 import org.xtext.mdsd.arduino.boardgenerator.ioT.impl.SensorOutputImpl
 import java.util.Set
 import java.util.HashSet
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StopChar
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StopByte
-import java.util.HashMap
+import java.util.HashMap 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Interval
 
 class GeneratorUtils extends EcoreUtil { 
 	 
 	def List<Sensor> getSensorsSampleByFrequency(List<Sensor> sensors){
 		val freqSensors = newArrayList()
-		sensors.forEach[s | s.sampler !== null && s.sampler instanceof Frequency ? freqSensors.add(s)]
+		sensors.forEach[s | s.sampler !== null && s.sampler instanceof Interval ? freqSensors.add(s)]
 		freqSensors.toList
-	}  
+	}   
 	
 	def List<Sensor> getSensorsSampleByCommand(List<Sensor> sensors){
 		val commSensors = newArrayList()
 		sensors.forEach[s | s.sampler !== null && s.sampler instanceof Command ? commSensors.add(s)]
 		commSensors.toList
-	}    
-	  
-	def String getStopCharName(Serial ser){
-		var stop = ser.stopType 
-		if (stop instanceof StopByte) 
-			return stop.name.toString
-		if (stop instanceof StopChar)  
-			return stop.name.toString
-		''''''
-	}
+	} 
 	       
  	def BoardVersion getBoardVersion(Board board){
 	 	if (board instanceof NewBoard) 
@@ -106,8 +94,8 @@ class GeneratorUtils extends EcoreUtil {
 	 } 
 	 
 	 def Set<External> extractExternalsFromSensorOutput(List<EObject> sensors){
-	 	val externals = newArrayList()
-	 	sensors.forEach[s | var pipeline = (s as SensorOutputImpl).output.pipeline
+	 	val externals = newArrayList() 
+	 	sensors.forEach[s | var pipeline = (s as SensorOutputImpl).pipeline
 	 		while (pipeline !== null){
 	 			pipeline instanceof External ? externals.add(pipeline as External) 
 				pipeline = pipeline.next	 			

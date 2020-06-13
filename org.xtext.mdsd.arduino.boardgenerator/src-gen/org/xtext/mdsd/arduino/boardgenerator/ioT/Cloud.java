@@ -6,23 +6,23 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Wifi</b></em>'.
+ * A representation of the model object '<em><b>Cloud</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getUrl <em>Url</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSport <em>Sport</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getRoute <em>Route</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud#getUrl <em>Url</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud#getSport <em>Sport</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud#getRoute <em>Route</em>}</li>
  * </ul>
  *
- * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi()
+ * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getCloud()
  * @model
  * @generated
  */
-public interface Wifi extends ChannelConfig
+public interface Cloud extends ChannelConfig
 {
   /**
    * Returns the value of the '<em><b>Url</b></em>' attribute.
@@ -30,14 +30,14 @@ public interface Wifi extends ChannelConfig
    * <!-- end-user-doc -->
    * @return the value of the '<em>Url</em>' attribute.
    * @see #setUrl(String)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Url()
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getCloud_Url()
    * @model
    * @generated
    */
   String getUrl();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getUrl <em>Url</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud#getUrl <em>Url</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Url</em>' attribute.
@@ -52,14 +52,14 @@ public interface Wifi extends ChannelConfig
    * <!-- end-user-doc -->
    * @return the value of the '<em>Sport</em>' attribute.
    * @see #setSport(int)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Sport()
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getCloud_Sport()
    * @model
    * @generated
    */
   int getSport();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getSport <em>Sport</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud#getSport <em>Sport</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Sport</em>' attribute.
@@ -74,14 +74,14 @@ public interface Wifi extends ChannelConfig
    * <!-- end-user-doc -->
    * @return the value of the '<em>Route</em>' attribute.
    * @see #setRoute(String)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getWifi_Route()
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getCloud_Route()
    * @model
    * @generated
    */
   String getRoute();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi#getRoute <em>Route</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud#getRoute <em>Route</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Route</em>' attribute.
@@ -90,4 +90,4 @@ public interface Wifi extends ChannelConfig
    */
   void setRoute(String value);
 
-} // Wifi
+} // Cloud

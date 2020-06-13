@@ -1,0 +1,28 @@
+# importing channels
+include mychannels.channels
+  
+abstract board esp32wrover: 
+	# info message is dispatched to inform
+    # the developer of the sensors that this
+	# model/type of board supports
+	type esp32  
+	model wrover                 
+	                        
+	sensor temperature = hts221 as k(a, _):
+		sample interval 10 seconds  
+		pipe k.map[a<1?a:a+1 -> o] -> serial
+	                                     
+	# defining sensor "humidity" 
+	# info is given to tell the developer
+	# that humidity is overwritten
+	sensor humidity = hts221 as x(_, h):
+		sample command "ON"   
+		                         
+		# plural pipes can be defined 
+		pipe x -> serial
+            
+	sensor light = bh1750 as l(x): 
+		pipe l.byWindow[10].mean -> serial              
+		      
+	   
+		 

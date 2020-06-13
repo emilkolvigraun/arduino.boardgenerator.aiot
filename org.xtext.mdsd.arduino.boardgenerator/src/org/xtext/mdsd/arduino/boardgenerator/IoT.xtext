@@ -3,23 +3,17 @@ grammar org.xtext.mdsd.arduino.boardgenerator.IoT with org.eclipse.xtext.common.
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 generate ioT "http://www.xtext.org/mdsd/arduino/boardgenerator/IoT"
-
-// Includes are zero or more
-// Channels are zero or more (in case they are imported)
-// Boards are zero or more   
+ 
 Model: 
-	includes+=Include* wifiConfig+=WifiConfig* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard* board+=Board*;
+	(includes+=Include | wifiConfig+=WifiConfig | channel+=Channel | function+=Function | abstractBoard+=AbstractBoard | board+=Board)*;
 
 // Includes = imports  
 // I don't want the developer to write a string, so this will be parsed
 Include:  
 	'include' importURI+=ID ('.' importURI+=ID)*;
-	 
-ImportObject: 
-	importURI=STRING;
  
-// I realize that the channel grammar is very loose.
-// The plan is to use the validator to verify that one or the other has been used.
+ImportObject:
+	importURI=STRING;
  
 WifiConfig: 
 	'wifi' name=ID ':' BEGIN
@@ -36,26 +30,16 @@ ChannelType:
 	name=ID;
  
 ChannelConfig:
-	Wifi | Serial | MqttClient;
+	Cloud | Serial | MqttClient;
 
-Wifi:
+Cloud:
 	'ip'    url=STRING
 	'port'  sport=INT
 	'route' route=STRING;
  
 Serial:  
-	'baud' baud=INT 
-	'stop' stopType=StopIdentifyer;  
-
-StopIdentifyer:
-	StopChar | StopByte;
-     
-StopChar:
-	'char' name=STRING;
+	'baud' baud=INT;  
  
-StopByte:
-	'byte' name=INT;
-
 MqttClient: 
 	'broker'broker=STRING  
 	'port'	port=INT
@@ -65,26 +49,30 @@ MqttClient:
 Function:
 	'function' name=ID '(' input+=FunctionInputType (',' input+=FunctionInputType)*  ')' '->' '(' output+=ID (',' output+=ID)*  ')';
    
-FunctionInputType:  
-	 name=ID  ;
-
+FunctionInputType: 
+	name=ID
+;   	
+   
 // board can either extend another or is new
 Board:
 	'board' (NewBoard | ExtendsBoard);
 
-// Sensor is one or more
 NewBoard:
 	name=ID ':' BEGIN
 		version=BoardVersion 
 		('wifi' wifiSelect=[WifiConfig])? 
 		sensors+=Sensor+
 	END;
- 
+    
 BoardVersion:
-	'type' type=ID  
-	'model' model=ID;   
-  
-// Can extend another board, in that case needs only reference
+	('SD' sdconfig=SDConfig)?    
+	'type' type=ID   
+	'model' model=ID;  
+	 
+SDConfig:
+	'(' clk=INT ',' sdo=INT ',' di=INT ',' cs=INT ')'
+;  
+
 ExtendsBoard:
 	name=ID 'extends' abstractBoard=[AbstractBoard] (':' BEGIN
 		('wifi' wifiSelect=[WifiConfig])?
@@ -106,12 +94,12 @@ Sensor:
 	END;
  
 SensorType:
-	ExternalSensor | OnboardSensor;
+	ExternalSensor | EmbeddedSensor;
   
 ExternalSensor:
 	name=ID '('pins+=INT (',' pins+=INT)* ')';
 
-OnboardSensor: 
+EmbeddedSensor: 
 	name=ID;
 
 SensorVariables:
@@ -121,23 +109,14 @@ Variable:
 	name=ID;
 
 Sampler:
-	Command | Frequency;
-
-Command: 
-	'command' command=STRING topic=STRING?;
-
-Frequency: 
-	'frequency' frequency=INT resolution=Resolution;
-
+	{Command} 'command' command=STRING ('baud' baud=INT)? | {Interval} 'interval' interval=INT resolution=Resolution;
+ 
 Resolution:
 	({Seconds} 'seconds' | {Millis} 'milliseconds' | {Micros} 'microseconds');
 	 
 SensorOutput: 
-	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*;   
-    
-DataOutput:
-	sensorvar=[SensorVariables] (pipeline=Pipeline)?; 
-
+	'pipe' sensorvar=[SensorVariables] (pipeline=Pipeline)? '->' channel+=[Channel] ('and' channel+=[Channel])*;   
+     
 Pipeline: 
 	'.' (MapPipeline | WindowPipeline | External ) (next=Pipeline)?; 
   
@@ -163,12 +142,11 @@ ExecutePipeline:
 Expression:
 	Conditional;
 
-// 4 == 4 ? yes : no, is per definition right associative
 Conditional returns Expression:
 	Or ({Conditional.condition=current} '?' correct=Conditional ':' incorrect=Conditional)?;
 
-// Implemented in a right-associative way just as an example - associativity
-// does not matter for && and ||
+// Implemented in a right-associative
+// associativity does not matter for && and ||
 Or returns Expression:
 	And ({Or.left=current} '||' right=Or)?;
 

@@ -26,7 +26,7 @@ class IoTGlobalScopeProvider extends ImportUriGlobalScopeProvider {
 	override protected getImportedUris(Resource resource) {
 		return cache.get(IoTGlobalScopeProvider.getSimpleName(), resource, new Provider<LinkedHashSet<URI>>() {
 			override get() { 
-				val uniqueImportURIs = collectImportUris(resource, new LinkedHashSet<URI>(5))
+				val uniqueImportURIs = collectImportUris(resource, new LinkedHashSet<URI>())
 				val uriIter = uniqueImportURIs.iterator()
 				while(uriIter.hasNext()) {
 					if (!EcoreUtil2.isValidUri(resource, uriIter.next()))

@@ -122,11 +122,11 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.WIFI:
+      case IoTPackage.CLOUD:
       {
-        Wifi wifi = (Wifi)theEObject;
-        T result = caseWifi(wifi);
-        if (result == null) result = caseChannelConfig(wifi);
+        Cloud cloud = (Cloud)theEObject;
+        T result = caseCloud(cloud);
+        if (result == null) result = caseChannelConfig(cloud);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -135,29 +135,6 @@ public class IoTSwitch<T> extends Switch<T>
         Serial serial = (Serial)theEObject;
         T result = caseSerial(serial);
         if (result == null) result = caseChannelConfig(serial);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.STOP_IDENTIFYER:
-      {
-        StopIdentifyer stopIdentifyer = (StopIdentifyer)theEObject;
-        T result = caseStopIdentifyer(stopIdentifyer);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.STOP_CHAR:
-      {
-        StopChar stopChar = (StopChar)theEObject;
-        T result = caseStopChar(stopChar);
-        if (result == null) result = caseStopIdentifyer(stopChar);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.STOP_BYTE:
-      {
-        StopByte stopByte = (StopByte)theEObject;
-        T result = caseStopByte(stopByte);
-        if (result == null) result = caseStopIdentifyer(stopByte);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -205,6 +182,13 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case IoTPackage.SD_CONFIG:
+      {
+        SDConfig sdConfig = (SDConfig)theEObject;
+        T result = caseSDConfig(sdConfig);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case IoTPackage.EXTENDS_BOARD:
       {
         ExtendsBoard extendsBoard = (ExtendsBoard)theEObject;
@@ -242,11 +226,11 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.ONBOARD_SENSOR:
+      case IoTPackage.EMBEDDED_SENSOR:
       {
-        OnboardSensor onboardSensor = (OnboardSensor)theEObject;
-        T result = caseOnboardSensor(onboardSensor);
-        if (result == null) result = caseSensorType(onboardSensor);
+        EmbeddedSensor embeddedSensor = (EmbeddedSensor)theEObject;
+        T result = caseEmbeddedSensor(embeddedSensor);
+        if (result == null) result = caseSensorType(embeddedSensor);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -271,22 +255,6 @@ public class IoTSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case IoTPackage.COMMAND:
-      {
-        Command command = (Command)theEObject;
-        T result = caseCommand(command);
-        if (result == null) result = caseSampler(command);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.FREQUENCY:
-      {
-        Frequency frequency = (Frequency)theEObject;
-        T result = caseFrequency(frequency);
-        if (result == null) result = caseSampler(frequency);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case IoTPackage.RESOLUTION:
       {
         Resolution resolution = (Resolution)theEObject;
@@ -298,13 +266,6 @@ public class IoTSwitch<T> extends Switch<T>
       {
         SensorOutput sensorOutput = (SensorOutput)theEObject;
         T result = caseSensorOutput(sensorOutput);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case IoTPackage.DATA_OUTPUT:
-      {
-        DataOutput dataOutput = (DataOutput)theEObject;
-        T result = caseDataOutput(dataOutput);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -382,6 +343,22 @@ public class IoTSwitch<T> extends Switch<T>
         BooleanLiteral booleanLiteral = (BooleanLiteral)theEObject;
         T result = caseBooleanLiteral(booleanLiteral);
         if (result == null) result = caseExpression(booleanLiteral);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.COMMAND:
+      {
+        Command command = (Command)theEObject;
+        T result = caseCommand(command);
+        if (result == null) result = caseSampler(command);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IoTPackage.INTERVAL:
+      {
+        Interval interval = (Interval)theEObject;
+        T result = caseInterval(interval);
+        if (result == null) result = caseSampler(interval);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -704,17 +681,17 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Wifi</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Cloud</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Wifi</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Cloud</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseWifi(Wifi object)
+  public T caseCloud(Cloud object)
   {
     return null;
   }
@@ -731,54 +708,6 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseSerial(Serial object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Stop Identifyer</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Stop Identifyer</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseStopIdentifyer(StopIdentifyer object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Stop Char</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Stop Char</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseStopChar(StopChar object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Stop Byte</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Stop Byte</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseStopByte(StopByte object)
   {
     return null;
   }
@@ -880,6 +809,22 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>SD Config</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>SD Config</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSDConfig(SDConfig object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Extends Board</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -960,17 +905,17 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Onboard Sensor</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Embedded Sensor</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Onboard Sensor</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Embedded Sensor</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseOnboardSensor(OnboardSensor object)
+  public T caseEmbeddedSensor(EmbeddedSensor object)
   {
     return null;
   }
@@ -1024,38 +969,6 @@ public class IoTSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Command</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Command</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseCommand(Command object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Frequency</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Frequency</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseFrequency(Frequency object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Resolution</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1083,22 +996,6 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseSensorOutput(SensorOutput object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Data Output</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Data Output</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseDataOutput(DataOutput object)
   {
     return null;
   }
@@ -1259,6 +1156,38 @@ public class IoTSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseBooleanLiteral(BooleanLiteral object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Command</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Command</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseCommand(Command object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Interval</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Interval</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseInterval(Interval object)
   {
     return null;
   }

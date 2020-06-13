@@ -13,11 +13,10 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExtendsBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.EmbeddedSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sampler
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
@@ -27,10 +26,11 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Interval
 
 class IoTHoverProvider extends DefaultEObjectHoverProvider {
 	 
@@ -66,7 +66,7 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 				str += "<b>" + name + "</b> -> pin: <b>" + pin + "</b><br>"				
 			}  
 			
-			if (sensorType instanceof OnboardSensor && name != "_"){
+			if (sensorType instanceof EmbeddedSensor && name != "_"){
 				str += "Output: <b>"+ name + "</b> -> index: <b>" + i.toString + "</b><br>"
 			}
 		}   
@@ -105,7 +105,7 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 		val config = channel.config
 		if (config !== null){
 			switch (config){
-				case (config instanceof Wifi): str += "<b>cloud</b>"
+				case (config instanceof Cloud): str += "<b>cloud</b>"
 				case (config instanceof Serial): str += "<b>serial</b>"
 				case (config instanceof MqttClient): str += "<b>mqtt</b>" 
 			}
@@ -124,7 +124,7 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 		'''Function: <b>«function.name»</b> <br>Class: <b>«function.eClass().getName()»</b><br>Input #: <b>«function.input.size().toString»</b><br>Ouput #: <b>«function.output.size().toString»</b>'''
 	} 
 	 
-	def String getOnboardSensorString(OnboardSensor sensor){
+	def String getEmbeddedSensorString(EmbeddedSensor sensor){
 		'''Sensor: <b>«sensor.name»</b> <br>Class: <b>«sensor.eClass().getName()»</b>'''
 	}  
 	  
@@ -133,7 +133,7 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 	} 
 	 
 	def String getSampleString(Sampler sampler){
-		if (sampler instanceof Frequency) 
+		if (sampler instanceof Interval)  
 			return '''frequency'''   
 		if (sampler instanceof Command)
 			return '''command''' 
@@ -164,13 +164,13 @@ class IoTHoverProvider extends DefaultEObjectHoverProvider {
 			return (object as Channel).channelString }
 		if (object instanceof Reference){
 			return (object as Reference).referenceString }
-		if (object instanceof OnboardSensor){
-			return (object as OnboardSensor).onboardSensorString }
+		if (object instanceof EmbeddedSensor){
+			return (object as EmbeddedSensor).embeddedSensorString }
 		if (object instanceof ExternalSensor){  
 			return (object as ExternalSensor).externalSensorString }
 		if (object instanceof Function){ 
 			return (object as Function).functionString }
-		if (object instanceof WifiConfig){ 
+		if (object instanceof WifiConfig){  
 			return (object as WifiConfig).wifiConfigString }
 		if (object instanceof BoardVersion){ 
 			return '''Version: <b>«Boards.getBoardSupported((object as BoardVersion)).toString»</b>''' }

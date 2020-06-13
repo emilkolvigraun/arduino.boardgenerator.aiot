@@ -41,7 +41,7 @@ public class IoTGlobalScopeProvider extends ImportUriGlobalScopeProvider {
     __IoTGlobalScopeProvider_1 ___IoTGlobalScopeProvider_1 = new __IoTGlobalScopeProvider_1() {
       @Override
       public LinkedHashSet<URI> get() {
-        LinkedHashSet<URI> _linkedHashSet = new LinkedHashSet<URI>(5);
+        LinkedHashSet<URI> _linkedHashSet = new LinkedHashSet<URI>();
         final LinkedHashSet<URI> uniqueImportURIs = this.collectImportUris(resource, _linkedHashSet);
         final Iterator<URI> uriIter = uniqueImportURIs.iterator();
         while (uriIter.hasNext()) {

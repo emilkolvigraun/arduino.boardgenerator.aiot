@@ -26,63 +26,63 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public class ModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Model");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cIncludesAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Assignment cIncludesAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
 		private final RuleCall cIncludesIncludeParserRuleCall_0_0 = (RuleCall)cIncludesAssignment_0.eContents().get(0);
-		private final Assignment cWifiConfigAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final Assignment cWifiConfigAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
 		private final RuleCall cWifiConfigWifiConfigParserRuleCall_1_0 = (RuleCall)cWifiConfigAssignment_1.eContents().get(0);
-		private final Assignment cChannelAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final Assignment cChannelAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
 		private final RuleCall cChannelChannelParserRuleCall_2_0 = (RuleCall)cChannelAssignment_2.eContents().get(0);
-		private final Assignment cFunctionAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final Assignment cFunctionAssignment_3 = (Assignment)cAlternatives.eContents().get(3);
 		private final RuleCall cFunctionFunctionParserRuleCall_3_0 = (RuleCall)cFunctionAssignment_3.eContents().get(0);
-		private final Assignment cAbstractBoardAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final Assignment cAbstractBoardAssignment_4 = (Assignment)cAlternatives.eContents().get(4);
 		private final RuleCall cAbstractBoardAbstractBoardParserRuleCall_4_0 = (RuleCall)cAbstractBoardAssignment_4.eContents().get(0);
-		private final Assignment cBoardAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final Assignment cBoardAssignment_5 = (Assignment)cAlternatives.eContents().get(5);
 		private final RuleCall cBoardBoardParserRuleCall_5_0 = (RuleCall)cBoardAssignment_5.eContents().get(0);
 		
 		//// Includes are zero or more
 		//// Channels are zero or more (in case they are imported)
 		//// Boards are zero or more   
 		//Model:
-		//	includes+=Include* wifiConfig+=WifiConfig* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard*
-		//	board+=Board*;
+		//	(includes+=Include | wifiConfig+=WifiConfig | channel+=Channel | function+=Function | abstractBoard+=AbstractBoard |
+		//	board+=Board)*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//includes+=Include* wifiConfig+=WifiConfig* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard*
-		//board+=Board*
-		public Group getGroup() { return cGroup; }
+		//(includes+=Include | wifiConfig+=WifiConfig | channel+=Channel | function+=Function | abstractBoard+=AbstractBoard |
+		//board+=Board)*
+		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//includes+=Include*
+		//includes+=Include
 		public Assignment getIncludesAssignment_0() { return cIncludesAssignment_0; }
 		
 		//Include
 		public RuleCall getIncludesIncludeParserRuleCall_0_0() { return cIncludesIncludeParserRuleCall_0_0; }
 		
-		//wifiConfig+=WifiConfig*
+		//wifiConfig+=WifiConfig
 		public Assignment getWifiConfigAssignment_1() { return cWifiConfigAssignment_1; }
 		
 		//WifiConfig
 		public RuleCall getWifiConfigWifiConfigParserRuleCall_1_0() { return cWifiConfigWifiConfigParserRuleCall_1_0; }
 		
-		//channel+=Channel*
+		//channel+=Channel
 		public Assignment getChannelAssignment_2() { return cChannelAssignment_2; }
 		
 		//Channel
 		public RuleCall getChannelChannelParserRuleCall_2_0() { return cChannelChannelParserRuleCall_2_0; }
 		
-		//function+=Function*
+		//function+=Function
 		public Assignment getFunctionAssignment_3() { return cFunctionAssignment_3; }
 		
 		//Function
 		public RuleCall getFunctionFunctionParserRuleCall_3_0() { return cFunctionFunctionParserRuleCall_3_0; }
 		
-		//abstractBoard+=AbstractBoard*
+		//abstractBoard+=AbstractBoard
 		public Assignment getAbstractBoardAssignment_4() { return cAbstractBoardAssignment_4; }
 		
 		//AbstractBoard
 		public RuleCall getAbstractBoardAbstractBoardParserRuleCall_4_0() { return cAbstractBoardAbstractBoardParserRuleCall_4_0; }
 		
-		//board+=Board*
+		//board+=Board
 		public Assignment getBoardAssignment_5() { return cBoardAssignment_5; }
 		
 		//Board
@@ -286,19 +286,19 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	public class ChannelConfigElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.ChannelConfig");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cWifiParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cCloudParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cSerialParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cMqttClientParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//ChannelConfig:
-		//	Wifi | Serial | MqttClient;
+		//	Cloud | Serial | MqttClient;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//Wifi | Serial | MqttClient
+		//Cloud | Serial | MqttClient
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//Wifi
-		public RuleCall getWifiParserRuleCall_0() { return cWifiParserRuleCall_0; }
+		//Cloud
+		public RuleCall getCloudParserRuleCall_0() { return cCloudParserRuleCall_0; }
 		
 		//Serial
 		public RuleCall getSerialParserRuleCall_1() { return cSerialParserRuleCall_1; }
@@ -306,8 +306,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//MqttClient
 		public RuleCall getMqttClientParserRuleCall_2() { return cMqttClientParserRuleCall_2; }
 	}
-	public class WifiElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Wifi");
+	public class CloudElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Cloud");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cIpKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cUrlAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -319,7 +319,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cRouteAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cRouteSTRINGTerminalRuleCall_5_0 = (RuleCall)cRouteAssignment_5.eContents().get(0);
 		
-		//Wifi:
+		//Cloud:
 		//	'ip' url=STRING
 		//	'port' sport=INT
 		//	'route' route=STRING;
@@ -361,16 +361,12 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cBaudKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cBaudAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cBaudINTTerminalRuleCall_1_0 = (RuleCall)cBaudAssignment_1.eContents().get(0);
-		private final Keyword cStopKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cStopTypeAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cStopTypeStopIdentifyerParserRuleCall_3_0 = (RuleCall)cStopTypeAssignment_3.eContents().get(0);
 		
 		//Serial:
-		//	'baud' baud=INT
-		//	'stop' stopType=StopIdentifyer;
+		//	'baud' baud=INT;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'baud' baud=INT 'stop' stopType=StopIdentifyer
+		//'baud' baud=INT
 		public Group getGroup() { return cGroup; }
 		
 		//'baud'
@@ -381,80 +377,6 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//INT
 		public RuleCall getBaudINTTerminalRuleCall_1_0() { return cBaudINTTerminalRuleCall_1_0; }
-		
-		//'stop'
-		public Keyword getStopKeyword_2() { return cStopKeyword_2; }
-		
-		//stopType=StopIdentifyer
-		public Assignment getStopTypeAssignment_3() { return cStopTypeAssignment_3; }
-		
-		//StopIdentifyer
-		public RuleCall getStopTypeStopIdentifyerParserRuleCall_3_0() { return cStopTypeStopIdentifyerParserRuleCall_3_0; }
-	}
-	public class StopIdentifyerElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.StopIdentifyer");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cStopCharParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cStopByteParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		
-		//StopIdentifyer:
-		//	StopChar | StopByte;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//StopChar | StopByte
-		public Alternatives getAlternatives() { return cAlternatives; }
-		
-		//StopChar
-		public RuleCall getStopCharParserRuleCall_0() { return cStopCharParserRuleCall_0; }
-		
-		//StopByte
-		public RuleCall getStopByteParserRuleCall_1() { return cStopByteParserRuleCall_1; }
-	}
-	public class StopCharElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.StopChar");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cCharKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameSTRINGTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		
-		//StopChar:
-		//	'char' name=STRING;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'char' name=STRING
-		public Group getGroup() { return cGroup; }
-		
-		//'char'
-		public Keyword getCharKeyword_0() { return cCharKeyword_0; }
-		
-		//name=STRING
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//STRING
-		public RuleCall getNameSTRINGTerminalRuleCall_1_0() { return cNameSTRINGTerminalRuleCall_1_0; }
-	}
-	public class StopByteElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.StopByte");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cByteKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameINTTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		
-		//StopByte:
-		//	'byte' name=INT;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'byte' name=INT
-		public Group getGroup() { return cGroup; }
-		
-		//'byte'
-		public Keyword getByteKeyword_0() { return cByteKeyword_0; }
-		
-		//name=INT
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//INT
-		public RuleCall getNameINTTerminalRuleCall_1_0() { return cNameINTTerminalRuleCall_1_0; }
 	}
 	public class MqttClientElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.MqttClient");
@@ -728,38 +650,118 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	public class BoardVersionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.BoardVersion");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cTypeKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cTypeIDTerminalRuleCall_1_0 = (RuleCall)cTypeAssignment_1.eContents().get(0);
-		private final Keyword cModelKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cModelAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cModelIDTerminalRuleCall_3_0 = (RuleCall)cModelAssignment_3.eContents().get(0);
+		private final Group cGroup_0 = (Group)cGroup.eContents().get(0);
+		private final Keyword cSDKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Assignment cSdconfigAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
+		private final RuleCall cSdconfigSDConfigParserRuleCall_0_1_0 = (RuleCall)cSdconfigAssignment_0_1.eContents().get(0);
+		private final Keyword cTypeKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cTypeIDTerminalRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
+		private final Keyword cModelKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cModelAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cModelIDTerminalRuleCall_4_0 = (RuleCall)cModelAssignment_4.eContents().get(0);
 		
 		//BoardVersion:
+		//	('SD' sdconfig=SDConfig)?
 		//	'type' type=ID
 		//	'model' model=ID;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'type' type=ID 'model' model=ID
+		//('SD' sdconfig=SDConfig)? 'type' type=ID 'model' model=ID
 		public Group getGroup() { return cGroup; }
 		
+		//('SD' sdconfig=SDConfig)?
+		public Group getGroup_0() { return cGroup_0; }
+		
+		//'SD'
+		public Keyword getSDKeyword_0_0() { return cSDKeyword_0_0; }
+		
+		//sdconfig=SDConfig
+		public Assignment getSdconfigAssignment_0_1() { return cSdconfigAssignment_0_1; }
+		
+		//SDConfig
+		public RuleCall getSdconfigSDConfigParserRuleCall_0_1_0() { return cSdconfigSDConfigParserRuleCall_0_1_0; }
+		
 		//'type'
-		public Keyword getTypeKeyword_0() { return cTypeKeyword_0; }
+		public Keyword getTypeKeyword_1() { return cTypeKeyword_1; }
 		
 		//type=ID
-		public Assignment getTypeAssignment_1() { return cTypeAssignment_1; }
+		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
 		
 		//ID
-		public RuleCall getTypeIDTerminalRuleCall_1_0() { return cTypeIDTerminalRuleCall_1_0; }
+		public RuleCall getTypeIDTerminalRuleCall_2_0() { return cTypeIDTerminalRuleCall_2_0; }
 		
 		//'model'
-		public Keyword getModelKeyword_2() { return cModelKeyword_2; }
+		public Keyword getModelKeyword_3() { return cModelKeyword_3; }
 		
 		//model=ID
-		public Assignment getModelAssignment_3() { return cModelAssignment_3; }
+		public Assignment getModelAssignment_4() { return cModelAssignment_4; }
 		
 		//ID
-		public RuleCall getModelIDTerminalRuleCall_3_0() { return cModelIDTerminalRuleCall_3_0; }
+		public RuleCall getModelIDTerminalRuleCall_4_0() { return cModelIDTerminalRuleCall_4_0; }
+	}
+	public class SDConfigElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.SDConfig");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cLeftParenthesisKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cClkAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cClkINTTerminalRuleCall_1_0 = (RuleCall)cClkAssignment_1.eContents().get(0);
+		private final Keyword cCommaKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cSdoAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cSdoINTTerminalRuleCall_3_0 = (RuleCall)cSdoAssignment_3.eContents().get(0);
+		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Assignment cDiAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cDiINTTerminalRuleCall_5_0 = (RuleCall)cDiAssignment_5.eContents().get(0);
+		private final Keyword cCommaKeyword_6 = (Keyword)cGroup.eContents().get(6);
+		private final Assignment cCsAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cCsINTTerminalRuleCall_7_0 = (RuleCall)cCsAssignment_7.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_8 = (Keyword)cGroup.eContents().get(8);
+		
+		//SDConfig:
+		//	'(' clk=INT ',' sdo=INT ',' di=INT ',' cs=INT ')';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'(' clk=INT ',' sdo=INT ',' di=INT ',' cs=INT ')'
+		public Group getGroup() { return cGroup; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_0() { return cLeftParenthesisKeyword_0; }
+		
+		//clk=INT
+		public Assignment getClkAssignment_1() { return cClkAssignment_1; }
+		
+		//INT
+		public RuleCall getClkINTTerminalRuleCall_1_0() { return cClkINTTerminalRuleCall_1_0; }
+		
+		//','
+		public Keyword getCommaKeyword_2() { return cCommaKeyword_2; }
+		
+		//sdo=INT
+		public Assignment getSdoAssignment_3() { return cSdoAssignment_3; }
+		
+		//INT
+		public RuleCall getSdoINTTerminalRuleCall_3_0() { return cSdoINTTerminalRuleCall_3_0; }
+		
+		//','
+		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		
+		//di=INT
+		public Assignment getDiAssignment_5() { return cDiAssignment_5; }
+		
+		//INT
+		public RuleCall getDiINTTerminalRuleCall_5_0() { return cDiINTTerminalRuleCall_5_0; }
+		
+		//','
+		public Keyword getCommaKeyword_6() { return cCommaKeyword_6; }
+		
+		//cs=INT
+		public Assignment getCsAssignment_7() { return cCsAssignment_7; }
+		
+		//INT
+		public RuleCall getCsINTTerminalRuleCall_7_0() { return cCsINTTerminalRuleCall_7_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_8() { return cRightParenthesisKeyword_8; }
 	}
 	public class ExtendsBoardElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.ExtendsBoard");
@@ -1009,20 +1011,20 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.SensorType");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cExternalSensorParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cOnboardSensorParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cEmbeddedSensorParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//SensorType:
-		//	ExternalSensor | OnboardSensor;
+		//	ExternalSensor | EmbeddedSensor;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//ExternalSensor | OnboardSensor
+		//ExternalSensor | EmbeddedSensor
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//ExternalSensor
 		public RuleCall getExternalSensorParserRuleCall_0() { return cExternalSensorParserRuleCall_0; }
 		
-		//OnboardSensor
-		public RuleCall getOnboardSensorParserRuleCall_1() { return cOnboardSensorParserRuleCall_1; }
+		//EmbeddedSensor
+		public RuleCall getEmbeddedSensorParserRuleCall_1() { return cEmbeddedSensorParserRuleCall_1; }
 	}
 	public class ExternalSensorElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.ExternalSensor");
@@ -1075,12 +1077,12 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		//')'
 		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
 	}
-	public class OnboardSensorElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.OnboardSensor");
+	public class EmbeddedSensorElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.EmbeddedSensor");
 		private final Assignment cNameAssignment = (Assignment)rule.eContents().get(1);
 		private final RuleCall cNameIDTerminalRuleCall_0 = (RuleCall)cNameAssignment.eContents().get(0);
 		
-		//OnboardSensor:
+		//EmbeddedSensor:
 		//	name=ID;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1159,83 +1161,77 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	public class SamplerElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Sampler");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cCommandParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cFrequencyParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Action cCommandAction_0_0 = (Action)cGroup_0.eContents().get(0);
+		private final Keyword cCommandKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Assignment cCommandAssignment_0_2 = (Assignment)cGroup_0.eContents().get(2);
+		private final RuleCall cCommandSTRINGTerminalRuleCall_0_2_0 = (RuleCall)cCommandAssignment_0_2.eContents().get(0);
+		private final Group cGroup_0_3 = (Group)cGroup_0.eContents().get(3);
+		private final Keyword cBaudKeyword_0_3_0 = (Keyword)cGroup_0_3.eContents().get(0);
+		private final Assignment cBaudAssignment_0_3_1 = (Assignment)cGroup_0_3.eContents().get(1);
+		private final RuleCall cBaudINTTerminalRuleCall_0_3_1_0 = (RuleCall)cBaudAssignment_0_3_1.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Action cIntervalAction_1_0 = (Action)cGroup_1.eContents().get(0);
+		private final Keyword cIntervalKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cIntervalAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cIntervalINTTerminalRuleCall_1_2_0 = (RuleCall)cIntervalAssignment_1_2.eContents().get(0);
+		private final Assignment cResolutionAssignment_1_3 = (Assignment)cGroup_1.eContents().get(3);
+		private final RuleCall cResolutionResolutionParserRuleCall_1_3_0 = (RuleCall)cResolutionAssignment_1_3.eContents().get(0);
 		
 		//Sampler:
-		//	Command | Frequency;
+		//	{Command} 'command' command=STRING ('baud' baud=INT)? | {Interval} 'interval' interval=INT resolution=Resolution;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//Command | Frequency
+		//{Command} 'command' command=STRING ('baud' baud=INT)? | {Interval} 'interval' interval=INT resolution=Resolution
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//Command
-		public RuleCall getCommandParserRuleCall_0() { return cCommandParserRuleCall_0; }
+		//{Command} 'command' command=STRING ('baud' baud=INT)?
+		public Group getGroup_0() { return cGroup_0; }
 		
-		//Frequency
-		public RuleCall getFrequencyParserRuleCall_1() { return cFrequencyParserRuleCall_1; }
-	}
-	public class CommandElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Command");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cCommandKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cCommandAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cCommandSTRINGTerminalRuleCall_1_0 = (RuleCall)cCommandAssignment_1.eContents().get(0);
-		private final Assignment cTopicAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cTopicSTRINGTerminalRuleCall_2_0 = (RuleCall)cTopicAssignment_2.eContents().get(0);
-		
-		//Command:
-		//	'command' command=STRING topic=STRING?;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'command' command=STRING topic=STRING?
-		public Group getGroup() { return cGroup; }
+		//{Command}
+		public Action getCommandAction_0_0() { return cCommandAction_0_0; }
 		
 		//'command'
-		public Keyword getCommandKeyword_0() { return cCommandKeyword_0; }
+		public Keyword getCommandKeyword_0_1() { return cCommandKeyword_0_1; }
 		
 		//command=STRING
-		public Assignment getCommandAssignment_1() { return cCommandAssignment_1; }
+		public Assignment getCommandAssignment_0_2() { return cCommandAssignment_0_2; }
 		
 		//STRING
-		public RuleCall getCommandSTRINGTerminalRuleCall_1_0() { return cCommandSTRINGTerminalRuleCall_1_0; }
+		public RuleCall getCommandSTRINGTerminalRuleCall_0_2_0() { return cCommandSTRINGTerminalRuleCall_0_2_0; }
 		
-		//topic=STRING?
-		public Assignment getTopicAssignment_2() { return cTopicAssignment_2; }
+		//('baud' baud=INT)?
+		public Group getGroup_0_3() { return cGroup_0_3; }
 		
-		//STRING
-		public RuleCall getTopicSTRINGTerminalRuleCall_2_0() { return cTopicSTRINGTerminalRuleCall_2_0; }
-	}
-	public class FrequencyElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Frequency");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cFrequencyKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cFrequencyAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cFrequencyINTTerminalRuleCall_1_0 = (RuleCall)cFrequencyAssignment_1.eContents().get(0);
-		private final Assignment cResolutionAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cResolutionResolutionParserRuleCall_2_0 = (RuleCall)cResolutionAssignment_2.eContents().get(0);
+		//'baud'
+		public Keyword getBaudKeyword_0_3_0() { return cBaudKeyword_0_3_0; }
 		
-		//Frequency:
-		//	'frequency' frequency=INT resolution=Resolution;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'frequency' frequency=INT resolution=Resolution
-		public Group getGroup() { return cGroup; }
-		
-		//'frequency'
-		public Keyword getFrequencyKeyword_0() { return cFrequencyKeyword_0; }
-		
-		//frequency=INT
-		public Assignment getFrequencyAssignment_1() { return cFrequencyAssignment_1; }
+		//baud=INT
+		public Assignment getBaudAssignment_0_3_1() { return cBaudAssignment_0_3_1; }
 		
 		//INT
-		public RuleCall getFrequencyINTTerminalRuleCall_1_0() { return cFrequencyINTTerminalRuleCall_1_0; }
+		public RuleCall getBaudINTTerminalRuleCall_0_3_1_0() { return cBaudINTTerminalRuleCall_0_3_1_0; }
+		
+		//{Interval} 'interval' interval=INT resolution=Resolution
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//{Interval}
+		public Action getIntervalAction_1_0() { return cIntervalAction_1_0; }
+		
+		//'interval'
+		public Keyword getIntervalKeyword_1_1() { return cIntervalKeyword_1_1; }
+		
+		//interval=INT
+		public Assignment getIntervalAssignment_1_2() { return cIntervalAssignment_1_2; }
+		
+		//INT
+		public RuleCall getIntervalINTTerminalRuleCall_1_2_0() { return cIntervalINTTerminalRuleCall_1_2_0; }
 		
 		//resolution=Resolution
-		public Assignment getResolutionAssignment_2() { return cResolutionAssignment_2; }
+		public Assignment getResolutionAssignment_1_3() { return cResolutionAssignment_1_3; }
 		
 		//Resolution
-		public RuleCall getResolutionResolutionParserRuleCall_2_0() { return cResolutionResolutionParserRuleCall_2_0; }
+		public RuleCall getResolutionResolutionParserRuleCall_1_3_0() { return cResolutionResolutionParserRuleCall_1_3_0; }
 	}
 	public class ResolutionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Resolution");
@@ -1288,91 +1284,72 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.SensorOutput");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cPipeKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cOutputAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cOutputDataOutputParserRuleCall_1_0 = (RuleCall)cOutputAssignment_1.eContents().get(0);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cChannelAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final CrossReference cChannelChannelCrossReference_3_0 = (CrossReference)cChannelAssignment_3.eContents().get(0);
-		private final RuleCall cChannelChannelIDTerminalRuleCall_3_0_1 = (RuleCall)cChannelChannelCrossReference_3_0.eContents().get(1);
-		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final Keyword cAndKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
-		private final Assignment cChannelAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
-		private final CrossReference cChannelChannelCrossReference_4_1_0 = (CrossReference)cChannelAssignment_4_1.eContents().get(0);
-		private final RuleCall cChannelChannelIDTerminalRuleCall_4_1_0_1 = (RuleCall)cChannelChannelCrossReference_4_1_0.eContents().get(1);
+		private final Assignment cSensorvarAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final CrossReference cSensorvarSensorVariablesCrossReference_1_0 = (CrossReference)cSensorvarAssignment_1.eContents().get(0);
+		private final RuleCall cSensorvarSensorVariablesIDTerminalRuleCall_1_0_1 = (RuleCall)cSensorvarSensorVariablesCrossReference_1_0.eContents().get(1);
+		private final Assignment cPipelineAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cPipelinePipelineParserRuleCall_2_0 = (RuleCall)cPipelineAssignment_2.eContents().get(0);
+		private final Keyword cHyphenMinusGreaterThanSignKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cChannelAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final CrossReference cChannelChannelCrossReference_4_0 = (CrossReference)cChannelAssignment_4.eContents().get(0);
+		private final RuleCall cChannelChannelIDTerminalRuleCall_4_0_1 = (RuleCall)cChannelChannelCrossReference_4_0.eContents().get(1);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cAndKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cChannelAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final CrossReference cChannelChannelCrossReference_5_1_0 = (CrossReference)cChannelAssignment_5_1.eContents().get(0);
+		private final RuleCall cChannelChannelIDTerminalRuleCall_5_1_0_1 = (RuleCall)cChannelChannelCrossReference_5_1_0.eContents().get(1);
 		
 		//SensorOutput:
-		//	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*;
+		//	'pipe' sensorvar=[SensorVariables] pipeline=Pipeline? '->' channel+=[Channel] ('and' channel+=[Channel])*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*
+		//'pipe' sensorvar=[SensorVariables] pipeline=Pipeline? '->' channel+=[Channel] ('and' channel+=[Channel])*
 		public Group getGroup() { return cGroup; }
 		
 		//'pipe'
 		public Keyword getPipeKeyword_0() { return cPipeKeyword_0; }
 		
-		//output=DataOutput
-		public Assignment getOutputAssignment_1() { return cOutputAssignment_1; }
-		
-		//DataOutput
-		public RuleCall getOutputDataOutputParserRuleCall_1_0() { return cOutputDataOutputParserRuleCall_1_0; }
-		
-		//'->'
-		public Keyword getHyphenMinusGreaterThanSignKeyword_2() { return cHyphenMinusGreaterThanSignKeyword_2; }
-		
-		//channel+=[Channel]
-		public Assignment getChannelAssignment_3() { return cChannelAssignment_3; }
-		
-		//[Channel]
-		public CrossReference getChannelChannelCrossReference_3_0() { return cChannelChannelCrossReference_3_0; }
-		
-		//ID
-		public RuleCall getChannelChannelIDTerminalRuleCall_3_0_1() { return cChannelChannelIDTerminalRuleCall_3_0_1; }
-		
-		//('and' channel+=[Channel])*
-		public Group getGroup_4() { return cGroup_4; }
-		
-		//'and'
-		public Keyword getAndKeyword_4_0() { return cAndKeyword_4_0; }
-		
-		//channel+=[Channel]
-		public Assignment getChannelAssignment_4_1() { return cChannelAssignment_4_1; }
-		
-		//[Channel]
-		public CrossReference getChannelChannelCrossReference_4_1_0() { return cChannelChannelCrossReference_4_1_0; }
-		
-		//ID
-		public RuleCall getChannelChannelIDTerminalRuleCall_4_1_0_1() { return cChannelChannelIDTerminalRuleCall_4_1_0_1; }
-	}
-	public class DataOutputElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.DataOutput");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cSensorvarAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final CrossReference cSensorvarSensorVariablesCrossReference_0_0 = (CrossReference)cSensorvarAssignment_0.eContents().get(0);
-		private final RuleCall cSensorvarSensorVariablesIDTerminalRuleCall_0_0_1 = (RuleCall)cSensorvarSensorVariablesCrossReference_0_0.eContents().get(1);
-		private final Assignment cPipelineAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cPipelinePipelineParserRuleCall_1_0 = (RuleCall)cPipelineAssignment_1.eContents().get(0);
-		
-		//DataOutput:
-		//	sensorvar=[SensorVariables] pipeline=Pipeline?;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//sensorvar=[SensorVariables] pipeline=Pipeline?
-		public Group getGroup() { return cGroup; }
-		
 		//sensorvar=[SensorVariables]
-		public Assignment getSensorvarAssignment_0() { return cSensorvarAssignment_0; }
+		public Assignment getSensorvarAssignment_1() { return cSensorvarAssignment_1; }
 		
 		//[SensorVariables]
-		public CrossReference getSensorvarSensorVariablesCrossReference_0_0() { return cSensorvarSensorVariablesCrossReference_0_0; }
+		public CrossReference getSensorvarSensorVariablesCrossReference_1_0() { return cSensorvarSensorVariablesCrossReference_1_0; }
 		
 		//ID
-		public RuleCall getSensorvarSensorVariablesIDTerminalRuleCall_0_0_1() { return cSensorvarSensorVariablesIDTerminalRuleCall_0_0_1; }
+		public RuleCall getSensorvarSensorVariablesIDTerminalRuleCall_1_0_1() { return cSensorvarSensorVariablesIDTerminalRuleCall_1_0_1; }
 		
 		//pipeline=Pipeline?
-		public Assignment getPipelineAssignment_1() { return cPipelineAssignment_1; }
+		public Assignment getPipelineAssignment_2() { return cPipelineAssignment_2; }
 		
 		//Pipeline
-		public RuleCall getPipelinePipelineParserRuleCall_1_0() { return cPipelinePipelineParserRuleCall_1_0; }
+		public RuleCall getPipelinePipelineParserRuleCall_2_0() { return cPipelinePipelineParserRuleCall_2_0; }
+		
+		//'->'
+		public Keyword getHyphenMinusGreaterThanSignKeyword_3() { return cHyphenMinusGreaterThanSignKeyword_3; }
+		
+		//channel+=[Channel]
+		public Assignment getChannelAssignment_4() { return cChannelAssignment_4; }
+		
+		//[Channel]
+		public CrossReference getChannelChannelCrossReference_4_0() { return cChannelChannelCrossReference_4_0; }
+		
+		//ID
+		public RuleCall getChannelChannelIDTerminalRuleCall_4_0_1() { return cChannelChannelIDTerminalRuleCall_4_0_1; }
+		
+		//('and' channel+=[Channel])*
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//'and'
+		public Keyword getAndKeyword_5_0() { return cAndKeyword_5_0; }
+		
+		//channel+=[Channel]
+		public Assignment getChannelAssignment_5_1() { return cChannelAssignment_5_1; }
+		
+		//[Channel]
+		public CrossReference getChannelChannelCrossReference_5_1_0() { return cChannelChannelCrossReference_5_1_0; }
+		
+		//ID
+		public RuleCall getChannelChannelIDTerminalRuleCall_5_1_0_1() { return cChannelChannelIDTerminalRuleCall_5_1_0_1; }
 	}
 	public class PipelineElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.mdsd.arduino.boardgenerator.IoT.Pipeline");
@@ -2281,31 +2258,26 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	private final ChannelElements pChannel;
 	private final ChannelTypeElements pChannelType;
 	private final ChannelConfigElements pChannelConfig;
-	private final WifiElements pWifi;
+	private final CloudElements pCloud;
 	private final SerialElements pSerial;
-	private final StopIdentifyerElements pStopIdentifyer;
-	private final StopCharElements pStopChar;
-	private final StopByteElements pStopByte;
 	private final MqttClientElements pMqttClient;
 	private final FunctionElements pFunction;
 	private final FunctionInputTypeElements pFunctionInputType;
 	private final BoardElements pBoard;
 	private final NewBoardElements pNewBoard;
 	private final BoardVersionElements pBoardVersion;
+	private final SDConfigElements pSDConfig;
 	private final ExtendsBoardElements pExtendsBoard;
 	private final AbstractBoardElements pAbstractBoard;
 	private final SensorElements pSensor;
 	private final SensorTypeElements pSensorType;
 	private final ExternalSensorElements pExternalSensor;
-	private final OnboardSensorElements pOnboardSensor;
+	private final EmbeddedSensorElements pEmbeddedSensor;
 	private final SensorVariablesElements pSensorVariables;
 	private final VariableElements pVariable;
 	private final SamplerElements pSampler;
-	private final CommandElements pCommand;
-	private final FrequencyElements pFrequency;
 	private final ResolutionElements pResolution;
 	private final SensorOutputElements pSensorOutput;
-	private final DataOutputElements pDataOutput;
 	private final PipelineElements pPipeline;
 	private final ExternalElements pExternal;
 	private final MapPipelineElements pMapPipeline;
@@ -2354,31 +2326,26 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		this.pChannel = new ChannelElements();
 		this.pChannelType = new ChannelTypeElements();
 		this.pChannelConfig = new ChannelConfigElements();
-		this.pWifi = new WifiElements();
+		this.pCloud = new CloudElements();
 		this.pSerial = new SerialElements();
-		this.pStopIdentifyer = new StopIdentifyerElements();
-		this.pStopChar = new StopCharElements();
-		this.pStopByte = new StopByteElements();
 		this.pMqttClient = new MqttClientElements();
 		this.pFunction = new FunctionElements();
 		this.pFunctionInputType = new FunctionInputTypeElements();
 		this.pBoard = new BoardElements();
 		this.pNewBoard = new NewBoardElements();
 		this.pBoardVersion = new BoardVersionElements();
+		this.pSDConfig = new SDConfigElements();
 		this.pExtendsBoard = new ExtendsBoardElements();
 		this.pAbstractBoard = new AbstractBoardElements();
 		this.pSensor = new SensorElements();
 		this.pSensorType = new SensorTypeElements();
 		this.pExternalSensor = new ExternalSensorElements();
-		this.pOnboardSensor = new OnboardSensorElements();
+		this.pEmbeddedSensor = new EmbeddedSensorElements();
 		this.pSensorVariables = new SensorVariablesElements();
 		this.pVariable = new VariableElements();
 		this.pSampler = new SamplerElements();
-		this.pCommand = new CommandElements();
-		this.pFrequency = new FrequencyElements();
 		this.pResolution = new ResolutionElements();
 		this.pSensorOutput = new SensorOutputElements();
-		this.pDataOutput = new DataOutputElements();
 		this.pPipeline = new PipelineElements();
 		this.pExternal = new ExternalElements();
 		this.pMapPipeline = new MapPipelineElements();
@@ -2443,8 +2410,8 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	//// Channels are zero or more (in case they are imported)
 	//// Boards are zero or more   
 	//Model:
-	//	includes+=Include* wifiConfig+=WifiConfig* channel+=Channel* function+=Function* abstractBoard+=AbstractBoard*
-	//	board+=Board*;
+	//	(includes+=Include | wifiConfig+=WifiConfig | channel+=Channel | function+=Function | abstractBoard+=AbstractBoard |
+	//	board+=Board)*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -2512,7 +2479,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//ChannelConfig:
-	//	Wifi | Serial | MqttClient;
+	//	Cloud | Serial | MqttClient;
 	public ChannelConfigElements getChannelConfigAccess() {
 		return pChannelConfig;
 	}
@@ -2521,57 +2488,26 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		return getChannelConfigAccess().getRule();
 	}
 	
-	//Wifi:
+	//Cloud:
 	//	'ip' url=STRING
 	//	'port' sport=INT
 	//	'route' route=STRING;
-	public WifiElements getWifiAccess() {
-		return pWifi;
+	public CloudElements getCloudAccess() {
+		return pCloud;
 	}
 	
-	public ParserRule getWifiRule() {
-		return getWifiAccess().getRule();
+	public ParserRule getCloudRule() {
+		return getCloudAccess().getRule();
 	}
 	
 	//Serial:
-	//	'baud' baud=INT
-	//	'stop' stopType=StopIdentifyer;
+	//	'baud' baud=INT;
 	public SerialElements getSerialAccess() {
 		return pSerial;
 	}
 	
 	public ParserRule getSerialRule() {
 		return getSerialAccess().getRule();
-	}
-	
-	//StopIdentifyer:
-	//	StopChar | StopByte;
-	public StopIdentifyerElements getStopIdentifyerAccess() {
-		return pStopIdentifyer;
-	}
-	
-	public ParserRule getStopIdentifyerRule() {
-		return getStopIdentifyerAccess().getRule();
-	}
-	
-	//StopChar:
-	//	'char' name=STRING;
-	public StopCharElements getStopCharAccess() {
-		return pStopChar;
-	}
-	
-	public ParserRule getStopCharRule() {
-		return getStopCharAccess().getRule();
-	}
-	
-	//StopByte:
-	//	'byte' name=INT;
-	public StopByteElements getStopByteAccess() {
-		return pStopByte;
-	}
-	
-	public ParserRule getStopByteRule() {
-		return getStopByteAccess().getRule();
 	}
 	
 	//MqttClient:
@@ -2634,6 +2570,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//BoardVersion:
+	//	('SD' sdconfig=SDConfig)?
 	//	'type' type=ID
 	//	'model' model=ID;
 	public BoardVersionElements getBoardVersionAccess() {
@@ -2642,6 +2579,16 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getBoardVersionRule() {
 		return getBoardVersionAccess().getRule();
+	}
+	
+	//SDConfig:
+	//	'(' clk=INT ',' sdo=INT ',' di=INT ',' cs=INT ')';
+	public SDConfigElements getSDConfigAccess() {
+		return pSDConfig;
+	}
+	
+	public ParserRule getSDConfigRule() {
+		return getSDConfigAccess().getRule();
 	}
 	
 	//// Can extend another board, in that case needs only reference
@@ -2685,7 +2632,7 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//SensorType:
-	//	ExternalSensor | OnboardSensor;
+	//	ExternalSensor | EmbeddedSensor;
 	public SensorTypeElements getSensorTypeAccess() {
 		return pSensorType;
 	}
@@ -2704,14 +2651,14 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 		return getExternalSensorAccess().getRule();
 	}
 	
-	//OnboardSensor:
+	//EmbeddedSensor:
 	//	name=ID;
-	public OnboardSensorElements getOnboardSensorAccess() {
-		return pOnboardSensor;
+	public EmbeddedSensorElements getEmbeddedSensorAccess() {
+		return pEmbeddedSensor;
 	}
 	
-	public ParserRule getOnboardSensorRule() {
-		return getOnboardSensorAccess().getRule();
+	public ParserRule getEmbeddedSensorRule() {
+		return getEmbeddedSensorAccess().getRule();
 	}
 	
 	//SensorVariables:
@@ -2735,33 +2682,13 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Sampler:
-	//	Command | Frequency;
+	//	{Command} 'command' command=STRING ('baud' baud=INT)? | {Interval} 'interval' interval=INT resolution=Resolution;
 	public SamplerElements getSamplerAccess() {
 		return pSampler;
 	}
 	
 	public ParserRule getSamplerRule() {
 		return getSamplerAccess().getRule();
-	}
-	
-	//Command:
-	//	'command' command=STRING topic=STRING?;
-	public CommandElements getCommandAccess() {
-		return pCommand;
-	}
-	
-	public ParserRule getCommandRule() {
-		return getCommandAccess().getRule();
-	}
-	
-	//Frequency:
-	//	'frequency' frequency=INT resolution=Resolution;
-	public FrequencyElements getFrequencyAccess() {
-		return pFrequency;
-	}
-	
-	public ParserRule getFrequencyRule() {
-		return getFrequencyAccess().getRule();
 	}
 	
 	//Resolution:
@@ -2775,23 +2702,13 @@ public class IoTGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//SensorOutput:
-	//	'pipe' output=DataOutput '->' channel+=[Channel] ('and' channel+=[Channel])*;
+	//	'pipe' sensorvar=[SensorVariables] pipeline=Pipeline? '->' channel+=[Channel] ('and' channel+=[Channel])*;
 	public SensorOutputElements getSensorOutputAccess() {
 		return pSensorOutput;
 	}
 	
 	public ParserRule getSensorOutputRule() {
 		return getSensorOutputAccess().getRule();
-	}
-	
-	//DataOutput:
-	//	sensorvar=[SensorVariables] pipeline=Pipeline?;
-	public DataOutputElements getDataOutputAccess() {
-		return pDataOutput;
-	}
-	
-	public ParserRule getDataOutputRule() {
-		return getDataOutputAccess().getRule();
 	}
 	
 	//Pipeline:

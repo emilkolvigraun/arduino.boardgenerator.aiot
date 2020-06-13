@@ -21,7 +21,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CommandImpl#getCommand <em>Command</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CommandImpl#getTopic <em>Topic</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CommandImpl#getBaud <em>Baud</em>}</li>
  * </ul>
  *
  * @generated
@@ -49,24 +49,24 @@ public class CommandImpl extends SamplerImpl implements Command
   protected String command = COMMAND_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getTopic() <em>Topic</em>}' attribute.
+   * The default value of the '{@link #getBaud() <em>Baud</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTopic()
+   * @see #getBaud()
    * @generated
    * @ordered
    */
-  protected static final String TOPIC_EDEFAULT = null;
+  protected static final int BAUD_EDEFAULT = 0;
 
   /**
-   * The cached value of the '{@link #getTopic() <em>Topic</em>}' attribute.
+   * The cached value of the '{@link #getBaud() <em>Baud</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTopic()
+   * @see #getBaud()
    * @generated
    * @ordered
    */
-  protected String topic = TOPIC_EDEFAULT;
+  protected int baud = BAUD_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -120,9 +120,9 @@ public class CommandImpl extends SamplerImpl implements Command
    * @generated
    */
   @Override
-  public String getTopic()
+  public int getBaud()
   {
-    return topic;
+    return baud;
   }
 
   /**
@@ -131,12 +131,12 @@ public class CommandImpl extends SamplerImpl implements Command
    * @generated
    */
   @Override
-  public void setTopic(String newTopic)
+  public void setBaud(int newBaud)
   {
-    String oldTopic = topic;
-    topic = newTopic;
+    int oldBaud = baud;
+    baud = newBaud;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.COMMAND__TOPIC, oldTopic, topic));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.COMMAND__BAUD, oldBaud, baud));
   }
 
   /**
@@ -151,8 +151,8 @@ public class CommandImpl extends SamplerImpl implements Command
     {
       case IoTPackage.COMMAND__COMMAND:
         return getCommand();
-      case IoTPackage.COMMAND__TOPIC:
-        return getTopic();
+      case IoTPackage.COMMAND__BAUD:
+        return getBaud();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -170,8 +170,8 @@ public class CommandImpl extends SamplerImpl implements Command
       case IoTPackage.COMMAND__COMMAND:
         setCommand((String)newValue);
         return;
-      case IoTPackage.COMMAND__TOPIC:
-        setTopic((String)newValue);
+      case IoTPackage.COMMAND__BAUD:
+        setBaud((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -190,8 +190,8 @@ public class CommandImpl extends SamplerImpl implements Command
       case IoTPackage.COMMAND__COMMAND:
         setCommand(COMMAND_EDEFAULT);
         return;
-      case IoTPackage.COMMAND__TOPIC:
-        setTopic(TOPIC_EDEFAULT);
+      case IoTPackage.COMMAND__BAUD:
+        setBaud(BAUD_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -209,8 +209,8 @@ public class CommandImpl extends SamplerImpl implements Command
     {
       case IoTPackage.COMMAND__COMMAND:
         return COMMAND_EDEFAULT == null ? command != null : !COMMAND_EDEFAULT.equals(command);
-      case IoTPackage.COMMAND__TOPIC:
-        return TOPIC_EDEFAULT == null ? topic != null : !TOPIC_EDEFAULT.equals(topic);
+      case IoTPackage.COMMAND__BAUD:
+        return baud != BAUD_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -228,8 +228,8 @@ public class CommandImpl extends SamplerImpl implements Command
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (command: ");
     result.append(command);
-    result.append(", topic: ");
-    result.append(topic);
+    result.append(", baud: ");
+    result.append(baud);
     result.append(')');
     return result.toString();
   }

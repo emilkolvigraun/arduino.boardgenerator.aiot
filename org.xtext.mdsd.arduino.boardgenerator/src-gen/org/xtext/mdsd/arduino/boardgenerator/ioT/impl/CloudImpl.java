@@ -9,25 +9,25 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Wifi</b></em>'.
+ * An implementation of the model object '<em><b>Cloud</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiImpl#getUrl <em>Url</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiImpl#getSport <em>Sport</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.WifiImpl#getRoute <em>Route</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CloudImpl#getUrl <em>Url</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CloudImpl#getSport <em>Sport</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.CloudImpl#getRoute <em>Route</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class WifiImpl extends ChannelConfigImpl implements Wifi
+public class CloudImpl extends ChannelConfigImpl implements Cloud
 {
   /**
    * The default value of the '{@link #getUrl() <em>Url</em>}' attribute.
@@ -94,7 +94,7 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
    * <!-- end-user-doc -->
    * @generated
    */
-  protected WifiImpl()
+  protected CloudImpl()
   {
     super();
   }
@@ -107,7 +107,7 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
   @Override
   protected EClass eStaticClass()
   {
-    return IoTPackage.Literals.WIFI;
+    return IoTPackage.Literals.CLOUD;
   }
 
   /**
@@ -132,7 +132,7 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     String oldUrl = url;
     url = newUrl;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.WIFI__URL, oldUrl, url));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.CLOUD__URL, oldUrl, url));
   }
 
   /**
@@ -157,7 +157,7 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     int oldSport = sport;
     sport = newSport;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.WIFI__SPORT, oldSport, sport));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.CLOUD__SPORT, oldSport, sport));
   }
 
   /**
@@ -182,7 +182,7 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     String oldRoute = route;
     route = newRoute;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.WIFI__ROUTE, oldRoute, route));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.CLOUD__ROUTE, oldRoute, route));
   }
 
   /**
@@ -195,11 +195,11 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
   {
     switch (featureID)
     {
-      case IoTPackage.WIFI__URL:
+      case IoTPackage.CLOUD__URL:
         return getUrl();
-      case IoTPackage.WIFI__SPORT:
+      case IoTPackage.CLOUD__SPORT:
         return getSport();
-      case IoTPackage.WIFI__ROUTE:
+      case IoTPackage.CLOUD__ROUTE:
         return getRoute();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -215,13 +215,13 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
   {
     switch (featureID)
     {
-      case IoTPackage.WIFI__URL:
+      case IoTPackage.CLOUD__URL:
         setUrl((String)newValue);
         return;
-      case IoTPackage.WIFI__SPORT:
+      case IoTPackage.CLOUD__SPORT:
         setSport((Integer)newValue);
         return;
-      case IoTPackage.WIFI__ROUTE:
+      case IoTPackage.CLOUD__ROUTE:
         setRoute((String)newValue);
         return;
     }
@@ -238,13 +238,13 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
   {
     switch (featureID)
     {
-      case IoTPackage.WIFI__URL:
+      case IoTPackage.CLOUD__URL:
         setUrl(URL_EDEFAULT);
         return;
-      case IoTPackage.WIFI__SPORT:
+      case IoTPackage.CLOUD__SPORT:
         setSport(SPORT_EDEFAULT);
         return;
-      case IoTPackage.WIFI__ROUTE:
+      case IoTPackage.CLOUD__ROUTE:
         setRoute(ROUTE_EDEFAULT);
         return;
     }
@@ -261,11 +261,11 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
   {
     switch (featureID)
     {
-      case IoTPackage.WIFI__URL:
+      case IoTPackage.CLOUD__URL:
         return URL_EDEFAULT == null ? url != null : !URL_EDEFAULT.equals(url);
-      case IoTPackage.WIFI__SPORT:
+      case IoTPackage.CLOUD__SPORT:
         return sport != SPORT_EDEFAULT;
-      case IoTPackage.WIFI__ROUTE:
+      case IoTPackage.CLOUD__ROUTE:
         return ROUTE_EDEFAULT == null ? route != null : !ROUTE_EDEFAULT.equals(route);
     }
     return super.eIsSet(featureID);
@@ -292,4 +292,4 @@ public class WifiImpl extends ChannelConfigImpl implements Wifi
     return result.toString();
   }
 
-} //WifiImpl
+} //CloudImpl

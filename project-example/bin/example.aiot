@@ -1,0 +1,40 @@
+include myboards.aboards
+  
+function external(num, bool) -> (z)
+function process(num, num, str) -> (a, b)  
+
+# no need for a wifi configuration
+# since the abstract board does not employ 
+# a channel with that dependency      
+board board0 extends esp32wrover 
+  
+board board1 extends esp32wrover: 
+	wifi home      
+	     
+	# implements a new sensor and uses the
+	# external function                          
+	# an info message is dispatched to inform the
+	# developer that the external sensor
+	# might need to be initialized with vcc 
+	sensor wearable = motion (12, 18) as m(x, y):   
+		pipe m.external[x+y, x>y]
+		.byWindow[45].mean -> client   
+	      
+	# overwrites the humidity sensor
+	# and outputs to mqtt client	                                                   
+	sensor humidity = hts221 as x(y, z):
+		pipe x.process[y, z, "test"].
+		map[a+b > 100 -> j] -> client 
+		                                                        
+board board2:   
+	# declares an SD configuration
+	# because it is a new board
+	SD (14,56,76,8)      
+	type arduino
+	model uno
+	
+	# implements a sensor to be read from pin 0
+	sensor humidity = dth11 (0) as x(j): 
+		vcc 1
+		pipe x -> serial 
+		

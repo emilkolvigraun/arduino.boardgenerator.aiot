@@ -45,10 +45,10 @@ class IoTHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		textStyle.setStyle(SWT.BOLD);
 		textStyle;
 	}
-	
+	 
 	override TextStyle errorTextStyle() {
 		val textStyle = defaultTextStyle().copy();
-		textStyle.setColor(new RGB(1, 1, 1));
+		textStyle.setColor(new RGB(1, 0, 0));
 		textStyle; 
 	} 
 	 

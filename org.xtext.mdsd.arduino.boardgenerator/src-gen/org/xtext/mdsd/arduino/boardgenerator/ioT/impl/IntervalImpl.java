@@ -11,45 +11,45 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Interval;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Resolution;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Frequency</b></em>'.
+ * An implementation of the model object '<em><b>Interval</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.FrequencyImpl#getFrequency <em>Frequency</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.FrequencyImpl#getResolution <em>Resolution</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IntervalImpl#getInterval <em>Interval</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.impl.IntervalImpl#getResolution <em>Resolution</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class FrequencyImpl extends SamplerImpl implements Frequency
+public class IntervalImpl extends SamplerImpl implements Interval
 {
   /**
-   * The default value of the '{@link #getFrequency() <em>Frequency</em>}' attribute.
+   * The default value of the '{@link #getInterval() <em>Interval</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getFrequency()
+   * @see #getInterval()
    * @generated
    * @ordered
    */
-  protected static final int FREQUENCY_EDEFAULT = 0;
+  protected static final int INTERVAL_EDEFAULT = 0;
 
   /**
-   * The cached value of the '{@link #getFrequency() <em>Frequency</em>}' attribute.
+   * The cached value of the '{@link #getInterval() <em>Interval</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getFrequency()
+   * @see #getInterval()
    * @generated
    * @ordered
    */
-  protected int frequency = FREQUENCY_EDEFAULT;
+  protected int interval = INTERVAL_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getResolution() <em>Resolution</em>}' containment reference.
@@ -66,7 +66,7 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
    * <!-- end-user-doc -->
    * @generated
    */
-  protected FrequencyImpl()
+  protected IntervalImpl()
   {
     super();
   }
@@ -79,7 +79,7 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
   @Override
   protected EClass eStaticClass()
   {
-    return IoTPackage.Literals.FREQUENCY;
+    return IoTPackage.Literals.INTERVAL;
   }
 
   /**
@@ -88,9 +88,9 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
    * @generated
    */
   @Override
-  public int getFrequency()
+  public int getInterval()
   {
-    return frequency;
+    return interval;
   }
 
   /**
@@ -99,12 +99,12 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
    * @generated
    */
   @Override
-  public void setFrequency(int newFrequency)
+  public void setInterval(int newInterval)
   {
-    int oldFrequency = frequency;
-    frequency = newFrequency;
+    int oldInterval = interval;
+    interval = newInterval;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.FREQUENCY__FREQUENCY, oldFrequency, frequency));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.INTERVAL__INTERVAL, oldInterval, interval));
   }
 
   /**
@@ -129,7 +129,7 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
     resolution = newResolution;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.FREQUENCY__RESOLUTION, oldResolution, newResolution);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IoTPackage.INTERVAL__RESOLUTION, oldResolution, newResolution);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -147,14 +147,14 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
     {
       NotificationChain msgs = null;
       if (resolution != null)
-        msgs = ((InternalEObject)resolution).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.FREQUENCY__RESOLUTION, null, msgs);
+        msgs = ((InternalEObject)resolution).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - IoTPackage.INTERVAL__RESOLUTION, null, msgs);
       if (newResolution != null)
-        msgs = ((InternalEObject)newResolution).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.FREQUENCY__RESOLUTION, null, msgs);
+        msgs = ((InternalEObject)newResolution).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - IoTPackage.INTERVAL__RESOLUTION, null, msgs);
       msgs = basicSetResolution(newResolution, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.FREQUENCY__RESOLUTION, newResolution, newResolution));
+      eNotify(new ENotificationImpl(this, Notification.SET, IoTPackage.INTERVAL__RESOLUTION, newResolution, newResolution));
   }
 
   /**
@@ -167,7 +167,7 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
   {
     switch (featureID)
     {
-      case IoTPackage.FREQUENCY__RESOLUTION:
+      case IoTPackage.INTERVAL__RESOLUTION:
         return basicSetResolution(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -183,9 +183,9 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
   {
     switch (featureID)
     {
-      case IoTPackage.FREQUENCY__FREQUENCY:
-        return getFrequency();
-      case IoTPackage.FREQUENCY__RESOLUTION:
+      case IoTPackage.INTERVAL__INTERVAL:
+        return getInterval();
+      case IoTPackage.INTERVAL__RESOLUTION:
         return getResolution();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -201,10 +201,10 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
   {
     switch (featureID)
     {
-      case IoTPackage.FREQUENCY__FREQUENCY:
-        setFrequency((Integer)newValue);
+      case IoTPackage.INTERVAL__INTERVAL:
+        setInterval((Integer)newValue);
         return;
-      case IoTPackage.FREQUENCY__RESOLUTION:
+      case IoTPackage.INTERVAL__RESOLUTION:
         setResolution((Resolution)newValue);
         return;
     }
@@ -221,10 +221,10 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
   {
     switch (featureID)
     {
-      case IoTPackage.FREQUENCY__FREQUENCY:
-        setFrequency(FREQUENCY_EDEFAULT);
+      case IoTPackage.INTERVAL__INTERVAL:
+        setInterval(INTERVAL_EDEFAULT);
         return;
-      case IoTPackage.FREQUENCY__RESOLUTION:
+      case IoTPackage.INTERVAL__RESOLUTION:
         setResolution((Resolution)null);
         return;
     }
@@ -241,9 +241,9 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
   {
     switch (featureID)
     {
-      case IoTPackage.FREQUENCY__FREQUENCY:
-        return frequency != FREQUENCY_EDEFAULT;
-      case IoTPackage.FREQUENCY__RESOLUTION:
+      case IoTPackage.INTERVAL__INTERVAL:
+        return interval != INTERVAL_EDEFAULT;
+      case IoTPackage.INTERVAL__RESOLUTION:
         return resolution != null;
     }
     return super.eIsSet(featureID);
@@ -260,10 +260,10 @@ public class FrequencyImpl extends SamplerImpl implements Frequency
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (frequency: ");
-    result.append(frequency);
+    result.append(" (interval: ");
+    result.append(interval);
     result.append(')');
     return result.toString();
   }
 
-} //FrequencyImpl
+} //IntervalImpl

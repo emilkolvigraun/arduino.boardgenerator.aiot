@@ -29,14 +29,15 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.xtext.mdsd.arduino.boardgenerator.generator.BoardCodeGenerator;
 import org.xtext.mdsd.arduino.boardgenerator.generator.GeneratorUtils;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards;
 
@@ -83,12 +84,28 @@ public class IoTGenerator extends AbstractGenerator {
         _builder.append("* Generated Code AIOT");
         _builder.newLine();
         _builder.append("* Model : ");
-        String _model = this._generatorUtils.getBoardVersion(board).getModel();
-        _builder.append(_model);
+        {
+          BoardVersion _boardVersion = this._generatorUtils.getBoardVersion(board);
+          boolean _tripleNotEquals = (_boardVersion != null);
+          if (_tripleNotEquals) {
+            String _model = this._generatorUtils.getBoardVersion(board).getModel();
+            _builder.append(_model);
+          } else {
+            _builder.append("unknown");
+          }
+        }
         _builder.newLineIfNotEmpty();
         _builder.append("* Type  : ");
-        String _type = this._generatorUtils.getBoardVersion(board).getType();
-        _builder.append(_type);
+        {
+          BoardVersion _boardVersion_1 = this._generatorUtils.getBoardVersion(board);
+          boolean _tripleNotEquals_1 = (_boardVersion_1 != null);
+          if (_tripleNotEquals_1) {
+            String _type = this._generatorUtils.getBoardVersion(board).getType();
+            _builder.append(_type);
+          } else {
+            _builder.append("unknown");
+          }
+        }
         _builder.newLineIfNotEmpty();
         _builder.append("* ");
         _builder.newLine();
@@ -209,21 +226,21 @@ public class IoTGenerator extends AbstractGenerator {
         _name=_ctype.getName();
       }
       final String channelType = _name;
-      if (((channelConfig instanceof Wifi) || Objects.equal(channelType, "cloud"))) {
+      if (((channelConfig instanceof Cloud) || Objects.equal(channelType, "cloud"))) {
         try {
           StringConcatenation _builder = new StringConcatenation();
           _builder.append("\"ip\"   : \"");
-          String _url = ((Wifi) channelConfig).getUrl();
+          String _url = ((Cloud) channelConfig).getUrl();
           _builder.append(_url);
           _builder.append("\",");
           _builder.newLineIfNotEmpty();
           _builder.append("\"port\"   : \"");
-          String _string = Integer.valueOf(((Wifi) channelConfig).getSport()).toString();
+          String _string = Integer.valueOf(((Cloud) channelConfig).getSport()).toString();
           _builder.append(_string);
           _builder.append("\",");
           _builder.newLineIfNotEmpty();
           _builder.append("\"route\" : \"");
-          String _route = ((Wifi) channelConfig).getRoute();
+          String _route = ((Cloud) channelConfig).getRoute();
           _builder.append(_route);
           _builder.append("\"");
           _builder.newLineIfNotEmpty();
@@ -249,20 +266,13 @@ public class IoTGenerator extends AbstractGenerator {
             _builder.append("\"baud\" : \"");
             String _string = Integer.valueOf(((Serial) channelConfig).getBaud()).toString();
             _builder.append(_string);
-            _builder.append("\",");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\"stop\" : \"");
-            String _stopCharName = this._generatorUtils.getStopCharName(((Serial) channelConfig));
-            _builder.append(_stopCharName);
-            _builder.append("\" ");
+            _builder.append("\"");
             _builder.newLineIfNotEmpty();
             return _builder.toString();
           } catch (final Throwable _t) {
             if (_t instanceof Exception) {
               StringConcatenation _builder_1 = new StringConcatenation();
-              _builder_1.append("\"baud\" : \"\",");
-              _builder_1.newLine();
-              _builder_1.append("\"stop\" : \"\" ");
+              _builder_1.append("\"baud\" : \"\"");
               _builder_1.newLine();
               return _builder_1.toString();
             } else {
@@ -288,9 +298,10 @@ public class IoTGenerator extends AbstractGenerator {
               _builder.append(_client);
               _builder.append("\", ");
               _builder.newLineIfNotEmpty();
-              _builder.append("\"topic\"  : ");
+              _builder.append("\"topic\"  : \"");
               String _pub = ((MqttClient) channelConfig).getPub();
               _builder.append(_pub);
+              _builder.append("\"");
               _builder.newLineIfNotEmpty();
               return _builder.toString();
             } catch (final Throwable _t) {

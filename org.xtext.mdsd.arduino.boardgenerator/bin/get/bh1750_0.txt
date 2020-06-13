@@ -1,0 +1,11 @@
+int ret;
+float bh1750_data;
+if (bh1750 == NULL){
+    return tbl;
+}
+ret = iot_bh1750_get_data(bh1750, &bh1750_data);
+if (ret != ESP_OK){
+    printf("No ack, sensor not connected...\n");
+    return tbl;
+}
+return bh1750_data;

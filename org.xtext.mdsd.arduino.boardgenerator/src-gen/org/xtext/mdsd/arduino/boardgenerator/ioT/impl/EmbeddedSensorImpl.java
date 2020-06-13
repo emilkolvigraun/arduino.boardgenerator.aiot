@@ -5,26 +5,24 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
+import org.xtext.mdsd.arduino.boardgenerator.ioT.EmbeddedSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.StopIdentifyer;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Stop Identifyer</b></em>'.
+ * An implementation of the model object '<em><b>Embedded Sensor</b></em>'.
  * <!-- end-user-doc -->
  *
  * @generated
  */
-public class StopIdentifyerImpl extends MinimalEObjectImpl.Container implements StopIdentifyer
+public class EmbeddedSensorImpl extends SensorTypeImpl implements EmbeddedSensor
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected StopIdentifyerImpl()
+  protected EmbeddedSensorImpl()
   {
     super();
   }
@@ -37,7 +35,7 @@ public class StopIdentifyerImpl extends MinimalEObjectImpl.Container implements 
   @Override
   protected EClass eStaticClass()
   {
-    return IoTPackage.Literals.STOP_IDENTIFYER;
+    return IoTPackage.Literals.EMBEDDED_SENSOR;
   }
 
-} //StopIdentifyerImpl
+} //EmbeddedSensorImpl

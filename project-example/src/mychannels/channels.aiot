@@ -1,0 +1,37 @@
+
+# a warning is privided to inform the user
+# that it is unwise to write passwords in the code 
+wifi home:  
+	ssid "Obi LAN Kenobi"
+	pass "password"
+ 
+# wifi can also be configured without 
+# a password	   
+wifi work: 
+	ssid "Luke SkyRouter"   
+	      
+# declaring a cloud server with parameters
+channel server: 
+	ip "127.0.0.1" 
+	port 8000
+	route "/data"    
+
+# a cloud without parameters
+cloud channel web 
+
+# a serial link without parameters  
+serial channel com4 
+
+# an mqtt client without parameters
+mqtt channel bus
+  
+# declaring a serial link with parameters
+channel serial:   
+	baud 115200  
+  
+# declaring an mqtt client with parameters
+channel client:    
+	broker "192.168.1.133" 
+	port   1830  
+	id     "id" 
+	topic  "topic" 

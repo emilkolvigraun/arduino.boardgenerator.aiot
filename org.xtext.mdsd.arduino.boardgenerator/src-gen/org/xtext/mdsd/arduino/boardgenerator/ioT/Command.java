@@ -14,7 +14,7 @@ package org.xtext.mdsd.arduino.boardgenerator.ioT;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command#getCommand <em>Command</em>}</li>
- *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command#getTopic <em>Topic</em>}</li>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command#getBaud <em>Baud</em>}</li>
  * </ul>
  *
  * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getCommand()
@@ -46,25 +46,25 @@ public interface Command extends Sampler
   void setCommand(String value);
 
   /**
-   * Returns the value of the '<em><b>Topic</b></em>' attribute.
+   * Returns the value of the '<em><b>Baud</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Topic</em>' attribute.
-   * @see #setTopic(String)
-   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getCommand_Topic()
+   * @return the value of the '<em>Baud</em>' attribute.
+   * @see #setBaud(int)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getCommand_Baud()
    * @model
    * @generated
    */
-  String getTopic();
+  int getBaud();
 
   /**
-   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command#getTopic <em>Topic</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.Command#getBaud <em>Baud</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Topic</em>' attribute.
-   * @see #getTopic()
+   * @param value the new value of the '<em>Baud</em>' attribute.
+   * @see #getBaud()
    * @generated
    */
-  void setTopic(String value);
+  void setBaud(int value);
 
 } // Command

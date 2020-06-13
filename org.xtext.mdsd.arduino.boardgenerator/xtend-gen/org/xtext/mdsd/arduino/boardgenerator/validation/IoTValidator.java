@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -37,8 +36,11 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Command;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.EmbeddedSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Equal;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Expression;
@@ -61,18 +63,17 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Not;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Or;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference;
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SDConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable;
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig;
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline;
 import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider;
@@ -116,7 +117,7 @@ public class IoTValidator extends AbstractIoTValidator {
         this.error(_builder.toString(), IoTPackage.Literals.SENSOR__VARS);
       }
       if ((vcc < 1)) {
-        this.error("this declaration of sensor needs vcc", IoTPackage.eINSTANCE.getSensor_Name());
+        this.info("this declaration of sensor might need vcc", IoTPackage.eINSTANCE.getSensor_Name());
       }
     }
     final List<String> list = this.construct(sensor.getVars().getIds());
@@ -127,7 +128,7 @@ public class IoTValidator extends AbstractIoTValidator {
     if (_notEquals_1) {
       this.error("variables must be unique", IoTPackage.Literals.SENSOR__VARS);
     }
-    if (((externalSensor instanceof OnboardSensor) && (vcc > 0))) {
+    if (((externalSensor instanceof EmbeddedSensor) && (vcc > 0))) {
       this.warning("supported sensors does not require vcc", IoTPackage.eINSTANCE.getSensor_Vcc());
     }
   }
@@ -219,9 +220,9 @@ public class IoTValidator extends AbstractIoTValidator {
     int _size = external.getInput().size();
     boolean _notEquals = (_size != functionOutput);
     if (_notEquals) {
-      final ArrayList<String> inputs = CollectionLiterals.<String>newArrayList();
+      final ArrayList<FunctionInputType> inputs = CollectionLiterals.<FunctionInputType>newArrayList();
       final Consumer<FunctionInputType> _function = (FunctionInputType i) -> {
-        inputs.add(i.getName());
+        inputs.add(i);
       };
       external.getFunction().getInput().forEach(_function);
       StringConcatenation _builder = new StringConcatenation();
@@ -351,9 +352,20 @@ public class IoTValidator extends AbstractIoTValidator {
     return _xblockexpression;
   }
   
-  public void throwDifferentChannelsError(final int length, final String message, final EAttribute instance) {
+  public int throwDifferentChannelsError(final int length, final String message, final EAttribute instance) {
     if ((length > 1)) {
       this.error(message, instance);
+    }
+    return length;
+  }
+  
+  public void validateCommandSamplersBaud(final List<Sensor> sensors, final int serials, final EAttribute instance) {
+    for (final Sensor s : sensors) {
+      if ((((s.getSampler() instanceof Command) && (((Command) s.getSampler()).getBaud() > 0)) && (serials > 0))) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("only one serial communication can be declared per board");
+        this.error(_builder.toString(), instance);
+      }
     }
   }
   
@@ -362,7 +374,8 @@ public class IoTValidator extends AbstractIoTValidator {
     int _size = this.getBoardSerialChannels(board.getSensors()).size();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("the use of different serial channels is prohibited");
-    this.throwDifferentChannelsError(_size, _builder.toString(), IoTPackage.eINSTANCE.getAbstractBoard_Name());
+    final int serials = this.throwDifferentChannelsError(_size, _builder.toString(), IoTPackage.eINSTANCE.getAbstractBoard_Name());
+    this.validateCommandSamplersBaud(board.getSensors(), serials, IoTPackage.eINSTANCE.getAbstractBoard_Name());
     int _size_1 = this.getBoardMQTTChannels(board.getSensors()).size();
     StringConcatenation _builder_1 = new StringConcatenation();
     _builder_1.append("the use of different mqtt channels is prohibited");
@@ -371,6 +384,13 @@ public class IoTValidator extends AbstractIoTValidator {
     StringConcatenation _builder_2 = new StringConcatenation();
     _builder_2.append("the use of different wifi channels is prohibited");
     this.throwDifferentChannelsError(_size_2, _builder_2.toString(), IoTPackage.eINSTANCE.getAbstractBoard_Name());
+    boolean _validateSDparams = this.validateSDparams(board.getVersion());
+    boolean _not = (!_validateSDparams);
+    if (_not) {
+      StringConcatenation _builder_3 = new StringConcatenation();
+      _builder_3.append("this board needs an SD card configuration");
+      this.error(_builder_3.toString(), IoTPackage.eINSTANCE.getAbstractBoard_Name());
+    }
   }
   
   @Check
@@ -382,8 +402,9 @@ public class IoTValidator extends AbstractIoTValidator {
     }
     List<Sensor> _list_1 = IterableExtensions.<Sensor>toList(board.getAbstractBoard().getSensors());
     final Iterable<Sensor> sensors = Iterables.<Sensor>concat(_list, _list_1);
-    List<String> _boardSerialChannels = this.getBoardSerialChannels(IterableExtensions.<Sensor>toList(sensors));
-    int _size = new HashSet<String>(_boardSerialChannels).size();
+    final List<String> serials = this.getBoardSerialChannels(IterableExtensions.<Sensor>toList(sensors));
+    this.validateCommandSamplersBaud(board.getSensors(), serials.size(), IoTPackage.eINSTANCE.getBoard_Name());
+    int _size = new HashSet<String>(serials).size();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("the use of different serial channels is prohibited");
     this.throwDifferentChannelsError(_size, _builder.toString(), IoTPackage.eINSTANCE.getBoard_Name());
@@ -413,22 +434,63 @@ public class IoTValidator extends AbstractIoTValidator {
         sensor.getOutput().forEach(_function);
       }
     }
+    boolean _validateSDparams = this.validateSDparams(board.getAbstractBoard().getVersion());
+    boolean _not = (!_validateSDparams);
+    if (_not) {
+      StringConcatenation _builder_3 = new StringConcatenation();
+      _builder_3.append("this board needs an SD card configuration");
+      this.error(_builder_3.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+    }
+  }
+  
+  public boolean validateSDparams(final BoardVersion version) {
+    boolean _xblockexpression = false;
+    {
+      boolean _isNull = Boards.getBoardSupported(version).isNull();
+      if (_isNull) {
+        if ((version != null)) {
+          SDConfig _sdconfig = version.getSdconfig();
+          boolean _tripleEquals = (_sdconfig == null);
+          if (_tripleEquals) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        return false;
+      }
+      _xblockexpression = true;
+    }
+    return _xblockexpression;
   }
   
   @Check
-  public void validateNewBoard(final NewBoard board) {
-    int _size = this.getBoardSerialChannels(board.getSensors()).size();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("the use of different serial channels is prohibited");
-    this.throwDifferentChannelsError(_size, _builder.toString(), IoTPackage.eINSTANCE.getBoard_Name());
-    int _size_1 = this.getBoardMQTTChannels(board.getSensors()).size();
-    StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append("the use of different mqtt channels is prohibited");
-    this.throwDifferentChannelsError(_size_1, _builder_1.toString(), IoTPackage.eINSTANCE.getBoard_Name());
-    int _size_2 = this.getBoardWiFiChannels(board.getSensors()).size();
-    StringConcatenation _builder_2 = new StringConcatenation();
-    _builder_2.append("the use of different wifi channels is prohibited");
-    this.throwDifferentChannelsError(_size_2, _builder_2.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+  public int validateNewBoard(final NewBoard board) {
+    int _xblockexpression = (int) 0;
+    {
+      boolean _validateSDparams = this.validateSDparams(board.getVersion());
+      boolean _not = (!_validateSDparams);
+      if (_not) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("this board needs an SD card configuration");
+        this.error(_builder.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+      }
+      final List<String> serials = this.getBoardSerialChannels(IterableExtensions.<Sensor>toList(board.getSensors()));
+      this.validateCommandSamplersBaud(board.getSensors(), serials.size(), IoTPackage.eINSTANCE.getBoard_Name());
+      int _size = serials.size();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("the use of different serial channels is prohibited");
+      this.throwDifferentChannelsError(_size, _builder_1.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+      int _size_1 = this.getBoardMQTTChannels(board.getSensors()).size();
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("the use of different mqtt channels is prohibited");
+      this.throwDifferentChannelsError(_size_1, _builder_2.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+      int _size_2 = this.getBoardWiFiChannels(board.getSensors()).size();
+      StringConcatenation _builder_3 = new StringConcatenation();
+      _builder_3.append("the use of different wifi channels is prohibited");
+      _xblockexpression = this.throwDifferentChannelsError(_size_2, _builder_3.toString(), IoTPackage.eINSTANCE.getBoard_Name());
+    }
+    return _xblockexpression;
   }
   
   public List<String> ifChannelsWifiDependent(final List<Channel> channels) {
@@ -436,7 +498,7 @@ public class IoTValidator extends AbstractIoTValidator {
     {
       ArrayList<String> wifiChannels = CollectionLiterals.<String>newArrayList();
       for (final Channel channel : channels) {
-        if ((((channel.getConfig() instanceof Wifi) || (channel.getConfig() instanceof MqttClient)) || ((channel.getCtype() != null) && Objects.equal(channel.getCtype().getName(), "cloud")))) {
+        if ((((channel.getConfig() instanceof Cloud) || (channel.getConfig() instanceof MqttClient)) || ((channel.getCtype() != null) && Objects.equal(channel.getCtype().getName(), "cloud")))) {
           wifiChannels.add(channel.getName());
         }
       }
@@ -587,8 +649,8 @@ public class IoTValidator extends AbstractIoTValidator {
     final boolean configExists = (_config == null);
     ChannelType _ctype = channel.getCtype();
     final boolean typeExists = (_ctype == null);
-    boolean _xOr = this._typeChecker.xOr(typeExists, configExists);
-    boolean _not = (!_xOr);
+    boolean _and = this._typeChecker.and(typeExists, configExists);
+    boolean _not = (!_and);
     if (_not) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("either type or configuration must be defined explicitly");
@@ -607,7 +669,7 @@ public class IoTValidator extends AbstractIoTValidator {
     final boolean dublicate = this.validateOccursOnce(this.getListQualifiedNames(functions), function.getName());
     if (dublicate) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("board name \"");
+      _builder.append("function name \"");
       String _name = function.getName();
       _builder.append(_name);
       _builder.append("\" is already taken");
@@ -616,12 +678,12 @@ public class IoTValidator extends AbstractIoTValidator {
   }
   
   @Check
-  public void validateFunctionType(final FunctionInputType functionType) {
-    boolean _ifInvalid = this._typeChecker.ifInvalid(this._typeChecker.type(functionType));
+  public void validateFunctionType(final FunctionInputType function) {
+    boolean _ifInvalid = this._typeChecker.ifInvalid(this._typeChecker.type(function));
     if (_ifInvalid) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("invalid type");
-      this.error(_builder.toString(), IoTPackage.eINSTANCE.getFunctionInputType_Name(), IoTValidator.INVALID_FUNCTION_TYPE, functionType.getName());
+      this.error(_builder.toString(), IoTPackage.eINSTANCE.getFunctionInputType_Name(), IoTValidator.INVALID_FUNCTION_TYPE, function.getName());
     }
   }
   
@@ -663,7 +725,21 @@ public class IoTValidator extends AbstractIoTValidator {
     return true;
   }
   
-  @Check(CheckType.NORMAL)
+  public boolean appearsOnce(final List<Integer> list, final Integer name) {
+    int counter = 0;
+    for (final Integer actual : list) {
+      boolean _equals = Objects.equal(actual, name);
+      if (_equals) {
+        counter++;
+      }
+    }
+    if ((counter > 1)) {
+      return false;
+    }
+    return true;
+  }
+  
+  @Check
   public void validateSensorNamesUniversallyUnique(final Sensor sensor) {
     final boolean error = this.appearsOnce(this.getListQualifiedNames(this.getGlobalEObjectsOfType(EcoreUtil2.<Model>getContainerOfType(sensor, Model.class), IoTPackage.eINSTANCE.getSensor())), sensor.getName());
     AbstractBoard abstractContainer = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
@@ -673,7 +749,6 @@ public class IoTValidator extends AbstractIoTValidator {
       _builder.append(_name);
       _builder.append(" might be overwritten");
       this.info(_builder.toString(), IoTPackage.Literals.SENSOR__NAME);
-      return;
     }
     ExtendsBoard extendsBoard = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
     AbstractBoard abstractBoard = extendsBoard.getAbstractBoard();
@@ -699,7 +774,6 @@ public class IoTValidator extends AbstractIoTValidator {
         _builder_2.append(_name_2);
         this.info(_builder_2.toString(), IoTPackage.Literals.SENSOR__NAME);
       }
-      return;
     }
     NewBoard newBoard = EcoreUtil2.<NewBoard>getContainerOfType(sensor, NewBoard.class);
     boolean _appearsOnce_1 = this.appearsOnce(this.asStringListSensor(newBoard.getSensors()), sensor.getName());
@@ -721,13 +795,13 @@ public class IoTValidator extends AbstractIoTValidator {
       String _string = board.toString();
       _builder.append(_string);
       _builder.append(" supports the following sensors: ");
-      Set<String> _sensors = board.getSensors();
-      _builder.append(_sensors);
+      String _infoMessage = board.infoMessage();
+      _builder.append(_infoMessage);
       this.info(_builder.toString(), IoTPackage.Literals.BOARD_VERSION__TYPE);
     }
   }
   
-  public void validateOnboardSensorVariables(final Boards board, final String sensor, final List<Variable> vars, final EReference ref) {
+  public void validateEmbeddedSensorVariables(final Boards board, final String sensor, final List<Variable> vars, final EReference ref) {
     boolean _supportsSensor = board.supportsSensor(sensor);
     if (_supportsSensor) {
       int _variableCount = board.getVariableCount(sensor);
@@ -824,28 +898,28 @@ public class IoTValidator extends AbstractIoTValidator {
   }
   
   @Check
-  public void validateOnboardSensorVariables(final Sensor sensor) {
+  public void validateEmbeddedSensorVariables(final Sensor sensor) {
     final NewBoard nboard = EcoreUtil2.<NewBoard>getContainerOfType(sensor, NewBoard.class);
     if ((nboard != null)) {
       final Boards board = Boards.getBoardSupported(nboard.getVersion());
-      this.validateOnboardSensorVariables(board, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
+      this.validateEmbeddedSensorVariables(board, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
       return;
     }
     final ExtendsBoard eboard = EcoreUtil2.<ExtendsBoard>getContainerOfType(sensor, ExtendsBoard.class);
     if ((eboard != null)) {
       final Boards board_1 = Boards.getBoardSupported(eboard.getAbstractBoard().getVersion());
-      this.validateOnboardSensorVariables(board_1, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
+      this.validateEmbeddedSensorVariables(board_1, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
       return;
     }
     final AbstractBoard aboard = EcoreUtil2.<AbstractBoard>getContainerOfType(sensor, AbstractBoard.class);
     if ((aboard != null)) {
       final Boards board_2 = Boards.getBoardSupported(aboard.getVersion());
-      this.validateOnboardSensorVariables(board_2, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
+      this.validateEmbeddedSensorVariables(board_2, sensor.getSensortype().getName(), sensor.getVars().getIds(), IoTPackage.eINSTANCE.getSensor_Vars());
     }
   }
   
   @Check
-  public void validateOnboardSensor(final OnboardSensor onbSensor) {
+  public void validateEmbeddedSensor(final EmbeddedSensor onbSensor) {
     NewBoard boardVersion = EcoreUtil2.<NewBoard>getContainerOfType(onbSensor, NewBoard.class);
     if ((boardVersion != null)) {
       final Boards board = Boards.getBoardSupported(boardVersion.getVersion());
@@ -954,6 +1028,48 @@ public class IoTValidator extends AbstractIoTValidator {
     }
   }
   
+  public void ifPINSContainSD(final Boards board, final SDConfig sd, final List<Integer> pins, final EStructuralFeature error) {
+    ArrayList<Integer> lst = CollectionLiterals.<Integer>newArrayList();
+    if ((sd != null)) {
+      lst.add(Integer.valueOf(sd.getClk()));
+      lst.add(Integer.valueOf(sd.getCs()));
+      lst.add(Integer.valueOf(sd.getSdo()));
+      lst.add(Integer.valueOf(sd.getDi()));
+      this.ifPINSContainSD(lst, pins, error);
+    } else {
+      this.ifPINSContainSD(board.getSDParameters(), pins, error);
+    }
+  }
+  
+  public void ifPINSContainSD(final List<Integer> sd, final List<Integer> pins, final EStructuralFeature error) {
+    for (final Integer i : sd) {
+      if ((pins.contains(i) || (!this.appearsOnce(pins, i)))) {
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("PINs cannot be duplicated");
+        final String msg = _builder.toString();
+        this.error(msg, error);
+      }
+    }
+  }
+  
+  @Check
+  public void validatePINSdoesNotOverlapWithSD(final ExternalSensor sensor) {
+    final EList<Integer> pins = sensor.getPins();
+    Board board = EcoreUtil2.<Board>getContainerOfType(sensor, Board.class);
+    if ((board == null)) {
+      SDConfig config = ((AbstractBoard) board).getVersion().getSdconfig();
+      this.ifPINSContainSD(Boards.getBoardSupported(((AbstractBoard) board).getVersion()), config, pins, IoTPackage.eINSTANCE.getExternalSensor_Pins());
+    } else {
+      if ((board instanceof ExtendsBoard)) {
+        SDConfig config_1 = ((ExtendsBoard) board).getAbstractBoard().getVersion().getSdconfig();
+        this.ifPINSContainSD(Boards.getBoardSupported(((ExtendsBoard) board).getAbstractBoard().getVersion()), config_1, pins, IoTPackage.eINSTANCE.getExternalSensor_Pins());
+      } else {
+        SDConfig config_2 = ((NewBoard) board).getVersion().getSdconfig();
+        this.ifPINSContainSD(Boards.getBoardSupported(((NewBoard) board).getVersion()), config_2, pins, IoTPackage.eINSTANCE.getExternalSensor_Pins());
+      }
+    }
+  }
+  
   @Check
   public void checkExpression(final Conditional conditional) {
     Expression _condition = conditional.getCondition();
@@ -964,7 +1080,11 @@ public class IoTValidator extends AbstractIoTValidator {
     Expression _incorrect = conditional.getIncorrect();
     boolean _tripleNotEquals_1 = (_incorrect != null);
     if (_tripleNotEquals_1) {
-      this.validateTypes(this._typeChecker.type(conditional.getIncorrect()), this._typeChecker.type(conditional.getCorrect()), IoTPackage.Literals.CONDITIONAL__INCORRECT);
+      boolean _isNumberType = this._typeChecker.isNumberType(this._typeChecker.type(conditional.getCorrect()));
+      boolean _not = (!_isNumberType);
+      if (_not) {
+        this.validateTypes(this._typeChecker.type(conditional.getIncorrect()), this._typeChecker.type(conditional.getCorrect()), IoTPackage.Literals.CONDITIONAL__INCORRECT);
+      }
     }
   }
   
@@ -1061,23 +1181,15 @@ public class IoTValidator extends AbstractIoTValidator {
   @Check
   public void checkExpression(final Plus plus) {
     if (((plus.getLeft() != null) && (plus.getRight() != null))) {
-      if (((!Objects.equal(this._typeChecker.type(plus.getLeft()), TypeChecker.Type.STRING)) && (!Objects.equal(this._typeChecker.type(plus.getRight()), TypeChecker.Type.STRING)))) {
-        this.validateNumbers(this._typeChecker.type(plus.getLeft()), IoTPackage.Literals.PLUS__LEFT);
-        this.validateNumbers(this._typeChecker.type(plus.getRight()), IoTPackage.Literals.PLUS__RIGHT);
-      }
+      this.validateNumbers(this._typeChecker.type(plus.getLeft()), IoTPackage.Literals.PLUS__LEFT);
     }
+    this.validateNumbers(this._typeChecker.type(plus.getRight()), IoTPackage.Literals.PLUS__RIGHT);
   }
   
   @Check
   public void checkExpression(final Minus minus) {
-    Expression _left = minus.getLeft();
-    boolean _tripleNotEquals = (_left != null);
-    if (_tripleNotEquals) {
+    if (((minus.getLeft() != null) && (minus.getRight() != null))) {
       this.validateNumbers(this._typeChecker.type(minus.getLeft()), IoTPackage.Literals.MINUS__LEFT);
-    }
-    Expression _right = minus.getRight();
-    boolean _tripleNotEquals_1 = (_right != null);
-    if (_tripleNotEquals_1) {
       this.validateNumbers(this._typeChecker.type(minus.getRight()), IoTPackage.Literals.MINUS__RIGHT);
     }
   }

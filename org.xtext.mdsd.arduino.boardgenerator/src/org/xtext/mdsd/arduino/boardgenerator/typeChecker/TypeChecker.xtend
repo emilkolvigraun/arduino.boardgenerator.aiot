@@ -15,14 +15,15 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Div
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Exponent
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 
-import static extension org.eclipse.xtext.EcoreUtil2.* import org.eclipse.emf.ecore.EObject
+import static extension org.eclipse.xtext.EcoreUtil2.* 
+import org.eclipse.emf.ecore.EObject
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
-import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
+import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient 
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 
 class TypeChecker {
 
@@ -80,7 +81,7 @@ class TypeChecker {
 		if (numberType == Type.INVALID) {
 			if (correctType == incorrectType) {
 				correctType
-			} else {
+			} else { 
 				Type.INVALID
 			}
 		} else {
@@ -201,9 +202,9 @@ class TypeChecker {
 			 
 		type 
 	}
-	 
+	  
 	def dispatch Type type(FunctionInputType functionType){
-		val name = functionType.name.toString
+		val name = functionType.name 
 		switch (name){   
 			case "num" : return Type.NUMBER
 			case "str" : return Type.STRING 
@@ -263,8 +264,8 @@ class TypeChecker {
 				return ChannelType.INVALID
 		 } else {
 		 	val config = channel.config
-		 	 
-		 	if(config instanceof Wifi)
+		 	  
+		 	if(config instanceof Cloud)
 		 		return ChannelType.CLOUD
 	 		else if (config instanceof Serial)
 	 			return ChannelType.SERIAL
@@ -275,9 +276,9 @@ class TypeChecker {
 		 }
 	}
 	 
-	def boolean xOr (boolean first, boolean second){
+	def boolean and (boolean first, boolean second){
 		if (first == second ){
-			return false
+			return false 
 		}  
 		return true
 	} 

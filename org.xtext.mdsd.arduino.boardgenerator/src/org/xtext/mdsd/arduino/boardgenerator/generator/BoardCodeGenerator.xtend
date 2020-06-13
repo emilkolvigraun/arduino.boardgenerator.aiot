@@ -3,24 +3,20 @@ package org.xtext.mdsd.arduino.boardgenerator.generator
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
-import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelConfig
 import com.google.inject.Inject
 import java.util.List
 import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker
 import org.xtext.mdsd.arduino.boardgenerator.validation.Boards
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MqttClient
-import java.util.HashMap
+import java.util.HashMap 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
 import java.util.HashSet
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Serial
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Frequency
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Command
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ExternalSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorType
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 import org.xtext.mdsd.arduino.boardgenerator.ioT.External
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Map 
@@ -31,6 +27,12 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Mean
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Median
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Min
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Max
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Interval
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Seconds
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Millis
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Micros
 
 class BoardCodeGenerator {  
 	
@@ -94,8 +96,8 @@ class BoardCodeGenerator {
 		bool booted = false; 
 		 
 		«FOR sensor : frequencySensors»
-		const double «sensor.name»UpdateTimer = «(sensor.sampler as Frequency).frequency.toString»;
-		double «sensor.name»LastUpdate = 0.0;
+		const double «sensor.name»UpdateTimer = «(sensor.sampler as Interval).intervalByResolution»;
+		double «sensor.name»LastUpdate = 0.0; 
 		 
 		«ENDFOR»
 		«FOR sensor : commandSensors»
@@ -133,18 +135,18 @@ class BoardCodeGenerator {
 			«env.get(key)»
 			 
 		«ENDFOR»
+		«globalUniqueChannels.generateTransferFunctions»
+		«sensors.generateExternalSensorsGet»
+		«externals.toList.generateExternalFunctions»
 		«FOR s : windows.keySet()»
 		«s.generateWindowFunctions(windows.get(s))»
 		 
 		«ENDFOR»
-		«globalUniqueChannels.generateTransferFunctions»
-		«sensors.generateExternalSensorsGet»
-		«externals.toList.generateExternalFunctions»
 		void setup () {
 		 
 			if (init_SD_card()) {
 				booted = true;
-				«channels.getSerialBegin»
+				«channels.getSerialBegin(sensors)»
 				
 				«sensors.initExternalSensors»
 				
@@ -173,6 +175,16 @@ class BoardCodeGenerator {
 		}
 		''' 
 	}    
+	
+	def String getIntervalByResolution(Interval interval){
+		if (interval.resolution instanceof Seconds)
+			return (interval.interval*1000).toString
+		if (interval.resolution instanceof Millis)
+			return (interval.interval/1000).toString
+		if (interval.resolution instanceof Micros)
+			return (interval.interval/1000/1000).toString
+		return interval.interval.toString
+	}
 	
 	 def String getExecuteFunction(ExecutePipeline pipe, String type, String name){
 	 	switch (pipe){ 
@@ -250,14 +262,13 @@ class BoardCodeGenerator {
 		var input = ""
 		var counter = 0
 		for (FunctionInputType inp : function.input){
-			
 			if (inp.name == 'num')
 				input += "float x"+counter.toString+", "
 			if (inp.name == 'str')
 				input += "String x"+counter.toString+", "
 			if (inp.name == 'bool')
 				input += "bool x"+counter.toString+", "
-			counter+=1
+			counter+=1 
 		} 
 		input.substring(0, input.length-2)  
 	}
@@ -265,6 +276,7 @@ class BoardCodeGenerator {
 	def String generateExternalFunctions(List<External> externals){
 		'''
 		«FOR external : externals»
+		// EXTERNAL FUNCTION : BEGIN
 		struct «external.function.name»Tuple {
 			float tuple[«external.function.output.size»];
 		};
@@ -274,6 +286,7 @@ class BoardCodeGenerator {
 			struct «external.function.name»Tuple tbl;
 			return tbl;
 		}
+		// EXTERNAL FUNCTION : END
 		«ENDFOR»
 		'''
 	}
@@ -303,7 +316,6 @@ class BoardCodeGenerator {
 			if(sensor.sensortype instanceof ExternalSensor){
 				initStr += 	'''
 							pinMode(«sensor.vcc.toString», OUTPUT);
-							digitalWrite(«sensor.vcc.toString», HIGH);
 							'''
 			}
 		}  
@@ -331,8 +343,8 @@ class BoardCodeGenerator {
 		var lastIsExternal = false  
 		var prevType = '''«sensorName»Tuple'''
 		for (SensorOutput sensorOutput : sensorOutputs){
-			var pipeline = sensorOutput.output.pipeline
-	 		while (pipeline !== null){ 
+			var pipeline = sensorOutput.pipeline 
+	 		while (pipeline !== null){  
 	 			switch (pipeline){ 
 	 				Window: {
 	 					pipeStr.add('''float «sensorName»Window = «sensorName»«varId.toFirstUpper»Window(«prevIdentifier»);''')
@@ -390,7 +402,7 @@ class BoardCodeGenerator {
 	  
 	def String generateSensorDataSample(Sensor sensor){		
 		val sampler = sensor.sampler
-		if (sampler !== null && sampler instanceof Frequency){
+		if (sampler !== null && sampler instanceof Interval){
 			return '''
 					if (systemTime - «sensor.name»LastUpdate >= «sensor.name»UpdateTimer){
 						
@@ -420,7 +432,7 @@ class BoardCodeGenerator {
 	
 	def String getCorrectTransferMethod(Channel channel){
 		val config = channel.config
-		if (config instanceof Wifi || typeChecker.ifServerType(channel)) {
+		if (config instanceof Cloud || typeChecker.ifServerType(channel)) {
 			return '''
 			void transmit«channel.name.toFirstUpper»(String message){				
 				connect«channel.name.toFirstUpper»();
@@ -466,7 +478,7 @@ class BoardCodeGenerator {
 	
 	def String getCorrectChannelFunctionCallOnInit(Channel channel){
 		val config = channel.config
-		if (config instanceof Wifi || typeChecker.ifServerType(channel)) {
+		if (config instanceof Cloud || typeChecker.ifServerType(channel)) {
 			return '''connect«channel.name.toFirstUpper»();'''
 		} else if(channel instanceof MqttClient || typeChecker.ifMQTTType(channel)){
 			return '''
@@ -489,7 +501,7 @@ class BoardCodeGenerator {
 	
 	def String initChannel(Channel channel){
 		val config = channel.config
-		if (config instanceof Wifi || typeChecker.ifServerType(channel)) {
+		if (config instanceof Cloud || typeChecker.ifServerType(channel)) {
 			env.put(channel, 
 			'''
 			IPAddress get«channel.name.toFirstUpper»IPAddress(){
@@ -554,7 +566,17 @@ class BoardCodeGenerator {
 		'''''' 
 	}
 	
-	def String getSerialBegin(List<Channel> channels){
+	def String getSerialBegin(List<Channel> channels, List<Sensor> sensors){
+		for (Sensor sensor : sensors){
+			val sampler = sensor.sampler
+			if (sampler !== null && sampler instanceof Command && (sampler as Command).baud > 0) {
+				return '''
+							Serial.begin(«(sampler as Command).baud»);
+							delay(1);
+							''' 
+			}  
+		} 
+		
 		for (Channel channel : channels){
 			if (typeChecker.ifSerialType(channel)){
 				if (channel.config !== null){ 
@@ -619,10 +641,20 @@ class BoardCodeGenerator {
 	
 	def String generateInitializeSDCard(Board board){ 
 		val supportedBoard = Boards.getBoardSupported(board.boardVersion)
+		var clk = supportedBoard.getSDMapping("sd_clk")
+		var sdo = supportedBoard.getSDMapping("sd_do")
+		var di = supportedBoard.getSDMapping("sd_di")
+		var cs = supportedBoard.getSDMapping("sd_cs")
+		if (supportedBoard.isNull){
+		 	clk = board.boardVersion.sdconfig.clk
+			sdo = board.boardVersion.sdconfig.sdo
+			di = board.boardVersion.sdconfig.di
+			cs = board.boardVersion.sdconfig.cs 
+		}  
 		
 		'''
 		bool init_SD_card () {
-			SPI.begin(«supportedBoard.getSDMapping("sd_clk")», «supportedBoard.getSDMapping("sd_do")», «supportedBoard.getSDMapping("sd_di")», «supportedBoard.getSDMapping("sd_cs")»);
+			SPI.begin(«clk», «sdo», «di», «cs»);
 			if (!SD.begin(«supportedBoard.getSDMapping("sd_cs")»)) {
 				return false;
 			}

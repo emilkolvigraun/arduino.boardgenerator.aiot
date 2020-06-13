@@ -15,6 +15,7 @@ import org.eclipse.xtext.validation.CheckType
 import org.xtext.mdsd.arduino.boardgenerator.ioT.AbstractBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.And
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Board
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Reference 
 import org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Conditional
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Div
@@ -37,7 +38,7 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Mul
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Negation
 import org.xtext.mdsd.arduino.boardgenerator.ioT.NewBoard
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Not
-import org.xtext.mdsd.arduino.boardgenerator.ioT.OnboardSensor
+import org.xtext.mdsd.arduino.boardgenerator.ioT.EmbeddedSensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Or
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Pipeline
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Plus
@@ -46,7 +47,6 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Sensor
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorVariables
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Unequal
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Variable
-import org.xtext.mdsd.arduino.boardgenerator.ioT.Wifi
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WindowPipeline
 import org.xtext.mdsd.arduino.boardgenerator.scoping.IoTGlobalScopeProvider
 import org.xtext.mdsd.arduino.boardgenerator.typeChecker.TypeChecker
@@ -56,11 +56,14 @@ import org.xtext.mdsd.arduino.boardgenerator.ioT.Channel
 import org.xtext.mdsd.arduino.boardgenerator.ioT.WifiConfig
 import org.xtext.mdsd.arduino.boardgenerator.ioT.SensorOutput
 import org.xtext.mdsd.arduino.boardgenerator.ioT.Function
-import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
 import org.xtext.mdsd.arduino.boardgenerator.ioT.ChannelType
 import java.util.Arrays
 import org.eclipse.emf.ecore.EAttribute
 import org.xtext.mdsd.arduino.boardgenerator.ioT.MapPipeline
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Cloud
+import org.xtext.mdsd.arduino.boardgenerator.ioT.FunctionInputType
+import org.xtext.mdsd.arduino.boardgenerator.ioT.Command
+import org.xtext.mdsd.arduino.boardgenerator.ioT.SDConfig
 
 /**
  * This class contains custom validation rules. 
@@ -88,8 +91,8 @@ class IoTValidator extends AbstractIoTValidator {
 				error('''number of vars must equal «externalSensor.pins.size()»''', IoTPackage.Literals.SENSOR__VARS); 
 			}       
 			if (vcc < 1){
-				error("this declaration of sensor needs vcc", IoTPackage.eINSTANCE.sensor_Name); 
-			}
+				info("this declaration of sensor might need vcc", IoTPackage.eINSTANCE.sensor_Name); 
+			} 
 		}
 		val list = sensor.vars.ids.construct
 		val set = new HashSet<String>(list)
@@ -97,7 +100,7 @@ class IoTValidator extends AbstractIoTValidator {
 			error("variables must be unique", IoTPackage.Literals.SENSOR__VARS);
 		}
 		 
-		if (externalSensor instanceof OnboardSensor && vcc > 0){   
+		if (externalSensor instanceof EmbeddedSensor && vcc > 0){   
 			warning("supported sensors does not require vcc", IoTPackage.eINSTANCE.sensor_Vcc)
 		}   
 	} 
@@ -152,7 +155,7 @@ class IoTValidator extends AbstractIoTValidator {
 		var functionOutput = external.function.input.size() 
 		if(external.input.size() != functionOutput){
 			val inputs = newArrayList()  
-			external.function.input.forEach[i | inputs.add(i.name)] 
+			external.function.input.forEach[i | inputs.add(i)] 
 			error('''input does not match declared function «external.function.name»«inputs.toString.replace('[', '(').replace(']', ')')»''', IoTPackage.eINSTANCE.external_Function)
 		} 
 		var sensor = external.getContainerOfType(Sensor)
@@ -162,8 +165,8 @@ class IoTValidator extends AbstractIoTValidator {
 			}
 			try{
 				var inputType = (external.input.get(i) as Expression).type			
-				var acceptedInputType = external.function.input.get(i).type 
-				 
+				var acceptedInputType = external.function.input.get(i).type
+				    
 				if (acceptedInputType.isNumberType){
 					inputType.validateNumbers(IoTPackage.eINSTANCE.external_Input) 
 				} else {  
@@ -226,23 +229,37 @@ class IoTValidator extends AbstractIoTValidator {
 		serverOutputs
 	}
 	
-	def throwDifferentChannelsError(int length, String message, EAttribute instance){
+	def int throwDifferentChannelsError(int length, String message, EAttribute instance){
 		if (length > 1){  
 			error(message, instance)
 		} 
+		return length
 	}
-	 
+	
+	def validateCommandSamplersBaud(List<Sensor> sensors, int serials, EAttribute instance){
+		for (Sensor s : sensors) 
+			if ( s.sampler instanceof Command && (s.sampler as Command).baud > 0 && serials > 0)	
+				error('''only one serial communication can be declared per board''', instance)
+	}
+	    
 	@Check
 	def validateAbstractBoard(AbstractBoard board){
-		board.sensors.boardSerialChannels.size.throwDifferentChannelsError('''the use of different serial channels is prohibited''', IoTPackage.eINSTANCE.abstractBoard_Name)
+		val serials = board.sensors.boardSerialChannels.size.throwDifferentChannelsError('''the use of different serial channels is prohibited''', IoTPackage.eINSTANCE.abstractBoard_Name)
+		board.sensors.validateCommandSamplersBaud(serials, IoTPackage.eINSTANCE.abstractBoard_Name)
 		board.sensors.boardMQTTChannels.size.throwDifferentChannelsError('''the use of different mqtt channels is prohibited''', IoTPackage.eINSTANCE.abstractBoard_Name)
 		board.sensors.boardWiFiChannels.size.throwDifferentChannelsError('''the use of different wifi channels is prohibited''', IoTPackage.eINSTANCE.abstractBoard_Name)
+        
+		if(!board.version.validateSDparams) { 
+        	error('''this board needs an SD card configuration''', IoTPackage.eINSTANCE.abstractBoard_Name)
+        }
 	} 
 	
-	@Check
+	@Check 
 	def validateExtendsBoard(ExtendsBoard board){
 		val sensors = board.sensors?.toList + board.abstractBoard.sensors.toList
-		new HashSet<String>(sensors.toList.boardSerialChannels).size.throwDifferentChannelsError('''the use of different serial channels is prohibited''', IoTPackage.eINSTANCE.board_Name)
+		val serials = sensors.toList.boardSerialChannels 
+		board.sensors.validateCommandSamplersBaud(serials.size, IoTPackage.eINSTANCE.board_Name)
+		new HashSet<String>(serials).size.throwDifferentChannelsError('''the use of different serial channels is prohibited''', IoTPackage.eINSTANCE.board_Name)
 		board.sensors.boardMQTTChannels.size.throwDifferentChannelsError('''the use of different mqtt channels is prohibited''', IoTPackage.eINSTANCE.board_Name)	
 		board.sensors.boardWiFiChannels.size.throwDifferentChannelsError('''the use of different wifi channels is prohibited''', IoTPackage.eINSTANCE.board_Name)
 		
@@ -254,20 +271,44 @@ class IoTValidator extends AbstractIoTValidator {
 					}
 				] 
 			} 
-		}
+		} 
+		
+		if(!board.abstractBoard.version.validateSDparams) {
+        	error('''this board needs an SD card configuration''', IoTPackage.eINSTANCE.board_Name)
+        }	
+	}  
+	
+	def boolean validateSDparams(BoardVersion version){
+		if(Boards.getBoardSupported(version).isNull) {
+			if (version !== null){ 
+				if (version.sdconfig === null){
+					return false
+				} else {
+					return true
+				}
+			}
+			return false 
+        }	 
+        true
 	} 
-	 
-	@Check 
+	  
+	@Check  
 	def validateNewBoard(NewBoard board){
-		board.sensors.boardSerialChannels.size.throwDifferentChannelsError('''the use of different serial channels is prohibited''', IoTPackage.eINSTANCE.board_Name)
+		if(!board.version.validateSDparams) {
+        	error('''this board needs an SD card configuration''', IoTPackage.eINSTANCE.board_Name)
+        }	
+		val serials = board.sensors.toList.boardSerialChannels
+		board.sensors.validateCommandSamplersBaud(serials.size, IoTPackage.eINSTANCE.board_Name)
+		serials.size.throwDifferentChannelsError('''the use of different serial channels is prohibited''', IoTPackage.eINSTANCE.board_Name)
 		board.sensors.boardMQTTChannels.size.throwDifferentChannelsError('''the use of different mqtt channels is prohibited''', IoTPackage.eINSTANCE.board_Name)
 		board.sensors.boardWiFiChannels.size.throwDifferentChannelsError('''the use of different wifi channels is prohibited''', IoTPackage.eINSTANCE.board_Name)
+	 
 	}  
 	 
 	def List<String> ifChannelsWifiDependent(List<Channel> channels){
 		var wifiChannels = newArrayList()
 		for(Channel channel : channels){
-			if (channel.config instanceof Wifi || channel.config instanceof MqttClient || (channel.ctype !== null && channel.ctype.name == "cloud"))
+			if (channel.config instanceof Cloud || channel.config instanceof MqttClient || (channel.ctype !== null && channel.ctype.name == "cloud"))
 				wifiChannels.add(channel.name)
 		}  
 		wifiChannels
@@ -363,7 +404,7 @@ class IoTValidator extends AbstractIoTValidator {
 			
 		val configExists = channel.config === null
 		val typeExists = channel.ctype === null
-		if (!typeExists.xOr(configExists)){
+		if (!typeExists.and(configExists)){
 			error('''either type or configuration must be defined explicitly''', IoTPackage.Literals.CHANNEL__NAME)	
 		}  
 		 
@@ -377,14 +418,15 @@ class IoTValidator extends AbstractIoTValidator {
 		val functions = function.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.function)
 		val dublicate = functions.listQualifiedNames.validateOccursOnce(function.name) 
 		if (dublicate)     
-			error('''board name "«function.name»" is already taken''', IoTPackage.Literals.FUNCTION__NAME)
-	}
+			error('''function name "«function.name»" is already taken''', IoTPackage.Literals.FUNCTION__NAME)
+	} 
 	
-	@Check 
-	def validateFunctionType(FunctionInputType functionType){
-		if (functionType.type.ifInvalid)  
-			error('''invalid type''', IoTPackage.eINSTANCE.functionInputType_Name, INVALID_FUNCTION_TYPE, functionType.name)
-	}
+	@Check  
+	def validateFunctionType(FunctionInputType function){
+		if (function.type.ifInvalid)    
+			error('''invalid type''', IoTPackage.eINSTANCE.functionInputType_Name, INVALID_FUNCTION_TYPE, function.name)
+		
+	} 
 	
 	def asStringList(List<Variable> vars){
 		val list = newArrayList()
@@ -413,14 +455,24 @@ class IoTValidator extends AbstractIoTValidator {
 		return true
 	}
 	
-	@Check(CheckType.NORMAL) 
+	def boolean appearsOnce(List<Integer> list, Integer name){
+		var counter = 0
+		for(Integer actual : list){
+			if (actual == name)
+				counter++
+		}
+		if (counter > 1) 
+			return false
+		return true
+	}
+	
+	@Check 
 	def validateSensorNamesUniversallyUnique(Sensor sensor){
 		val error = sensor.getContainerOfType(Model).getGlobalEObjectsOfType(IoTPackage.eINSTANCE.sensor).listQualifiedNames.appearsOnce(sensor.name)
 		 
 		var abstractContainer = sensor.getContainerOfType(AbstractBoard)
 		if (!error && abstractContainer !== null && abstractContainer.sensors.asStringListSensor.appearsOnce(sensor.name)){
 			info('''«sensor.name» might be overwritten''', IoTPackage.Literals.SENSOR__NAME)
-			return;  
 		}  
 		
 		var extendsBoard = sensor.getContainerOfType(ExtendsBoard) 
@@ -430,23 +482,22 @@ class IoTValidator extends AbstractIoTValidator {
 				error('''sensor names must be unique within the context of a board''', IoTPackage.Literals.SENSOR__NAME)
 			else
 				info('''overriding «sensor.name» in «abstractBoard.name»''', IoTPackage.Literals.SENSOR__NAME)
-			return; 
 		}   
-		      
-		var newBoard = sensor.getContainerOfType(NewBoard)  
+		   
+		var newBoard = sensor.getContainerOfType(NewBoard)    
 		if (!newBoard.sensors.asStringListSensor.appearsOnce(sensor.name))
 			error('''sensor names must be unique within the context of a board''', IoTPackage.Literals.SENSOR__NAME)
-	}  
-	 
+	}    
+	  
 	@Check
 	def validateBoardVersion(BoardVersion boardVersion){
 		val board = Boards.getBoardSupported(boardVersion.type, boardVersion.model)
 		if (board.sensors.size() > 0){ 
-			info('''«board.toString» supports the following sensors: «board.sensors»''', IoTPackage.Literals.BOARD_VERSION__TYPE)
+			info('''«board.toString» supports the following sensors: «board.infoMessage»''', IoTPackage.Literals.BOARD_VERSION__TYPE)
 		}
 	}
-	
-	def validateOnboardSensorVariables(Boards board, String sensor, List<Variable> vars, EReference ref){
+	 
+	def validateEmbeddedSensorVariables(Boards board, String sensor, List<Variable> vars, EReference ref){
 		if (board.supportsSensor(sensor)) 
 			if (board.getVariableCount(sensor) != vars.size()){
 				error('''«sensor» outputs «board.getVariableCount(sensor)» variables''', ref)
@@ -484,33 +535,33 @@ class IoTValidator extends AbstractIoTValidator {
 	}  
 	 
 	@Check
-	def validateOnboardSensorVariables(Sensor sensor){
+	def validateEmbeddedSensorVariables(Sensor sensor){
 		 
 		val nboard = sensor.getContainerOfType(NewBoard) 
 		if (nboard !== null){
 			val board = Boards.getBoardSupported(nboard.version)
-			board.validateOnboardSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
+			board.validateEmbeddedSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
 			return;
 		} 
 		val eboard = sensor.getContainerOfType(ExtendsBoard) 
 		if (eboard !== null){
 			val board = Boards.getBoardSupported(eboard.abstractBoard.version)
-			board.validateOnboardSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
+			board.validateEmbeddedSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
 			return
 		}
 		val aboard = sensor.getContainerOfType(AbstractBoard)  
 		if (aboard !== null){ 
 			val board = Boards.getBoardSupported(aboard.version)
-			board.validateOnboardSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
+			board.validateEmbeddedSensorVariables(sensor.sensortype.name, sensor.vars.ids, IoTPackage.eINSTANCE.sensor_Vars)
 		}
 	}  
 		 
 	@Check  
-	def validateOnboardSensor(OnboardSensor onbSensor){ 	 	
+	def validateEmbeddedSensor(EmbeddedSensor onbSensor){ 	 	
 		var boardVersion = onbSensor.getContainerOfType(NewBoard)  
 		
 		if (boardVersion !== null){
-			val board = Boards.getBoardSupported(boardVersion.version)		
+			val board = Boards.getBoardSupported(boardVersion.version)		 
 			     
 			if (!board.supportsSensor(onbSensor.name)){ 
 				error('''«board.toString» does not support «onbSensor.name»''', IoTPackage.eINSTANCE.sensorType_Name, NO_SUPPORT_FOR_SENSOR, onbSensor.name)
@@ -579,14 +630,54 @@ class IoTValidator extends AbstractIoTValidator {
 			error('''expected number got «type»''', error)
 		}			
 	}
+	
+	def ifPINSContainSD(Boards board, SDConfig sd, List<Integer> pins, EStructuralFeature error){
+		var lst = newArrayList()
+		
+		if (sd !== null){			
+			lst.add(sd.clk)
+			lst.add(sd.cs)
+			lst.add(sd.sdo)
+			lst.add(sd.di)
+			lst.ifPINSContainSD(pins, error)
+		} else {
+			board.SDParameters.ifPINSContainSD(pins, error)
+		}
+	}
+	 
+	def ifPINSContainSD(List<Integer> sd, List<Integer> pins, EStructuralFeature error){
+		for (Integer i : sd){
+			if (pins.contains(i) || !pins.appearsOnce(i)){
+				val msg = '''PINs cannot be duplicated'''
+				error(msg, error)
+			}
+		}
+	} 
+	
+	@Check
+	def validatePINSdoesNotOverlapWithSD(ExternalSensor sensor){
+		val pins = sensor.pins
+		var board = sensor.getContainerOfType(Board)
+		if (board === null){   
+			var config = (board as AbstractBoard).version.sdconfig
+			Boards.getBoardSupported((board as AbstractBoard).version).ifPINSContainSD(config, pins, IoTPackage.eINSTANCE.externalSensor_Pins)
+		} else if (board instanceof ExtendsBoard){
+			var config = (board as ExtendsBoard).abstractBoard.version.sdconfig
+			Boards.getBoardSupported((board as ExtendsBoard).abstractBoard.version).ifPINSContainSD(config, pins, IoTPackage.eINSTANCE.externalSensor_Pins)
+		} else {    
+			var config = (board as NewBoard).version.sdconfig
+			Boards.getBoardSupported((board as NewBoard).version).ifPINSContainSD(config, pins, IoTPackage.eINSTANCE.externalSensor_Pins)
+		}  
+	}
 
 	@Check
 	def checkExpression(Conditional conditional) {
 		if (conditional.condition !== null)
 			conditional.condition.type.validateTypes(TypeChecker.Type.BOOLEAN, IoTPackage.Literals.CONDITIONAL__CONDITION)  
 		if (conditional.incorrect !== null)
-			conditional.incorrect.type.validateTypes(conditional.correct.type, IoTPackage.Literals.CONDITIONAL__INCORRECT)
-	} 
+			if (!conditional.correct.type.isNumberType)
+				conditional.incorrect.type.validateTypes(conditional.correct.type, IoTPackage.Literals.CONDITIONAL__INCORRECT)
+	}  
 
 	@Check
 	def checkExpression(Or or) {
@@ -655,18 +746,17 @@ class IoTValidator extends AbstractIoTValidator {
 	@Check
 	def checkExpression(Plus plus) {
 		if (plus.left !== null && plus.right !== null)
-			if (plus.left.type != TypeChecker.Type.STRING && plus.right.type != TypeChecker.Type.STRING) {
-				plus.left.type.validateNumbers(IoTPackage.Literals.PLUS__LEFT)
-				plus.right.type.validateNumbers(IoTPackage.Literals.PLUS__RIGHT)
-			}
+			plus.left.type.validateNumbers(IoTPackage.Literals.PLUS__LEFT)
+			plus.right.type.validateNumbers(IoTPackage.Literals.PLUS__RIGHT)
+			
 	}
 
 	@Check
 	def checkExpression(Minus minus) {
-		if (minus.left !== null)
+		if (minus.left !== null && minus.right !== null) {			
 			minus.left.type.validateNumbers(IoTPackage.Literals.MINUS__LEFT)
-		if (minus.right !== null)
 			minus.right.type.validateNumbers(IoTPackage.Literals.MINUS__RIGHT)
+		}
 	}
 
 	@Check

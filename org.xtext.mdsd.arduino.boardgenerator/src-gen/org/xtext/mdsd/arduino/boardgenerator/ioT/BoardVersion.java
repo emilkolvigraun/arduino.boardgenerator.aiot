@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion#getSdconfig <em>Sdconfig</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion#getType <em>Type</em>}</li>
  *   <li>{@link org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion#getModel <em>Model</em>}</li>
  * </ul>
@@ -24,6 +25,28 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface BoardVersion extends EObject
 {
+  /**
+   * Returns the value of the '<em><b>Sdconfig</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Sdconfig</em>' containment reference.
+   * @see #setSdconfig(SDConfig)
+   * @see org.xtext.mdsd.arduino.boardgenerator.ioT.IoTPackage#getBoardVersion_Sdconfig()
+   * @model containment="true"
+   * @generated
+   */
+  SDConfig getSdconfig();
+
+  /**
+   * Sets the value of the '{@link org.xtext.mdsd.arduino.boardgenerator.ioT.BoardVersion#getSdconfig <em>Sdconfig</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Sdconfig</em>' containment reference.
+   * @see #getSdconfig()
+   * @generated
+   */
+  void setSdconfig(SDConfig value);
+
   /**
    * Returns the value of the '<em><b>Type</b></em>' attribute.
    * <!-- begin-user-doc -->
